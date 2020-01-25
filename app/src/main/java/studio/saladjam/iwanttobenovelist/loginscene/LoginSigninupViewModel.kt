@@ -143,10 +143,6 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     val shouldNavigateToHomePage: LiveData<Boolean>
         get() = _shouldNavigateToHomePage
 
-    fun navigateToHomePage() {
-        _shouldNavigateToHomePage.value = true
-    }
-
     fun doneNavigateToHomePage() {
         _shouldNavigateToHomePage.value = null
     }
