@@ -15,7 +15,7 @@ class LoginRoleFragment(private val completeHandler: LoginPagesCompleteHandler) 
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginRoleBinding.inflate(inflater, container, false)
-
+        
         return binding.root
     }
 }

@@ -51,7 +51,6 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
                     val intent = viewModel.mGoogleSignInClient?.signInIntent
                     startActivityForResult(intent!!, RC_SIGN_IN)
                 }
-
                 viewModel.doneLoggingInWithGoogle()
             }
         })

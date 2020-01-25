@@ -1,6 +1,5 @@
 package studio.saladjam.iwanttobenovelist.repository
 
-import android.content.Context
 import android.os.Bundle
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -11,14 +10,11 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import okhttp3.internal.notifyAll
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

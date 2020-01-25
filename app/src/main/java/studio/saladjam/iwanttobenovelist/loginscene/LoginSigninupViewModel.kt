@@ -132,11 +132,6 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         _shouldNavigateToHomePage.value = true
     }
 
-    /**LOGIN with TOKEN*/
-    fun loginWithUser(user: User) {
-
-    }
-
     /**NAVIGATION*/
     // HOME_PAGE
     private val _shouldNavigateToHomePage = MutableLiveData<Boolean>()
