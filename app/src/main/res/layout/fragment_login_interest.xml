@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text_interest_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_choose_category"
+            style="@style/TitleText_NoBorder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="56dp"/>
+
+        <TextView
+            android:id="@+id/text_interest_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hint_max_interest"
+            style="@style/SubtitleText_NoBorder"
+            app:layout_constraintTop_toBottomOf="@id/text_interest_title"
+            app:layout_constraintStart_toStartOf="@id/text_interest_title"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/text_interest_title"
+            app:layout_constraintEnd_toEndOf="@id/text_interest_title"
+            app:layout_constraintTop_toBottomOf="@id/text_interest_subtitle"
+            app:layout_constraintBottom_toTopOf="@id/button_signup_google"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"/>
+     <Button
+            android:id="@+id/button_signup_google"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:background="@drawable/signup_google_bg"
+            app:layout_constraintBottom_toTopOf="@id/button_signup_visitor"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="100dp"
+            android:shadowColor="#000"
+            android:clickable="false"/>
+
+        <Button
+            android:id="@+id/button_signup_visitor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/button_complete"
+            android:fontFamily="sans-serif-black"
+            android:textSize="18sp"
+            android:background="@drawable/bg_round_corners_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="56dp"
+            app:layout_constraintWidth_percent="0.5"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

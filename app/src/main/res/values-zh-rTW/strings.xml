@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">今天我要當作家</string>
+
+    <string name="facebook_app_id">170963217330516</string>
+    <string name="fb_login_protocol_scheme">fb170963217330516</string>
+
+    <string name="google_client_id">691397293091-p26iea3f653evi5tug72igo1n01o4os5.apps.googleusercontent.com</string>
+    <string name="google_client_secret">sgRJQJ9eeW164XZgQkzO-q0M</string>
+
+    <string name="title_chinese_today">今</string>
+    <string name="title_chinese_i">我</string>
+    <string name="title_chinese_day">天</string>
+    <string name="title_chinese_want">要</string>
+    <string name="title_chinese_become">當</string>
+    <string name="title_chinese_writer">作</string>
+    <string name="title_chinese_home">家</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="visitor">Visitor</string>
+    <string name="select_role_chinese_please">請</string>
+    <string name="select_role_chinese_select">選</string>
+    <string name="select_role_chinese_horn">角</string>
+    <string name="select_role_chinese_color">色</string>
+    <string name="hint_button_writer">作家</string>
+    <string name="hint_button_commenter">評論家</string>
+    <string name="hint_roles_description">評論家可以評論他人作品。\n作家除了能評論作品，\n也可以發表書籍。</string>
+    <string name="button_confirm">確定</string>
+    <string name="text_choose_category">請挑選書籍類型</string>
+    <string name="hint_max_interest">最多5項</string>
+    <string name="button_complete">完成</string>
+    <string name="hint_please_pick_a_role">請選角色</string>
+    <string name="internet_not_connected">Internet Not Connected</string>
+</resources>

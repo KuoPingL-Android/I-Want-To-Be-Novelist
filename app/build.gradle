@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    dataBinding {
+        enabled = true
+    }
+    defaultConfig {
+        applicationId "studio.saladjam.iwanttobenovelist"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("Boolean", "LOGGER_VISIABLE", "false")
+        }
+        debug{
+            buildConfigField("Boolean", "LOGGER_VISIABLE", "true")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    // Google analytics
+    implementation "com.google.firebase:firebase-analytics:$version_firebase_analytics"
+
+    // Firestore
+    implementation "com.google.firebase:firebase-firestore:$version_firebase_firestore"
+
+    // GOOGLE
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    // Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+
+    // FRAGMENT
+    implementation "androidx.fragment:fragment-ktx:$version_fragment"
+
+    // MATERIAL (bottomNavigation)
+    implementation "com.google.android.material:material:$version_material"
+
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$version_paging"
+
+    // VIEWPAGERr2
+    implementation "androidx.viewpager2:viewpager2:$version_viewpager2"
+
+    // NAVIGATION
+    implementation "androidx.navigation:navigation-fragment-ktx:$version_nav"
+    implementation "androidx.navigation:navigation-ui-ktx:$version_nav"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
+
+    // Core with Ktx
+    implementation "androidx.core:core-ktx:$version_core"
+
+    // Moshi
+    implementation "com.squareup.moshi:moshi:$version_moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
+
+    // Retrofit with Moshi Converter
+    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+    implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
+
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
+
+    // Retrofit Coroutines Support
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
+
+    // Retrofit Logging Interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$version_glide"
+    kapt "com.github.bumptech.glide:compiler:$version_glide"
+}

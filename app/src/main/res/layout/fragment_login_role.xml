@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_role_please"
+            style="@style/TitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:text="@string/select_role_chinese_please"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/text_role_select"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_role_select"
+            style="@style/TitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_role_chinese_select"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/text_role_horn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_role_please"
+            app:layout_constraintTop_toTopOf="@id/text_role_please" />
+
+        <TextView
+            android:id="@+id/text_role_horn"
+            style="@style/TitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_role_chinese_horn"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/text_role_color"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_role_select"
+            app:layout_constraintTop_toTopOf="@id/text_role_select" />
+
+        <TextView
+            android:id="@+id/text_role_color"
+            style="@style/TitleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/select_role_chinese_color"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_role_horn"
+            app:layout_constraintTop_toTopOf="@id/text_role_horn" />
+
+        <TextView
+            android:id="@+id/text_role_description"
+            style="@style/SubtitleText_LargerFont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_round_corners_dialog"
+            android:padding="10dp"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@id/button_role_writer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_role_please"
+            app:layout_constraintWidth_percent="0.7"
+            tools:text="@string/hint_roles_description" />
+
+        <Button
+            android:id="@+id/button_role_writer"
+            style="@style/SubtitleText_LargerFont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_round_corners_button"
+            android:text="@string/hint_button_writer"
+            app:layout_constraintBottom_toTopOf="@id/button_role_commenter"
+            app:layout_constraintEnd_toEndOf="@id/button_role_commenter"
+            app:layout_constraintStart_toStartOf="@id/button_role_commenter" />
+
+        <Button
+            android:id="@+id/button_role_commenter"
+            style="@style/SubtitleText_LargerFont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_round_corners_button"
+            android:text="@string/hint_button_commenter"
+            android:textColor="@color/button_color_selector"
+            app:layout_constraintBottom_toTopOf="@id/button_signup_google"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <Button
+            android:id="@+id/button_signup_google"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/signup_google_bg"
+            android:clickable="false"
+            android:fontFamily="sans-serif-black"
+            android:shadowColor="#000"
+            app:layout_constraintBottom_toTopOf="@id/button_signup_visitor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button_signup_visitor"
+            style="@style/SubtitleText_LargerFont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp"
+            android:background="@drawable/bg_round_corners_button"
+            android:text="@string/button_complete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

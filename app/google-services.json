@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "691397293091",
+    "firebase_url": "https://i-want-to-be-novelist.firebaseio.com",
+    "project_id": "i-want-to-be-novelist",
+    "storage_bucket": "i-want-to-be-novelist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691397293091:android:f2d2d3d2c81e4729356d96",
+        "android_client_info": {
+          "package_name": "studio.saladjam.iwanttobenovelist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691397293091-0iqui72cfrm6rga1po2dkd4efcb90fan.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "studio.saladjam.iwanttobenovelist",
+            "certificate_hash": "77dd0bd6f13ecfac5d384852bda841a162f39158"
+          }
+        },
+        {
+          "client_id": "691397293091-2rft05aobdq1h30h41rmr78r9p3ieg3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx4dCE1xI8zmDcj7DVc82bm1nRP8a3im4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691397293091-2rft05aobdq1h30h41rmr78r9p3ieg3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="studio.saladjam.iwanttobenovelist.loginscene.LoginFragment"
+        android:label="LoginFragment" />
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="studio.saladjam.iwanttobenovelist.categoryscene.CategoryFragment"
+        android:label="CategoryFragment" />
+    <action
+        android:id="@+id/action_global_categoryFragment"
+        app:destination="@id/categoryFragment"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/navigation"/>
+    <fragment
+        android:id="@+id/descriptionFragment"
+        android:name="studio.saladjam.iwanttobenovelist.descriptionscene.DescriptionFragment"
+        android:label="DescriptionFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="studio.saladjam.iwanttobenovelist.homescene.HomeFragment"
+        android:label="HomeFragment" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/navigation"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="studio.saladjam.iwanttobenovelist.profilescene.ProfileFragment"
+        android:label="ProfileFragment" />
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/navigation"/>
+    <fragment
+        android:id="@+id/recommendFragment"
+        android:name="studio.saladjam.iwanttobenovelist.recommendscene.RecommendFragment"
+        android:label="RecommendFragment" />
+    <action
+        android:id="@+id/action_global_recommendFragment"
+        app:destination="@id/recommendFragment"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/navigation"/>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="studio.saladjam.iwanttobenovelist.searchscene.SearchFragment"
+        android:label="SearchFragment" />
+</navigation>
