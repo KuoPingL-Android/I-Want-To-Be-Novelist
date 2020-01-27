@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginBinding
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginFragmentViewPagerAdapter
@@ -33,6 +34,15 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        /** FIX :
+         * FRAGMENT in activity_main.xml has 0dp, which causes the
+         * ViewPager to positioned incorrectly.
+         * By setting its LAYOUTPARAMS height to MATCH_PARENT helps
+         * */
+        val params = (binding.root.layoutParams as FrameLayout.LayoutParams)
+        params.height = FrameLayout.LayoutParams.MATCH_PARENT
+        binding.root.layoutParams = params
 
         adapter = LoginFragmentViewPagerAdapter(this, pages, completeHandler)
 

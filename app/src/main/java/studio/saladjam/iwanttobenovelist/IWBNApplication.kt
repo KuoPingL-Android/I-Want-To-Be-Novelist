@@ -10,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.FirebaseApp
+import studio.saladjam.iwanttobenovelist.Util.getString
 import studio.saladjam.iwanttobenovelist.repository.AppContainer
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
@@ -35,13 +36,7 @@ class IWBNApplication : Application() {
                 return activeNetwork?.isConnectedOrConnecting == true
             }
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        val googleSigninOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
+
     }
 
     override fun onCreate() {

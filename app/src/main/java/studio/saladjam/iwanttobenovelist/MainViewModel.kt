@@ -5,21 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.Repository
 
-class MainViewModel(private val repository: Repository): ViewModel() {
+class MainViewModel: ViewModel() {
     /***
      * LIVE DATAs and Corresponding ACTIONS
      */
 
-    /** NAVIGATE to LOGIN PAGE*/
+    /** NAVIGATE to LOGIN PAGE */
     private val _shouldNavigateToLoginPage = MutableLiveData<Boolean>()
     val shouldNavigateToLoginPage: LiveData<Boolean>
         get() = _shouldNavigateToLoginPage
 
-    private fun navigateToLoginPage() {
+    fun navigateToLoginPage() {
         _shouldNavigateToLoginPage.value = true
     }
 
-    fun navigatedToLoginPage() {
+    fun doneNavigateToLoginPage() {
         _shouldNavigateToLoginPage.value = null
     }
 
@@ -32,19 +32,33 @@ class MainViewModel(private val repository: Repository): ViewModel() {
         _shouldNavigateToHomePage.value = true
     }
 
-    fun navigatedToHomePage() {
+    fun doneNavigateToHomePage() {
         _shouldNavigateToHomePage.value = null
     }
 
-    /**CHECK if USER is NEW USER*/
-    fun prepareUserData() {
-        if (UserManager.userToken == null) {
-            // redirect user to Login Page
-            navigateToLoginPage()
-        } else {
-            navigateToHomePage()
-        }
+    /** NAVIGATE to CATEGORY SCENE */
+    private val _shouldNavigateToCategoryPage = MutableLiveData<Boolean>()
+    val shouldNavigateToCategoryPage: LiveData<Boolean>
+        get() = _shouldNavigateToCategoryPage
+
+    fun navigateToCategory() {
+        _shouldNavigateToCategoryPage.value = true
     }
 
+    fun doneNavigateToCategory() {
+        _shouldNavigateToCategoryPage.value = null
+    }
 
+    /** NAVIGATE to PROFILE SCENE */
+    private val _shouldNavigateToProfilePage = MutableLiveData<Boolean>()
+    val shouldNavigateToProfilePage: LiveData<Boolean>
+        get() = _shouldNavigateToProfilePage
+
+    fun navigateToProfilePage() {
+        _shouldNavigateToProfilePage.value = true
+    }
+
+    fun doneNavigateToProfilePage() {
+        _shouldNavigateToProfilePage.value = null
+    }
 }

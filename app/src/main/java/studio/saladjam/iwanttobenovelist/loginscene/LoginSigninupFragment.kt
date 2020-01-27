@@ -31,6 +31,7 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginSigninupBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
 
@@ -47,7 +48,7 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
 
                 // Build a GoogleSignInClient with the options specified by gso.
                 context?.let {context ->
-                    viewModel.mGoogleSignInClient = GoogleSignIn.getClient(context, IWBNApplication.googleSigninOptions)
+                    viewModel.mGoogleSignInClient = GoogleSignIn.getClient(context, IWBNApplication.container.googleSigninOptions)
                     val intent = viewModel.mGoogleSignInClient?.signInIntent
                     startActivityForResult(intent!!, RC_SIGN_IN)
                 }

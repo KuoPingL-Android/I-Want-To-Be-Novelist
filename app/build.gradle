@@ -18,7 +18,7 @@ android {
     }
     defaultConfig {
         applicationId "studio.saladjam.iwanttobenovelist"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -52,9 +52,13 @@ dependencies {
 
     // Firestore
     implementation "com.google.firebase:firebase-firestore:$version_firebase_firestore"
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
 
     // GOOGLE
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    // Firebase Storage
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
 
     // Facebook
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'

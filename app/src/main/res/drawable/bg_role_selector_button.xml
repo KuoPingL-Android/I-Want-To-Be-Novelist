@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <stroke android:color="@android:color/black" android:width="1dp"/>
-            <solid android:color="@color/button_color_selector"/>
+            <stroke android:color="@color/button_category_color_selector" android:width="1dp"/>
+            <solid android:color="@android:color/white"/>
             <corners android:radius="5dp"/>
         </shape>
     </item>

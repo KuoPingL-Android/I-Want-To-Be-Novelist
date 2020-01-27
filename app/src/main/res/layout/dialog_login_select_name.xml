@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.loginscene.LoginSelectNameViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
+            android:background="@drawable/bg_round_corners_dialog"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_login_select_name_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_login_select_name"
+                style="@style/SubtitleText_NoBorder"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/hint_please_enter_your_name"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:textAlignment="center"
+                android:layout_marginBottom="5dp"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                android:text="@={viewModel.userName}"
+                android:backgroundTint="@android:color/white"
+                />
+            <Button
+                android:background="@drawable/bg_round_corners_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_confirm"
+                android:layout_marginBottom="10dp"
+                android:clickable="@{!(viewModel.userName == null)}"
+                android:onClick="@{()->viewModel.updateUserName(viewModel.userName)}"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

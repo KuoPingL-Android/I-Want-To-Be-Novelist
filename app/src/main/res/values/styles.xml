@@ -51,4 +51,12 @@
         <item name="android:windowBackground">@color/translucent_80</item>
     </style>
 
+    <style name="Login_Button">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/bg_round_corners_button</item>
+    </style>
+
+
+
 </resources>

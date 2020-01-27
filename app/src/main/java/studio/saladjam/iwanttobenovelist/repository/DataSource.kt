@@ -27,4 +27,8 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.handleGoogleTask(completedTask)
     }
 
+    override suspend fun getUser(token: String): Result<User> {
+        return remoteDataSource.getUser(token)
+    }
+
 }

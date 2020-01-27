@@ -24,4 +24,8 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getUser(token: String):Result<User> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }

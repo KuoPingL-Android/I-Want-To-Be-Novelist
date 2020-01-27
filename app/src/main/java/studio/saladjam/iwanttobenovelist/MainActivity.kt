@@ -5,33 +5,49 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.FirebaseApp
 import studio.saladjam.iwanttobenovelist.databinding.ActivityMainBinding
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
 
 class MainActivity : AppCompatActivity() {
 
+    enum class ToolBarBottomNavDisplays {
+        DISPLAYTOOLBARONLY, DISPLAYBOTTOMNAVONLY, DISPLAYBOTH, HIDEBOTH
+    }
+
     private lateinit var binding: ActivityMainBinding
     private var currentFragment: Int = -1
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
+
+    private lateinit var nav: NavController
 
     private val bottomNavOnItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
         val nav = findNavController(R.id.fragment_main)
 
         when(item.itemId) {
             R.id.navigation_home -> {
-                nav.navigate(NavigationDirections.actionGlobalHomeFragment())
+                viewModel.navigateToHomePage()
                 true
             }
 
             R.id.navigation_category -> {
-                nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
+                viewModel.navigateToCategory()
                 true
             }
 
             R.id.navigation_profile -> {
-                nav.navigate(NavigationDirections.actionGlobalProfileFragment())
+                viewModel.navigateToProfilePage()
                 true
             }
             else -> {
@@ -44,14 +60,46 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        nav = findNavController(R.id.fragment_main)
+
+        binding.bottomnavMain.setupWithNavController(nav)
+
+        viewModel.shouldNavigateToHomePage.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalHomeFragment())
+                showBars(ToolBarBottomNavDisplays.DISPLAYBOTH)
+                viewModel.doneNavigateToHomePage()
+            }
+        })
+
+        viewModel.shouldNavigateToCategoryPage.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
+                showBars(ToolBarBottomNavDisplays.DISPLAYBOTH)
+                viewModel.doneNavigateToCategory()
+            }
+        })
+
+        viewModel.shouldNavigateToProfilePage.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalProfileFragment())
+                showBars(ToolBarBottomNavDisplays.DISPLAYBOTH)
+                viewModel.doneNavigateToProfilePage()
+            }
+        })
+
+        viewModel.shouldNavigateToLoginPage.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalLoginFragment())
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                viewModel.doneNavigateToLoginPage()
+            }
+        })
 
         currentFragment = R.layout.fragment_login
 
-
-
-//        // NAVIGATION
-//        binding.bottomnavMain.setOnNavigationItemSelectedListener(bottomNavOnItemSelectedListener)
-
+        // NAVIGATION
+        binding.bottomnavMain.setOnNavigationItemSelectedListener(bottomNavOnItemSelectedListener)
     }
 
     override fun onBackPressed() {
@@ -59,5 +107,49 @@ class MainActivity : AppCompatActivity() {
 
 
         super.onBackPressed()
+    }
+
+    fun showAPIStatusDialog(status: APILoadingStatus) {
+        when(status) {
+            APILoadingStatus.LOADING -> {
+
+            }
+            else -> {
+
+            }
+        }
+    }
+
+    private fun showBars(value: ToolBarBottomNavDisplays) {
+        when(value) {
+            ToolBarBottomNavDisplays.DISPLAYTOOLBARONLY -> {
+                showTopBar(true)
+                showBottomBar(false)
+            }
+
+            ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY -> {
+                showTopBar(false)
+                showBottomBar(true)
+            }
+
+            ToolBarBottomNavDisplays.DISPLAYBOTH -> {
+                showTopBar(true)
+                showBottomBar(true)
+            }
+
+            ToolBarBottomNavDisplays.HIDEBOTH -> {
+                showTopBar(false)
+                showBottomBar(false)
+            }
+
+        }
+    }
+
+    private fun showTopBar(value: Boolean) {
+        binding.toolbarMain.visibility = if (value) View.VISIBLE else View.GONE
+    }
+
+    private fun showBottomBar(value: Boolean) {
+        binding.bottomnavMain.visibility = if (value) View.VISIBLE else View.GONE
     }
 }

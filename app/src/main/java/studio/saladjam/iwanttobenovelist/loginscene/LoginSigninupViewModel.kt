@@ -75,6 +75,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
             val result = repository.loginViaFacebook(fbCallBackManager)
             when(result) {
                 is Result.Success -> {
+                    _status.value = APILoadingStatus.DONE
                     if (result.data) {
                         _shouldNavigateToNextLoginPage.value = true
                     } else {
@@ -84,10 +85,12 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
 
                 is Result.Error -> {
                     _error.value = result.exception.toString()
+                    _status.value = APILoadingStatus.ERROR
                 }
 
                 is Result.Fail -> {
                     Logger.i("ERROR = ${result.error}")
+                    _status.value = APILoadingStatus.ERROR
                 }
             }
         }

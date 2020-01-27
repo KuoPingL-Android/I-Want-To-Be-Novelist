@@ -16,6 +16,7 @@ data class User(
     var token: String? = null,
     var fbToken: String? = null,
     var googleToken: String? = null,
+    var preferredCategories: List<String> = listOf(),
     /**COMMENTs*/
     val comments: List<Comment>? = null,
     val agreedCommentIDs: List<Comment>? = null,

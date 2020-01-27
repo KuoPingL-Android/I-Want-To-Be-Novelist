@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.loginscene.LoginRoleViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,33 +81,38 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_role_please"
             app:layout_constraintWidth_percent="0.7"
-            tools:text="@string/hint_roles_description" />
+            app:layout_constraintVertical_bias="0.1"
+            tools:text=""
+            android:textSize="18sp"
+            android:text="@{viewModel.roleDescription}"
+            android:visibility="@{viewModel.roleDescription == null ? View.GONE : View.VISIBLE}"/>
 
         <Button
             android:id="@+id/button_role_writer"
-            style="@style/SubtitleText_LargerFont"
+            style="@style/Login_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_round_corners_button"
             android:text="@string/hint_button_writer"
             app:layout_constraintBottom_toTopOf="@id/button_role_commenter"
             app:layout_constraintEnd_toEndOf="@id/button_role_commenter"
-            app:layout_constraintStart_toStartOf="@id/button_role_commenter" />
+            app:layout_constraintStart_toStartOf="@id/button_role_commenter"
+            android:onClick="@{()->viewModel.selectedWriter()}"
+            android:focusable="true"/>
 
         <Button
             android:id="@+id/button_role_commenter"
-            style="@style/SubtitleText_LargerFont"
+            style="@style/Login_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_round_corners_button"
             android:text="@string/hint_button_commenter"
-            android:textColor="@color/button_color_selector"
             app:layout_constraintBottom_toTopOf="@id/button_signup_google"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.5"
+            android:onClick="@{()->viewModel.selectedReviewer()}"
+            android:focusable="true"/>
 
         <Button
             android:id="@+id/button_signup_google"
@@ -121,16 +129,17 @@
 
         <Button
             android:id="@+id/button_signup_visitor"
-            style="@style/SubtitleText_LargerFont"
+            style="@style/Login_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="56dp"
-            android:background="@drawable/bg_round_corners_button"
-            android:text="@string/button_complete"
+            android:text="@string/button_confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.5"
+            android:clickable="@{viewModel.roleDescription != null}"
+            android:onClick="@{()->viewModel.promptToAskForName()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

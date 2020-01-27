@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/launchFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -54,4 +54,15 @@
         android:id="@+id/searchFragment"
         android:name="studio.saladjam.iwanttobenovelist.searchscene.SearchFragment"
         android:label="SearchFragment" />
+    <dialog
+        android:id="@+id/loginSelectNameDialog"
+        android:name="studio.saladjam.iwanttobenovelist.loginscene.LoginSelectNameDialog"
+        android:label="LoginSelectNameDialog" />
+    <action
+        android:id="@+id/action_global_loginSelectNameDialog"
+        app:destination="@id/loginSelectNameDialog" />
+    <fragment
+        android:id="@+id/launchFragment"
+        android:name="studio.saladjam.iwanttobenovelist.launchscene.LaunchFragment"
+        android:label="LaunchFragment" />
 </navigation>

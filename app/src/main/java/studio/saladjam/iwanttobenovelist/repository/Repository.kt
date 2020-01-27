@@ -10,4 +10,5 @@ interface Repository {
     suspend fun getCategory(): Result<List<String>>
     suspend fun loginViaFacebook(callbackManager: CallbackManager): Result<Boolean>
     fun handleGoogleTask(completedTask: Task<GoogleSignInAccount>): Result<Boolean>
+    suspend fun getUser(token: String): Result<User>
 }

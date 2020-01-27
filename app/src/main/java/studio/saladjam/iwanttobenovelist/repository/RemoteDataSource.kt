@@ -10,6 +10,10 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FacebookAuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.GoogleAuthProvider
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
@@ -19,6 +23,30 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
+
+    override suspend fun getUser(token: String): Result<User> = suspendCoroutine {continuation ->
+        if (!IWBNApplication.isNetworkConnected) {
+            continuation.resume(Result.Fail("No network"))
+        }
+
+        IWBNApplication.container.userCollection.document(token).get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+
+                if (user != null) {
+                    continuation.resume(Result.Success(user))
+                } else {
+                    continuation.resume(Result.Fail("Invalid User Token"))
+                }
+
+            }
+            .addOnCanceledListener {
+                continuation.resume(Result.Fail("Get User Cancelled"))
+            }
+            .addOnFailureListener {
+                continuation.resume(Result.Error(it))
+            }
+    }
 
     override fun handleGoogleTask(completedTask: Task<GoogleSignInAccount>): Result<Boolean> {
         return try {
@@ -109,18 +137,76 @@ object IWBNRemoteDataSource: Repository {
     }
 
     override suspend fun loginUser(user: User): Result<Boolean> = suspendCoroutine { continuation ->
-        IWBNApplication.container.userCollection.document(user.userID).set(user)
-            .addOnCompleteListener {task ->
-                if (task.isSuccessful) {
-                    continuation.resume(Result.Success(true))
-                } else {
-                    task.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
+        val auth = IWBNApplication.container.auth
+        if (user.fbToken != null) {
+
+            val credential = FacebookAuthProvider.getCredential(user.fbToken!!)
+            auth.signInWithCredential(credential).addOnCompleteListener {task ->
+                when {
+                    task.isSuccessful -> {
+                        auth.currentUser?.let {firebaseUser ->
+                            IWBNApplication.user.userID = firebaseUser.uid
+                            IWBNApplication.container.userCollection.document(user.userID).set(user)
+                                .addOnCompleteListener {task ->
+                                    if (task.isSuccessful) {
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+                                        task.exception?.let {
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                        }
+                                        continuation.resume(Result.Fail(task.exception!!.toString()))
+                                    }
+                                }
+                        }
                     }
-                    continuation.resume(Result.Fail(task.exception!!.toString()))
+
+                    task.isCanceled -> {
+                        Logger.i("FB SIGNIN CANCEL : ${task.exception}")
+                        continuation.resume(Result.Fail("Cancelled"))
+                    }
+
+                    task.isComplete -> {
+                        Logger.i("ERROR")
+                        continuation.resume(Result.Error(task.exception!!))
+                    }
                 }
             }
+
+        } else if (user.googleToken != null) {
+            val credential = GoogleAuthProvider.getCredential(user.googleToken, null)
+            auth.signInWithCredential(credential).addOnCompleteListener {task ->
+                when {
+                    task.isSuccessful -> {
+                        auth.currentUser?.let {firebaseUser ->
+                            IWBNApplication.user.userID = firebaseUser.uid
+                            IWBNApplication.container.userCollection.document(user.userID).set(user)
+                                .addOnCompleteListener {task ->
+                                    if (task.isSuccessful) {
+                                        continuation.resume(Result.Success(true))
+                                    } else {
+                                        task.exception?.let {
+                                            Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
+                                            continuation.resume(Result.Error(it))
+                                        }
+                                        continuation.resume(Result.Fail(task.exception!!.toString()))
+                                    }
+                                }
+                        }
+                    }
+
+                    task.isCanceled -> {
+                        Logger.i("signInWithCredential:failure ${task.exception}")
+                        continuation.resume(Result.Fail("Cancelled"))
+                    }
+
+                    task.isComplete -> {
+                        Logger.i("ERROR")
+                        continuation.resume(Result.Error(task.exception!!))
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun getCategory(): Result<List<String>> = suspendCoroutine {continuation ->
