@@ -48,7 +48,7 @@ class LoginFragment : Fragment() {
 
         binding.viewpagerLogin.adapter = adapter
 
-//        binding.viewpagerLogin.isUserInputEnabled = false
+        binding.viewpagerLogin.isUserInputEnabled = false
 
         return binding.root
     }
