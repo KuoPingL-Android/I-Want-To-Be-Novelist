@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,6 +16,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
+import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginSigninupBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 
@@ -31,6 +33,9 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginSigninupBinding.inflate(inflater, container, false)
+
+        val mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
@@ -60,7 +65,7 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
         viewModel.shouldNavigateToHomePage.observe(this, Observer {
             it?.let{
                 // Navigate to Home Page
-                findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())
+                mainViewModel.navigateToHomePage()
                 viewModel.doneNavigateToHomePage()
             }
         })
@@ -70,7 +75,6 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
                 viewModel.doneNavigateToNextLoginPage()
                 completeHandler(it)
             }
-
         })
 
         return binding.root

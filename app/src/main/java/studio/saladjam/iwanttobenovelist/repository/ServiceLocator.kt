@@ -11,7 +11,10 @@ object ServiceLocator {
     fun getRepository(context: Context): Repository {
         // Locked this such that no more than 1 Repository can be created
         synchronized(this) {
-            return repository ?: createRepository(context)
+            if (repository == null) {
+                repository = createRepository(context)
+            }
+            return repository!!
         }
     }
 

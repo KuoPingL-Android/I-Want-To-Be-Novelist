@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginBinding
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginFragmentViewPagerAdapter
@@ -40,9 +41,9 @@ class LoginFragment : Fragment() {
          * ViewPager to positioned incorrectly.
          * By setting its LAYOUTPARAMS height to MATCH_PARENT helps
          * */
-        val params = (binding.root.layoutParams as FrameLayout.LayoutParams)
+        val params = (parentFragment?.view?.layoutParams as ConstraintLayout.LayoutParams)
         params.height = FrameLayout.LayoutParams.MATCH_PARENT
-        binding.root.layoutParams = params
+        parentFragment?.view?.layoutParams = params
 
         adapter = LoginFragmentViewPagerAdapter(this, pages, completeHandler)
 
@@ -51,5 +52,12 @@ class LoginFragment : Fragment() {
         binding.viewpagerLogin.isUserInputEnabled = false
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val params = (parentFragment?.view?.layoutParams as ConstraintLayout.LayoutParams)
+        params.height = 0
+        parentFragment?.view?.layoutParams = params
     }
 }
