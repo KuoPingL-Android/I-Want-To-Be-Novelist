@@ -58,7 +58,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:orientation="horizontal"
-                        app:homeBooks="@{viewModel.myFollowList}"/>
+                        app:homeBooks="@{viewModel.myFollowList}"
+                        tools:listitem="@layout/item_home_books"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout

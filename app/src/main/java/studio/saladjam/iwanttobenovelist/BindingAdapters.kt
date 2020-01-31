@@ -89,7 +89,6 @@ fun bindLayoutParams(viewGroup: ViewGroup, isLinearLayout: Boolean) {
 fun bindInnerLayoutParams(viewGroup: ViewGroup, isLinearLayout: Boolean) {
     viewGroup.layoutParams =
         if (isLinearLayout) {
-
             viewGroup.layoutParams
         } else {
             ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

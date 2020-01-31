@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_category_categories"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_category_category"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_category_books"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text = "CATE"/>
-    </LinearLayout>
+            android:layout_height="0dp"
+            app:spanCount="4"
+            tools:itemCount="12"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/recycler_category_categories"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_category_book"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
