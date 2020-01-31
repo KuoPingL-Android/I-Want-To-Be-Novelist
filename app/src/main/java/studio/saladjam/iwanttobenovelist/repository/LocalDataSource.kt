@@ -4,6 +4,7 @@ import android.content.Context
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 class IWBNLocalDataSource(private val context: Context): Repository {
@@ -28,4 +29,19 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getUserFollowing(user: User): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getUserRecommendedList(user: User): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getUserWork(user: User): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getMostPopularBooks(): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -9,19 +9,29 @@ data class Book(
     val title: String = "",
     val subtitle: String = "",
     val authorID: String = "",
+    val authorName: String = "",
     val cover: String = "",
     val summary: String = "",
     val chapters: List<Chapter> = listOf(),
-    val comments: List<Comment>? = null,
-    val followers: List<String>? = null,
+    val comments: List<Comment> = listOf(),
+    val followers: List<Follower> = listOf(),
+    val popularity: Long = 0L,
     val totalRecommendation: Long = 0L,
-    val recommendationRecords: List<RecommendationRecord>? = null
+    val recommendationRecords: List<RecommendationRecord>? = null,
+    val createdTime: Long? = null,
+    val lastUpdatedTime: Long? = null
+): Parcelable
+
+@Parcelize
+data class Follower(
+    val userID: String = "",
+    val createdDate: String = ""
 ): Parcelable
 
 @Parcelize
 data class RecommendationRecord (
-    val totelRecommendation: Long = 0L,
-    val dateString: String? = null
+    val total: Long = 0L,
+    val recommendedDate: String? = null
 ): Parcelable
 
 @Parcelize
@@ -30,7 +40,8 @@ data class Chapter(
     val chapterIndex: Int = 0,
     val title: String = "",
     val subtitle: String = "",
-    val sections: List<Section>? = null
+    val sections: List<Section>? = null,
+    val popularity: Long = 0L
 ): Parcelable
 
 @Parcelize
@@ -42,5 +53,6 @@ data class Section(
     val subtitle: String = "",
     val content: String = "",
     val images: Map<String, String>? = null,
-    val comments: List<Comment>? = null
+    val comments: List<Comment>? = null,
+    val popularity: Long = 0L
 ): Parcelable

@@ -3,6 +3,8 @@ package studio.saladjam.iwanttobenovelist.factories.viewmodelfactories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
+import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
 import studio.saladjam.iwanttobenovelist.repository.Repository
@@ -29,6 +31,12 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(LoginInterestViewModel::class.java)
                                     -> LoginInterestViewModel(repository)
+
+                isAssignableFrom(HomeViewModel::class.java)
+                                    -> HomeViewModel(repository)
+
+                isAssignableFrom(BookViewModel::class.java)
+                                    -> BookViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

@@ -65,4 +65,15 @@
         android:id="@+id/launchFragment"
         android:name="studio.saladjam.iwanttobenovelist.launchscene.LaunchFragment"
         android:label="LaunchFragment" />
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="studio.saladjam.iwanttobenovelist.bookscene.BookFragment"
+        android:label="BookFragment" >
+        <argument
+            android:name="book"
+            app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_bookFragment"
+        app:destination="@id/bookFragment" />
 </navigation>

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.Repository
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 
 class MainViewModel: ViewModel() {
     /***
@@ -60,5 +61,18 @@ class MainViewModel: ViewModel() {
 
     fun doneNavigateToProfilePage() {
         _shouldNavigateToProfilePage.value = null
+    }
+
+    /** NAVIGATE to BOOK */
+    private val _selectedBook = MutableLiveData<Book>()
+    val selectedBook: LiveData<Book>
+        get() = _selectedBook
+
+    fun selectBook(book: Book) {
+        _selectedBook.value = book
+    }
+
+    fun doneNavigateToBook() {
+        _selectedBook.value = null
     }
 }

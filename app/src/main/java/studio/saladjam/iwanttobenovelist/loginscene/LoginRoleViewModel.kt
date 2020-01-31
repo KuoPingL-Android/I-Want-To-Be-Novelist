@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.Repository
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Roles
 
 class LoginRoleViewModel (private val repository: Repository): ViewModel() {
 
@@ -13,11 +14,15 @@ class LoginRoleViewModel (private val repository: Repository): ViewModel() {
     val roleDescription: LiveData<String>
         get() = _roleDescription
 
+    private val user = IWBNApplication.user
+
     fun selectedWriter() {
+        user.role = Roles.WRITER.value
         _roleDescription.value = IWBNApplication.context.getString(R.string.hint_writer_description)
     }
 
     fun selectedReviewer() {
+        user.role = Roles.REVIEWER.value
         _roleDescription.value = IWBNApplication.context.getString(R.string.hint_reviewer_description)
     }
 

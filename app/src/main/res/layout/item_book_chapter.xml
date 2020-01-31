@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="chapter"
+            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_book_chapter_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:lines="1"
+            tools:text="CHAPTER TITLE"
+            android:text="@{chapter.title}"/>
+        <TextView
+            android:id="@+id/text_book_chapter_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_book_chapter_title"
+            android:layout_marginTop="5dp"
+            tools:text="CHAPTER SUBTITLE"
+            android:text="@{chapter.subtitle}"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_book_chapter_subtitle"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

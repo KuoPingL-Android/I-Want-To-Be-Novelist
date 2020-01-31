@@ -14,16 +14,117 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FacebookAuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.coroutineScope
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
 
+    /** HOME DATA */
+    override suspend fun getMostPopularBooks(): Result<List<Book>> = suspendCoroutine { continuation ->
+        IWBNApplication.container.bookCollection.orderBy("popularity", Query.Direction.DESCENDING).limit(20).get()
+            .addOnSuccessListener {snapShot ->
+                continuation.resume(Result.Success(snapShot.toObjects(Book::class.java)))
+            }
+            .addOnFailureListener {exception ->
+                continuation.resume(Result.Error(exception))
+            }
+            .addOnCanceledListener {
+                continuation.resume(Result.Fail("CANCELED"))
+            }
+    }
+
+    override suspend fun getUserFollowing(user: User): Result<List<Book>> = suspendCoroutine {continuation ->
+        if (user.bookFollowees.isEmpty()) {
+            continuation.resume(Result.Success(listOf()))
+        } else {
+            val bookIDs = user.bookFollowees
+            IWBNApplication.container.bookCollection.whereArrayContains("bookID", bookIDs).get()
+                .addOnCompleteListener {task ->
+                    if (task.isSuccessful) {
+                        val results = task.result?.toObjects(Book::class.java)
+                        if (results != null) continuation.resume(Result.Success(results))
+                        else continuation.resume(Result.Success(listOf()))
+                    } else if (task.isCanceled) {
+                        continuation.resume(Result.Fail("CANCELED"))
+                    } else if (task.exception != null) {
+                        continuation.resume(Result.Error(task.exception!!))
+                    } else
+                    {
+                        continuation.resume(Result.Fail("UNKNOWN"))
+                    }
+                }
+        }
+    }
+
+    override suspend fun getUserRecommendedList(user: User): Result<List<Book>> = suspendCoroutine {continuation ->
+        /** FETCH Recommended List */
+        IWBNApplication.container.recommendation.get()
+            .addOnCompleteListener {task ->
+                if (task.isSuccessful) {
+                    val results = task.result?.toObjects(Book::class.java)
+                    if (results != null) {
+                        val bookIDs = results.map { it.bookID }
+                        /** FETCH Books from the BookID within the List */
+                        IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
+                            .addOnCompleteListener { bookTask ->
+                                if (bookTask.isSuccessful) {
+                                    val result = bookTask.result?.toObjects(Book::class.java)
+                                    if (result != null) {continuation.resume(Result.Success(result))}
+                                    else {continuation.resume(Result.Fail("getUserRecommendedList : FAILED CONVERT"))}
+
+                                } else if (bookTask.isCanceled) {
+                                    continuation.resume(Result.Fail("getUserRecommendedList : CANCELED"))
+                                } else if (bookTask.exception != null) {
+                                    continuation.resume(Result.Error(bookTask.exception!!))
+                                } else {
+                                    continuation.resume(Result.Fail("getUserRecommendedList : UNKNOWN ERROR"))
+                                }
+                            }
+                    }
+                    else continuation.resume(Result.Success(listOf()))
+                } else if (task.isCanceled) {
+                    continuation.resume(Result.Fail("CANCELED"))
+                } else if (task.exception != null) {
+                    continuation.resume(Result.Error(task.exception!!))
+                } else
+                {
+                    continuation.resume(Result.Fail("UNKNOWN"))
+                }
+            }
+    }
+
+    override suspend fun getUserWork(user: User): Result<List<Book>> = suspendCoroutine {continuation ->
+        if (user.bookIDs.isEmpty()) {
+            continuation.resume(Result.Success(listOf()))
+        } else {
+            /** FETCH the BOOKs within the LIST */
+            IWBNApplication.container.bookCollection.whereIn("bookID", user.bookIDs).get()
+                .addOnCompleteListener { bookTask ->
+                    if (bookTask.isSuccessful) {
+                        val result = bookTask.result?.toObjects(Book::class.java)
+                        if (result != null) {continuation.resume(Result.Success(result))}
+                        else {continuation.resume(Result.Fail("getUserRecommendedList : FAILED CONVERT"))}
+
+                    } else if (bookTask.isCanceled) {
+                        continuation.resume(Result.Fail("getUserRecommendedList : CANCELED"))
+                    } else if (bookTask.exception != null) {
+                        continuation.resume(Result.Error(bookTask.exception!!))
+                    } else {
+                        continuation.resume(Result.Fail("getUserRecommendedList : UNKNOWN ERROR"))
+                    }
+                }
+        }
+    }
+
+    /** LOGIN */
     override suspend fun getUser(token: String): Result<User> = suspendCoroutine {continuation ->
         if (!IWBNApplication.isNetworkConnected) {
             continuation.resume(Result.Fail("No network"))
@@ -220,11 +321,13 @@ object IWBNRemoteDataSource: Repository {
                     }
                     continuation.resume(Result.Success(list))
                 } else {
-                    task.exception?.let {
-                        Logger.w("[${this::class.simpleName}] Error getting documents. ${it.message}")
-                        continuation.resume(Result.Error(it))
+                    if (task.exception != null) {
+                        val exception = task.exception!!
+                        Logger.w("[${this::class.simpleName}] Error getting documents. ${exception.message}")
+                        continuation.resume(Result.Error(exception))
+                    } else {
+                        continuation.resume(Result.Fail("UNKNOWN"))
                     }
-                    continuation.resume(Result.Fail("UNKNOWN"))
                 }
             }
     }

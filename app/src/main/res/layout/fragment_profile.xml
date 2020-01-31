@@ -9,9 +9,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text = "PROFILE"/>
+            android:layout_weight="0.5"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"/>
+
     </LinearLayout>
 </layout>

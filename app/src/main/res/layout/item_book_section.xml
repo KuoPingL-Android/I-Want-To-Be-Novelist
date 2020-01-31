@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="section"
+            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Section" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_section_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="SECTION SUBTITLE"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:text="@{section.title}"/>
+        <TextView
+            android:id="@+id/text_section_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_section_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            tools:text="SECTION SUBTITLE"
+            android:text="@{section.subtitle}"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

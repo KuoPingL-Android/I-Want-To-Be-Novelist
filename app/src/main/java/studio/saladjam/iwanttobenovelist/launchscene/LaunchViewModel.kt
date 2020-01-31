@@ -47,6 +47,7 @@ class LaunchViewModel(private val repository: Repository) : ViewModel() {
                     }
                     else -> {
                         _status.value = APILoadingStatus.ERROR
+                        _shouldNavigateToLogin.value = true
                     }
                 }
             }

@@ -19,6 +19,7 @@ class IWBNApplication : Application() {
         lateinit var context: Context
         lateinit var container: AppContainer
         var user = User()
+
         val isNetworkConnected: Boolean
             get() {
                 return if (Build.VERSION.SDK_INT >= 21) {
@@ -35,8 +36,6 @@ class IWBNApplication : Application() {
                 val activeNetwork = cm.activeNetworkInfo
                 return activeNetwork?.isConnectedOrConnecting == true
             }
-
-
     }
 
     override fun onCreate() {

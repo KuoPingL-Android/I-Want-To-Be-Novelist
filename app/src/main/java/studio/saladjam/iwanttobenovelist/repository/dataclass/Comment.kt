@@ -11,9 +11,17 @@ data class Comment(
     val section: Section? = null,
     val comment: String = "",
     val sourceCommentID: String = "",
+    val createdTime: String = "",
+    val popularity: Long = 0L,
 
-    val agreedUserIDs: List<String>? = null,
-    val disagreedUserIDs: List<String>? = null,
-    val bsUserIDs: List<String>? = null,
+    val agreedUser: List<Responder> = listOf(),
+    val disagreedUser: List<Responder>? = listOf(),
+    val bsUserIDs: List<Responder> = listOf(),
     val replies: List<Comment>? = null
+): Parcelable
+
+@Parcelize
+data class Responder(
+    val userID: String = "",
+    val createdDate: String = ""
 ): Parcelable

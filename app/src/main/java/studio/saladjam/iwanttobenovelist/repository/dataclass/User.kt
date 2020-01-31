@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 enum class Roles(val value: Int) {
-    COMMENTER(0), WRITER(1)
+    REVIEWER(0), WRITER(1)
 }
 
 @Parcelize
@@ -18,16 +18,33 @@ data class User(
     var googleToken: String? = null,
     var preferredCategories: List<String> = listOf(),
     /**COMMENTs*/
-    val comments: List<Comment>? = null,
-    val agreedCommentIDs: List<Comment>? = null,
-    val disagreedCommentIDs: List<Comment>? = null,
+    val comments: List<UserComment> = listOf(),
     /**BOOKS*/
-    val books: List<Book>? = null,
-    val recommendedBooks: List<String>? = null, // BookID
-    val favoriteBooks: List<String>? = null, // BookID
+    val bookIDs: List<String> = listOf(),
+    val recommendedBooks: List<String> = listOf(), // BookID
+    val favoriteBooks: List<String> = listOf(), // BookID
     /**FOLLOWERS*/
-    val followers: List<String>? = null, // UserID
-    val authorFollowees: List<String>? = null, // UserID
-    val commenterFollowees: List<String>? = null, // UserID
-    val bookFollowees: List<String>? = null // BookID
+    val followers: List<Follower> = listOf(), // UserID + createdTime
+    val popularity: Long = 0L,
+    val authorFollowees: List<Followee> = listOf(), // UserID + createdTime
+    val commenterFollowees: List<Followee> = listOf(), // UserID + createdTime
+    val bookFollowees: List<BookFollowee> = listOf() // BookID + createdTime
+): Parcelable
+
+@Parcelize
+data class Followee(
+    val userID: String = "",
+    val createdDate: String = ""
+): Parcelable
+
+@Parcelize
+data class BookFollowee(
+    val bookID: String = "",
+    val createdDate: String = ""
+): Parcelable
+
+@Parcelize
+data class UserComment(
+    val commentID: String = "",
+    val createdTime: String = ""
 ): Parcelable

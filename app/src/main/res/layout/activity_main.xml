@@ -38,13 +38,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:itemIconTint="@color/bottom_nav_color_selector"
             app:itemIconSize="@dimen/bottom_nav_icon_size"
-            app:labelVisibilityMode="unlabeled"
+            app:itemTextColor="@android:color/black"
             app:menu="@menu/menu_main_bottom"
             android:visibility="gone"
             />
-        <!--
-
-        -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

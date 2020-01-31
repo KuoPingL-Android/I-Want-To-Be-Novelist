@@ -1,18 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.homescene.HomeViewModel" />
+        <import type="android.view.View"/>
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text = "HOME"/>
 
-    </LinearLayout>
+        <ScrollView
+            android:id="@+id/scrollview_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layer_home_scrollview_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_home_recommend"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="3:2"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:homeBooks="@{viewModel.recommendedList}"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layer_home_mytrack"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="3:2"
+                    app:layout_constraintTop_toBottomOf="@id/recycler_home_recommend">
+                    <TextView
+                        android:id="@+id/text_home_mytrack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
+                        android:text="@string/label_mytrackingworks"
+                        app:layout_constraintTop_toTopOf="parent"
+                        style="@style/SubtitleText_NoBorder"
+                        tools:text="BOOKSHELF"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_home_mytrack"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_home_mytrack"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        app:homeBooks="@{viewModel.myFollowList}"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layer_home_mywork"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="3:2"
+                    app:layout_constraintTop_toBottomOf="@id/layer_home_mytrack"
+                    android:visibility="@{viewModel.onlyShowMostPopularBooks ? View.GONE : View.VISIBLE}">
+                    <TextView
+                        android:id="@+id/text_home_mywork"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
+                        android:text="@string/label_mytrackingworks"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="20dp"
+                        style="@style/SubtitleText_NoBorder"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_home_mywork"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toBottomOf="@id/text_home_mywork"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:homeBooks="@{viewModel.myWorkList}"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </ScrollView>
+
+        <!--androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layer_home_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/google_color"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout-->
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

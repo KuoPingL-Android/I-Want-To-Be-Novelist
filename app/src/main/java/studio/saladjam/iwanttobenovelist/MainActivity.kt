@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.shouldNavigateToHomePage.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalHomeFragment())
-                showBars(ToolBarBottomNavDisplays.DISPLAYBOTH)
+                showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
                 viewModel.doneNavigateToHomePage()
             }
         })
@@ -93,6 +93,13 @@ class MainActivity : AppCompatActivity() {
                 nav.navigate(NavigationDirections.actionGlobalLoginFragment())
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneNavigateToLoginPage()
+            }
+        })
+
+        viewModel.selectedBook.observe(this, Observer {
+            it?.let {book ->
+                nav.navigate(NavigationDirections.actionGlobalBookFragment(book))
+                viewModel.doneNavigateToBook()
             }
         })
 

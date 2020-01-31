@@ -36,4 +36,8 @@
 
     <string name="max_number_interest">5</string>
     <string name="hint_too_many_interest">You have reached the maximum number of interests</string>
+    <string name="label_mytrackingworks">追蹤作品</string>
+    <string name="hint_nav_profile">個人</string>
+    <string name="hint_nav_category">分類</string>
+    <string name="hint_nav_home">首頁</string>
 </resources>
