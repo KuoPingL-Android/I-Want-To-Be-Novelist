@@ -89,7 +89,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
             list.add(HomeSealItems.WorkInProgress("My Work", _recommendedList.value!!, HomeSections.WORKINPROGRESS))
         }
 
-        list.add(HomeSealItems.WorkInProgress("Popular", _recommendedList.value!!, HomeSections.POPULAR))
+        list.add(HomeSealItems.General("Popular", _recommendedList.value!!, HomeSections.POPULAR))
 
         _finalList.value = list
     }

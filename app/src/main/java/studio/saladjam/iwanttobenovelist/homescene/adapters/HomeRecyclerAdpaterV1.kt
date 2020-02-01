@@ -48,7 +48,7 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
             is HomeGeneralViewHolder ->
                     {holder.bind(getItem(position) as HomeSealItems.General,
                         viewModel,
-                        if (position == 0)  HomeSections.RECOMMEND else HomeSections.POPULAR  )}
+                        if (position == 0)  HomeSections.RECOMMEND else HomeSections.POPULAR)}
             is HomeCurrentReadViewHolder ->
                     {holder.bind(getItem(position) as HomeSealItems.CurrentReading,
                         viewModel,
