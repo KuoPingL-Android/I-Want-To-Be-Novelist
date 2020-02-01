@@ -8,7 +8,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.Logger
+import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -20,6 +23,10 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     private val _recommendedList = MutableLiveData<List<Book>>()
     val recommendedList: LiveData<List<Book>>
         get() = _recommendedList
+
+    private val _popularList = MutableLiveData<List<Book>>()
+    val popularList: LiveData<List<Book>>
+        get() = _popularList
 
     private val _myWorkList = MutableLiveData<List<Book>>()
     val myWorkList: LiveData<List<Book>>
@@ -34,6 +41,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         addSource(_myFollowList){checkAvailableLists()}
         addSource(_myWorkList){checkAvailableLists()}
     }
+
     val onlyShowMostPopularBooks: LiveData<Boolean>
         get() = _onlyShowMostPopularBooks
 
@@ -41,13 +49,58 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         _onlyShowMostPopularBooks.value = (_myWorkList.value?.isEmpty() == true || user.token == null)
     }
 
+    private val _finalList = MutableLiveData<List<HomeSealItems>>()
+    val finaList: LiveData<List<HomeSealItems>>
+        get() = _finalList
+
+
+    private val _areDataReady = MediatorLiveData<Boolean>().apply {
+        addSource(_recommendedList) {checkIfListAreReady()}
+        addSource(_myFollowList){checkIfListAreReady()}
+        addSource(_myWorkList){checkIfListAreReady()}
+    }
+    val areDataRead: LiveData<Boolean>
+        get() = _areDataReady
+
+    private fun checkIfListAreReady() {
+        _areDataReady.value =
+            (_recommendedList.value != null &&
+                    _myFollowList.value != null &&
+                    (user.role == Roles.REVIEWER.value || _myWorkList.value != null))
+    }
+
+    fun prepareFinalList() {
+
+        if (_finalList.value != null) {return}
+
+        val list = mutableListOf<HomeSealItems>()
+
+        //TODO: FIX ALL LIST to PROPER ONES
+
+        if (_recommendedList.value != null) {
+            list.add(HomeSealItems.General("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
+        }
+
+        if (_myFollowList.value != null) {
+            list.add(HomeSealItems.CurrentReading("Currently Reading", _recommendedList.value!!, HomeSections.CURRENTREAD))
+        }
+
+        if (_myWorkList.value != null) {
+            list.add(HomeSealItems.WorkInProgress("My Work", _recommendedList.value!!, HomeSections.WORKINPROGRESS))
+        }
+
+        list.add(HomeSealItems.WorkInProgress("Popular", _recommendedList.value!!, HomeSections.POPULAR))
+
+        _finalList.value = list
+    }
+
+
     /** REPOSITORY RELATED ACTIONS */
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
     private val user = IWBNApplication.user
 
     fun fetchDatas() {
-
         fetchRecommendedList()
         when(user.role) {
             Roles.WRITER.value -> {
@@ -74,10 +127,12 @@ class HomeViewModel(val repository: Repository): ViewModel() {
                 }
 
                 is Result.Error -> {
+                    _recommendedList.value = listOf()
                     result.exception
                 }
 
                 is Result.Fail -> {
+                    _recommendedList.value = listOf()
                     result.error
                 }
             }
@@ -94,10 +149,12 @@ class HomeViewModel(val repository: Repository): ViewModel() {
                 }
 
                 is Result.Error -> {
+                    _myFollowList.value = listOf()
                     result.exception
                 }
 
                 is Result.Fail -> {
+                    _myFollowList.value = listOf()
                     result.error
                 }
             }
@@ -114,10 +171,12 @@ class HomeViewModel(val repository: Repository): ViewModel() {
                 }
 
                 is Result.Error -> {
+                    _myFollowList.value = listOf()
                     result.exception
                 }
 
                 is Result.Fail -> {
+                    _myFollowList.value = listOf()
                     result.error
                 }
             }
@@ -144,11 +203,50 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         }
     }
 
+    /** SEE ALL is PRESSED */
+    fun pressedSeeAllOn(homeSection: String) {
+        when(homeSection) {
+            HomeSections.RECOMMEND.value -> {
+                Logger.i("NAVIGATE TO RECOMMEND")
+            }
+
+            HomeSections.CURRENTREAD.value -> {
+                Logger.i("NAVIGATE TO CURRENT READ")
+                _shouldNavigateToMyFollow.value = true
+            }
+
+            HomeSections.WORKINPROGRESS.value -> {
+                Logger.i("NAVIGATE TO WORK IN PROGRESS")
+                _shouldNavigateToMyWork.value = true
+            }
+
+            HomeSections.POPULAR.value -> {
+
+            }
+        }
+    }
+
 
     /** NAVIGATE to BOOK CONTENT */
     private val _selectedBook = MutableLiveData<Book>()
     val selectedBook: LiveData<Book>
         get() = _selectedBook
+
+    private val _selectedWork = MutableLiveData<Book>()
+    val selectedWork: LiveData<Book>
+        get() = _selectedWork
+
+    fun selectBook(book: Book, section: HomeSections) {
+        when(section) {
+            HomeSections.WORKINPROGRESS -> {
+                _selectedWork.value = book
+            }
+
+            else -> {
+                selectBook(book)
+            }
+        }
+    }
 
     fun selectBook(book: Book) {
         _selectedBook.value = book
@@ -158,27 +256,22 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         _selectedBook.value = null
     }
 
-    /** NAVIGATE to MY FOLLOWING LIST */
+    fun doneSelectingWork() {
+        _selectedWork.value = null
+    }
+
+    /** NAVIGATE to CURRENT READING */
     private val _shouldNavigateToMyFollow = MutableLiveData<Boolean>()
     val shouldNavigateToMyFollow: LiveData<Boolean>
         get() = _shouldNavigateToMyFollow
-
-    fun navigateToMyFollow() {
-        _shouldNavigateToMyFollow.value = true
-    }
-
     fun doneNavigateToMyFollow() {
         _shouldNavigateToMyFollow.value = null
     }
 
-    /** NAVIGATE to MY WORK */
+    /** NAVIGATE to WORK IN PROGRESS */
     private val _shouldNavigateToMyWork = MutableLiveData<Boolean>()
     val shouldNavigateToMyWork: LiveData<Boolean>
         get() = _shouldNavigateToMyWork
-
-    fun navigateToMyWork() {
-        _shouldNavigateToMyWork.value = true
-    }
 
     fun doneNavigateToMyWork() {
         _shouldNavigateToMyWork.value = null

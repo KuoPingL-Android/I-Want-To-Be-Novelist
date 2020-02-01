@@ -7,9 +7,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import studio.saladjam.iwanttobenovelist.extensions.toDp
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
 import studio.saladjam.iwanttobenovelist.homescene.adapters.RecommendRecyclerAdpater
+import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecyclerViewAdapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
@@ -37,6 +38,12 @@ fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
             adapter.submitList(books)
         }
     }
+}
+
+@BindingAdapter("homeSealedItems")
+fun bindHomeSealedItem(recyclerView: RecyclerView, items: List<HomeSealItems>?) {
+    val adapter = recyclerView.adapter
+    (adapter as? HomeRecyclerAdpaterV1)?.submitList(items)
 }
 
 @BindingAdapter("chapters")

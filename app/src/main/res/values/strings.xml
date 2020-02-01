@@ -40,4 +40,5 @@
     <string name="hint_nav_profile">個人</string>
     <string name="hint_nav_category">分類</string>
     <string name="hint_nav_home">首頁</string>
+    <string name="ratio4to5">4:5</string>
 </resources>

@@ -23,7 +23,7 @@ data class Book(
     val recommendationRecords: List<RecommendationRecord>? = null,
     val createdTime: Long? = null,
     val lastUpdatedTime: Long? = null,
-    val language: String
+    val language: String = "zh"
 ): Parcelable {
     companion object {
         enum class BookKeys(val string: String) {

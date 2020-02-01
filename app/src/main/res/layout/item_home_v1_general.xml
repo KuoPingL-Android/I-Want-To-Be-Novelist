@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="book"
+            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_item_book_home_v1_recommend_cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/placeholder"
+            android:scaleType="fitXY"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHeight_percent="0.7"
+            app:layout_constraintDimensionRatio="4:5"
+            android:background="@drawable/bg_main"
+            app:fireStorageImageUrl="@{book.cover}"/>
+        <TextView
+            android:id="@+id/text_item_book_home_v1_recommend_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/image_item_book_home_v1_recommend_cover"
+            app:layout_constraintEnd_toEndOf="@id/image_item_book_home_v1_recommend_cover"
+            app:layout_constraintTop_toBottomOf="@id/image_item_book_home_v1_recommend_cover"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="#000"
+            android:textSize="16dp"
+            android:layout_marginTop="20dp"
+            tools:text="This is the Title of the Book"
+            android:text="@{book.title}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

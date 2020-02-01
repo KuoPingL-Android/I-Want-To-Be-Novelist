@@ -15,14 +15,17 @@ import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.bind
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeBinding
+import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeGeneralViewHolder
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
 import studio.saladjam.iwanttobenovelist.homescene.adapters.RecommendRecyclerAdpater
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Roles
 
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentHomeV1Binding
     private val viewModel by viewModels<HomeViewModel> { getVMFactory() }
 
 
@@ -31,35 +34,75 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater)
+        binding = FragmentHomeV1Binding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        binding.recyclerHomeRecommend.adapter = RecommendRecyclerAdpater(viewModel)
-        binding.recyclerHomeMytrack.adapter = HomeBookRecyclerAdapter(viewModel)
-        binding.recyclerHomeMywork.adapter = HomeBookRecyclerAdapter(viewModel)
+        viewModel.selectedBook.observe(this, Observer {
+            it?.let {
+                Logger.i("GO TO BOOK PAGE")
+                viewModel.doneSelectingBook()
+            }
+        })
 
-        PagerSnapHelper().attachToRecyclerView(binding.recyclerHomeRecommend)
+        viewModel.areDataRead.observe(this, Observer {
+            it?.let {isReady ->
+                if(isReady) {
+                    viewModel.prepareFinalList()
+                }
+            }
+        })
 
-        binding.recyclerHomeMytrack.addItemDecoration(object : RecyclerView.ItemDecoration() {
+        binding.recyclerHomeMain.adapter = HomeRecyclerAdpaterV1(viewModel)
+
+        binding.recyclerHomeMain.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                val position = parent.getChildAdapterPosition(view)
-                outRect.left = 10.toPx()
-                outRect.right = 10.toPx()
-                outRect.top = 8.toPx()
-                outRect.bottom = 8.toPx()
-                when(position) {
-                    0 ->
-                    {
-                        outRect.left = 20.toPx()
-                    }
+
+                val space = (parent.height * 0.1).toInt()
+
+//                outRect.left = 20.toPx()
+//                outRect.right = 20.toPx()
+                outRect.bottom = 15.toPx()
+
+
+                when(parent.getChildLayoutPosition(view)) {
+                    0 -> outRect.top = space
+                    else -> outRect.top = 15.toPx()
                 }
             }
         })
+
+
+//        binding.recyclerHomeRecommend.adapter = RecommendRecyclerAdpater(viewModel)
+//        binding.recyclerHomeMytrack.adapter = HomeBookRecyclerAdapter(viewModel)
+//        binding.recyclerHomeMywork.adapter = HomeBookRecyclerAdapter(viewModel)
+//
+//        PagerSnapHelper().attachToRecyclerView(binding.recyclerHomeRecommend)
+//
+//        binding.recyclerHomeMytrack.addItemDecoration(object : RecyclerView.ItemDecoration() {
+//            override fun getItemOffsets(
+//                outRect: Rect,
+//                view: View,
+//                parent: RecyclerView,
+//                state: RecyclerView.State
+//            ) {
+//                val position = parent.getChildAdapterPosition(view)
+//                outRect.left = 10.toPx()
+//                outRect.right = 10.toPx()
+//                outRect.top = 8.toPx()
+//                outRect.bottom = 8.toPx()
+//                when(position) {
+//                    0 ->
+//                    {
+//                        outRect.left = 20.toPx()
+//                    }
+//                }
+//            }
+//        })
 
 //        viewModel.onlyShowMostPopularBooks.observe(this, Observer {
 //            it?.let {onlyShowMostPopularBooks ->
@@ -75,12 +118,6 @@ class HomeFragment : Fragment() {
 //            }
 //        })
 
-        viewModel.selectedBook.observe(this, Observer {
-            it?.let {
-                Logger.i("GO TO BOOK PAGE")
-                viewModel.doneSelectingBook()
-            }
-        })
 
         binding.viewModel = viewModel
 
