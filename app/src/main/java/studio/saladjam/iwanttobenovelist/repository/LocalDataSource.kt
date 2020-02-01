@@ -44,4 +44,12 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     override suspend fun getMostPopularBooks(): Result<List<Book>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun getBooks(
+        category: String,
+        language: String,
+        sortedBy: String
+    ): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

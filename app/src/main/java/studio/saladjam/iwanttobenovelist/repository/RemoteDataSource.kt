@@ -27,6 +27,33 @@ import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
 
+    /** CATEGORY PAGE */
+    override suspend fun getBooks(category: String,
+                                  language: String,
+                                  sortedBy: String): Result<List<Book>>
+            = suspendCoroutine { continuation ->
+
+        var bookLanguage = language
+
+        if (bookLanguage.isEmpty()) {
+            bookLanguage = "zh" //TODO: CHANGE LANGUAGE TO DYNAMIC
+        }
+
+        if (category.isEmpty()) {
+            // Get All Books on Specific Language <- Default User Language
+            IWBNApplication.container.bookCollection
+//                .whereEqualTo("language", language)
+                .orderBy("createdTime")
+        } else {
+            IWBNApplication.container.bookCollection
+                .whereEqualTo("language", language)
+                .whereEqualTo("category", category)
+                .orderBy("createdTime", Query.Direction.DESCENDING)
+        }
+    }
+
+
+
     /** HOME DATA */
     override suspend fun getMostPopularBooks(): Result<List<Book>> = suspendCoroutine { continuation ->
         IWBNApplication.container.bookCollection.orderBy("popularity", Query.Direction.DESCENDING).limit(20).get()

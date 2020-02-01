@@ -17,6 +17,7 @@ data class User(
     var fbToken: String? = null,
     var googleToken: String? = null,
     var preferredCategories: List<String> = listOf(),
+    var preferredLanguage: String = "zh",
     /**COMMENTs*/
     val comments: List<UserComment> = listOf(),
     /**BOOKS*/

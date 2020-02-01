@@ -47,4 +47,12 @@ class DataSource(private val localDataSource: Repository,
     override suspend fun getMostPopularBooks(): Result<List<Book>> {
         return remoteDataSource.getMostPopularBooks()
     }
+
+    override suspend fun getBooks(
+        category: String,
+        language: String,
+        sortedBy: String
+    ): Result<List<Book>> {
+        return remoteDataSource.getBooks(category, language, sortedBy)
+    }
 }
