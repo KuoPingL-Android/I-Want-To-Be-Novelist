@@ -22,5 +22,5 @@ interface Repository {
     suspend fun getMostPopularBooks(): Result<List<Book>>
 
     /** CATEGORY */
-    suspend fun getBooks(category: String, language: String, sortedBy: String): Result<List<Book>>
+    suspend fun getBooks(category: String, language: String = "zh", sortedBy: String = ""): Result<List<Book>>
 }

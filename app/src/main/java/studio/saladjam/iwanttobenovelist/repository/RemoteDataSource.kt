@@ -42,12 +42,30 @@ object IWBNRemoteDataSource: Repository {
             // Get All Books on Specific Language <- Default User Language
             IWBNApplication.container.bookCollection
 //                .whereEqualTo("language", language)
-                .orderBy("createdTime")
+                .orderBy("createdTime", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener {
+                    continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                }
+                .addOnCanceledListener {
+                    continuation.resume(Result.Fail("CANCELED"))
+                }
+                .addOnFailureListener{
+                    continuation.resume(Result.Error(it))
+                }
         } else {
             IWBNApplication.container.bookCollection
-                .whereEqualTo("language", language)
-                .whereEqualTo("category", category)
-                .orderBy("createdTime", Query.Direction.DESCENDING)
+//                .whereEqualTo("language", language)
+//                .whereEqualTo("category", category)
+                .orderBy("createdTime", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener {
+                    continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                }
+                .addOnCanceledListener {
+                    continuation.resume(Result.Fail("CANCELED"))
+                }
+                .addOnFailureListener{
+                    continuation.resume(Result.Error(it))
+                }
         }
     }
 

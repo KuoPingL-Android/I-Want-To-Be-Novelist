@@ -7,6 +7,7 @@ import kotlinx.coroutines.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 
 class CategoryViewModel(private val repository: Repository): ViewModel() {
 
@@ -19,20 +20,18 @@ class CategoryViewModel(private val repository: Repository): ViewModel() {
         get() = _error
 
     /** CATEGORY */
-    private val _categories = MutableLiveData<List<String>>()
-    val category: MutableLiveData<List<String>>
+    private val _categories = MutableLiveData<List<Genre>>()
+    val category: MutableLiveData<List<Genre>>
         get() = _categories
 
-    private fun fetchCategories() {
-
+    fun fetchCategories() {
         coroutineScope.launch {
             val result = repository.getCategory()
             when (result) {
                 is Result.Success -> {
                     val list = result.data
-                    Logger.i("LIST = ${list}")
                     withContext(Dispatchers.Main) {
-                        _categories.value = list.getListFor()
+                        _categories.value = list.genres
                     }
                 }
 

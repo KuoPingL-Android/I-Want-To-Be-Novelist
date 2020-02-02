@@ -1,3 +1,0 @@
-package studio.saladjam.iwanttobenovelist.categoryscene.adapters
-
-class CategoryGenreAdapter

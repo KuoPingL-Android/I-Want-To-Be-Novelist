@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
 import studio.saladjam.iwanttobenovelist.homescene.adapters.RecommendRecyclerAdpater
@@ -36,6 +37,10 @@ fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
         }
 
         is HomeBookRecyclerAdapter -> {
+            adapter.submitList(books)
+        }
+
+        is CategoryListAdapter -> {
             adapter.submitList(books)
         }
     }
