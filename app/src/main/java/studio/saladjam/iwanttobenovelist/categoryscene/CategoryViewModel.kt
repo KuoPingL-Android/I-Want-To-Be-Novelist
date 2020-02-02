@@ -24,6 +24,7 @@ class CategoryViewModel(private val repository: Repository): ViewModel() {
         get() = _categories
 
     private fun fetchCategories() {
+
         coroutineScope.launch {
             val result = repository.getCategory()
             when (result) {
@@ -31,7 +32,7 @@ class CategoryViewModel(private val repository: Repository): ViewModel() {
                     val list = result.data
                     Logger.i("LIST = ${list}")
                     withContext(Dispatchers.Main) {
-                        _categories.value = list
+                        _categories.value = list.getListFor()
                     }
                 }
 

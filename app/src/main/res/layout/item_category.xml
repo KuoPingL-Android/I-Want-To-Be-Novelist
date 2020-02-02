@@ -8,6 +8,9 @@
             name="category"
             type="String" />
         <variable
+            name="genre"
+            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Genre" />
+        <variable
             name="viewModel"
             type="studio.saladjam.iwanttobenovelist.loginscene.LoginInterestViewModel" />
     </data>
@@ -18,7 +21,7 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:background="@drawable/bg_role_selector_button"
-        android:tag="@{category}"
+        android:tag="@{genre.id}"
         android:clickable="true"
         android:onClick="@{viewModel.categorySelected}">
         <TextView

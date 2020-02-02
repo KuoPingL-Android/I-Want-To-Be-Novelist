@@ -4,6 +4,7 @@ import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 /**
@@ -16,7 +17,7 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.loginUser(user)
     }
 
-    override suspend fun getCategory(): Result<List<String>> {
+    override suspend fun getCategory(): Result<Categories> {
         return remoteDataSource.getCategory()
     }
 

@@ -26,38 +26,29 @@
             android:text="Genre"
             android:layout_marginTop="10dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_category_categories"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/text_category_genre"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:listitem="@layout/item_category_category"
-            />
-
         <Spinner
             android:id="@+id/spinner_category_sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/recycler_category_categories"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0" />
+            app:layout_constraintHorizontal_bias="1" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_category_books"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout_category_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable"
+            app:layout_constraintTop_toBottomOf="@id/text_category_genre"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager_category"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:spanCount="2"
-            tools:itemCount="12"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/spinner_category_sort"
+            app:layout_constraintTop_toBottomOf="@id/tablayout_category_categories"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/item_category_book"/>
+            android:orientation="horizontal"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

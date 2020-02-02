@@ -14,12 +14,13 @@ import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecyclerViewAdapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 /** RECYCLER VIEWs */
 @BindingAdapter("categories")
-fun bindCategory(recyclerView: RecyclerView, categories: List<String>?) {
+fun bindCategory(recyclerView: RecyclerView, categories: List<Genre>?) {
     (recyclerView.adapter as? LoginInterestRecyclerViewAdapter)?.let {
         it.submitList(categories)
     }

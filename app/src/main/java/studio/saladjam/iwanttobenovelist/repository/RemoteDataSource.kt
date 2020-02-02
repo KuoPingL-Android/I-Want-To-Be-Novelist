@@ -20,8 +20,7 @@ import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.dataclass.User
+import studio.saladjam.iwanttobenovelist.repository.dataclass.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -337,16 +336,21 @@ object IWBNRemoteDataSource: Repository {
         }
     }
 
-    override suspend fun getCategory(): Result<List<String>> = suspendCoroutine {continuation ->
-        IWBNApplication.container.categoryCollection.document("chinese").get()
+    override suspend fun getCategory(): Result<Categories> = suspendCoroutine {continuation ->
+        IWBNApplication.container.categoryCollection.get()
             .addOnCompleteListener {task ->
                 if (task.isSuccessful) {
-                    var list = mutableListOf<String>()
-                    val result = (task.result?.get("list") as? List<String>)?.toMutableList()
+                    var list = mutableListOf<Genre>()
+
+                    val result = task.result
                     if (result != null) {
-                        list = result.toMutableList()
+                        list = result.documents.map {
+                            Genre(it.id,
+                                zh = it.get("zh") as String,
+                                en = it.get("en") as String)
+                        }.toMutableList()
                     }
-                    continuation.resume(Result.Success(list))
+                    continuation.resume(Result.Success(Categories(list)))
                 } else {
                     if (task.exception != null) {
                         val exception = task.exception!!

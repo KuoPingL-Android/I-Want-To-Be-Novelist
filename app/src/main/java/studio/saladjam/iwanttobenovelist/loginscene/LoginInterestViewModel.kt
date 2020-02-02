@@ -10,10 +10,11 @@ import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 
 class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
-    private val _categories = MutableLiveData<List<String>>()
-    val categories: LiveData<List<String>>
+    private val _categories = MutableLiveData<List<Genre>>()
+    val categories: LiveData<List<Genre>>
         get() = _categories
 
     private val selectedCategory = mutableListOf<String>()
@@ -51,7 +52,7 @@ class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
                     val list = result.data
                     Logger.i("LIST = ${list}")
                     withContext(Dispatchers.Main) {
-                        _categories.value = list
+                        _categories.value = list.genres
                     }
                 }
 
