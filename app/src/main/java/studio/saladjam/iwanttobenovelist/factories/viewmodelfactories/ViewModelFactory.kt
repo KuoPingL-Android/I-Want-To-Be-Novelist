@@ -9,6 +9,8 @@ import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
+import studio.saladjam.iwanttobenovelist.profilescene.ProfileFragment
+import studio.saladjam.iwanttobenovelist.profilescene.ProfileViewModel
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import java.lang.IllegalArgumentException
 
@@ -45,6 +47,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(CategoryListViewModel::class.java)
                                     -> CategoryListViewModel(repository)
+
+                isAssignableFrom(ProfileViewModel::class.java)
+                                    -> ProfileViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }
