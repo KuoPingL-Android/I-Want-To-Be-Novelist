@@ -6,6 +6,7 @@ import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
+import studio.saladjam.iwanttobenovelist.editorscene.EditorViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
@@ -50,6 +51,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(ProfileViewModel::class.java)
                                     -> ProfileViewModel(repository)
+
+                isAssignableFrom(EditorViewModel::class.java)
+                                    -> EditorViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

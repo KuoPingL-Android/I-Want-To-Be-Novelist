@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.*
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.bind
-import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeBinding
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
@@ -64,8 +63,6 @@ class HomeFragment : Fragment() {
 
                 val space = (parent.height * 0.1).toInt()
 
-//                outRect.left = 20.toPx()
-//                outRect.right = 20.toPx()
                 outRect.bottom = 15.toPx()
 
 
@@ -75,49 +72,6 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-
-
-//        binding.recyclerHomeRecommend.adapter = RecommendRecyclerAdpater(viewModel)
-//        binding.recyclerHomeMytrack.adapter = HomeBookRecyclerAdapter(viewModel)
-//        binding.recyclerHomeMywork.adapter = HomeBookRecyclerAdapter(viewModel)
-//
-//        PagerSnapHelper().attachToRecyclerView(binding.recyclerHomeRecommend)
-//
-//        binding.recyclerHomeMytrack.addItemDecoration(object : RecyclerView.ItemDecoration() {
-//            override fun getItemOffsets(
-//                outRect: Rect,
-//                view: View,
-//                parent: RecyclerView,
-//                state: RecyclerView.State
-//            ) {
-//                val position = parent.getChildAdapterPosition(view)
-//                outRect.left = 10.toPx()
-//                outRect.right = 10.toPx()
-//                outRect.top = 8.toPx()
-//                outRect.bottom = 8.toPx()
-//                when(position) {
-//                    0 ->
-//                    {
-//                        outRect.left = 20.toPx()
-//                    }
-//                }
-//            }
-//        })
-
-//        viewModel.onlyShowMostPopularBooks.observe(this, Observer {
-//            it?.let {onlyShowMostPopularBooks ->
-//                if (onlyShowMostPopularBooks) {
-////                    val layoutManager = GridLayoutManager(context!!, 3, RecyclerView.VERTICAL, false)
-////                    binding.recyclerHomeMytrack.layoutParams.
-//                    val layoutManager = LinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false)
-//                    binding.recyclerHomeMytrack.layoutManager = layoutManager
-//                } else {
-//                    val layoutManager = GridLayoutManager(context!!, 1, RecyclerView.HORIZONTAL, false)
-////                    binding.recyclerHomeMytrack.layoutManager
-//                }
-//            }
-//        })
-
 
         binding.viewModel = viewModel
 

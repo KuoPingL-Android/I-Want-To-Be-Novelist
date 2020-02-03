@@ -7,13 +7,5 @@
                 android:radius="5dp"/>
         </shape>
     </item>
-    <item
-        android:top="-10dp"
-        android:right="-10dp"
-        android:left="-10dp">
-        <shape android:shape="rectangle"
-            >
-            <stroke android:color="@android:color/black" android:width="2dp"/>
-        </shape>
-    </item>
+
 </layer-list>

@@ -1,18 +1,15 @@
 package studio.saladjam.iwanttobenovelist
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.FirebaseApp
 import studio.saladjam.iwanttobenovelist.databinding.ActivityMainBinding
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
@@ -100,6 +97,13 @@ class MainActivity : AppCompatActivity() {
             it?.let {book ->
                 nav.navigate(NavigationDirections.actionGlobalBookFragment(book))
                 viewModel.doneNavigateToBook()
+            }
+        })
+
+        viewModel.shouldCreateNewChapter.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalEditorFragment())
+                viewModel.doneNavigateToNewChapter()
             }
         })
 

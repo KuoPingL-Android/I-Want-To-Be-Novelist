@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentProfileBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 
@@ -26,7 +28,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.shouldCreateNewBook.observe(this, Observer {
             it?.let {
-
+                ViewModelProviders.of(activity!!).get(MainViewModel::class.java).createNewChapter()
                 viewModel.doneNavigateToNewBook()
             }
         })

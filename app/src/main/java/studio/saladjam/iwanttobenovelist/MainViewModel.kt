@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
 class MainViewModel: ViewModel() {
     /***
@@ -74,5 +75,26 @@ class MainViewModel: ViewModel() {
 
     fun doneNavigateToBook() {
         _selectedBook.value = null
+    }
+
+    /** NAVIGATE to EDITOR with CHAPTER */
+    private val _selectedChapterForEditing = MutableLiveData<Chapter>()
+    val selectedChapterForEditing: LiveData<Chapter>
+        get() = _selectedChapterForEditing
+
+    fun selectChapter(chapter: Chapter?) {
+
+    }
+
+    private val _shouldCreateNewChapter = MutableLiveData<Boolean>()
+    val shouldCreateNewChapter:LiveData<Boolean>
+        get() = _shouldCreateNewChapter
+
+    fun createNewChapter() {
+        _shouldCreateNewChapter.value = true
+    }
+
+    fun doneNavigateToNewChapter() {
+        _shouldCreateNewChapter.value = null
     }
 }
