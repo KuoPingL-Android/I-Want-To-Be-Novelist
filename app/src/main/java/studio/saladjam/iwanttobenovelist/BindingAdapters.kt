@@ -115,11 +115,11 @@ fun bindTextView(textView: TextView, role: Int?) {
     role?.let {
         when(it) {
             Roles.REVIEWER.value -> {
-
+                textView.text = IWBNApplication.context.resources.getText(R.string.user_role_reviewer)
             }
 
             Roles.WRITER.value -> {
-
+                textView.text = IWBNApplication.context.resources.getText(R.string.user_role_writer)
             }
         }
     }
