@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -11,35 +12,170 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/iwbn_primary_color">
 
-        <View
-            android:id="@+id/view_profile_topview"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_profile"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.4"
-            app:layout_constraintVertical_bias="0"
-            android:background="@color/iwbn_primary_color"/>
-        <ImageButton
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:cardCornerRadius="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_profile_topview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/image_profile_logo"
+                    android:layout_width="70dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/logo_iwbn"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_profile_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="評論家" />
+
+                <TextView
+                    android:id="@+id/text_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="40dp"
+                    android:text="Jimmy Lau"
+                    android:textColor="@android:color/black"
+                    android:textSize="25dp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/text_profile_role"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/image_profile_logo"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/text_profile_role"
+                    app:layout_constraintTop_toTopOf="@id/text_profile_role"
+                    tools:text="Jimmy Lau" />
+
+                <View
+                    android:id="@+id/view_profile_name_underline"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="@id/text_profile_name"
+                    app:layout_constraintStart_toStartOf="@id/text_profile_role"
+                    app:layout_constraintTop_toBottomOf="@id/text_profile_name" />
+
+                <ImageView
+                    android:id="@+id/image_profile_fav"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/favorite_icon"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toStartOf="@+id/image_profile_followbooks"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_profile_name_underline" />
+
+                <ImageView
+                    android:id="@+id/image_profile_followbooks"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/bookshelf_icon"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toStartOf="@+id/image_profile_comment"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_profile_fav"
+                    app:layout_constraintTop_toTopOf="@id/image_profile_fav" />
+
+                <ImageView
+                    android:id="@+id/image_profile_comment"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/comment_icon"
+                    app:layout_constraintDimensionRatio="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/image_profile_followbooks"
+                    app:layout_constraintTop_toTopOf="@+id/image_profile_fav" />
+
+                <TextView
+                    android:id="@+id/text_profile_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="0"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/image_profile_fav"
+                    app:layout_constraintStart_toStartOf="@+id/image_profile_fav"
+                    app:layout_constraintTop_toBottomOf="@id/image_profile_fav" />
+
+                <TextView
+                    android:id="@+id/text_profile_followbooks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/image_profile_followbooks"
+                    android:layout_marginBottom="30dp"
+                    app:layout_constraintStart_toStartOf="@id/image_profile_followbooks"
+                    app:layout_constraintEnd_toEndOf="@id/image_profile_followbooks"
+                    android:textSize="20dp"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/text_profile_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/image_profile_comment"
+                    android:layout_marginBottom="30dp"
+                    app:layout_constraintStart_toStartOf="@id/image_profile_comment"
+                    app:layout_constraintEnd_toEndOf="@id/image_profile_comment"
+                    android:textSize="20dp"
+                    android:text="0"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_profile"
-            android:layout_width="50dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.4"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="20dp"
             android:src="@drawable/add"
-            android:background="@android:color/white"
+            android:backgroundTint="@android:color/white"
             android:onClick="@{() -> viewModel.createNewBook()}"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_profile"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/view_profile_topview"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

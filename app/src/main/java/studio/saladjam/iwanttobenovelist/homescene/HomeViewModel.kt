@@ -58,15 +58,23 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         addSource(_recommendedList) {checkIfListAreReady()}
         addSource(_myFollowList){checkIfListAreReady()}
         addSource(_myWorkList){checkIfListAreReady()}
+        addSource(_popularList){checkIfListAreReady()}
     }
     val areDataRead: LiveData<Boolean>
         get() = _areDataReady
 
     private fun checkIfListAreReady() {
-        _areDataReady.value =
-            (_recommendedList.value != null &&
-                    _myFollowList.value != null &&
-                    (user.role == Roles.REVIEWER.value || _myWorkList.value != null))
+        if (user.token != null) {
+            _areDataReady.value =
+                (_recommendedList.value != null &&
+                        _myFollowList.value != null &&
+                        (user.role == Roles.REVIEWER.value || _myWorkList.value != null))
+        } else {
+            _areDataReady.value =
+                (_recommendedList.value != null &&
+                        _popularList.value != null &&
+                        (user.role == Roles.REVIEWER.value || _myWorkList.value != null))
+        }
     }
 
     fun prepareFinalList() {
@@ -76,20 +84,21 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         val list = mutableListOf<HomeSealItems>()
 
         //TODO: FIX ALL LIST to PROPER ONES
-
         if (_recommendedList.value != null) {
             list.add(HomeSealItems.General("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
         }
 
         if (_myFollowList.value != null) {
-            list.add(HomeSealItems.CurrentReading("Currently Reading", _recommendedList.value!!, HomeSections.CURRENTREAD))
+            if (user.token != null) {
+                list.add(HomeSealItems.CurrentReading("Currently Reading", _recommendedList.value!!, HomeSections.CURRENTREAD))
+            }
         }
 
         if (_myWorkList.value != null) {
             list.add(HomeSealItems.WorkInProgress("My Work", _recommendedList.value!!, HomeSections.WORKINPROGRESS))
         }
 
-        list.add(HomeSealItems.General("Popular", _recommendedList.value!!, HomeSections.POPULAR))
+        list.add(HomeSealItems.General("Popular", _popularList.value!!, HomeSections.POPULAR))
 
         _finalList.value = list
     }
@@ -108,13 +117,13 @@ class HomeViewModel(val repository: Repository): ViewModel() {
             }
         }
 
-        if(user.token == null || user.bookFollowees.count() == 0) {
+        if(user.token == null) {
             // VISITOR
             checkAvailableLists()
-            fetchMostPopularBooks()
         } else {
             fetchMyFollowList()
         }
+        fetchMostPopularBooks()
     }
 
     /** RECOMMENDED LIST for EVERYONE */
@@ -189,7 +198,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
             val result = repository.getMostPopularBooks()
             when(result) {
                 is Result.Success -> {
-                    _myFollowList.value = result.data
+                    _popularList.value = result.data
                 }
 
                 is Result.Error -> {

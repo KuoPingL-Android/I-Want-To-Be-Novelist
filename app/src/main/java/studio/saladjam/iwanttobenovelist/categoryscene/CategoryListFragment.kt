@@ -46,17 +46,9 @@ class CategoryListFragment(val genre: Genre): Fragment() {
                 val position = parent.getChildLayoutPosition(view)
 
                 outRect.right = 10.toPx()
+                outRect.left = 10.toPx()
                 outRect.top = 10.toPx()
                 outRect.bottom = 10.toPx()
-
-                when(position%3) {
-                    0 -> {
-                        outRect.left = 10.toPx()
-                    }
-                    else -> {
-                        outRect.left = 10.toPx()
-                    }
-                }
             }
         })
 

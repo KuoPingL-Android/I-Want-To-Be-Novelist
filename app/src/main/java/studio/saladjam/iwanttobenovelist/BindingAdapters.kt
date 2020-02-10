@@ -16,6 +16,7 @@ import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecycle
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Roles
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -106,4 +107,20 @@ fun bindInnerLayoutParams(viewGroup: ViewGroup, isLinearLayout: Boolean) {
         } else {
             ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         }
+}
+
+/** PROFILE */
+@BindingAdapter("userRole")
+fun bindTextView(textView: TextView, role: Int?) {
+    role?.let {
+        when(it) {
+            Roles.REVIEWER.value -> {
+
+            }
+
+            Roles.WRITER.value -> {
+
+            }
+        }
+    }
 }

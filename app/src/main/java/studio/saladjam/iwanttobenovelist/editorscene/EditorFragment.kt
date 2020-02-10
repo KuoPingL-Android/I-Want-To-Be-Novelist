@@ -1,12 +1,16 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -28,6 +32,10 @@ class EditorFragment : Fragment() {
 
 //    private val args by navArgs<EditorFragmentArgs>()
 
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 1
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,6 +50,15 @@ class EditorFragment : Fragment() {
         viewModel.shouldAddEditText.observe(this, Observer {
             it?.let {
                 binding.layoutEditorPalette.addView(buildEditText("TESTING"))
+            }
+        })
+
+        viewModel.shouldAddImage.observe(this, Observer {
+            it?.let {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), PICK_IMAGE_REQUEST)
             }
         })
 
@@ -74,5 +91,21 @@ class EditorFragment : Fragment() {
 
     fun getTouchListener(): TouchListenerImpl {
         return TouchListenerImpl(50.toPx(), 50.toPx())
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
+            val uri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, uri)
+
+            val imageView = ImageView(context!!)
+            imageView.setImageBitmap(bitmap)
+
+            imageView.setOnTouchListener(getTouchListener())
+
+            binding.layoutEditorPalette.addView(imageView)
+        }
     }
 }

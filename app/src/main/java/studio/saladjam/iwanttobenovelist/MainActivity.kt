@@ -72,15 +72,21 @@ class MainActivity : AppCompatActivity() {
         viewModel.shouldNavigateToCategoryPage.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
-                showBars(ToolBarBottomNavDisplays.DISPLAYBOTH)
+                showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
                 viewModel.doneNavigateToCategory()
             }
         })
 
         viewModel.shouldNavigateToProfilePage.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalProfileFragment())
-                showBars(ToolBarBottomNavDisplays.DISPLAYBOTH)
+
+                if (IWBNApplication.user.token == null) {
+                    //TODO: SHOW DIALOG TO SIGNUP
+                } else {
+                    nav.navigate(NavigationDirections.actionGlobalProfileFragment())
+                    showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                }
+
                 viewModel.doneNavigateToProfilePage()
             }
         })
