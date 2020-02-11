@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.shouldCreateNewChapter.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalEditorFragment())
+                showBars(ToolBarBottomNavDisplays.DISPLAYTOOLBARONLY)
                 viewModel.doneNavigateToNewChapter()
             }
         })
@@ -120,10 +121,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-
-
-
         super.onBackPressed()
+
+
     }
 
     fun showAPIStatusDialog(status: APILoadingStatus) {

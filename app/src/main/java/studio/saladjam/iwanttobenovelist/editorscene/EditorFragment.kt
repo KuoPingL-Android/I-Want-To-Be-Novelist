@@ -2,6 +2,7 @@ package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.TypedValue
@@ -19,15 +20,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.MainActivity
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.bind
+import studio.saladjam.iwanttobenovelist.custom.positionIn
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorBinding
+import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorV1Binding
 import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
 class EditorFragment : Fragment() {
-    private lateinit var binding: FragmentEditorBinding
+//    private lateinit var binding: FragmentEditorBinding
+    private lateinit var binding: FragmentEditorV1Binding
     private val viewModel by viewModels<EditorViewModel> { getVMFactory() }
 
 //    private val args by navArgs<EditorFragmentArgs>()
@@ -41,15 +47,23 @@ class EditorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentEditorBinding.inflate(inflater)
+        binding = FragmentEditorV1Binding.inflate(inflater)
+
+//        (activity as? MainActivity).show
 
         binding.viewModel = viewModel
 
-        val chapter = arguments?.getParcelable<Chapter>("chapter")
 
-        viewModel.shouldAddEditText.observe(this, Observer {
+        viewModel.shouldStartAddingImages.observe(this, Observer {
             it?.let {
-                binding.layoutEditorPalette.addView(buildEditText("TESTING"))
+                binding.buttonEditor.visibility = View.GONE
+                binding.editEditor.isFocusable = false
+                binding.editEditor.isClickable = false
+                binding.editEditor.startsAddingImages = true
+                binding.editEditor.setTextIsSelectable(false)
+//                binding.editEditor.setTextColor(Color.parseColor("#00000000"))
+                binding.editEditor.invalidate()
+                viewModel.doneAddingImage()
             }
         })
 
@@ -103,9 +117,17 @@ class EditorFragment : Fragment() {
             val imageView = ImageView(context!!)
             imageView.setImageBitmap(bitmap)
 
-            imageView.setOnTouchListener(getTouchListener())
+            imageView.setOnTouchListener(TouchListenerImpl(50.toPx(), 50.toPx()){
+                binding.editEditor.updateOrAdd(imageView,  imageView.positionIn(binding.editEditor))
+            })
 
-            binding.layoutEditorPalette.addView(imageView)
+            imageView.width
+
+            binding.layerEditor.addView(imageView)
+
+
+//            binding.layoutEditorPalette.addView(imageView)
+//            binding.scrollviewEditor.addView(imageView)
         }
     }
 }

@@ -15,7 +15,7 @@
     <color name="google_color">#ca5d55</color>
 
     <color name="translucent_80">#cc000000</color>
-    <color name="item_home_v1_seeall_white">#efff</color>
-    <color name="item_home_v1_title_white">#fff</color>
+    <color name="item_home_v1_seeall_white">#e000</color>
+    <color name="item_home_v1_title_white">#000</color>
     <color name="iwbn_primary_color">#539</color>
 </resources>

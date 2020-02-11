@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 
-class TouchListenerImpl(val minWidth: Int, val minHeight: Int) : View.OnTouchListener {
+class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((view:View)->Unit)? = null) : View.OnTouchListener {
 
     private var originX = 0f
     private var originY = 0f
@@ -83,6 +83,8 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int) : View.OnTouchLis
                     view.x = newX
                     view.y = newY
                 }
+
+                callback?.invoke(view)
             }
             MotionEvent.ACTION_UP -> {
                 originUp = true

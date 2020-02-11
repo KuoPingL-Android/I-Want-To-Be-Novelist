@@ -78,4 +78,16 @@ class HomeFragment : Fragment() {
         viewModel.fetchDatas()
         return binding.root
     }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        val homeLocation = IntArray(2)
+//        binding.imageHomeV1Logo.getLocationOnScreen(homeLocation)
+//
+//        val searchBarLocation = IntArray(2)
+//        binding.searchHomeV1.getLocationOnScreen(searchBarLocation)
+//
+//        binding.searchHomeV1.maxWidth = searchBarLocation.first() - (homeLocation.first() + binding.imageHomeV1Logo.width + 16.toPx())
+//
+//    }
 }

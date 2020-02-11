@@ -8,6 +8,20 @@ import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.Repository
 
 class EditorViewModel (private val repository: Repository): ViewModel() {
+
+    /***/
+    private val _shouldStartAddingImages = MutableLiveData<Boolean>()
+    val shouldStartAddingImages: LiveData<Boolean>
+        get() = _shouldStartAddingImages
+
+    fun startAddImages() {
+        _shouldStartAddingImages.value = true
+    }
+
+    fun doneAddImages() {
+        _shouldStartAddingImages.value = null
+    }
+
     /** IMAGE */
     private val _shouldAddImage = MutableLiveData<Boolean>()
     val shouldAddImage: LiveData<Boolean>
