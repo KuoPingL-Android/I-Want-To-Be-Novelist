@@ -5,12 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
+import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import java.lang.IllegalArgumentException
 
+/** THIS IS the MAIN ADAPTER for HOME PAGE */
 class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSealItems, RecyclerView.ViewHolder>
     (CallbackFactory().create(HomeSealItems::class.java)) {
 
@@ -18,6 +20,7 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
         const val GENERAL = 0
         const val CURRENT_READ = 1
         const val WORK_IN_PROGRESS = 2
+        const val RECOMMEND = 3
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -37,6 +40,10 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
                     .inflate(LayoutInflater.from(parent.context), parent, false))
             }
 
+            RECOMMEND -> {
+                HomeRecommendViewHolder(ItemHomeV1RecommendlistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            }
+
             else -> {
                 throw IllegalArgumentException("HomeRecyclerAdpaterV1 : UNKNOWN VIEW TYPE")
             }
@@ -47,8 +54,7 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
         when(holder) {
             is HomeGeneralViewHolder ->
                     {holder.bind(getItem(position) as HomeSealItems.General,
-                        viewModel,
-                        if (position == 0)  HomeSections.RECOMMEND else HomeSections.POPULAR)}
+                        viewModel, HomeSections.POPULAR)}
             is HomeCurrentReadViewHolder ->
                     {holder.bind(getItem(position) as HomeSealItems.CurrentReading,
                         viewModel,
@@ -57,6 +63,10 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
                     {holder.bind(getItem(position) as HomeSealItems.WorkInProgress,
                         viewModel,
                         HomeSections.WORKINPROGRESS)}
+            is HomeRecommendViewHolder -> {
+                holder.bind(getItem(position) as HomeSealItems.Recommend,
+                    viewModel,HomeSections.RECOMMEND)
+            }
         }
     }
 
@@ -67,6 +77,8 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
             is HomeSealItems.CurrentReading -> CURRENT_READ
 
             is HomeSealItems.General -> GENERAL
+
+            is HomeSealItems.Recommend -> RECOMMEND
         }
     }
 

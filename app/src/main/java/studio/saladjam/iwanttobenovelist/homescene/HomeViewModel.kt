@@ -85,7 +85,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
         //TODO: FIX ALL LIST to PROPER ONES
         if (_recommendedList.value != null) {
-            list.add(HomeSealItems.General("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
+            list.add(HomeSealItems.Recommend("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
         }
 
         if (_myFollowList.value != null) {

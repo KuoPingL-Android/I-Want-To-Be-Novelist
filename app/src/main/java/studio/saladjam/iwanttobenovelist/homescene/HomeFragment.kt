@@ -1,27 +1,19 @@
 package studio.saladjam.iwanttobenovelist.homescene
 
 import android.graphics.Rect
-import android.icu.lang.UCharacter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.*
-import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
-import studio.saladjam.iwanttobenovelist.bind
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
-import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
-import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeGeneralViewHolder
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
-import studio.saladjam.iwanttobenovelist.homescene.adapters.RecommendRecyclerAdpater
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Roles
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeV1Binding
@@ -67,7 +59,7 @@ class HomeFragment : Fragment() {
 
 
                 when(parent.getChildLayoutPosition(view)) {
-                    0 -> outRect.top = space
+                    0 -> outRect.top = 15.toPx()
                     else -> outRect.top = 15.toPx()
                 }
             }

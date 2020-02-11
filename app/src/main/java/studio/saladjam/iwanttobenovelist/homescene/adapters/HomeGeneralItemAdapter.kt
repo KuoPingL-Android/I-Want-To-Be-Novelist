@@ -9,6 +9,7 @@ import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 
+/***/
 class HomeGeneralItemAdapter(val viewModel: HomeViewModel, val section: HomeSections) :
     ListAdapter<Book, HomeGeneralItemViewHolder>(CallbackFactory().create(Book::class.java)) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeGeneralItemViewHolder {

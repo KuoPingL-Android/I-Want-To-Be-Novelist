@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
-import studio.saladjam.iwanttobenovelist.homescene.adapters.RecommendRecyclerAdpater
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecyclerViewAdapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -33,10 +32,6 @@ fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
     val adapter = recyclerView.adapter
 
     when (adapter) {
-        is RecommendRecyclerAdpater -> {
-            adapter.submitList(books)
-        }
-
         is HomeBookRecyclerAdapter -> {
             adapter.submitList(books)
         }

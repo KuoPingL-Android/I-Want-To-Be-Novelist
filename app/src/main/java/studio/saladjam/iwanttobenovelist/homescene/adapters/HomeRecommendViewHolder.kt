@@ -1,22 +1,17 @@
 package studio.saladjam.iwanttobenovelist.homescene.adapters
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
+import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 
-/** THIS IS THE VIEWHOLDER for HOME MAIN RECYCLER VIEW ITEMS INCLUDING
- *  RECOMMENDED and POPULAR
- * */
-
-class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(sealItem: HomeSealItems.General, viewModel: HomeViewModel, section: HomeSections) {
+class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(sealItem: HomeSealItems.Recommend, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
             homeSection = sealItem.section.value
@@ -56,8 +51,8 @@ class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewH
 //            }
 
 
-            recyclerItemHomeV1.adapter = HomeGeneralItemAdapter(viewModel, section)
-            (recyclerItemHomeV1.adapter as HomeGeneralItemAdapter).submitList(sealItem.books)
+            recyclerItemHomeV1.adapter = HomeRecommendItemAdapter(viewModel, section)
+            (recyclerItemHomeV1.adapter as HomeRecommendItemAdapter).submitList(sealItem.books)
 
             recyclerItemHomeV1.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(
@@ -66,13 +61,13 @@ class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewH
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    outRect.right = 5.toPx()
+                    outRect.right = 10.toPx()
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
                             outRect.left = 20.toPx()
                         }
                         else -> {
-                            outRect.left = 5.toPx()
+                            outRect.left = 10.toPx()
                         }
                     }
                 }
@@ -84,4 +79,3 @@ class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewH
         binding.executePendingBindings()
     }
 }
-

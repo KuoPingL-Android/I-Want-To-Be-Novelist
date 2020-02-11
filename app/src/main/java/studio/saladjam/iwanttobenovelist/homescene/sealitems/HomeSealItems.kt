@@ -13,6 +13,10 @@ sealed class HomeSealItems {
     data class WorkInProgress(val title: String, val books: List<Book>, val section: HomeSections): HomeSealItems() {
         override val id: String = "WorkInProgress"
     }
+    data class Recommend(val title: String, val books: List<Book>, val section: HomeSections): HomeSealItems() {
+        override val id: String
+            get() = "Recommend"
+    }
 
     abstract val id: String
 }
