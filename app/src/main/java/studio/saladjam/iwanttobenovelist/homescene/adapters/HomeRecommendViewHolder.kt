@@ -2,13 +2,14 @@ package studio.saladjam.iwanttobenovelist.homescene.adapters
 
 import android.graphics.Rect
 import android.view.View
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
+import kotlin.math.absoluteValue
 
 class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(sealItem: HomeSealItems.Recommend, viewModel: HomeViewModel, section: HomeSections) {
@@ -54,6 +55,26 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
             recyclerItemHomeV1.adapter = HomeRecommendItemAdapter(viewModel, section)
             (recyclerItemHomeV1.adapter as HomeRecommendItemAdapter).submitList(sealItem.books)
 
+            recyclerItemHomeV1.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                    val layoutManager = recyclerView.layoutManager!!
+                    val distance = (layoutManager.width.toFloat())
+
+                    val startingPoint = 20.toPx().toFloat()
+
+                    for (i in 0 until layoutManager.childCount) {
+                        val child = layoutManager.getChildAt(i)!!
+                        val childStartpoint = (layoutManager.getDecoratedLeft(child) + layoutManager.getDecoratedRight(child)) / 2f - child.width/2f
+
+                        val d = minOf(distance, (startingPoint - childStartpoint).absoluteValue)
+                        val scale = 1 + -0.32 * d / distance
+                        child.scaleX = scale.toFloat()
+                        child.scaleY = scale.toFloat()
+                    }
+                }
+            })
+
             recyclerItemHomeV1.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(
                     outRect: Rect,
@@ -65,6 +86,9 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
                             outRect.left = 20.toPx()
+                        }
+                        parent.children.count() -> {
+                            outRect.right = - parent.width/2
                         }
                         else -> {
                             outRect.left = 10.toPx()
