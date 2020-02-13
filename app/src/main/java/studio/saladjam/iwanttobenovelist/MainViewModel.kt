@@ -3,7 +3,6 @@ package studio.saladjam.iwanttobenovelist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
@@ -86,15 +85,27 @@ class MainViewModel: ViewModel() {
 
     }
 
-    private val _shouldCreateNewChapter = MutableLiveData<Boolean>()
-    val shouldCreateNewChapter:LiveData<Boolean>
-        get() = _shouldCreateNewChapter
+    private val _shouldDisplayBookDetail = MutableLiveData<Boolean>()
+    val shouldDisplayBookDetail:LiveData<Boolean>
+        get() = _shouldDisplayBookDetail
 
-    fun createNewChapter() {
-        _shouldCreateNewChapter.value = true
+    fun createDisplayBookDetail() {
+        _shouldDisplayBookDetail.value = true
     }
 
     fun doneNavigateToNewChapter() {
-        _shouldCreateNewChapter.value = null
+        _shouldDisplayBookDetail.value = null
+    }
+
+    private val _shouldCreateNewBook = MutableLiveData<Boolean>()
+    val shouldCreateNewBook: LiveData<Boolean>
+        get() = _shouldCreateNewBook
+
+    fun createNewBook() {
+        _shouldCreateNewBook.value = true
+    }
+
+    fun doneNavigateToNewBook() {
+        _shouldCreateNewBook.value = null
     }
 }

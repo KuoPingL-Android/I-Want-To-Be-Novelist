@@ -57,6 +57,9 @@
         <item name="android:background">@drawable/bg_round_corners_button</item>
     </style>
 
+    <style name="CreateBookDialog">
+        <item name="android:windowBackground">#66000000</item>
+    </style>
 
 
 </resources>

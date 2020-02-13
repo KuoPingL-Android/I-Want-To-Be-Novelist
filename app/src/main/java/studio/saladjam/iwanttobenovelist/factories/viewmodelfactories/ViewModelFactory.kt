@@ -10,8 +10,7 @@ import studio.saladjam.iwanttobenovelist.editorscene.EditorViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
-import studio.saladjam.iwanttobenovelist.profilescene.ProfileFragment
-import studio.saladjam.iwanttobenovelist.profilescene.ProfileViewModel
+import studio.saladjam.iwanttobenovelist.profilescene.*
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import java.lang.IllegalArgumentException
 
@@ -54,6 +53,15 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(EditorViewModel::class.java)
                                     -> EditorViewModel(repository)
+
+                isAssignableFrom(ProfileBookReadingViewModel::class.java)
+                                    -> ProfileBookReadingViewModel(repository)
+
+                isAssignableFrom(ProfileWorkViewModel::class.java)
+                                    -> ProfileWorkViewModel(repository)
+
+                isAssignableFrom(ProfileCreateBookViewModel::class.java)
+                                    -> ProfileCreateBookViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

@@ -7,5 +7,6 @@
     <dimen name="title_text_size">40sp</dimen>
     <dimen name="subtitle_text_size">20sp</dimen>
     <dimen name="subtitle_text_size_larger">28sp</dimen>
-    
+    <dimen name="book_detail_category_size">14dp</dimen>
+
 </resources>

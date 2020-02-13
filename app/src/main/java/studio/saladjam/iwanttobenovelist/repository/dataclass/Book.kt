@@ -3,27 +3,28 @@ package studio.saladjam.iwanttobenovelist.repository.dataclass
 import android.os.Parcelable
 import com.google.firebase.firestore.Query
 import kotlinx.android.parcel.Parcelize
-
+import java.util.*
 
 
 @Parcelize
 data class Book(
     val bookID: String = "",
-    val title: String = "",
-    val subtitle: String = "",
+    var title: String = "",
+    var subtitle: String = "",
     val authorID: String = "",
     val authorName: String = "",
-    val cover: String = "",
-    val summary: String = "",
+    var cover: String = "",
+    var summary: String = "",
     val chapters: List<Chapter> = listOf(),
     val comments: List<Comment> = listOf(),
     val followers: List<Follower> = listOf(),
     val popularity: Long = 0L,
     val totalRecommendation: Long = 0L,
     val recommendationRecords: List<RecommendationRecord>? = null,
-    val createdTime: Long? = null,
-    val lastUpdatedTime: Long? = null,
-    val language: String = "zh"
+    val createdTime: Long = Calendar.getInstance().timeInMillis,
+    val lastUpdatedTime: Long = Calendar.getInstance().timeInMillis,
+    val language: String = "zh",
+    val category: String = "未知"
 ): Parcelable {
     companion object {
         enum class BookKeys(val string: String) {

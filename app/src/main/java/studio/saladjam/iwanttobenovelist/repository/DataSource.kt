@@ -1,5 +1,7 @@
 package studio.saladjam.iwanttobenovelist.repository
 
+import android.graphics.Bitmap
+import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -13,6 +15,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 class DataSource(private val localDataSource: Repository,
                  private val remoteDataSource: Repository): Repository {
+
     override suspend fun loginUser(user: User): Result<Boolean> {
         return remoteDataSource.loginUser(user)
     }
@@ -55,5 +58,17 @@ class DataSource(private val localDataSource: Repository,
         sortedBy: String
     ): Result<List<Book>> {
         return remoteDataSource.getBooks(category, language, sortedBy)
+    }
+
+    override suspend fun getFollowingBooks(user: User): Result<List<Book>> {
+        return remoteDataSource.getFollowingBooks(user)
+    }
+
+    override suspend fun getWorkingBooks(user: User): Result<List<Book>> {
+        return remoteDataSource.getWorkingBooks(user)
+    }
+
+    override suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book> {
+        return remoteDataSource.createBook(title, imageBitmap)
     }
 }

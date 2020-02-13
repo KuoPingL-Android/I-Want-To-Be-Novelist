@@ -1,6 +1,6 @@
 package studio.saladjam.iwanttobenovelist.profilescene
 
-import android.graphics.Rect
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearSnapHelper
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_UNLABELED
+import com.google.android.material.tabs.TabLayoutMediator
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.FragmentProfileBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.extensions.toPx
-import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileRecyclerViewAdapter
+import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileFragmentStateAdapter
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -34,18 +36,69 @@ class ProfileFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.shouldCreateNewBook.observe(this, Observer {
+
+        })
+
+        viewModel.bookSelectedToRead.observe(this, Observer {
             it?.let {
-                ViewModelProviders.of(activity!!).get(MainViewModel::class.java).createNewChapter()
-                viewModel.doneNavigateToNewBook()
+
             }
         })
 
-        binding.recyclerProfile.adapter = ProfileRecyclerViewAdapter(viewModel)
-        (binding.recyclerProfile.adapter as ProfileRecyclerViewAdapter).submitList(mutableListOf("1", "2"))
+        viewModel.bookSelectedToEdit.observe(this, Observer {
+            it?.let {
 
-        LinearSnapHelper().attachToRecyclerView(binding.recyclerProfile)
+            }
+        })
 
+
+        binding.viewpagerProfile.adapter = ProfileFragmentStateAdapter(this, viewModel)
+
+        val fragments = listOf(ProfileBookReadingFragment(viewModel), ProfileWorkFragment(viewModel))
+        (binding.viewpagerProfile.adapter as? ProfileFragmentStateAdapter)?.setFragments(fragments)
+
+        setupTabLayout()
 
         return binding.root
+    }
+
+    private fun setupTabLayout() {
+        binding.tablayoutProfile.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.icon?.setTint(Color.parseColor("#ee888888"))
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.icon?.setTint(Color.parseColor("#000000"))
+            }
+
+        })
+
+        binding.tablayoutProfile.isTabIndicatorFullWidth = false
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        TabLayoutMediator(binding.tablayoutProfile, binding.viewpagerProfile) {tab, position ->
+            tab.setTabLabelVisibility(TAB_LABEL_VISIBILITY_UNLABELED)
+            when(position) {
+                0 -> {
+                    tab.icon = (IWBNApplication.context.getDrawable(R.drawable.bookmark_icon))
+                    tab.icon?.setTint(Color.parseColor("#000000"))
+                }
+
+                1 ->  {
+                    tab.icon = (IWBNApplication.context.getDrawable(R.drawable.pen_icon))
+                    tab.icon?.setTint(Color.parseColor("#ee888888"))
+                }
+            }
+
+
+        }.attach()
     }
 }

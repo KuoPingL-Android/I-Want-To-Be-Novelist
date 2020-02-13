@@ -1,5 +1,8 @@
 package studio.saladjam.iwanttobenovelist.repository
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -23,4 +26,11 @@ interface Repository {
 
     /** CATEGORY */
     suspend fun getBooks(category: String, language: String = "zh", sortedBy: String = ""): Result<List<Book>>
+
+    /** PROFILE PAGE */
+    suspend fun getFollowingBooks(user: User): Result<List<Book>>
+    suspend fun getWorkingBooks(user: User): Result<List<Book>>
+
+    /** CREATE BOOK */
+    suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book>
 }

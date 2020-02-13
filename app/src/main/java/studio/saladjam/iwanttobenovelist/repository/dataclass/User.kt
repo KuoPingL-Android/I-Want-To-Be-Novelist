@@ -1,7 +1,9 @@
 package studio.saladjam.iwanttobenovelist.repository.dataclass
 
 import android.os.Parcelable
+import com.google.firebase.Timestamp
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 enum class Roles(val value: Int) {
     REVIEWER(0), WRITER(1)
@@ -21,15 +23,22 @@ data class User(
     /**COMMENTs*/
     val comments: List<UserComment> = listOf(),
     /**BOOKS*/
-    val bookIDs: List<String> = listOf(),
-    val recommendedBooks: List<String> = listOf(), // BookID
-    val favoriteBooks: List<String> = listOf(), // BookID
+    val workedBooks: List<BookCollection> = listOf(),
+    val recommendedBooks: List<BookCollection> = listOf(), // BookID
+    val favoriteBooks: List<BookCollection> = listOf(), // BookID
     /**FOLLOWERS*/
     val followers: List<Follower> = listOf(), // UserID + createdTime
     val popularity: Long = 0L,
     val authorFollowees: List<Followee> = listOf(), // UserID + createdTime
     val commenterFollowees: List<Followee> = listOf(), // UserID + createdTime
     val bookFollowees: List<BookFollowee> = listOf() // BookID + createdTime
+): Parcelable
+
+@Parcelize
+data class BookCollection(
+    val bookID: String = "",
+    val lastSeenDate: Timestamp = Timestamp(Calendar.getInstance().time),
+    val lastUpdatedDate: Timestamp = Timestamp(Calendar.getInstance().time)
 ): Parcelable
 
 @Parcelize

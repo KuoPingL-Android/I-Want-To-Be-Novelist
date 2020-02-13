@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.shouldCreateNewChapter.observe(this, Observer {
+        viewModel.shouldDisplayBookDetail.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalEditorFragment())
                 showBars(ToolBarBottomNavDisplays.DISPLAYTOOLBARONLY)

@@ -96,7 +96,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         }
     }
 
-    /**LOGIN WITH GOOGLE*/
+    /** LOGIN WITH GOOGLE */
     private val _loginWithGoogle = MutableLiveData<Boolean>()
     val loginWithGoogle: LiveData<Boolean>
         get() = _loginWithGoogle

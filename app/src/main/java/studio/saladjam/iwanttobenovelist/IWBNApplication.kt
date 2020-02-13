@@ -36,6 +36,9 @@ class IWBNApplication : Application() {
                 val activeNetwork = cm.activeNetworkInfo
                 return activeNetwork?.isConnectedOrConnecting == true
             }
+
+        const val PICK_IMAGE_REQUEST = 1
+        const val CAMERA_IMAGE_REQUEST = 2
     }
 
     override fun onCreate() {

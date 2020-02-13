@@ -46,5 +46,8 @@
 
     <string name="user_role_writer">作家</string>
     <string name="user_role_reviewer">評論家</string>
+    <string name="text_create_book">Create Book</string>
+    <string name="text_title">Title</string>
+    <string name="hint_book_title">Enter Book Title</string>
 
 </resources>

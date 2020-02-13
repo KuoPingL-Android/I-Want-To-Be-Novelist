@@ -1,5 +1,7 @@
 package studio.saladjam.iwanttobenovelist.repository
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -21,10 +23,95 @@ import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
+import java.io.ByteArrayOutputStream
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
+
+    /** CREATE BOOK */
+    override suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book> = suspendCoroutine { continuation ->
+        val bookDoc = IWBNApplication.container.bookCollection.document()
+
+        // GET BOOK ID
+        val bookID = bookDoc.id
+
+        val storageRef = IWBNApplication.container.fireStorage.reference
+        val byteArrayOutput = ByteArrayOutputStream()
+
+        Logger.i("imageBitmap.byteCount=${imageBitmap.byteCount}")
+
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutput)
+        val bytes = byteArrayOutput.toByteArray()
+
+        val uploadTask = storageRef.child(bookID + "/cover.jpg").putBytes(bytes)
+
+        uploadTask
+            .addOnSuccessListener {
+                Logger.i("${it.metadata}")
+
+                if (it.metadata != null &&
+                    it.metadata?.path != null && it?.metadata?.bucket != null) {
+
+                    val book = Book(
+                        bookID,
+                        title,
+                        authorID = IWBNApplication.user.userID,
+                        authorName = IWBNApplication.user.name,
+                        createdTime = it.metadata?.creationTimeMillis ?: Calendar.getInstance().timeInMillis,
+                        cover = "gs://" + it.metadata!!.bucket + it.metadata!!.path)
+
+                    IWBNApplication.container.bookCollection.document(bookID).set(book)
+                        .addOnSuccessListener { Result.Success(book) }
+                        .addOnCanceledListener { Result.Fail("CANCELED") }
+                        .addOnFailureListener { Result.Error(it) }
+
+
+                } else {
+                    continuation.resume(Result.Fail("ERROR in METADATA"))
+                }
+
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener{ continuation.resume(Result.Error(it)) }
+    }
+
+    /** PROFILE PAGE */
+    override suspend fun getFollowingBooks(user: User): Result<List<Book>>
+            = suspendCoroutine {continuation ->
+
+        val bookIDs = user.favoriteBooks.sortedBy { it.lastSeenDate }.map { it.bookID }.reversed()
+
+        IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
+            .addOnSuccessListener {
+                val books = it.toObjects(Book::class.java)
+                continuation.resume(Result.Success(books))
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
+    override suspend fun getWorkingBooks(user: User): Result<List<Book>> = suspendCoroutine { continuation ->
+        val bookIDs = user.workedBooks.sortedBy { it.lastUpdatedDate }.map { it.bookID }.reversed()
+        IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
+            .addOnSuccessListener {
+                val books = it.toObjects(Book::class.java)
+                continuation.resume(Result.Success(books))
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
+    private suspend fun getBooksFromIDs(bookIDs: List<String>): Result<List<Book>> = suspendCoroutine { continuation ->
+        IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
+            .addOnSuccessListener {
+                val books = it.toObjects(Book::class.java)
+                continuation.resume(Result.Success(books))
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
 
     /** CATEGORY PAGE */
     override suspend fun getBooks(category: String,
@@ -146,11 +233,11 @@ object IWBNRemoteDataSource: Repository {
     }
 
     override suspend fun getUserWork(user: User): Result<List<Book>> = suspendCoroutine {continuation ->
-        if (user.bookIDs.isEmpty()) {
+        if (user.workedBooks.isEmpty()) {
             continuation.resume(Result.Success(listOf()))
         } else {
             /** FETCH the BOOKs within the LIST */
-            IWBNApplication.container.bookCollection.whereIn("bookID", user.bookIDs).get()
+            IWBNApplication.container.bookCollection.whereIn("workedBooks", user.workedBooks).get()
                 .addOnCompleteListener { bookTask ->
                     if (bookTask.isSuccessful) {
                         val result = bookTask.result?.toObjects(Book::class.java)
@@ -254,6 +341,7 @@ object IWBNRemoteDataSource: Repository {
                             continuation.resume(Result.Fail(e.toString()))
                         }
                     }
+
 
                     val parameters = Bundle()
                     parameters.putString("fields", "id, name, email")

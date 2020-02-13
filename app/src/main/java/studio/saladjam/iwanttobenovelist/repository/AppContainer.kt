@@ -16,6 +16,7 @@ class AppContainer(val context: Context) {
     val categoryCollection = fireStore.collection("categories")
     val recommendation = bookCollection.document("recommendations")
         .collection("general")
+    val fireStorage = FirebaseStorage.getInstance()
 
     // Access a Cloud Firestore instance from your Activity
     fun getStorageInstance(url: String): StorageReference {

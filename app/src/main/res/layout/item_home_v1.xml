@@ -23,7 +23,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent">
+        android:background="@color/iwbn_primary_color">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layer_item_home_v1_title"
             android:layout_width="match_parent"
@@ -61,6 +61,7 @@
                 android:textStyle="bold"
                 android:onClick="@{()->viewModel.pressedSeeAllOn(homeSection)}"/>
             <androidx.recyclerview.widget.RecyclerView
+                android:background="@color/iwbn_primary_color"
                 android:id="@+id/recycler_item_home_v1"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

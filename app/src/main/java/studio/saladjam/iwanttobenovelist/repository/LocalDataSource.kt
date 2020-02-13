@@ -1,6 +1,8 @@
 package studio.saladjam.iwanttobenovelist.repository
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -51,6 +53,18 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         language: String,
         sortedBy: String
     ): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getFollowingBooks(user: User): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getWorkingBooks(user: User): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -39,6 +39,8 @@ fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
         is CategoryListAdapter -> {
             adapter.submitList(books)
         }
+
+
     }
 }
 
