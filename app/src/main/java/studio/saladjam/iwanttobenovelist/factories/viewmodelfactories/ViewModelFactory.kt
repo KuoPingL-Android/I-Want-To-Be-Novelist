@@ -3,6 +3,8 @@ package studio.saladjam.iwanttobenovelist.factories.viewmodelfactories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailReaderViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewModel
 import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
@@ -62,6 +64,12 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(ProfileCreateBookViewModel::class.java)
                                     -> ProfileCreateBookViewModel(repository)
+
+                isAssignableFrom(BookDetailWriterViewModel::class.java)
+                                    -> BookDetailWriterViewModel(repository)
+
+                isAssignableFrom(BookDetailReaderViewModel::class.java)
+                                    -> BookDetailReaderViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

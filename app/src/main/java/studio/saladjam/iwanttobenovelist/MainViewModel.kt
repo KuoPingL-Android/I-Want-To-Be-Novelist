@@ -97,15 +97,43 @@ class MainViewModel: ViewModel() {
         _shouldDisplayBookDetail.value = null
     }
 
-    private val _shouldCreateNewBook = MutableLiveData<Boolean>()
-    val shouldCreateNewBook: LiveData<Boolean>
-        get() = _shouldCreateNewBook
+//    private val _shouldCreateNewBook = MutableLiveData<Boolean>()
+//    val shouldCreateNewBook: LiveData<Boolean>
+//        get() = _shouldCreateNewBook
+//
+//    fun createNewBook() {
+//        _shouldCreateNewBook.value = true
+//    }
+//
+//    fun doneNavigateToNewBook() {
+//        _shouldCreateNewBook.value = null
+//    }
 
-    fun createNewBook() {
-        _shouldCreateNewBook.value = true
+    /** NAVIGATE to BOOK DETAIL --- DIVIDED into WRITER and READER VERSION */
+    // WRITER
+    private val _selectBookToEdit = MutableLiveData<Book>()
+    val selectBookToEdit: LiveData<Book>
+        get() = _selectBookToEdit
+
+    fun displayEditingBook(book: Book) {
+        _selectBookToEdit.value = book
     }
 
-    fun doneNavigateToNewBook() {
-        _shouldCreateNewBook.value = null
+    fun doneDisplayingEditingBook() {
+        _selectBookToEdit.value = null
     }
+
+    // READER
+    private val _selectedBookToRead = MutableLiveData<Book>()
+    val selectedBookToRead: LiveData<Book>
+        get() = _selectedBookToRead
+
+    fun displayReadingBook(book: Book) {
+        _selectedBookToRead.value = book
+    }
+
+    fun doneDisplayingReadingBook() {
+        _selectedBookToRead.value = null
+    }
+
 }

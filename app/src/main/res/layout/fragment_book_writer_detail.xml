@@ -7,7 +7,10 @@
         <variable
             name="book"
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book"/>
-
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewModel" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,10 +42,10 @@
                 android:layout_marginStart="16dp"
                 android:backgroundTint="@color/iwbn_primary_color"
                 android:background="@drawable/back_icon" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layer_book_writer_detail_cover"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             app:layout_constraintTop_toTopOf="parent">
@@ -53,7 +56,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/placeholder"
-                app:fireStorageImageUrl="@{book.cover}"/>
+                app:fireStorageImageUrl="@{viewModel.book.cover}"/>
 
             <View
                 android:id="@+id/view_book_writer"
@@ -66,10 +69,71 @@
                 android:background="#000"
                 android:alpha="0.6"/>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ImageView
+            android:id="@+id/text_book_writer_detail_add_new_chapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/layer_book_writer_detail_cover"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/transparent"
+            android:textColor="#888"
+            android:src="@drawable/add"
+            android:clickable="true"
+            android:onClick="@{()->viewModel.addChapter()}"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Add New Journey"
+            android:visibility="@{viewModel.chapters.size() == 0 ? View.GONE:View.VISIBLE}"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_book_writer_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:bookDetailSealedItems="@{viewModel.sealedItems}"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="@{viewModel.chapters.size() == 0 ? View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/layer_book_writer_detail_cover"
+            app:layout_constraintBottom_toBottomOf="parent">
 
+            <ImageView
+                android:id="@+id/image_book_writer_detail_no_chapter"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.5"
+                android:src="@drawable/write_icon"
+                android:tint="#888"
+                android:alpha="0.2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/image_book_writer_detail_no_chapter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:text="Begin A Journey"
+                android:alpha="0.2"
+                android:textColor="#888"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:background="@drawable/bg_round_corners_button"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.addChapter()}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -114,10 +114,33 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        /** NAVIGATE TO BOOK READING FRAGMENT */
+        viewModel.selectBookToEdit.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalBookWriteDetailFragment(it))
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                viewModel.doneDisplayingEditingBook()
+            }
+        })
+
+
+        /** NAVIGATE TO BOOK EDITING FRAGMENT */
+        viewModel.selectedBookToRead.observe(this, Observer {
+            it?.let {
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                viewModel.doneDisplayingReadingBook()
+            }
+        })
+
+
         currentFragment = R.layout.fragment_login
 
         // NAVIGATION
         binding.bottomnavMain.setOnNavigationItemSelectedListener(bottomNavOnItemSelectedListener)
+    }
+
+    private fun setupOnNaigateListener() {
+
     }
 
     override fun onBackPressed() {

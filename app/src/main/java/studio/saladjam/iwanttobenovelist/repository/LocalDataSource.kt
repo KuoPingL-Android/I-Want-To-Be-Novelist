@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 class IWBNLocalDataSource(private val context: Context): Repository {
@@ -40,7 +41,7 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getUserWork(user: User): Result<List<Book>> {
+    override suspend fun getUserWork(user: User, limit: Long?): Result<List<Book>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -60,11 +61,11 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getWorkingBooks(user: User): Result<List<Book>> {
+    override suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book> {
+    override suspend fun getChaptersIn(book: Book): Result<List<Chapter>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

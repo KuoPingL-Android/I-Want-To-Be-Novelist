@@ -23,7 +23,6 @@ data class User(
     /**COMMENTs*/
     val comments: List<UserComment> = listOf(),
     /**BOOKS*/
-    val workedBooks: List<BookCollection> = listOf(),
     val recommendedBooks: List<BookCollection> = listOf(), // BookID
     val favoriteBooks: List<BookCollection> = listOf(), // BookID
     /**FOLLOWERS*/

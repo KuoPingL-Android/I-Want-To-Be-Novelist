@@ -44,7 +44,7 @@ class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
         if(IWBNApplication.isNetworkConnected) {
             coroutineScope.launch {
 
-                val result = repository.getFollowingBooks(IWBNApplication.user)
+                val result = repository.getUserWork(IWBNApplication.user)
 
                 _writtenBooks.value = when (result) {
                     is Result.Success -> {

@@ -21,7 +21,7 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_profile_workitem"
-            />
+            app:books="@{viewModel.writtenBooks}" />
         <ImageButton
             android:id="@+id/button_profile_work_new_work"
             android:layout_width="50dp"

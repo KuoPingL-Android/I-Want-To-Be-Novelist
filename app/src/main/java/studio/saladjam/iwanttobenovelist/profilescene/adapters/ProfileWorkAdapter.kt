@@ -15,9 +15,10 @@ class ProfileWorkAdapter(private val viewModel: ProfileWorkViewModel) :ListAdapt
     }
 
     override fun onBindViewHolder(holder: ProfileWorkViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val book = getItem(position)
+        holder.bind(book)
         holder.itemView.setOnClickListener {
-            //TODO: SETUP ONCLICKLISTNER
+            viewModel.editBook(book)
         }
     }
 

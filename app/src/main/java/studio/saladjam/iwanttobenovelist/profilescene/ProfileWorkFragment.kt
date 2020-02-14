@@ -29,6 +29,8 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
         binding.recyclerProfileWork.adapter = ProfileWorkAdapter(viewModel)
         binding.viewModel = viewModel
 
+        val mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
         //TODO: SETUP RECYCLER VIEW DATA
         viewModel.shouldCreateNewBook.observe(this, Observer {
             it?.let {
@@ -42,13 +44,9 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
 
         viewModel.selectBookForDisplayDetail.observe(this, Observer {
             it?.let {
-                viewModel.fetchUserWork()
+                mainViewModel.displayEditingBook(it)
                 viewModel.doneShowingBookDetail()
             }
-        })
-
-        viewModel.selectBookForDisplayDetail.observe(this, Observer {
-
         })
 
         viewModel.fetchUserWork()

@@ -3,11 +3,13 @@ package studio.saladjam.iwanttobenovelist.repository
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
+import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 class AppContainer(val context: Context) {
     val fireStore = FirebaseFirestore.getInstance()
@@ -16,6 +18,19 @@ class AppContainer(val context: Context) {
     val categoryCollection = fireStore.collection("categories")
     val recommendation = bookCollection.document("recommendations")
         .collection("general")
+
+    fun getWrittenBookRefFrom(userID: String): CollectionReference {
+        return userCollection.document(userID).collection("works")
+    }
+
+    fun getChaptersRefFrom(bookID: String): CollectionReference {
+        return bookCollection.document(bookID).collection("chapters")
+    }
+
+    fun getFollowingBookRefFrom(userID: String): CollectionReference {
+        return userCollection.document(userID).collection("books")
+    }
+
     val fireStorage = FirebaseStorage.getInstance()
 
     // Access a Cloud Firestore instance from your Activity

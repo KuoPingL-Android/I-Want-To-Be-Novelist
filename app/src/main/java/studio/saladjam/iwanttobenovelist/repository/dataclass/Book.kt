@@ -2,6 +2,7 @@ package studio.saladjam.iwanttobenovelist.repository.dataclass
 
 import android.os.Parcelable
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.model.value.ReferenceValue
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -57,9 +58,19 @@ data class Chapter(
     val chapterIndex: Int = 0,
     val title: String = "",
     val subtitle: String = "",
-    val sections: List<Section>? = null,
+//    val sections: List<Section>? = null,
     val popularity: Long = 0L
-): Parcelable
+): Parcelable {
+    companion object {
+        enum class ChapterKeys(val string: String) {
+            BOOKID("bookID"),
+            INDEX("chapterIndex"),
+            TITLE("title"),
+            SUBTITLE("subtitle"),
+            POPULARITY("popularity")
+        }
+    }
+}
 
 @Parcelize
 data class Section(

@@ -7,6 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 /**
@@ -44,7 +45,7 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.getUserRecommendedList(user)
     }
 
-    override suspend fun getUserWork(user: User): Result<List<Book>> {
+    override suspend fun getUserWork(user: User, limit: Long?): Result<List<Book>> {
         return remoteDataSource.getUserWork(user)
     }
 
@@ -64,11 +65,11 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.getFollowingBooks(user)
     }
 
-    override suspend fun getWorkingBooks(user: User): Result<List<Book>> {
-        return remoteDataSource.getWorkingBooks(user)
-    }
-
     override suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book> {
         return remoteDataSource.createBook(title, imageBitmap)
+    }
+
+    override suspend fun getChaptersIn(book: Book): Result<List<Chapter>> {
+        return remoteDataSource.getChaptersIn(book)
     }
 }

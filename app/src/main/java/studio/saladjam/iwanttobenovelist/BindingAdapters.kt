@@ -7,11 +7,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
+import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecyclerViewAdapter
+import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileWorkAdapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
@@ -44,15 +47,42 @@ fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
     }
 }
 
+@BindingAdapter("books")
+fun bindBooks(recyclerView: RecyclerView, books: List<Book>?) {
+    val adapter = recyclerView.adapter
+
+    when (adapter) {
+        is HomeBookRecyclerAdapter -> {
+            adapter.submitList(books)
+        }
+
+        is CategoryListAdapter -> {
+            adapter.submitList(books)
+        }
+
+        is ProfileWorkAdapter -> {
+            adapter.submitList(books)
+        }
+
+
+    }
+}
+
 @BindingAdapter("homeSealedItems")
 fun bindHomeSealedItem(recyclerView: RecyclerView, items: List<HomeSealItems>?) {
     val adapter = recyclerView.adapter
     (adapter as? HomeRecyclerAdpaterV1)?.submitList(items)
 }
 
-@BindingAdapter("chapters")
-fun bindChapter(recyclerView: RecyclerView, chapters: List<Chapter>?) {
-    TODO("IMPLEMENT THIS")
+@BindingAdapter("bookDetailSealedItems")
+fun bindChapter(recyclerView: RecyclerView, bookDetailSealedItems: List<BookDetailSealedItem>?) {
+    val adapter = recyclerView.adapter
+
+    when(adapter) {
+        is BookDetailWriterAdpater -> {
+            adapter.submitList(bookDetailSealedItems)
+        }
+    }
 }
 
 /** IMAGE URL */

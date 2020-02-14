@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 interface Repository {
@@ -20,7 +21,7 @@ interface Repository {
 
     /** HOME PAGE */
     suspend fun getUserRecommendedList(user: User): Result<List<Book>>
-    suspend fun getUserWork(user: User): Result<List<Book>>
+    suspend fun getUserWork(user: User, limit: Long? = null): Result<List<Book>>
     suspend fun getUserFollowing(user: User): Result<List<Book>>
     suspend fun getMostPopularBooks(): Result<List<Book>>
 
@@ -29,8 +30,10 @@ interface Repository {
 
     /** PROFILE PAGE */
     suspend fun getFollowingBooks(user: User): Result<List<Book>>
-    suspend fun getWorkingBooks(user: User): Result<List<Book>>
 
     /** CREATE BOOK */
     suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book>
+
+    /**  FETCH BOOK CHAPTERS */
+    suspend fun getChaptersIn(book: Book): Result<List<Chapter>>
 }
