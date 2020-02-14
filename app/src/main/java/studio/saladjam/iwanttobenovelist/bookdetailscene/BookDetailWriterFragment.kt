@@ -42,7 +42,7 @@ class BookDetailWriterFragment : Fragment() {
 
         viewModel.shouldAddChapter.observe(this, Observer {
             it?.let {
-//                (ViewModelProviders.of(activity!! as MainActivity).get(MainViewModel::class.java))
+                (ViewModelProviders.of(activity!! as MainActivity).get(MainViewModel::class.java))
                 viewModel.donePreparingNewChapter()
             }
         })

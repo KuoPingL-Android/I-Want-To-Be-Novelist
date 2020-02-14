@@ -76,38 +76,6 @@ class MainViewModel: ViewModel() {
         _selectedBook.value = null
     }
 
-    /** NAVIGATE to EDITOR with CHAPTER */
-    private val _selectedChapterForEditing = MutableLiveData<Chapter>()
-    val selectedChapterForEditing: LiveData<Chapter>
-        get() = _selectedChapterForEditing
-
-    fun selectChapter(chapter: Chapter?) {
-
-    }
-
-    private val _shouldDisplayBookDetail = MutableLiveData<Boolean>()
-    val shouldDisplayBookDetail:LiveData<Boolean>
-        get() = _shouldDisplayBookDetail
-
-    fun createDisplayBookDetail() {
-        _shouldDisplayBookDetail.value = true
-    }
-
-    fun doneNavigateToNewChapter() {
-        _shouldDisplayBookDetail.value = null
-    }
-
-//    private val _shouldCreateNewBook = MutableLiveData<Boolean>()
-//    val shouldCreateNewBook: LiveData<Boolean>
-//        get() = _shouldCreateNewBook
-//
-//    fun createNewBook() {
-//        _shouldCreateNewBook.value = true
-//    }
-//
-//    fun doneNavigateToNewBook() {
-//        _shouldCreateNewBook.value = null
-//    }
 
     /** NAVIGATE to BOOK DETAIL --- DIVIDED into WRITER and READER VERSION */
     // WRITER
@@ -122,6 +90,32 @@ class MainViewModel: ViewModel() {
     fun doneDisplayingEditingBook() {
         _selectBookToEdit.value = null
     }
+
+    /** NAVIGATE to EDITOR with CHAPTER */
+    private val _selectedChapterForEditing = MutableLiveData<Chapter>()
+    val selectedChapterForEditing: LiveData<Chapter>
+        get() = _selectedChapterForEditing
+
+    fun selectChapter(chapter: Chapter) {
+        _selectedChapterForEditing.value = chapter
+    }
+
+    fun doneNavigateToEditor() {
+        _selectedChapterForEditing.value = null
+    }
+
+    private val _shouldDisplayBookDetail = MutableLiveData<Boolean>()
+    val shouldDisplayBookDetail:LiveData<Boolean>
+        get() = _shouldDisplayBookDetail
+
+    fun createDisplayBookDetail() {
+        _shouldDisplayBookDetail.value = true
+    }
+
+    fun doneNavigateToNewChapter() {
+        _shouldDisplayBookDetail.value = null
+    }
+
 
     // READER
     private val _selectedBookToRead = MutableLiveData<Book>()
