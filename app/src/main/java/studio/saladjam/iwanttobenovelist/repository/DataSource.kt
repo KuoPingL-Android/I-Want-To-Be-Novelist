@@ -72,4 +72,8 @@ class DataSource(private val localDataSource: Repository,
     override suspend fun getChaptersIn(book: Book): Result<List<Chapter>> {
         return remoteDataSource.getChaptersIn(book)
     }
+
+    override suspend fun postChapter(chapter: Chapter): Result<Boolean> {
+        return remoteDataSource.postChapter(chapter)
+    }
 }

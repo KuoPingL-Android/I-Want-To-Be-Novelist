@@ -49,5 +49,7 @@
     <string name="text_create_book">Create Book</string>
     <string name="text_title">Title</string>
     <string name="hint_book_title">Enter Book Title</string>
+    <string name="hint_chapter_title">Chapter Title</string>
+    <string name="hint_editor_text_content">Your Journey Begins Here ...</string>
 
 </resources>

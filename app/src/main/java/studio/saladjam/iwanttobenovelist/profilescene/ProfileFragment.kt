@@ -35,22 +35,6 @@ class ProfileFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModel.shouldCreateNewBook.observe(this, Observer {
-
-        })
-
-        viewModel.bookSelectedToRead.observe(this, Observer {
-            it?.let {
-
-            }
-        })
-
-        viewModel.bookSelectedToEdit.observe(this, Observer {
-            it?.let {
-
-            }
-        })
-
 
         binding.viewpagerProfile.adapter = ProfileFragmentStateAdapter(this, viewModel)
 

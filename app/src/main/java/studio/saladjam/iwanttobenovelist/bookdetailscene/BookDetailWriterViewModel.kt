@@ -84,6 +84,8 @@ class BookDetailWriterViewModel (private val repository: Repository): ViewModel(
             return
         }
         _shouldAddChapter.value = true
+
+        // FETCH BOOK TOTAL CHAPTER NUMBERS
     }
 
     fun donePreparingNewChapter() {
@@ -119,5 +121,18 @@ class BookDetailWriterViewModel (private val repository: Repository): ViewModel(
 
             value = sealedItem
         }
+    }
+
+    /** NAVIGATE back to PREVIOUS PAGE */
+    private val _shouldGoBackToPreviousPage = MutableLiveData<Boolean>()
+    val shouldGoBackToPreviousPage: LiveData<Boolean>
+        get() = _shouldGoBackToPreviousPage
+
+    fun backToPreviousPage() {
+        _shouldGoBackToPreviousPage.value = true
+    }
+
+    fun doneNavigatingToPreviousPage() {
+        _shouldGoBackToPreviousPage.value = null
     }
 }

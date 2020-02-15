@@ -8,6 +8,7 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewMod
 import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
+import studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
@@ -70,6 +71,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(BookDetailReaderViewModel::class.java)
                                     -> BookDetailReaderViewModel(repository)
+
+                isAssignableFrom(EditorTextViewModel::class.java)
+                                    -> EditorTextViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

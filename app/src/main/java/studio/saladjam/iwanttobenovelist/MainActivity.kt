@@ -106,15 +106,16 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.shouldDisplayBookDetail.observe(this, Observer {
-            it?.let {
-                nav.navigate(NavigationDirections.actionGlobalEditorFragment())
-                showBars(ToolBarBottomNavDisplays.DISPLAYTOOLBARONLY)
-                viewModel.doneNavigateToNewChapter()
-            }
-        })
 
-        /** NAVIGATE TO BOOK READING FRAGMENT */
+//        viewModel.shouldDisplayBookDetail.observe(this, Observer {
+//            it?.let {
+//                nav.navigate(NavigationDirections.actionGlobalEditorFragment())
+//                showBars(ToolBarBottomNavDisplays.DISPLAYTOOLBARONLY)
+//                viewModel.doneNavigateToNewChapter()
+//            }
+//        })
+
+        /** NAVIGATE TO BOOK EDITING FRAGMENT */
         viewModel.selectBookToEdit.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalBookWriteDetailFragment(it))
@@ -123,15 +124,22 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        /** NAVIGATE TO CHAPTER EDITING FRAGMENT */
+        viewModel.selectedChapterForEditing.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalEditorTextFragment(it))
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                viewModel.doneNavigateToEditor()
+            }
+        })
 
-        /** NAVIGATE TO BOOK EDITING FRAGMENT */
+        /** NAVIGATE TO BOOK READING FRAGMENT */
         viewModel.selectedBookToRead.observe(this, Observer {
             it?.let {
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneDisplayingReadingBook()
             }
         })
-
 
         currentFragment = R.layout.fragment_login
 

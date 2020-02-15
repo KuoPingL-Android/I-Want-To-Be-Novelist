@@ -96,7 +96,7 @@ class MainViewModel: ViewModel() {
     val selectedChapterForEditing: LiveData<Chapter>
         get() = _selectedChapterForEditing
 
-    fun selectChapter(chapter: Chapter) {
+    fun selectChapterToEdit(chapter: Chapter) {
         _selectedChapterForEditing.value = chapter
     }
 

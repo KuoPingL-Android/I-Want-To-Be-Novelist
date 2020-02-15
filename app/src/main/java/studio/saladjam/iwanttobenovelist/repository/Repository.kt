@@ -36,4 +36,7 @@ interface Repository {
 
     /**  FETCH BOOK CHAPTERS */
     suspend fun getChaptersIn(book: Book): Result<List<Chapter>>
+
+    /** SAVING CHAPTER */
+    suspend fun postChapter(chapter: Chapter): Result<Boolean>
 }

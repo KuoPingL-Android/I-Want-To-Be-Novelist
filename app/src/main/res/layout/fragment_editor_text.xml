@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layer_editor"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/edit_editor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="top|start"
+            android:text="@={viewModel.chapter.text}"
+            android:paddingTop="76dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:paddingBottom="76dp"
+            android:hint="@string/hint_editor_text_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#000"
+            android:alpha="0.8"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textStyle="bold"
+                android:text="Next"
+                android:textColor="@color/iwbn_primary_color"
+                android:textSize="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:clickable="true"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#000"
+            android:alpha="0.8">
+
+            <ImageView
+                android:id="@+id/image_editor_text_back"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:tint="@color/iwbn_primary_color"
+                android:src="@drawable/back_icon"
+                android:onClick="@{()->viewModel.backToPreviousPage()}"
+                android:clickable="true" />
+
+            <EditText
+                android:id="@+id/edit_editor_text_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toEndOf="@id/image_editor_text_back"
+                app:layout_constraintEnd_toStartOf="@id/text_editor_text_save"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:backgroundTint="@color/iwbn_primary_color"
+                android:textColor="@color/iwbn_primary_color"
+                android:textColorHint="#888"
+                android:hint="@string/hint_chapter_title"
+                android:textAlignment="center"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:text="@={viewModel.chapter.title}"/>
+
+            <TextView
+                android:id="@+id/text_editor_text_save"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:text="Save"
+                android:textColor="@color/iwbn_primary_color"
+                android:textSize="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textStyle="bold"
+                android:visibility="@{viewModel.isSavingText == true ? View.INVISIBLE : View.VISIBLE}"
+                android:enabled="@{viewModel.isSavingText == true ? false:true}"
+                android:onClick="@{()->viewModel.saveChapter()}"/>
+
+            <ProgressBar
+                android:layout_width="20dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewModel.isSavingText == true ? View.VISIBLE:View.GONE}"
+                app:layout_constraintTop_toTopOf="@id/text_editor_text_save"
+                app:layout_constraintBottom_toBottomOf="@id/text_editor_text_save"
+                app:layout_constraintStart_toStartOf="@id/text_editor_text_save"
+                app:layout_constraintEnd_toEndOf="@id/text_editor_text_save"
+                android:indeterminateTint="@color/iwbn_primary_color"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

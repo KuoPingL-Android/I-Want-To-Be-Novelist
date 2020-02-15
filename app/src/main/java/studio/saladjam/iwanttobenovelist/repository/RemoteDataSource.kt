@@ -30,6 +30,39 @@ import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
 
+    /** ADD a CHAPTER to the book */
+    override suspend fun postChapter(chapter: Chapter): Result<Boolean> = suspendCoroutine { continuation ->
+
+        var chapterID = chapter.chapterID
+        val bookID = chapter.bookID
+        val chapterIndex = chapter.chapterIndex
+
+        val isNewChapter = chapterID.isEmpty()
+
+        if (chapterID.isEmpty()) chapterID = IWBNApplication.container.getChaptersRefFrom(chapter.bookID).document().id
+
+        chapter.chapterID = chapterID
+
+        IWBNApplication.container
+            .getChaptersRefFrom(bookID)
+            .document(chapterID)
+            .set(chapter)
+            .addOnSuccessListener {
+
+                if (isNewChapter) {
+                    IWBNApplication.container.bookCollection.document(bookID)
+                        .update(Book.Companion.BookKeys.CHAPTERCOUNT.string, chapterIndex + 1)
+                        .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                } else {
+                    continuation.resume(Result.Success(true))
+                }
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
     /** GET CHAPTERs FROM BOOK */
     override suspend fun getChaptersIn(book: Book): Result<List<Chapter>> = suspendCoroutine { continuation ->
         IWBNApplication.container.getChaptersRefFrom(book.bookID)

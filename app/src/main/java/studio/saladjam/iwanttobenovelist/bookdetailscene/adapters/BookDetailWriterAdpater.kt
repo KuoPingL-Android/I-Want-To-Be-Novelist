@@ -35,7 +35,11 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailWriterViewModel):
             }
 
             is BookDetailWriterChaptersViewHolder -> {
-                holder.bind((getItem(position) as BookDetailSealedItem.Chapters).chapter, viewModel)
+                val chapter = (getItem(position) as BookDetailSealedItem.Chapters).chapter
+                holder.bind(chapter)
+                holder.itemView.setOnClickListener {
+                    viewModel.editChapter(chapter)
+                }
             }
         }
     }

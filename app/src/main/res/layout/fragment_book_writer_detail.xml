@@ -41,7 +41,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
                 android:backgroundTint="@color/iwbn_primary_color"
-                android:background="@drawable/back_icon" />
+                android:background="@drawable/back_icon"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.backToPreviousPage()}"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,23 +74,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/text_book_writer_detail_add_new_chapter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/layer_book_writer_detail_cover"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@android:color/transparent"
-            android:textColor="#888"
-            android:src="@drawable/add"
-            android:clickable="true"
-            android:onClick="@{()->viewModel.addChapter()}"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="Add New Journey"
-            android:visibility="@{viewModel.chapters.size() == 0 ? View.GONE:View.VISIBLE}"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_book_writer_detail"
@@ -136,6 +123,23 @@
                 android:onClick="@{()->viewModel.addChapter()}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/text_book_writer_detail_add_new_chapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/layer_book_writer_detail_cover"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/transparent"
+            android:textColor="#888"
+            android:src="@drawable/add"
+            android:clickable="true"
+            android:onClick="@{()->viewModel.addChapter()}"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Add New Journey"
+            android:visibility="@{viewModel.chapters.size() == 0 ? View.GONE:View.VISIBLE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

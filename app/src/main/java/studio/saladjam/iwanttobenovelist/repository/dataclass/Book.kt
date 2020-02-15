@@ -16,7 +16,7 @@ data class Book(
     val authorName: String = "",
     var cover: String = "",
     var summary: String = "",
-    val chapters: List<Chapter> = listOf(),
+    val chapterCount: Int = 0,
     val comments: List<Comment> = listOf(),
     val followers: List<Follower> = listOf(),
     val popularity: Long = 0L,
@@ -35,7 +35,8 @@ data class Book(
             CREATEDTIME("createdTime"),
             LASTUPDATEDTIME("lastUpdatedTime"),
             LANGUAGE("language"),
-            POPULARITY("popularity")
+            POPULARITY("popularity"),
+            CHAPTERCOUNT("chapterCount")
         }
     }
 }
@@ -55,11 +56,15 @@ data class RecommendationRecord (
 @Parcelize
 data class Chapter(
     val bookID: String = "",
+    var chapterID: String = "",
     val chapterIndex: Int = 0,
-    val title: String = "",
+    var title: String = "",
     val subtitle: String = "",
 //    val sections: List<Section>? = null,
-    val popularity: Long = 0L
+    var text: String = "",
+    var popularity: Long = 0L,
+    var isOpenToPublic: Boolean = false,
+    var content: String = ""
 ): Parcelable {
     companion object {
         enum class ChapterKeys(val string: String) {
@@ -67,7 +72,10 @@ data class Chapter(
             INDEX("chapterIndex"),
             TITLE("title"),
             SUBTITLE("subtitle"),
-            POPULARITY("popularity")
+            POPULARITY("popularity"),
+            CHAPTERID("chapterID"),
+            ISOPENTOPUBLIC("isOpenToPublic"),
+            TEXT("text")
         }
     }
 }
@@ -75,12 +83,14 @@ data class Chapter(
 @Parcelize
 data class Section(
     val bookID: String = "",
-    val chapterIndex: Int = 0,
+    val chapterID: String = "",
+    val sectionID: String = "",
     val sectionIndex: Int = 0,
     val title: String = "",
     val subtitle: String = "",
     val content: String = "",
     val images: Map<String, String>? = null,
+    val text: String = "",
     val comments: List<Comment>? = null,
     val popularity: Long = 0L
 ): Parcelable

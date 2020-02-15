@@ -100,4 +100,15 @@
     <action
         android:id="@+id/action_global_bookWriteDetailFragment"
         app:destination="@id/bookWriteDetailFragment" />
+    <fragment
+        android:id="@+id/editorTextFragment"
+        android:name="studio.saladjam.iwanttobenovelist.editorscene.EditorTextFragment"
+        android:label="EditorTextFragment" >
+        <argument
+            android:name="chapter"
+            app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_editorTextFragment"
+        app:destination="@id/editorTextFragment" />
 </navigation>
