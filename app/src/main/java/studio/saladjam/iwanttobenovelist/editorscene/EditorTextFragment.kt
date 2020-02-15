@@ -10,8 +10,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.bind
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorTextBinding
@@ -24,6 +26,7 @@ class EditorTextFragment : Fragment() {
     private lateinit var binding: FragmentEditorTextBinding
     private var chapter: Chapter? = null
     private val viewModel by viewModels<EditorTextViewModel> { getVMFactory() }
+    private var mainViewModel: MainViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +39,10 @@ class EditorTextFragment : Fragment() {
         chapter = requireArguments().get("chapter") as? Chapter
         chapter?.let {
             viewModel.prepareChapter(it)
+        }
+
+        activity?.let {
+            mainViewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
         }
 
         binding.editEditorTextTitle.onFocusChangeListener= View.OnFocusChangeListener{v, hasFocus ->
@@ -63,6 +70,15 @@ class EditorTextFragment : Fragment() {
             it?.let {
                 findNavController().navigateUp()
                 viewModel.doneNavigatingToPreviousPage()
+            }
+        })
+
+        viewModel.shouldNavigateToModificationPage.observe(this, Observer {
+            it?.let {
+                chapter?.let {chapter ->
+                    mainViewModel?.navigateToModify(chapter, binding.editEditor.paint)
+                }
+                viewModel.doneNavigateToModificationPage()
             }
         })
 

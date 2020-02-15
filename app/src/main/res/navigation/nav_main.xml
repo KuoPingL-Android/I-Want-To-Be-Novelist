@@ -77,9 +77,9 @@
         android:id="@+id/action_global_bookFragment"
         app:destination="@id/bookFragment" />
     <fragment
-        android:id="@+id/editorFragment"
-        android:name="studio.saladjam.iwanttobenovelist.editorscene.EditorFragment"
-        android:label="EditorFragment" >
+        android:id="@+id/editorMixerFragment"
+        android:name="studio.saladjam.iwanttobenovelist.editorscene.EditorMixerFragment"
+        android:label="EditorMixerFragment" >
         <argument
             android:name="chapter"
             app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter"
@@ -87,8 +87,8 @@
             android:defaultValue="@null" />
     </fragment>
     <action
-        android:id="@+id/action_global_editorFragment"
-        app:destination="@id/editorFragment" />
+        android:id="@+id/action_global_editorMixerFragment"
+        app:destination="@id/editorMixerFragment" />
     <fragment
         android:id="@+id/bookWriteDetailFragment"
         android:name="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterFragment"

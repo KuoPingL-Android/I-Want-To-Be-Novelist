@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -14,9 +13,7 @@ import androidx.lifecycle.Observer
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.DialogProfileBookCreationBinding
-import studio.saladjam.iwanttobenovelist.editorscene.EditorFragment
 import studio.saladjam.iwanttobenovelist.extensions.getBitmap
-import studio.saladjam.iwanttobenovelist.extensions.getSimpleBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 
 class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) : AppCompatDialogFragment() {

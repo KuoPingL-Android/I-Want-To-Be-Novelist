@@ -1,5 +1,6 @@
 package studio.saladjam.iwanttobenovelist
 
+import android.graphics.Paint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -104,16 +105,23 @@ class MainViewModel: ViewModel() {
         _selectedChapterForEditing.value = null
     }
 
-    private val _shouldDisplayBookDetail = MutableLiveData<Boolean>()
-    val shouldDisplayBookDetail:LiveData<Boolean>
-        get() = _shouldDisplayBookDetail
+    /** NAVIGATE to MODIFICATION PAGE (adding Images) with Chapter and Paint */
+    private val _selectedChapterForModification = MutableLiveData<Chapter>()
+    val selectedChapterForModifcation: LiveData<Chapter>
+        get() = _selectedChapterForModification
 
-    fun createDisplayBookDetail() {
-        _shouldDisplayBookDetail.value = true
+    private val _modificationBasicPaint = MutableLiveData<Paint>()
+    val modificationBasicPaint: LiveData<Paint>
+        get() = _modificationBasicPaint
+
+    fun navigateToModify(chapter: Chapter, paint: Paint) {
+        _selectedChapterForModification.value = chapter
+        _modificationBasicPaint.value = paint
     }
 
-    fun doneNavigateToNewChapter() {
-        _shouldDisplayBookDetail.value = null
+    fun doneNavigationToModify() {
+        _modificationBasicPaint.value = null
+        _selectedChapterForModification.value = null
     }
 
 

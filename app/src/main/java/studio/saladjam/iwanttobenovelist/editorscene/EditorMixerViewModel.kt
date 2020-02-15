@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.Repository
 
-class EditorViewModel (private val repository: Repository): ViewModel() {
+class EditorMixerViewModel (private val repository: Repository): ViewModel() {
 
     /***/
     private val _shouldStartAddingImages = MutableLiveData<Boolean>()

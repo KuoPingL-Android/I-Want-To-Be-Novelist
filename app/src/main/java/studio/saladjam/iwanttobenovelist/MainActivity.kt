@@ -106,15 +106,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
-//        viewModel.shouldDisplayBookDetail.observe(this, Observer {
-//            it?.let {
-//                nav.navigate(NavigationDirections.actionGlobalEditorFragment())
-//                showBars(ToolBarBottomNavDisplays.DISPLAYTOOLBARONLY)
-//                viewModel.doneNavigateToNewChapter()
-//            }
-//        })
-
         /** NAVIGATE TO BOOK EDITING FRAGMENT */
         viewModel.selectBookToEdit.observe(this, Observer {
             it?.let {
@@ -132,6 +123,17 @@ class MainActivity : AppCompatActivity() {
                 viewModel.doneNavigateToEditor()
             }
         })
+
+        /** NAVIGATE TO MODIFICATION PAGE of CERTAIN CHAPTER */
+        viewModel.selectedChapterForModifcation.observe(this, Observer {
+            it?.let {chapter ->
+                viewModel.modificationBasicPaint.value?.let { paint ->
+
+                }
+            }
+        })
+
+
 
         /** NAVIGATE TO BOOK READING FRAGMENT */
         viewModel.selectedBookToRead.observe(this, Observer {

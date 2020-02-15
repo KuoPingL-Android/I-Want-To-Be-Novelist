@@ -51,7 +51,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:gravity="center"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:onClick="@{()->viewModel.navigateToModificationPage()}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -91,9 +91,16 @@ class EditorTextViewModel(private val repository: Repository) : ViewModel() {
     }
 
     /** NAVIGATE to MODIFICATION PAGE */
+    private val _shouldNavigateToModificationPage = MutableLiveData<Boolean>()
+    val shouldNavigateToModificationPage: LiveData<Boolean>
+        get() = _shouldNavigateToModificationPage
 
     fun navigateToModificationPage() {
+        _shouldNavigateToModificationPage.value = true
+    }
 
+    fun doneNavigateToModificationPage() {
+        _shouldNavigateToModificationPage.value = null
     }
 
 

@@ -2,14 +2,13 @@ package studio.saladjam.iwanttobenovelist.factories.viewmodelfactories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailReaderViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewModel
 import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel
-import studio.saladjam.iwanttobenovelist.editorscene.EditorViewModel
+import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
@@ -54,8 +53,8 @@ class ViewModelFactory(private val repository: Repository)
                 isAssignableFrom(ProfileViewModel::class.java)
                                     -> ProfileViewModel(repository)
 
-                isAssignableFrom(EditorViewModel::class.java)
-                                    -> EditorViewModel(repository)
+                isAssignableFrom(EditorMixerViewModel::class.java)
+                                    -> EditorMixerViewModel(repository)
 
                 isAssignableFrom(ProfileBookReadingViewModel::class.java)
                                     -> ProfileBookReadingViewModel(repository)
