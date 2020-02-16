@@ -33,6 +33,9 @@ constructor( context: Context,
     private val primaryEditText = EditText(context)
     private val primaryPaint: Paint
     private var textHeight = 0
+
+
+
     private var textWidth = 0
     private var charHeight = 0f
     private var charWidth = 0f

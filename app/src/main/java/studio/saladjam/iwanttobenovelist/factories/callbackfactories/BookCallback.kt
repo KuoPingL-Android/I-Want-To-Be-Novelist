@@ -6,9 +6,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 class BookCallback : DiffUtil.ItemCallback<Book>() {
     override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
         return  (oldItem.authorID == newItem.authorID) &&
-                (oldItem.bookID == newItem.bookID) &&
-                (oldItem.createdTime ==  newItem.createdTime) &&
-                (oldItem.lastUpdatedTime == newItem.lastUpdatedTime)
+                (oldItem.bookID == newItem.bookID)
     }
 
     override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {

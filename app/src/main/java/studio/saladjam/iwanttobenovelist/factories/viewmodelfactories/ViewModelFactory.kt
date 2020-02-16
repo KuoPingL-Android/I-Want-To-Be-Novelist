@@ -7,6 +7,7 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewMod
 import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
+import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerV1ViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
@@ -73,6 +74,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(EditorTextViewModel::class.java)
                                     -> EditorTextViewModel(repository)
+
+                isAssignableFrom(EditorMixerV1ViewModel::class.java)
+                                    -> EditorMixerV1ViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

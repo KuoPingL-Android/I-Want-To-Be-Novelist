@@ -127,9 +127,8 @@ class MainActivity : AppCompatActivity() {
         /** NAVIGATE TO MODIFICATION PAGE of CERTAIN CHAPTER */
         viewModel.selectedChapterForModifcation.observe(this, Observer {
             it?.let {chapter ->
-                viewModel.modificationBasicPaint.value?.let { paint ->
-
-                }
+                nav.navigate(NavigationDirections.actionGlobalEditorMixerFragment(chapter))
+                viewModel.doneNavigationToModify()
             }
         })
 

@@ -1,7 +1,5 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
-import android.media.Image
-import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,9 +12,8 @@ import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
-class EditorMixerViewModel (private val repository: Repository): ViewModel() {
+class EditorMixerV1ViewModel(val repository: Repository): ViewModel() {
 
-    /** COROUTINE */
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -25,7 +22,7 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
         job.cancel()
     }
 
-    /** STATUS */
+    /** LOADING STATUS */
     private val _status = MutableLiveData<APILoadingStatus>()
     val status: LiveData<APILoadingStatus>
         get() = _status
@@ -33,55 +30,6 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error
-
-    /** SHOW DIALOG for IMAGES */
-    private val _shouldAddImage = MutableLiveData<Boolean>()
-    val shouldAddImage: LiveData<Boolean>
-        get() = _shouldAddImage
-
-    private val _newImage = MutableLiveData<Image>()
-    val newImage: LiveData<Image>
-        get() = _newImage
-
-    fun addNewImage() {
-        _shouldAddImage.value = true
-    }
-
-    fun doneAddingImage() {
-        _shouldAddImage.value = null
-    }
-
-    fun selectImage(image: Image) {
-        _newImage.value = image
-    }
-
-    /**  */
-
-    /** EDIT TEXT */
-    private val _shouldAddEditText = MutableLiveData<Boolean>()
-    val shouldAddEditText: LiveData<Boolean>
-        get() = _shouldAddEditText
-
-    fun addEditText() {
-        _shouldAddEditText.value = true
-    }
-
-    fun doneAddingEditText() {
-        _shouldAddEditText.value = null
-    }
-
-    /** NAVIGATE back to PREVIOUS PAGE */
-    private val _shouldGoBackToPreviousPage = MutableLiveData<Boolean>()
-    val shouldGoBackToPreviousPage: LiveData<Boolean>
-        get() = _shouldGoBackToPreviousPage
-
-    fun backToPreviousPage() {
-        _shouldGoBackToPreviousPage.value = true
-    }
-
-    fun doneNavigatingToPreviousPage() {
-        _shouldGoBackToPreviousPage.value = null
-    }
 
     /** SAVING CHAPTER */
     private val _isSavingText = MutableLiveData<Boolean>()
@@ -136,6 +84,19 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
         _chapter.value = chapter
 
 
+    }
+
+    /** NAVIGATE back to PREVIOUS PAGE */
+    private val _shouldGoBackToPreviousPage = MutableLiveData<Boolean>()
+    val shouldGoBackToPreviousPage: LiveData<Boolean>
+        get() = _shouldGoBackToPreviousPage
+
+    fun backToPreviousPage() {
+        _shouldGoBackToPreviousPage.value = true
+    }
+
+    fun doneNavigatingToPreviousPage() {
+        _shouldGoBackToPreviousPage.value = null
     }
 
 

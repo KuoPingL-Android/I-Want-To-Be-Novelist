@@ -20,15 +20,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorBinding
+import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorMixerBinding
+import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorMixerV1Binding
 import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
-class EditorMixerFragment(val chapter: Chapter, val paint: Paint) : Fragment() {
-//    private lateinit var binding: FragmentEditorBinding
-    private lateinit var binding: FragmentEditorBinding
+class EditorMixerFragment: Fragment() {
+
+    private lateinit var binding: FragmentEditorMixerBinding
+
     private val viewModel by viewModels<EditorMixerViewModel> { getVMFactory() }
 
 //    private val args by navArgs<EditorFragmentArgs>()
@@ -42,30 +44,18 @@ class EditorMixerFragment(val chapter: Chapter, val paint: Paint) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentEditorBinding.inflate(inflater)
-
-//        (activity as? MainActivity).show
-
-        binding.viewModel = viewModel
+        binding = FragmentEditorMixerBinding.inflate(inflater)
 
 
-
-        viewModel.shouldStartAddingImages.observe(this, Observer {
-            it?.let {
-
-            }
-        })
-
-        viewModel.shouldAddImage.observe(this, Observer {
-            it?.let {
-                val intent = Intent()
-                intent.type = "image/*"
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), PICK_IMAGE_REQUEST)
-            }
-        })
 
         return binding.root
+    }
+
+    private fun displayImagePicker() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), PICK_IMAGE_REQUEST)
     }
 
     private fun buildEditText(string: String) : EditText {
