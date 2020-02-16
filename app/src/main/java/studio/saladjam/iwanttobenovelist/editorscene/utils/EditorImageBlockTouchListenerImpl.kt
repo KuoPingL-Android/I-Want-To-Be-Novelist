@@ -1,11 +1,10 @@
 package studio.saladjam.iwanttobenovelist.editorscene.utils
 
-import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import studio.saladjam.iwanttobenovelist.Logger
 
-class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((view:View)->Unit)? = null) : View.OnTouchListener {
+class EditorImageBlockTouchListenerImpl (val minWidth: Int, val minHeight: Int, val callback: ((view: View)->Unit)? = null) : View.OnTouchListener {
 
     private var originX = 0f
     private var originY = 0f
@@ -17,19 +16,16 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
     private var originUp = false
     private var secondOriginUp = false
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(view: View, event: MotionEvent): Boolean {
 
-        Logger.i("EVENT ${event.rawX}, ${event.rawY}")
-        Logger.i("EVENT ${event.x}, ${event.y}")
+        // EVENT RAW : Returns the original raw X coordinate of this event on the SCREEN
+        // EVENT x/y : ARBITRARY
 
+        /** MAKE SURE EVENT RAWX/RAWY and X/Y are the same */
         event.offsetLocation(event.rawX - event.x, event.rawY - event.y)
 
-        Logger.w("EVENT ${event.rawX}, ${event.rawY}")
-        Logger.w("EVENT ${event.x}, ${event.y}")
-
         when (event.actionMasked) {
-
+            // when being touched
             MotionEvent.ACTION_DOWN -> {
                 // 1 finger
                 originUp = false
@@ -47,19 +43,26 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
             }
             MotionEvent.ACTION_MOVE -> { // a pointer was moved
                 if (event.pointerCount == 2) {
+                    // GET TWO FINGERS DISTANCE
                     val diffX = Math.abs(event.getX(1) - event.getX(0))
                     val diffY = Math.abs(event.getY(1) - event.getY(0))
+
+                    // USE THE PROPORTION between the two DISTANCE to find the SCALE
                     var newWidth = (diffX * view.measuredWidth.toFloat() / lastDiffX).toInt()
                     var newHeight = (diffY * view.measuredHeight.toFloat() / lastDiffY).toInt()
 
+                    // MAKE SURE THE NEW WIDTH and HEIGTH ARE GREATER than the MINWIDTH and HEIGHT
+                    // BEFORE SCALING IT via LAYOUTPARAMS
                     if (newWidth > minWidth && newHeight > minHeight) {
                         val parentWidth = (view.parent as View).width
                         val parentHeight = (view.parent as View).height
                         val params = view.layoutParams
 
+                        // MAKE SURE the MAX X is LESS then PARENT WIDTH
                         if (newWidth + view.x > parentWidth) {
                             newWidth = parentWidth - view.x.toInt()
                         }
+                        // MAKE SURE the MAX Y is less than PARENT HEIGHT
                         if (newHeight + view.y > parentHeight) {
                             newHeight = parentHeight - view.y.toInt()
                         }
@@ -71,6 +74,7 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
                         lastDiffY = diffY
                     }
                 } else if (!originUp && !secondOriginUp) {
+                    // IF BOTH FINGERS ARE UP, then we can move
                     var newX = event.getX(0) + originX
                     var newY = event.getY(0) + originY
 
@@ -104,4 +108,5 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
 
         return true
     }
+
 }

@@ -44,6 +44,7 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
         get() = _newImage
 
     fun addNewImage() {
+        if (_shouldAddImage.value == true) return
         _shouldAddImage.value = true
     }
 

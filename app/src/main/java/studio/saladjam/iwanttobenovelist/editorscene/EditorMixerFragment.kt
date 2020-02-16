@@ -2,6 +2,7 @@ package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,11 +19,17 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.bind
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorMixerBinding
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorMixerV1Binding
+import studio.saladjam.iwanttobenovelist.editorscene.utils.EditorImageBlockTouchListenerImpl
 import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
+import studio.saladjam.iwanttobenovelist.extensions.getBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
@@ -33,7 +40,7 @@ class EditorMixerFragment: Fragment() {
 
     private val viewModel by viewModels<EditorMixerViewModel> { getVMFactory() }
 
-//    private val args by navArgs<EditorFragmentArgs>()
+    private var chapter: Chapter? = null
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
@@ -45,8 +52,30 @@ class EditorMixerFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditorMixerBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+
+        chapter = requireArguments().get("chapter") as Chapter
+
+        chapter?.let {
+            binding.simpleContainer.setContentWithPaint(it, binding.editEditorMix.paint)
+        }
+
+        binding.viewModel = viewModel
 
 
+        viewModel.shouldAddImage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                displayImagePicker()
+                viewModel.doneAddingImage()
+            }
+        })
+
+        viewModel.shouldGoBackToPreviousPage.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigateUp()
+                viewModel.doneNavigatingToPreviousPage()
+            }
+        })
 
         return binding.root
     }
@@ -90,23 +119,16 @@ class EditorMixerFragment: Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            val uri = data.data
-            val bitmap = MediaStore.Images.Media.getBitmap(context!!.contentResolver, uri)
 
-            val imageView = ImageView(context!!)
+            val bitmap = data.data!!.getBitmap(binding.simpleContainer.width / 3, binding.simpleContainer.width / 3)
+
+            val imageView = EditorImageBlock(context!!)
+            val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            imageView.layoutParams = layoutParams
             imageView.setImageBitmap(bitmap)
-
-//            imageView.setOnTouchListener(TouchListenerImpl(50.toPx(), 50.toPx()){
-//                binding.editEditor.updateOrAdd(imageView,  imageView.positionIn(binding.editEditor))
-//            })
-
-            imageView.width
-
-//            binding.layerEditor.addView(imageView)
-
-
-//            binding.layoutEditorPalette.addView(imageView)
-//            binding.scrollviewEditor.addView(imageView)
+            imageView.setBackgroundColor(Color.parseColor("#f11111"))
+            imageView.isClickable = true
+            binding.simpleContainer.addView(imageView)
         }
     }
 }

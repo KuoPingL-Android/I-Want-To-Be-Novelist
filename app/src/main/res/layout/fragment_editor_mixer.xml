@@ -14,6 +14,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <EditText
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            android:id="@+id/edit_editor_mix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layer_editor_mixer_scrollview"
@@ -21,17 +28,30 @@
             android:layout_height="match_parent"
             android:paddingTop="56dp"
             android:paddingBottom="56dp">
-
-            <ScrollView
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@android:color/holo_orange_light"/>
+
+            <studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer
+                android:id="@+id/simple_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"/>
+
+            <!--ScrollView
+                android:id="@+id/scrollview_editor_mixer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
 
-            </ScrollView>
+            </ScrollView-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -42,6 +62,19 @@
             android:background="#000"
             android:alpha="0.8"
             app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@android:color/holo_red_light"
+                android:layout_marginEnd="16dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Delete Image"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -111,7 +144,8 @@
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:src="@drawable/add"
-            app:rippleColor="@color/iwbn_primary_color"/>
+            app:rippleColor="@color/iwbn_primary_color"
+            android:onClick="@{()->viewModel.addNewImage()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -59,6 +59,11 @@ constructor(context: Context,
         layoutParams = params
 
         // TODO : SET LINE SPACING and OTHER DEFAULT SETTINGs
+
+    }
+
+    fun setTextAndPaint() {
+
     }
 
 
