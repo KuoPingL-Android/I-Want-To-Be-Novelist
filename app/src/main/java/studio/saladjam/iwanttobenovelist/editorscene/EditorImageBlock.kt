@@ -16,8 +16,6 @@ import androidx.core.view.marginTop
 import kotlinx.android.synthetic.main.layout_image_block.view.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.databinding.LayoutImageBlockBinding
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import kotlin.math.absoluteValue
 
 class EditorImageBlock @JvmOverloads
@@ -27,19 +25,40 @@ constructor(context: Context,
     ConstraintLayout(context, attrs, defStyle) {
 
     private val mainImageView: ImageView
-    private val closeImageView: ImageView
+    private val deleteImageView: ImageView
     private val expandImageView: ImageView
+    private var deletionEnabled = false
 
     private var isEditing = false
+
+    fun enableDeletion() {
+        deletionEnabled = true
+        deleteImageView.visibility = View.VISIBLE
+    }
+
+    fun disableDeletion() {
+        deletionEnabled = false
+        deleteImageView.visibility = View.GONE
+    }
+
+    var deletionCallback: ((view: View) -> Unit)? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_image_block, this, true).apply {
 
             mainImageView = image_image_block_image
-            closeImageView = image_image_block_close
+            deleteImageView = image_image_block_delete
             expandImageView = image_image_block_expand
-            closeImageView.visibility = View.GONE
+            deleteImageView.visibility = View.GONE
             expandImageView.visibility = View.GONE
+
+
+            deleteImageView.setOnClickListener{
+                deletionCallback?.let {
+                    it(this)
+                }
+            }
+
 
 //            mainImageView.isClickable = false
 //

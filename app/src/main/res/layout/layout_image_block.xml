@@ -15,23 +15,24 @@
             android:id="@+id/image_image_block_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/image_image_block_close"
+            app:layout_constraintTop_toTopOf="@id/image_image_block_delete"
             app:layout_constraintBottom_toBottomOf="@id/image_image_block_expand"
-            app:layout_constraintStart_toStartOf="@id/image_image_block_close"
+            app:layout_constraintStart_toStartOf="@id/image_image_block_delete"
             app:layout_constraintEnd_toEndOf="@id/image_image_block_expand"
 
             tools:src="@drawable/placeholder"
             />
 
         <ImageView
-            android:id="@+id/image_image_block_close"
+            android:id="@+id/image_image_block_delete"
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:src="@drawable/close_icon" 
+            android:src="@drawable/delete_icon"
             android:clickable="true"
-            android:background="@drawable/editor_image_block_buttons"/>
+            android:padding="5dp"
+            />
         
         <ImageView
             android:id="@+id/image_image_block_expand"

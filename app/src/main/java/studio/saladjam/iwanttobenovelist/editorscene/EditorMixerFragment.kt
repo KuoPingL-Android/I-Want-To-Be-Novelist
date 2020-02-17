@@ -2,6 +2,7 @@ package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
@@ -74,6 +75,21 @@ class EditorMixerFragment: Fragment() {
             it?.let {
                 findNavController().navigateUp()
                 viewModel.doneNavigatingToPreviousPage()
+            }
+        })
+
+        viewModel.imageDeleteEnabled.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it) {
+                    binding.simpleContainer.enableDeletion()
+                    binding.textEditorMixerDelete.setTextColor(Color.parseColor("#90ee90"))
+                    binding.textEditorMixerDelete.setText("Done")
+                } else {
+                    binding.simpleContainer.disableDeletion()
+                    binding.textEditorMixerDelete.setTextColor(IWBNApplication.context.getColor(android.R.color.holo_red_light))
+                    binding.textEditorMixerDelete.setText("Delete Image")
+                }
+                viewModel.doneTriggeringImageDeletion()
             }
         })
 

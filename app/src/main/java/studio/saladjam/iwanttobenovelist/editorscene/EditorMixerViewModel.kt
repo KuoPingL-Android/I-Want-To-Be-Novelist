@@ -56,7 +56,20 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
         _newImage.value = image
     }
 
-    /**  */
+    /** DELETE IMAGE TRIGGER */
+    private val _imageDeleteEnabled = MutableLiveData<Boolean>()
+    val imageDeleteEnabled: LiveData<Boolean>
+        get() = _imageDeleteEnabled
+    private var hasImageDeletionEnabled = false
+
+    fun triggerImageDeletion() {
+        _imageDeleteEnabled.value = (!hasImageDeletionEnabled)
+        hasImageDeletionEnabled = !hasImageDeletionEnabled
+    }
+
+    fun doneTriggeringImageDeletion() {
+        _imageDeleteEnabled.value = null
+    }
 
     /** EDIT TEXT */
     private val _shouldAddEditText = MutableLiveData<Boolean>()

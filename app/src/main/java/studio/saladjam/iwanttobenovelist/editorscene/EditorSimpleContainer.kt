@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Point
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import studio.saladjam.iwanttobenovelist.Logger
@@ -248,6 +249,15 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             if (imageBlock.contains(child)) return
 
             val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
+
+            child.deletionCallback = {
+                removeView(it)
+            }
+
+            if (enableDeletion) {
+                child.enableDeletion()
+            }
+
             imageBlock.put(child, frame)
             invalidate()
 
@@ -258,6 +268,15 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                 invalidate()
             }
         }
+    }
+
+    override fun removeView(view: View?) {
+        super.removeView(view)
+        if (view is EditorImageBlock) {
+            imageBlock.remove(view)
+            invalidate()
+        }
+
     }
 
     private fun findWordInterceptingView(wordFrame: Frame): View? {
@@ -273,5 +292,17 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
         }
 
         return null
+    }
+
+    private var enableDeletion = false
+
+    fun enableDeletion() {
+        enableDeletion = true
+        imageBlock.keys.forEach { it.enableDeletion() }
+    }
+
+    fun disableDeletion() {
+        enableDeletion = false
+        imageBlock.keys.forEach { it.disableDeletion() }
     }
 }
