@@ -12,6 +12,8 @@ class MainViewModel: ViewModel() {
      * LIVE DATAs and Corresponding ACTIONS
      */
 
+    val currentFragmentType = MutableLiveData<CurrentFragmentType>()
+
     /** NAVIGATE to LOGIN PAGE */
     private val _shouldNavigateToLoginPage = MutableLiveData<Boolean>()
     val shouldNavigateToLoginPage: LiveData<Boolean>

@@ -61,6 +61,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomnavMain.setupWithNavController(nav)
 
+        /** LOGIN PAGE */
+        viewModel.shouldNavigateToLoginPage.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalLoginFragment())
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                viewModel.doneNavigateToLoginPage()
+            }
+        })
+
+        /** HOME PAGE */
         viewModel.shouldNavigateToHomePage.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalHomeFragment())
@@ -69,6 +79,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        /** CATEGORY SCENE */
         viewModel.shouldNavigateToCategoryPage.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
@@ -77,11 +88,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        /** PROFILE SCENE */
         viewModel.shouldNavigateToProfilePage.observe(this, Observer {
             it?.let {
 
                 if (IWBNApplication.user.token == null) {
                     //TODO: SHOW DIALOG TO SIGNUP
+                    viewModel.doneNavigateToProfilePage()
+                    viewModel.navigateToLoginPage()
                 } else {
                     nav.navigate(NavigationDirections.actionGlobalProfileFragment())
                     showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
@@ -91,14 +105,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.shouldNavigateToLoginPage.observe(this, Observer {
-            it?.let {
-                nav.navigate(NavigationDirections.actionGlobalLoginFragment())
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
-                viewModel.doneNavigateToLoginPage()
-            }
-        })
-
+        /** BOOK SCENE */
         viewModel.selectedBook.observe(this, Observer {
             it?.let {book ->
                 nav.navigate(NavigationDirections.actionGlobalBookFragment(book))
@@ -106,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        /** NAVIGATE TO BOOK EDITING FRAGMENT */
+        /** BOOK EDITING SCENE */
         viewModel.selectBookToEdit.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalBookWriteDetailFragment(it))
@@ -115,7 +122,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        /** NAVIGATE TO CHAPTER EDITING FRAGMENT */
+        /** EDITOR SCENE -> EDITOR TEXT FRAGMENT */
         viewModel.selectedChapterForEditing.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalEditorTextFragment(it))
@@ -124,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        /** NAVIGATE TO MODIFICATION PAGE of CERTAIN CHAPTER */
+        /** EDITOR SCENE -> EDITOR MIXER FRAGMENT */
         viewModel.selectedChapterForModifcation.observe(this, Observer {
             it?.let {chapter ->
                 nav.navigate(NavigationDirections.actionGlobalEditorMixerFragment(chapter))
@@ -132,9 +139,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
-
-        /** NAVIGATE TO BOOK READING FRAGMENT */
+        /** BOOK READING FRAGMENT */
+        //TODO: IMPLEMENT
         viewModel.selectedBookToRead.observe(this, Observer {
             it?.let {
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
@@ -149,7 +155,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupOnNaigateListener() {
-
+        nav.addOnDestinationChangedListener { controller, destination, arguments ->
+            viewModel.currentFragmentType.value =  when(controller.currentDestination?.id) {
+                R.id.loginFragment -> CurrentFragmentType.LOGIN
+                R.id.homeFragment -> CurrentFragmentType.HOME
+                R.id.categoryFragment -> CurrentFragmentType.CATEGORY
+                R.id.bookFragment  -> CurrentFragmentType.BOOKDETAIL
+                R.id.profileFragment -> CurrentFragmentType.PROFILE
+                else -> viewModel.currentFragmentType.value
+            }
+        }
     }
 
     override fun onBackPressed() {

@@ -6,7 +6,17 @@
     
     <string name="google_client_id">691397293091-p26iea3f653evi5tug72igo1n01o4os5.apps.googleusercontent.com</string>
     <string name="google_client_secret">sgRJQJ9eeW164XZgQkzO-q0M</string>
-    
+
+    <!-- GENERAL -->
+    <string name="page_login">Login</string>
+    <string name="page_home">HomePage</string>
+    <string name="page_category">Category</string>
+    <string name="page_profile">Profile</string>
+    <string name="page_editor">Editor</string>
+    <string name="page_editor_modifier">EditorMixer</string>
+    <string name="page_book_detail">Book</string>
+    <string name="page_reader">Reader</string>
+
     <string name="title_chinese_today">今</string>
     <string name="title_chinese_i">我</string>
     <string name="title_chinese_day">天</string>

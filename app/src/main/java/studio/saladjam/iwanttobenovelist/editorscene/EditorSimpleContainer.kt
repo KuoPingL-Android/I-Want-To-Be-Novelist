@@ -8,8 +8,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.ScrollView
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.custom.Frame
@@ -42,19 +40,22 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
         mPaint = paint
+        calculateTextBlocks()
     }
     /** TEXT BLOCKS */
     private var mCharPaints = mutableListOf<Paint>()
-    private var wordFrames = mutableMapOf<String, Any>()
+    private var words = mutableListOf<String>()
 
     fun calculateTextBlocks() {
-        val text = chapter?.text ?: ""
+        val text = (chapter?.text ?: "").trimEnd()
+
+        Logger.i("TEXT : $text")
+
         var letterIndex = 0
 
         text.toCharArray().forEach {
             mCharPaints.add(Paint(mPaint))
         }
-
 
         // SEPERATE BY SPACE
         while (letterIndex < text.length) {
@@ -68,34 +69,39 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             var word = text.substring(letterIndex, spaceIndex)
             var chars = word.toCharArray()
-            var indexOfHan = 0
+            var indexOfInterest = -1
 
             for(i in 0 until chars.count()) {
-                if(!chars[i].isBasicLatin()) {
-                    indexOfHan = i
+
+                if(chars[i] == '\n' || !chars[i].isBasicLatin()) {
+
+                    val s = chars[i].toString()
+                    indexOfInterest = i
+
+                    if (indexOfInterest == 0) {
+                        indexOfInterest += 1
+                    }
+
                     break
                 }
             }
 
-            if (indexOfHan > 0) {
-                word = text.substring(letterIndex, letterIndex + indexOfHan)
+            if (indexOfInterest > -1) {
+                word = text.substring(letterIndex, letterIndex + indexOfInterest)
             }
 
-            val wordWidth = paint?.measureText(word)
+            // COLLECT all the LETTERS as an ARRAY
+            words.add(word)
 
-
-
+            letterIndex += word.chars().count().toInt()
         }
     }
 
     /** RECORDERs */
-    private var pointOfSelection: Point = Point(-1,-1)
     private var lineRecord: MutableMap<Int, List<CharLocator>> = mutableMapOf()
-    private var selectedIndex: Int = -2
 
     private var currentX = 0f
     private var currentY = 0f
-    private var charPaints: MutableList<Paint> = mutableListOf()
 
     private var wordWidth = 0f
     private var spacing = 8.toPx().toFloat()
@@ -107,62 +113,35 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     override fun dispatchDraw(canvas: Canvas?) {
         super.dispatchDraw(canvas)
 
+        if (words.isEmpty()) return // NOTHING TO DRAW
+
         /** DEFAULT */
         currentX = paddingLeft.toFloat()
         currentY = paddingTop.toFloat() + getFontHeight() // (barsHeight - statusHeight) * 1.0f//paddingTop.toFloat() + statusHeight //+ barsHeight
 
-        var counter = 0
-        // Seperate Text into Sections
-        /** ENGLISH */
         var letterIndex = 0
 
-        val text = chapter?.text ?: ""
+        for (i in 0 until words.size) {
 
-        if (charPaints.count() < text.length) {
-            for(i in charPaints.count() until text.length) {
-                charPaints.add(Paint(mPaint))
-            }
-        }
+            val word = words[i]
 
-        while (letterIndex < text.length) {
-
-            var spaceIndex = text.indexOf(" ", letterIndex) + 1
-
-            if (spaceIndex <= letterIndex) {
-                spaceIndex = text.length
+            if (word.toCharArray().first() == '\n')  {
+                // if a character == '\n' it will only contain itself
+                currentY += getFontHeight()
+                currentX = paddingStart.toFloat()
+                wordWidth = 0f
+                continue
             }
 
-            var word = text.substring(letterIndex, spaceIndex)
-
-            if (counter != 0) {
-                // Previous wordWidth
+            if (i > 0) {
                 currentX += wordWidth
-                Log.i("WORD", "word: ${word}, width=${paint?.measureText(word)}")
             }
 
-            Log.w("CURRENT X, Y", "x=${currentX}, y=${currentY}")
-            counter = 1
-
-            // UPDATE WORD WIDTH
             measureText(word)
-
-            if (currentX == paddingLeft.toFloat() && currentX + wordWidth >= width - paddingRight.toFloat()) {
-                // A String that is Way too long
-                // find the proper size and index
-
-                for(i in 1 until word.length) {
-                    val sub = word.substring(0, i)
-                    if (checkIfWordFits(sub, width - paddingRight.toFloat())) {
-                        word = text.substring(letterIndex, i + 1)
-                        paint?.measureText(word)
-                        break
-                    }
-                }
-            }
 
             if (currentX + wordWidth >= width - paddingRight.toFloat()) {
                 currentY += paint?.getFontHeight() ?: 0f
-                currentX = paddingLeft.toFloat()
+                currentX = paddingStart.toFloat()
             }
 
             var wordFrame = Frame(currentX.toInt(), currentY.toInt(),
@@ -214,8 +193,11 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             if (currentY <= height - spacing - getFontHeight()) {
                 val wordChars = word.toCharArray()
                 var tempCurrentX = currentX
+
+                Logger.e("CHAR=${word}")
+
                 for (charIndex in 0 until word.count()) {
-                    val charPaint = charPaints[letterIndex + charIndex]
+                    val charPaint = mCharPaints[letterIndex + charIndex]
                     val char = wordChars[charIndex].toString()
                     val charWidth = charPaint.measureText(char)
 
@@ -242,19 +224,13 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                 }
 
             } else {
-//                text.removeRange(letterIndex - 1, text.length)
-//                Log.i("TEXT", "${text}")
+                // STOP DRAWING THE TEXT
                 break
             }
-            letterIndex += word.length
+
+            letterIndex += word.length - 1
+
         }
-
-    }
-
-    private fun checkIfWordFits(word: String, width: Float): Boolean {
-        if (mPaint == null) return false
-
-        return mPaint!!.measureText(word) <= width
     }
 
     private fun measureText(measuringText: String) {
@@ -271,18 +247,12 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             if (imageBlock.contains(child)) return
 
-            val location = IntArray(2)
-            child.getLocationInWindow(location)
-            val frame = Frame(location[0], location[1], child.width, child.height)
+            val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
             imageBlock.put(child, frame)
             invalidate()
 
             child.callback = {
-                val location = IntArray(2)
-                child.getLocationInWindow(location)
-                val frame = Frame(location[0], location[1], child.width, child.height)
-
-                Logger.w("FRAME=${frame}")
+                val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
 
                 imageBlock[child] =frame
                 invalidate()
@@ -296,10 +266,10 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
         imageBlock.keys.forEach {view ->
             val frame = Frame(view.x.toInt(), view.y.toInt(), view.width, view.height)
             imageBlock[view] = frame
-
             wordFrame.interceptWith(frame)?.let {
                 return view
             }
+
         }
 
         return null

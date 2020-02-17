@@ -2,6 +2,16 @@
 <resources>
     <string name="app_name">今天我要當作家</string>
 
+    <!-- GENERAL -->
+    <string name="page_login">登入</string>
+    <string name="page_home">首頁</string>
+    <string name="page_category">類別</string>
+    <string name="page_profile">個人</string>
+    <string name="page_editor">編輯</string>
+    <string name="page_editor_modifier">最後編輯</string>
+    <string name="page_book_detail">書籍目錄</string>
+    <string name="page_reader">閱讀</string>
+
     <string name="facebook_app_id">170963217330516</string>
     <string name="fb_login_protocol_scheme">fb170963217330516</string>
 
@@ -31,7 +41,7 @@
     <string name="hint_max_interest">最多5項</string>
     <string name="button_complete">完成</string>
     <string name="hint_please_pick_a_role">請選角色</string>
-    <string name="internet_not_connected">Internet Not Connected</string>
+    <string name="internet_not_connected">您尚未連接 Internet</string>
     <string name="title_login_select_name">請要如何稱呼您呢？</string>
     <string name="hint_please_enter_your_name">請輸入您的稱謂</string>
 
@@ -51,4 +61,7 @@
     <string name="text_create_book">創造書籍</string>
     <string name="text_title">Title</string>
     <string name="hint_book_title">請輸入書名</string>
+
+    <string name="hint_chapter_title">Chapter Title</string>
+    <string name="hint_editor_text_content">Your Journey Begins Here ...</string>
 </resources>
