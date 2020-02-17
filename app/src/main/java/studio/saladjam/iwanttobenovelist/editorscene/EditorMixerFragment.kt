@@ -126,7 +126,6 @@ class EditorMixerFragment: Fragment() {
             val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             imageView.layoutParams = layoutParams
             imageView.setImageBitmap(bitmap)
-            imageView.setBackgroundColor(Color.parseColor("#f11111"))
             imageView.isClickable = true
             binding.simpleContainer.addView(imageView)
         }

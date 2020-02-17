@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
 import studio.saladjam.iwanttobenovelist.Logger
+import kotlin.math.absoluteValue
 
 class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((view:View)->Unit)? = null) : View.OnTouchListener {
 
@@ -47,8 +48,8 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
             }
             MotionEvent.ACTION_MOVE -> { // a pointer was moved
                 if (event.pointerCount == 2) {
-                    val diffX = Math.abs(event.getX(1) - event.getX(0))
-                    val diffY = Math.abs(event.getY(1) - event.getY(0))
+                    val diffX = (event.getX(1) - event.getX(0)).absoluteValue
+                    val diffY = (event.getY(1) - event.getY(0)).absoluteValue
                     var newWidth = (diffX * view.measuredWidth.toFloat() / lastDiffX).toInt()
                     var newHeight = (diffY * view.measuredHeight.toFloat() / lastDiffY).toInt()
 

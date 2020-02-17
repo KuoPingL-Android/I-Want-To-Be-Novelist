@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_purple">
+        android:layout_height="wrap_content">
         
         <ImageView
             android:id="@+id/image_image_block_image"

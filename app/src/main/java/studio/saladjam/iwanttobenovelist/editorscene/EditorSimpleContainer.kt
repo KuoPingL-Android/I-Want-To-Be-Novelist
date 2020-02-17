@@ -16,6 +16,7 @@ import studio.saladjam.iwanttobenovelist.custom.Frame
 import studio.saladjam.iwanttobenovelist.custom.interceptWith
 import studio.saladjam.iwanttobenovelist.extensions.getFontHeight
 import studio.saladjam.iwanttobenovelist.extensions.isBasicLatin
+import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
 class EditorSimpleContainer @JvmOverloads constructor(context: Context,
@@ -97,7 +98,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     private var charPaints: MutableList<Paint> = mutableListOf()
 
     private var wordWidth = 0f
-    private var spacing = 0f
+    private var spacing = 8.toPx().toFloat()
 
     private fun getFontHeight(): Float {
         return paint?.getFontHeight() ?: 0f
@@ -193,17 +194,9 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                         // If it is also horizontally overlapping
                         currentX = frame.maxX.toFloat() + spacing
 
-                        if (currentX + wordWidth > width - paddingRight) {
-                            // If the word will reach the end of the EDITTEXT VIEW with PADDING
-                            currentX = paddingLeft.toFloat()
-                            currentY += getFontHeight()
+                        if (currentY + getFontHeight() >= frame.maxY) {
+                            currentY = frame.maxY + spacing
                         }
-                    }
-                    // BOTTOM
-                    else if ((currentY - getFontHeight() <= frame.maxY&&
-                                currentY >= frame.y)) {
-                        // If it is also horizontally overlapping
-                        currentX = frame.maxX.toFloat() + spacing
 
                         if (currentX + wordWidth > width - paddingRight) {
                             // If the word will reach the end of the EDITTEXT VIEW with PADDING
