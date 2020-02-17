@@ -152,6 +152,18 @@ class MainActivity : AppCompatActivity() {
 
         // NAVIGATION
         binding.bottomnavMain.setOnNavigationItemSelectedListener(bottomNavOnItemSelectedListener)
+
+        viewModel.currentFragmentType.observe(this, Observer {
+            it?.let {
+                when(it) {
+                    CurrentFragmentType.PROFILE -> {
+                        showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                    }
+                }
+            }
+        })
+
+        setupOnNaigateListener()
     }
 
     private fun setupOnNaigateListener() {
@@ -160,8 +172,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 R.id.homeFragment -> CurrentFragmentType.HOME
                 R.id.categoryFragment -> CurrentFragmentType.CATEGORY
-                R.id.bookFragment  -> CurrentFragmentType.BOOKDETAIL
                 R.id.profileFragment -> CurrentFragmentType.PROFILE
+                R.id.bookWriteDetailFragment -> CurrentFragmentType.BOOKDETAIL
                 else -> viewModel.currentFragmentType.value
             }
         }

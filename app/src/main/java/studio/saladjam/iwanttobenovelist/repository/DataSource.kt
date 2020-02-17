@@ -5,10 +5,7 @@ import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.dataclass.User
+import studio.saladjam.iwanttobenovelist.repository.dataclass.*
 
 /**
  * This is a combination of Local and Remote Data Sources
@@ -75,5 +72,13 @@ class DataSource(private val localDataSource: Repository,
 
     override suspend fun postChapter(chapter: Chapter): Result<Boolean> {
         return remoteDataSource.postChapter(chapter)
+    }
+
+    override suspend fun postChapterWithDetails(
+        chapter: Chapter,
+        bitmapsMap: Map<String, Bitmap>,
+        addOnCoordinators: List<ImageBlockRecorder>
+    ): Result<Boolean> {
+        return remoteDataSource.postChapterWithDetails(chapter, bitmapsMap, addOnCoordinators)
     }
 }

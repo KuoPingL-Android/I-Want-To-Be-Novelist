@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.repository.Repository
+import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
@@ -36,45 +38,46 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
     val user: LiveData<User>
         get() = _user
 
-    /** CREATE NEW BOOK */
-    private val _shouldCreateNewBook = MutableLiveData<Boolean>()
-    val shouldCreateNewBook: LiveData<Boolean>
-        get() = _shouldCreateNewBook
+    /** FETCH BOOKs that USER is WORKING ON */
+    private val _writtenBooks = MutableLiveData<List<Book>>()
+    val writtenBooks: LiveData<List<Book>>
+        get() = _writtenBooks
 
-    fun createNewBook() {
-        _shouldCreateNewBook.value = true
+    fun fetchUserWork() {
+        _status.value = APILoadingStatus.LOADING
+
+        if(IWBNApplication.isNetworkConnected) {
+            coroutineScope.launch {
+
+                val result = repository.getUserWork(IWBNApplication.user)
+
+                _writtenBooks.value = when (result) {
+                    is Result.Success -> {
+                        _status.value = APILoadingStatus.DONE
+                        result.data
+                    }
+
+                    is Result.Error -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.exception.localizedMessage
+                        null
+                    }
+
+                    is Result.Fail -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.error
+                        null
+                    }
+                    else -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = "Unknown Error"
+                        null
+                    }
+                }
+            }
+        } else {
+            _status.value = APILoadingStatus.ERROR
+            _error.value = "NO INTERNET"
+        }
     }
-
-    fun doneNavigateToNewBook() {
-        _shouldCreateNewBook.value = null
-    }
-
-    /** SELECT BOOK ACTION */
-    private val _bookSelectedToEdit = MutableLiveData<Book>()
-    val bookSelectedToEdit: LiveData<Book>
-        get() = _bookSelectedToEdit
-
-    fun selectBookForEdit(book: Book) {
-        _bookSelectedToEdit.value = book
-    }
-
-    fun doneNavigateToEditBook() {
-        _bookSelectedToEdit.value = null
-    }
-
-    private val _bookSelectedToRead = MutableLiveData<Book>()
-    val bookSelectedToRead: LiveData<Book>
-        get() = _bookSelectedToRead
-
-    fun selectBookForRead(book: Book) {
-        _bookSelectedToRead.value = book
-    }
-
-    fun doneNavigateToReadBook() {
-        _bookSelectedToRead.value = null
-    }
-
-
-
-
 }

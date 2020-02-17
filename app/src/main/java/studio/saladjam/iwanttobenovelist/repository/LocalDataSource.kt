@@ -6,10 +6,7 @@ import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.dataclass.User
+import studio.saladjam.iwanttobenovelist.repository.dataclass.*
 
 class IWBNLocalDataSource(private val context: Context): Repository {
 
@@ -70,6 +67,14 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     }
 
     override suspend fun postChapter(chapter: Chapter): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun postChapterWithDetails(
+        chapter: Chapter,
+        bitmapsMap: Map<String, Bitmap>,
+        addOnCoordinators: List<ImageBlockRecorder>
+    ): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

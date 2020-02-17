@@ -151,3 +151,8 @@ fun bindTextView(textView: TextView, role: Int?) {
         }
     }
 }
+
+@BindingAdapter("booksNumber")
+fun bindTextViewToBookCount(textView: TextView, books: Int?) {
+    textView.text = if (books == null) "0" else "${books}"
+}

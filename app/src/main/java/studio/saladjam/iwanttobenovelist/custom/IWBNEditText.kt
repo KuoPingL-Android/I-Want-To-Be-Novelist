@@ -440,7 +440,7 @@ constructor(context: Context,
         }
 
         charLocator?.let {
-            Log.w("CHAR", "char=${charLocator?.char}")
+//            Log.w("CHAR", "char=${charLocator?.char}")
         }
 
         return charLocator

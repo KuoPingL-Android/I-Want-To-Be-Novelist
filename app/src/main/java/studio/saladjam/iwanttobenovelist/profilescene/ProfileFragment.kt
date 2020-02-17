@@ -35,13 +35,14 @@ class ProfileFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-
         binding.viewpagerProfile.adapter = ProfileFragmentStateAdapter(this, viewModel)
 
         val fragments = listOf(ProfileBookReadingFragment(viewModel), ProfileWorkFragment(viewModel))
         (binding.viewpagerProfile.adapter as? ProfileFragmentStateAdapter)?.setFragments(fragments)
 
         setupTabLayout()
+
+        viewModel.fetchUserWork()
 
         return binding.root
     }

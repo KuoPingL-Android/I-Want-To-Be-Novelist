@@ -30,6 +30,81 @@ import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
 
+    /** ADD DETAIL of the CHAPTER */
+    override suspend fun postChapterWithDetails(
+        chapter: Chapter,
+        bitmapsMap: Map<String, Bitmap>,
+        addOnCoordinators: List<ImageBlockRecorder>): Result<Boolean> = suspendCoroutine { continuation ->
+        // SAVE ALL THE IMAGES FIRST
+        val bookID = chapter.bookID
+        val storageRef = IWBNApplication.container.fireStorage.reference
+        var numberOfImageUploaded = 0
+
+        for ((id, bitmap) in bitmapsMap) {
+
+            val byteArrayOutput = ByteArrayOutputStream()
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput)
+            val bytes = byteArrayOutput.toByteArray()
+
+            storageRef.child(bookID + "/${id}.jpg").putBytes(bytes)
+                .addOnSuccessListener {
+                    numberOfImageUploaded += 1
+
+                    if (numberOfImageUploaded == bitmapsMap.keys.count()) {
+                        // UPDATE CHAPTER
+                        chapter.images = bitmapsMap.keys.toList()
+
+                        if (chapter.chapterID.isEmpty()) {
+                            chapter.chapterID = IWBNApplication.container
+                                .getChaptersRefFrom(bookID)
+                                .document().id
+                        }
+
+                        IWBNApplication.container
+                            .getChaptersRefFrom(bookID)
+                            .document(chapter.chapterID)
+                            .set(chapter)
+                            .addOnSuccessListener {
+
+                                // UPLOAD COORDINATES
+                                var j = 0
+
+                                for (coordinate in addOnCoordinators) {
+                                    IWBNApplication.container
+                                        .getChaptersRefFrom(bookID)
+                                        .document(chapter.chapterID)
+                                        .collection("coordinates")
+                                        .document(coordinate.imageID)
+                                        .set(coordinate)
+                                        .addOnSuccessListener {
+
+                                            j+=1
+
+                                            if(j == addOnCoordinators.count()) {
+                                                continuation.resume(Result.Success(true))
+                                            }
+
+                                        }
+                                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                                }
+
+
+                            }
+                            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+                    }
+                }
+                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                .addOnFailureListener { continuation.resume(Result.Error(it)) }
+        }
+
+
+
+    }
+
     /** ADD a CHAPTER to the book */
     override suspend fun postChapter(chapter: Chapter): Result<Boolean> = suspendCoroutine { continuation ->
 
@@ -255,6 +330,12 @@ object IWBNRemoteDataSource: Repository {
                     val results = task.result?.toObjects(Book::class.java)
                     if (results != null) {
                         val bookIDs = results.map { it.bookID }
+
+                        if (bookIDs.isEmpty()) {
+                            continuation.resume(Result.Success(results))
+                            return@addOnCompleteListener
+                        }
+
                         /** FETCH Books from the BookID within the List */
                         IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
                             .addOnCompleteListener { bookTask ->
@@ -299,17 +380,38 @@ object IWBNRemoteDataSource: Repository {
                         return@addOnSuccessListener
                     }
 
-                    IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
-                        .addOnSuccessListener {
-                            val books = it.toObjects(Book::class.java)
+                    val numberOfPatches = bookIDs.size % 10
+                    var i = 0
+                    val allbooks = mutableListOf<Book>()
 
-                            books.sortBy { it.createdTime }
-                            books.reverse()
+                    for (j in 0 until numberOfPatches) {
 
-                            continuation.resume(Result.Success(books))
+                        val beginning = j * 10
+                        var ending = (j + 1) * 10 - 1
+
+                        if (ending > bookIDs.size) {
+                            ending = bookIDs.size
                         }
-                        .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
-                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+                        val sectionBookIDs = bookIDs.subList(beginning, ending)
+
+                        IWBNApplication.container.bookCollection.whereIn("bookID", sectionBookIDs).get()
+                            .addOnSuccessListener {
+                                val books = it.toObjects(Book::class.java)
+                                allbooks.addAll(books)
+
+                                if (ending == bookIDs.count())
+                                {
+                                    allbooks.sortBy { it.createdTime }
+                                    allbooks.reverse()
+                                    continuation.resume(Result.Success(allbooks))
+                                }
+                            }
+                            .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+                            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                    }
+
+
                 }
                 .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
                 .addOnFailureListener { continuation.resume(Result.Error(it)) }

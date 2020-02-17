@@ -45,6 +45,7 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
             }
         })
 
+
         binding.recyclerProfileWork.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,

@@ -25,7 +25,8 @@ data class Book(
     val createdTime: Long = Calendar.getInstance().timeInMillis,
     val lastUpdatedTime: Long = Calendar.getInstance().timeInMillis,
     val language: String = "zh",
-    val category: String = "未知"
+    val category: String = "未知",
+    var isOpenToPublic: Boolean = false
 ): Parcelable {
     companion object {
         enum class BookKeys(val string: String) {
@@ -61,6 +62,7 @@ data class Chapter(
     var title: String = "",
     val subtitle: String = "",
 //    val sections: List<Section>? = null,
+    var images: List<String> = listOf(),
     var text: String = "",
     var popularity: Long = 0L,
     var isOpenToPublic: Boolean = false,

@@ -137,7 +137,7 @@
                     app:layout_constraintEnd_toEndOf="@id/image_profile_followbooks"
                     app:layout_constraintBaseline_toBaselineOf="@id/text_profile_fav"
                     android:textSize="20dp"
-                    android:text="0"/>
+                    app:booksNumber="@{viewModel.writtenBooks.size()}"/>
 
                 <TextView
                     android:id="@+id/text_profile_comment"

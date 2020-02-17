@@ -1,31 +1,34 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Point
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.AttributeSet
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
+import kotlinx.android.synthetic.main.fragment_editor_mixer.view.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.custom.Frame
 import studio.saladjam.iwanttobenovelist.custom.interceptWith
+import studio.saladjam.iwanttobenovelist.extensions.convertToBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getFontHeight
 import studio.saladjam.iwanttobenovelist.extensions.isBasicLatin
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
+import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
+import java.io.*
+import java.util.*
+
 
 class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                              attrs: AttributeSet? = null,
                              defStyle: Int = 0): FrameLayout(context, attrs, defStyle) {
-
-    init {
-
-    }
-
     /** TEXT */
     private var mChapter: Chapter? = null
     val chapter: Chapter?
@@ -288,9 +291,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             wordFrame.interceptWith(frame)?.let {
                 return view
             }
-
         }
-
         return null
     }
 
@@ -304,5 +305,22 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     fun disableDeletion() {
         enableDeletion = false
         imageBlock.keys.forEach { it.disableDeletion() }
+    }
+
+    fun getDetails(): Pair<Map<String, Bitmap>, List<ImageBlockRecorder>> {
+        val map = mutableMapOf<String, Bitmap>()
+        val blocks = mutableListOf<ImageBlockRecorder>()
+        for ((k, v) in imageBlock) {
+            val imageID = UUID.randomUUID().toString()
+            map.put(imageID, k.getImage())
+            blocks.add(ImageBlockRecorder(
+                imageID,
+                v.x - paddingStart,
+                v.y - paddingTop,
+                v.width.toFloat() / width.toFloat(),
+                v.width.toFloat()/v.height.toFloat()))
+        }
+
+        return Pair(map, blocks)
     }
 }

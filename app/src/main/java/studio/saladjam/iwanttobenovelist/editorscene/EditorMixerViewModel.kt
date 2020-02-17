@@ -1,5 +1,6 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
+import android.graphics.Bitmap
 import android.media.Image
 import android.widget.EditText
 import androidx.lifecycle.LiveData
@@ -12,7 +13,10 @@ import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
+import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import kotlin.coroutines.coroutineContext
+import kotlin.system.exitProcess
 
 class EditorMixerViewModel (private val repository: Repository): ViewModel() {
 
@@ -102,55 +106,51 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
     val isSavingText: LiveData<Boolean>
         get() = _isSavingText
 
-    fun saveChapter() {
-        // BLOCK MULTIPLE CLICKING
-        if(isSavingText.value == true) return
+    private val _shouldSaveChapter = MutableLiveData<Boolean>()
+    val shouldSaveChapter: LiveData<Boolean>
+        get() = _shouldSaveChapter
 
-        _isSavingText.value = true
+    fun saveChapter() {
+        _shouldSaveChapter.value = true
+    }
+
+    fun doneSaveChapter() {
+        _shouldSaveChapter.value = null
+    }
+
+
+    fun saveChapterDetails(chapter: Chapter,
+                           bitmapsMap: Map<String, Bitmap>,
+                           coordinators: List<ImageBlockRecorder>) {
+
         _status.value = APILoadingStatus.LOADING
 
-        // CHECK if ALL DATA are COMPLETE
-        _chapter.value?.let {chapter ->
-            coroutineScope.launch {
-                val result = repository.postChapter(chapter)
-                when(result) {
-                    is Result.Success -> {
+        coroutineScope.launch {
+            val result = repository.postChapterWithDetails(chapter, bitmapsMap, coordinators)
 
-                        if (result.data) {
-                            _status.value = APILoadingStatus.ERROR
-                        } else {
-                            _status.value = APILoadingStatus.DONE
-                        }
-                        _error.value = null
-                        _isSavingText.value = null
-                    }
+            when(result) {
+                is Result.Success -> {
+                    _error.value = null
+                    _status.value = APILoadingStatus.DONE
+                    _isSavingText.value = null
+                }
 
-                    is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
-                        _error.value = result.error
-                        _isSavingText.value = null
-                    }
+                is Result.Error -> {
+                    _error.value = result.exception.localizedMessage
+                    _status.value = APILoadingStatus.ERROR
+                    _isSavingText.value = null
+                }
 
-                    is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
-                        _error.value = result.exception.localizedMessage
-                        _isSavingText.value = null
-                    }
+                is Result.Fail -> {
+                    _error.value = result.error
+                    _status.value = APILoadingStatus.ERROR
+                    _isSavingText.value = null
                 }
             }
         }
-    }
-
-
-    private val _chapter = MutableLiveData<Chapter>()
-    val chapter: LiveData<Chapter>
-        get() = _chapter
-
-    fun setChapter(chapter: Chapter) {
-        _chapter.value = chapter
-
 
     }
+
 
 
 }

@@ -3,6 +3,7 @@ package studio.saladjam.iwanttobenovelist.editorscene
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -30,6 +31,11 @@ constructor(context: Context,
     private var deletionEnabled = false
 
     private var isEditing = false
+
+    fun getImage(): Bitmap {
+        val bitmapDrawable = (mainImageView.drawable as BitmapDrawable)
+        return bitmapDrawable.bitmap
+    }
 
     fun enableDeletion() {
         deletionEnabled = true

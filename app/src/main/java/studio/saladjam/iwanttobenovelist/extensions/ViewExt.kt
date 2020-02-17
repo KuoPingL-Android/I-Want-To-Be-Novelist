@@ -1,5 +1,8 @@
 package studio.saladjam.iwanttobenovelist.extensions
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.util.Log
 import android.view.View
 
@@ -48,6 +51,25 @@ fun View.findOverlap(withView: View): Frame {
 
 
     return overlappingFrame
+}
+
+fun View.convertToBitmap(): Bitmap {
+    val measureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+    measure(measureSpec, measureSpec)
+    layout(0, 0, measuredWidth, measuredHeight)
+    val b = Bitmap.createBitmap(measuredWidth, measuredHeight, Bitmap.Config.ARGB_8888)
+    b.eraseColor(Color.TRANSPARENT)
+    val c = Canvas(b)
+
+    val bgDrawable = background
+
+    if (bgDrawable != null) {
+        bgDrawable.draw(c)
+    } else {
+        c.drawColor(Color.WHITE)
+    }
 
 
+    draw(c)
+    return b
 }

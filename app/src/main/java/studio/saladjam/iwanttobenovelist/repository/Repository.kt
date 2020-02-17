@@ -7,10 +7,7 @@ import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.dataclass.User
+import studio.saladjam.iwanttobenovelist.repository.dataclass.*
 
 interface Repository {
     suspend fun loginUser(user: User): Result<Boolean>
@@ -39,4 +36,9 @@ interface Repository {
 
     /** SAVING CHAPTER */
     suspend fun postChapter(chapter: Chapter): Result<Boolean>
+
+    /** SAVING CHAPTER DETAILS */
+    suspend fun postChapterWithDetails(chapter: Chapter,
+                                       bitmapsMap: Map<String, Bitmap>,
+                                       addOnCoordinators: List<ImageBlockRecorder>): Result<Boolean>
 }

@@ -93,6 +93,18 @@ class EditorMixerFragment: Fragment() {
             }
         })
 
+
+        viewModel.shouldSaveChapter.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val (bitmapsMap, coordinators) = binding.simpleContainer.getDetails()
+                viewModel.doneSaveChapter()
+                chapter?.let {chapter ->
+                    viewModel.saveChapterDetails(chapter, bitmapsMap, coordinators)
+                }
+            }
+        })
+
+
         return binding.root
     }
 
@@ -126,6 +138,8 @@ class EditorMixerFragment: Fragment() {
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
         }
     }
+
+
 
     fun getTouchListener(): TouchListenerImpl {
         return TouchListenerImpl(50.toPx(), 50.toPx())
