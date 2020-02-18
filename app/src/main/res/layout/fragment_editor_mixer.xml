@@ -152,7 +152,8 @@
             android:src="@drawable/add_icon_noboarder"
             app:rippleColor="@android:color/black"
             android:backgroundTint="@color/iwbn_primary_color"
-            android:onClick="@{()->viewModel.addNewImage()}"/>
+            android:onClick="@{()->viewModel.addNewImage()}"
+            app:borderWidth="0dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

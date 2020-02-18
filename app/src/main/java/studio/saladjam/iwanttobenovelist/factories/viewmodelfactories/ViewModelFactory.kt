@@ -3,8 +3,7 @@ package studio.saladjam.iwanttobenovelist.factories.viewmodelfactories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailReaderViewModel
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewModel
-import studio.saladjam.iwanttobenovelist.bookscene.BookViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerV1ViewModel
@@ -42,9 +41,6 @@ class ViewModelFactory(private val repository: Repository)
                 isAssignableFrom(HomeViewModel::class.java)
                                     -> HomeViewModel(repository)
 
-                isAssignableFrom(BookViewModel::class.java)
-                                    -> BookViewModel(repository)
-
                 isAssignableFrom(CategoryViewModel::class.java)
                                     -> CategoryViewModel(repository)
 
@@ -66,8 +62,8 @@ class ViewModelFactory(private val repository: Repository)
                 isAssignableFrom(ProfileCreateBookViewModel::class.java)
                                     -> ProfileCreateBookViewModel(repository)
 
-                isAssignableFrom(BookDetailWriterViewModel::class.java)
-                                    -> BookDetailWriterViewModel(repository)
+                isAssignableFrom(BookDetailViewModel::class.java)
+                                    -> BookDetailViewModel(repository)
 
                 isAssignableFrom(BookDetailReaderViewModel::class.java)
                                     -> BookDetailReaderViewModel(repository)

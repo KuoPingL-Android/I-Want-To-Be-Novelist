@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import java.lang.IllegalArgumentException
 
-class BookDetailWriterAdpater(private val viewModel: BookDetailWriterViewModel): ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>
+class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>
     (CallbackFactory().create(BookDetailSealedItem::class.java)) {
 
     companion object {

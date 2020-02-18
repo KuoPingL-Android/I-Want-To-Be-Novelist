@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailReaderAdapter
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
@@ -80,6 +81,9 @@ fun bindChapter(recyclerView: RecyclerView, bookDetailSealedItems: List<BookDeta
 
     when(adapter) {
         is BookDetailWriterAdpater -> {
+            adapter.submitList(bookDetailSealedItems)
+        }
+        is BookDetailReaderAdapter -> {
             adapter.submitList(bookDetailSealedItems)
         }
     }

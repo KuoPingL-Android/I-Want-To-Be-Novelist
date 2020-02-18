@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity() {
         /** BOOK SCENE */
         viewModel.selectedBook.observe(this, Observer {
             it?.let {book ->
-                nav.navigate(NavigationDirections.actionGlobalBookFragment(book))
+                nav.navigate(NavigationDirections.actionGlobalBookDetailReaderFragment(book))
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneNavigateToBook()
             }
         })
@@ -140,11 +141,20 @@ class MainActivity : AppCompatActivity() {
         })
 
         /** BOOK READING FRAGMENT */
-        //TODO: IMPLEMENT
         viewModel.selectedBookToRead.observe(this, Observer {
             it?.let {
+//                nav.navigate(NavigationDirections)
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneDisplayingReadingBook()
+            }
+        })
+
+        /** BOOK READING FRAGMENT */
+        viewModel.selectedChapterToRead.observe(this, Observer {
+            it?.let {
+
+                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                viewModel.doneSelectChapterToRead()
             }
         })
 
@@ -156,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.currentFragmentType.observe(this, Observer {
             it?.let {
                 when(it) {
-                    CurrentFragmentType.PROFILE -> {
+                    CurrentFragmentType.PROFILE, CurrentFragmentType.HOME -> {
                         showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
                     }
                 }

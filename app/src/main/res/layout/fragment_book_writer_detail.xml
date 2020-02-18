@@ -9,7 +9,7 @@
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book"/>
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailWriterViewModel" />
+            type="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel" />
         <import type="android.view.View"/>
     </data>
 
@@ -77,7 +77,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_book_writer_detail"
+            android:id="@+id/recycler_book_write_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

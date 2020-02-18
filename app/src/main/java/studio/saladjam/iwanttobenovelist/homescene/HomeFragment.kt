@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
 import studio.saladjam.iwanttobenovelist.Logger
+import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
@@ -18,6 +20,7 @@ import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeV1Binding
     private val viewModel by viewModels<HomeViewModel> { getVMFactory() }
+    private var mainViewModel: MainViewModel? = null
 
 
     override fun onCreateView(
@@ -28,9 +31,11 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeV1Binding.inflate(inflater)
         binding.lifecycleOwner = this
 
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
         viewModel.selectedBook.observe(this, Observer {
             it?.let {
-                Logger.i("GO TO BOOK PAGE")
+                mainViewModel?.selectBook(it)
                 viewModel.doneSelectingBook()
             }
         })

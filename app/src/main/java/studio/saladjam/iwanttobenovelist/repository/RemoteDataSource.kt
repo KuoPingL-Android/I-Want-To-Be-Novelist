@@ -380,36 +380,56 @@ object IWBNRemoteDataSource: Repository {
                         return@addOnSuccessListener
                     }
 
-                    val numberOfPatches = bookIDs.size % 10
-                    var i = 0
                     val allbooks = mutableListOf<Book>()
+                    var numberOfPatches = bookIDs.size
+                    var sectionBookIDs = bookIDs
+                    if (numberOfPatches > 10) {
+                        numberOfPatches /=10
 
-                    for (j in 0 until numberOfPatches) {
+                        for (j in 0 until numberOfPatches) {
 
-                        val beginning = j * 10
-                        var ending = (j + 1) * 10 - 1
+                            val beginning = j * 10
+                            var ending = (j + 1) * 10 - 1
 
-                        if (ending > bookIDs.size) {
-                            ending = bookIDs.size
+                            if (ending > bookIDs.size) {
+                                ending = bookIDs.size
+                            }
+
+                            sectionBookIDs = bookIDs.subList(beginning, ending)
+
+                            IWBNApplication.container.bookCollection.whereIn("bookID", sectionBookIDs).get()
+                                .addOnSuccessListener {
+                                    val books = it.toObjects(Book::class.java)
+                                    allbooks.addAll(books)
+
+                                    if (ending == bookIDs.count())
+                                    {
+                                        allbooks.sortBy { it.createdTime }
+                                        allbooks.reverse()
+                                        continuation.resume(Result.Success(allbooks))
+                                    }
+                                }
+                                .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
                         }
 
-                        val sectionBookIDs = bookIDs.subList(beginning, ending)
+                    } else {
 
                         IWBNApplication.container.bookCollection.whereIn("bookID", sectionBookIDs).get()
                             .addOnSuccessListener {
                                 val books = it.toObjects(Book::class.java)
-                                allbooks.addAll(books)
 
-                                if (ending == bookIDs.count())
-                                {
-                                    allbooks.sortBy { it.createdTime }
-                                    allbooks.reverse()
-                                    continuation.resume(Result.Success(allbooks))
-                                }
+
+                                books.sortBy { it.createdTime }
+                                books.reverse()
+                                continuation.resume(Result.Success(books))
                             }
                             .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
                             .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
                     }
+
+
 
 
                 }
@@ -447,6 +467,7 @@ object IWBNRemoteDataSource: Repository {
     override suspend fun getUser(token: String): Result<User> = suspendCoroutine {continuation ->
         if (!IWBNApplication.isNetworkConnected) {
             continuation.resume(Result.Fail("No network"))
+            return@suspendCoroutine
         }
 
         IWBNApplication.container.userCollection.document(token).get()

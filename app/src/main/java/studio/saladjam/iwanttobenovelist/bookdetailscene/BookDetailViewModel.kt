@@ -12,7 +12,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
-class BookDetailWriterViewModel (private val repository: Repository): ViewModel() {
+class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
     var book: Book? = null
 
@@ -93,16 +93,16 @@ class BookDetailWriterViewModel (private val repository: Repository): ViewModel(
     }
 
     /** EDIT THE SELECTED CHAPTER */
-    private val _selectChapter = MutableLiveData<Chapter>()
-    val selectedChapter: LiveData<Chapter>
-        get() = _selectChapter
+    private val _selectChapterToEdit = MutableLiveData<Chapter>()
+    val selectedChapterToEdit: LiveData<Chapter>
+        get() = _selectChapterToEdit
 
     fun editChapter(chapter: Chapter) {
-        _selectChapter.value = chapter
+        _selectChapterToEdit.value = chapter
     }
 
     fun doneNavigatingToChapter() {
-        _selectChapter.value = null
+        _selectChapterToEdit.value = null
     }
 
     /** CONVERT FETCHED CHAPTERS to SEALED ITEMS */
@@ -121,6 +121,15 @@ class BookDetailWriterViewModel (private val repository: Repository): ViewModel(
 
             value = sealedItem
         }
+    }
+
+    /** NAVIGATE to READER PAGE */
+    private val _selectedChapterToRead = MutableLiveData<Chapter>()
+    val selectedChapterToRead: LiveData<Chapter>
+        get() = _selectedChapterToRead
+
+    fun doneNavigateToReader() {
+        _selectedChapterToRead.value = null
     }
 
     /** NAVIGATE back to PREVIOUS PAGE */
