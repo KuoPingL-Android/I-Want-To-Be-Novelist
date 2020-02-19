@@ -30,7 +30,7 @@
             android:paddingTop="56dp"
             android:paddingBottom="56dp">
 
-            <studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer
+            <studio.saladjam.iwanttobenovelist.readerscene.ReaderSimpleContainer
                 android:id="@+id/simple_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

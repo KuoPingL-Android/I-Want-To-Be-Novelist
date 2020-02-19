@@ -143,12 +143,12 @@ class MainViewModel: ViewModel() {
     }
 
     /** NAVIGATE TO CHAPTER */
-    private val _selectedChapterToRead = MutableLiveData<Chapter>()
-    val selectedChapterToRead: LiveData<Chapter>
+    private val _selectedChapterToRead = MutableLiveData<Pair<Book, Chapter>>()
+    val selectedChapterToRead: LiveData<Pair<Book, Chapter>>
         get() = _selectedChapterToRead
 
-    fun selectChpaterToRead(chapter: Chapter) {
-        _selectedChapterToRead.value = chapter
+    fun selectChpaterToReadInBook(pair: Pair<Book, Chapter>) {
+        _selectedChapterToRead.value = pair
     }
 
     fun doneSelectChapterToRead() {

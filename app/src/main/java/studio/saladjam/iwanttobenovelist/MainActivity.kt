@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.selectedChapterToRead.observe(this, Observer {
             it?.let {
                 //TODO: CONNECT to READER SCENE
-//                nav.navigate()
+                nav.navigate(NavigationDirections.actionGlobalReaderMixerFragment(it.first, it.second))
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneSelectChapterToRead()
             }

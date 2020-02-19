@@ -45,7 +45,9 @@ class BookDetailReaderFragment : Fragment() {
 
         viewModel.selectedChapterToRead.observe(viewLifecycleOwner, Observer {
             it?.let {
-                mainviewModel.selectChpaterToRead(it)
+                book?.let {book ->
+                    mainviewModel.selectChpaterToReadInBook(Pair(book, it))
+                }
                 viewModel.doneNavigateToReader()
             }
         })

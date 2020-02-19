@@ -121,4 +121,18 @@
     <action
         android:id="@+id/action_global_bookDetailReaderFragment"
         app:destination="@id/bookDetailReaderFragment" />
+    <fragment
+        android:id="@+id/readerMixerFragment"
+        android:name="studio.saladjam.iwanttobenovelist.readerscene.ReaderMixerFragment"
+        android:label="ReaderMixerFragment" >
+        <argument
+            android:name="book"
+            app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+        <argument
+            android:name="chapter"
+            app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_readerMixerFragment"
+        app:destination="@id/readerMixerFragment" />
 </navigation>

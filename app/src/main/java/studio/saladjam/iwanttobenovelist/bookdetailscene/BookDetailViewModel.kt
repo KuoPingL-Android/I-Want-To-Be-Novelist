@@ -128,6 +128,10 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     val selectedChapterToRead: LiveData<Chapter>
         get() = _selectedChapterToRead
 
+    fun selectReadingChapter(chapter:Chapter) {
+        _selectedChapterToRead.value = chapter
+    }
+
     fun doneNavigateToReader() {
         _selectedChapterToRead.value = null
     }

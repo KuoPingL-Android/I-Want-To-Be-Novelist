@@ -16,10 +16,7 @@ import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.custom.Frame
 import studio.saladjam.iwanttobenovelist.custom.interceptWith
-import studio.saladjam.iwanttobenovelist.extensions.convertToBitmap
-import studio.saladjam.iwanttobenovelist.extensions.getFontHeight
-import studio.saladjam.iwanttobenovelist.extensions.isBasicLatin
-import studio.saladjam.iwanttobenovelist.extensions.toPx
+import studio.saladjam.iwanttobenovelist.extensions.*
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
 import java.io.*
@@ -315,8 +312,8 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             map.put(imageID, k.getImage())
             blocks.add(ImageBlockRecorder(
                 imageID,
-                x = v.x - paddingStart,
-                y = v.y - paddingTop,
+                x = (v.x.toDp() - paddingStart.toDp()).toInt(),
+                y = (v.y.toDp() - paddingTop.toDp()).toInt(),
                 wToParentWRatio = v.width.toFloat() / width.toFloat(),
                 wToHRatio = v.width.toFloat()/v.height.toFloat(),
                 yToParentHRatio = v.y.toFloat()/height.toFloat()))

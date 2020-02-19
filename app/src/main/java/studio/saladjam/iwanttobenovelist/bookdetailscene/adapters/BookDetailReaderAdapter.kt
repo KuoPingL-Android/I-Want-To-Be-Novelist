@@ -41,7 +41,7 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<B
                 val chapter = (getItem(position) as BookDetailSealedItem.Chapters).chapter
                 holder.bind(chapter)
                 holder.itemView.setOnClickListener {
-                    viewModel.editChapter(chapter)
+                    viewModel.selectReadingChapter(chapter)
                 }
             }
         }

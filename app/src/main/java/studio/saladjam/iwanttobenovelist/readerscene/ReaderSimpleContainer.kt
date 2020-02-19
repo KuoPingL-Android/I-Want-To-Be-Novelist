@@ -12,6 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.fragment_editor_mixer.view.*
 import studio.saladjam.iwanttobenovelist.Logger
@@ -40,8 +41,6 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
     private var mPaint: Paint? = null
     val paint: Paint?
         get() = mPaint
-
-
 
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
@@ -244,12 +243,50 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
     }
 
     /** IMAGES */
-    private val imageBlock = mutableMapOf<EditorImageBlock, Frame>()
+    private val imageBlock = mutableMapOf<ReaderImageBlock, Frame>()
+
+    fun addBlocks(blockRecorders: List<ImageBlockRecorder>) {
+        imageBlock.keys.forEach {
+            removeView(it)
+        }
+
+        imageBlock.clear()
+
+        blockRecorders.forEach {
+
+            val x = it.x.toPx().toFloat()
+            val y = it.y.toPx().toFloat()
+            val w = it.wToParentWRatio * width
+            val h = w / it.wToHRatio
+
+            val imageBlock = ReaderImageBlock(context)
+            var layoutParams = imageBlock.layoutParams
+
+            if (layoutParams == null) {
+                layoutParams = ViewGroup.LayoutParams(w.toInt(),h.toInt())
+            } else {
+                layoutParams.height = h.toInt()
+                layoutParams.width = w.toInt()
+            }
+
+//            var imageLayoutParams =
+
+            imageBlock.x = x
+            imageBlock.y = y
+            imageBlock.layoutParams = layoutParams
+
+            imageBlock.setImageSize(w.toInt(), h.toInt())
+
+            imageBlock.setImageUrl(it.imageLocation)
+
+            addView(imageBlock)
+        }
+    }
 
     override fun addView(child: View?) {
         super.addView(child)
 
-        if (child is EditorImageBlock) {
+        if (child is ReaderImageBlock) {
 
             if (imageBlock.contains(child)) return
 

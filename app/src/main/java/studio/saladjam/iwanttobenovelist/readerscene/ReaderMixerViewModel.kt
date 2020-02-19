@@ -6,13 +6,21 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.repository.Repository
+import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
+import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
 class ReaderMixerViewModel (private val repository: Repository,
                             private val book: Book): ViewModel() {
     /** NETWORK */
+    private val _status = MutableLiveData<APILoadingStatus>()
+    val status: LiveData<APILoadingStatus>
+        get() = _status
+
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -21,16 +29,64 @@ class ReaderMixerViewModel (private val repository: Repository,
         job.cancel()
     }
 
+    /** ERROR */
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String>
+        get() = _error
+
     /** DATA SETUP */
     private val _currentChapter = MutableLiveData<Chapter>()
     val currentChapter: LiveData<Chapter>
         get() = _currentChapter
 
+    private val _chapters = mutableListOf<Chapter>()
+    private val _chaptersDetails = mutableMapOf<Chapter, MutableList<ImageBlockRecorder>>()
+
+    private val _chapterBlocks = MutableLiveData<List<ImageBlockRecorder>>()
+    val chapterBlocks: LiveData<List<ImageBlockRecorder>>
+        get() = _chapterBlocks
+
     fun displayChapter(chapter: Chapter) {
+        if (!_chapters.contains(chapter)) {
+            _chapters.add(chapter)
+            _chapters.sortBy { it.chapterIndex }
+            _chaptersDetails[chapter] = mutableListOf()
+        }
+
         _currentChapter.value = chapter
         _isFirstChapter.value = chapter.chapterIndex == 0
         _currentIndex.value = "${chapter.chapterIndex + 1} / ${book.chapterCount}"
         _isLastChapter.value = chapter.chapterIndex == book.chapterCount - 1
+    }
+
+    fun fetchChapterDetails(chapterIndex: Int) {
+
+        _status.value = APILoadingStatus.LOADING
+
+        coroutineScope.launch {
+            val result = repository.getChapterWithDetails(chapterIndex, book)
+
+            when(result) {
+                is Result.Success -> {
+                    displayChapter(result.data.first)
+                    _chapterBlocks.value = result.data.second
+                    _status.value = APILoadingStatus.DONE
+                    _error.value = null
+                }
+
+                is Result.Fail -> {
+                    _chapterBlocks.value = null
+                    _status.value = APILoadingStatus.ERROR
+                    _error.value = result.error
+                }
+
+                is Result.Error -> {
+                    _chapterBlocks.value = null
+                    _status.value = APILoadingStatus.ERROR
+                    _error.value = result.exception.localizedMessage
+                }
+            }
+        }
     }
 
     /** UI SETTINGS */
@@ -74,12 +130,13 @@ class ReaderMixerViewModel (private val repository: Repository,
         _shouldShowCommentDialog.value = null
     }
 
-    /** NEXT CHAPTER*/
+    /** NEXT CHAPTER */
     private val _shouldNavigateToNextChapter = MutableLiveData<Boolean>()
     val shouldNavigateToNextChapter: LiveData<Boolean>
         get() = _shouldNavigateToNextChapter
 
     fun navigateToNextChapter() {
+        //TODO: FETCH NEXT CHAPTER instead of changing these variables
         _shouldNavigateToNextChapter.value = true
     }
 

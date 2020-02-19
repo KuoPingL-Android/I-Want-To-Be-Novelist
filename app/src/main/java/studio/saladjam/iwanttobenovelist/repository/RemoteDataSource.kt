@@ -78,6 +78,10 @@ object IWBNRemoteDataSource: Repository {
         val storageRef = IWBNApplication.container.fireStorage.reference
         var numberOfImageUploaded = 0
 
+        var chapterID = chapter.chapterID
+        val isNewChapter = chapterID.isEmpty()
+        if (chapterID.isEmpty()) chapterID = IWBNApplication.container.getChaptersRefFrom(chapter.bookID).document().id
+
         for ((id, bitmap) in bitmapsMap) {
 
             val byteArrayOutput = ByteArrayOutputStream()
@@ -128,7 +132,16 @@ object IWBNRemoteDataSource: Repository {
                                             j+=1
 
                                             if(j == addOnCoordinators.count()) {
-                                                continuation.resume(Result.Success(true))
+
+                                                if(isNewChapter) {
+                                                    IWBNApplication.container.bookCollection.document(bookID)
+                                                        .update(Book.Companion.BookKeys.CHAPTERCOUNT.string, chapter.chapterIndex + 1)
+                                                        .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+                                                        .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
+                                                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                                                } else {
+                                                    continuation.resume(Result.Success(true))
+                                                }
                                             }
 
                                         }
