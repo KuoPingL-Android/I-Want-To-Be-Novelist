@@ -67,17 +67,17 @@ class MainViewModel: ViewModel() {
     }
 
     /** NAVIGATE to BOOK */
-    private val _selectedBook = MutableLiveData<Book>()
-    val selectedBook: LiveData<Book>
-        get() = _selectedBook
-
-    fun selectBook(book: Book) {
-        _selectedBook.value = book
-    }
-
-    fun doneNavigateToBook() {
-        _selectedBook.value = null
-    }
+//    private val _selectedBook = MutableLiveData<Book>()
+//    val selectedBook: LiveData<Book>
+//        get() = _selectedBook
+//
+//    fun selectBook(book: Book) {
+//        _selectedBook.value = book
+//    }
+//
+//    fun doneNavigateToBook() {
+//        _selectedBook.value = null
+//    }
 
 
     /** NAVIGATE to BOOK DETAIL --- DIVIDED into WRITER and READER VERSION */
@@ -134,7 +134,7 @@ class MainViewModel: ViewModel() {
     val selectedBookToRead: LiveData<Book>
         get() = _selectedBookToRead
 
-    fun displayReadingBook(book: Book) {
+    fun selectedBookToRead(book: Book) {
         _selectedBookToRead.value = book
     }
 

@@ -1,7 +1,6 @@
 package studio.saladjam.iwanttobenovelist.repository
 
 import android.graphics.Bitmap
-import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -81,4 +80,12 @@ class DataSource(private val localDataSource: Repository,
     ): Result<Boolean> {
         return remoteDataSource.postChapterWithDetails(chapter, bitmapsMap, addOnCoordinators)
     }
+
+    override suspend fun getChapterWithDetails(
+        chapterIndex: Int,
+        book: Book
+    ): Result<Pair<Chapter, List<ImageBlockRecorder>>> {
+        return remoteDataSource.getChapterWithDetails(chapterIndex, book)
+    }
+
 }

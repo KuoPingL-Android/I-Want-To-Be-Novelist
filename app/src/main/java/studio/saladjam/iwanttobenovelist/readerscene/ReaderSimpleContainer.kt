@@ -1,4 +1,6 @@
-package studio.saladjam.iwanttobenovelist.editorscene
+package studio.saladjam.iwanttobenovelist.readerscene
+
+import studio.saladjam.iwanttobenovelist.editorscene.EditorImageBlock
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,9 +28,9 @@ import java.io.*
 import java.util.*
 
 
-class EditorSimpleContainer @JvmOverloads constructor(context: Context,
-                             attrs: AttributeSet? = null,
-                             defStyle: Int = 0): FrameLayout(context, attrs, defStyle) {
+class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
+                                                      attrs: AttributeSet? = null,
+                                                      defStyle: Int = 0): FrameLayout(context, attrs, defStyle) {
     /** TEXT */
     private var mChapter: Chapter? = null
     val chapter: Chapter?
@@ -253,33 +255,9 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
 
-            child.deletionCallback = {
-                removeView(it)
-            }
-
-            if (enableDeletion) {
-                child.enableDeletion()
-            }
-
             imageBlock.put(child, frame)
             invalidate()
-
-            child.callback = {
-                val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
-
-                imageBlock[child] =frame
-                invalidate()
-            }
         }
-    }
-
-    override fun removeView(view: View?) {
-        super.removeView(view)
-        if (view is EditorImageBlock) {
-            imageBlock.remove(view)
-            invalidate()
-        }
-
     }
 
     private fun findWordInterceptingView(wordFrame: Frame): View? {
@@ -295,33 +273,4 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
         return null
     }
 
-    private var enableDeletion = false
-
-    fun enableDeletion() {
-        enableDeletion = true
-        imageBlock.keys.forEach { it.enableDeletion() }
-    }
-
-    fun disableDeletion() {
-        enableDeletion = false
-        imageBlock.keys.forEach { it.disableDeletion() }
-    }
-
-    fun getDetails(): Pair<Map<String, Bitmap>, List<ImageBlockRecorder>> {
-        val map = mutableMapOf<String, Bitmap>()
-        val blocks = mutableListOf<ImageBlockRecorder>()
-        for ((k, v) in imageBlock) {
-            val imageID = UUID.randomUUID().toString()
-            map.put(imageID, k.getImage())
-            blocks.add(ImageBlockRecorder(
-                imageID,
-                x = v.x - paddingStart,
-                y = v.y - paddingTop,
-                wToParentWRatio = v.width.toFloat() / width.toFloat(),
-                wToHRatio = v.width.toFloat()/v.height.toFloat(),
-                yToParentHRatio = v.y.toFloat()/height.toFloat()))
-        }
-
-        return Pair(map, blocks)
-    }
 }

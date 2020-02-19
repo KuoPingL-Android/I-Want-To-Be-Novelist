@@ -24,11 +24,49 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
 import java.io.ByteArrayOutputStream
+import java.lang.IllegalStateException
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
+
+    /** GET CHAPTER DETAIL  */
+    override suspend fun getChapterWithDetails(
+        chapterIndex: Int,
+        book: Book
+    ): Result<Pair<Chapter, List<ImageBlockRecorder>>> = suspendCoroutine { continuation ->
+
+        val tag = "getChapterWithDetails"
+        val bookID = book.bookID
+
+        IWBNApplication.container.getChapterQueryFrom(bookID, chapterIndex).get()
+            .addOnSuccessListener {
+
+                // GOT CHAPTER OBJECT
+                if(it.size() != 1) {throw IllegalStateException("suspend fun getChapterWithDetails: UNEXPECTED SIZE of ${it.size()} CHAPTERs FOUND")}
+
+                val chapter = it.toObjects(Chapter::class.java).first()
+
+                // FETCH COORDINATES
+                IWBNApplication.container.getImageCoordinatesQueryFrom(bookID, chapter).get()
+                    .addOnSuccessListener { coordinatesSnapshot ->
+
+                        val coordinates = coordinatesSnapshot
+                            .toObjects(ImageBlockRecorder::class.java)
+                            .filter { chapter.images.contains(it.imageID) }
+
+                        continuation.resume(Result.Success(Pair(chapter, coordinates)))
+
+                    }
+                    .addOnCanceledListener { continuation.resume(Result.Fail("$tag CANCELED")) }
+                    .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+    }
 
     /** ADD DETAIL of the CHAPTER */
     override suspend fun postChapterWithDetails(
@@ -50,6 +88,14 @@ object IWBNRemoteDataSource: Repository {
             storageRef.child(bookID + "/${id}.jpg").putBytes(bytes)
                 .addOnSuccessListener {
                     numberOfImageUploaded += 1
+
+                    // FILL IN THE IMAGE LOCATION
+                    if (it.metadata != null &&
+                        it.metadata?.path != null && it?.metadata?.bucket != null) {
+                        val imageLocation = "gs://" + it.metadata!!.bucket + "/" + it.metadata!!.path
+                        addOnCoordinators.filter { it.imageID == id }.first().imageLocation = imageLocation
+                    }
+
 
                     if (numberOfImageUploaded == bitmapsMap.keys.count()) {
                         // UPDATE CHAPTER

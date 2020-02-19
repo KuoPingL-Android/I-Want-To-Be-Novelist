@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="#8888" android:state_pressed="true"/>
-    <item android:color="#fff" android:state_enabled="true"/>
+    <item android:color="@color/iwbn_primary_color" android:state_enabled="true"/>
     <item android:color="#8888" android:state_enabled="false"/>
     <item android:color="@android:color/black"/>
 </selector>

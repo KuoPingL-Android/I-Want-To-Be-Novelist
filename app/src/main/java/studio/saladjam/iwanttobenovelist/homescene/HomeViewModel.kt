@@ -88,17 +88,17 @@ class HomeViewModel(val repository: Repository): ViewModel() {
             list.add(HomeSealItems.Recommend("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
         }
 
-        if (_myFollowList.value != null && _myFollowList.value!!.isNotEmpty()) {
+        if (!_myFollowList.value.isNullOrEmpty()) {
             if (user.token != null) {
                 list.add(HomeSealItems.CurrentReading("Currently Reading", _myFollowList.value!!, HomeSections.CURRENTREAD))
             }
         }
 
-        if (_myWorkList.value != null) {
+        if (!_myWorkList.value.isNullOrEmpty()) {
             list.add(HomeSealItems.WorkInProgress("My Work", _myWorkList.value!!, HomeSections.WORKINPROGRESS))
         }
 
-        if (_popularList.value != null) {
+        if (!_popularList.value.isNullOrEmpty()) {
             list.add(HomeSealItems.General("Popular", _popularList.value!!, HomeSections.POPULAR))
         }
 

@@ -77,4 +77,11 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     ): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun getChapterWithDetails(
+        chapterIndex: Int,
+        book: Book
+    ): Result<Pair<Chapter, List<ImageBlockRecorder>>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.readerscene.ReaderMixerViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layer_editor"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            android:id="@+id/edit_editor_mix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layer_editor_mixer_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="56dp"
+            android:paddingBottom="56dp">
+
+            <studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer
+                android:id="@+id/simple_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp" />
+
+            <!--ScrollView
+                android:id="@+id/scrollview_editor_mixer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </ScrollView-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layer_reader_mixer_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#000"
+            android:alpha="0.8"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/image_reader_mixer_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
+                android:src="@drawable/favorite_icon"
+                android:tint="@color/iwbn_primary_color"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.triggerLikeButton()}"/>
+            <ImageView
+                android:id="@+id/image_reader_mixer_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_reader_mixer_fav"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:src="@drawable/comment_icon"
+                android:tint="@color/iwbn_primary_color"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.showComments()}"/>
+
+            <ImageView
+                android:id="@+id/image_reader_mixer_next"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/next_icon"
+                android:tint="@color/button_color_selector"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="@{viewModel.isLastChapter == true ? View.GONE : View.VISIBLE}"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.navigateToNextChapter()}"/>
+
+            <TextView
+                android:id="@+id/text_reader_mixer_index"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toStartOf="@id/image_reader_mixer_next"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                tools:text="1/16"
+                android:textColor="@color/iwbn_primary_color"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:text="@{viewModel.currentIndex}"/>
+
+            <ImageView
+                android:id="@+id/image_reader_mixer_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text_reader_mixer_index"
+                android:src="@drawable/next_icon"
+                android:rotation="180"
+                android:tint="@color/button_color_selector"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:visibility="@{viewModel.isFirstChapter == true ? View.GONE : View.VISIBLE}"
+                android:clickable="true"
+                android:onClick="@{()->viewModel.navigateToPreviousChapter()}"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layer_reader_mixer_top"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="#000"
+            android:alpha="0.8">
+
+            <ImageView
+                android:id="@+id/image_reader_mixer_back"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:tint="@color/iwbn_primary_color"
+                android:src="@drawable/back_icon"
+                android:onClick="@{()->viewModel.navigateBackToPreviousPage()}"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/text_reader_mixer_title"
+                android:layout_width="250dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                android:clickable="true"
+                android:text="@{viewModel.currentChapter.title}"
+                android:textColor="@color/iwbn_primary_color"
+                android:textSize="18dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textStyle="bold"
+                android:ellipsize="marquee"
+                android:singleLine="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

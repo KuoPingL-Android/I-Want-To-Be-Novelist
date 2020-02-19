@@ -2,7 +2,6 @@ package studio.saladjam.iwanttobenovelist.factories.viewmodelfactories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailReaderViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
@@ -64,9 +63,6 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(BookDetailViewModel::class.java)
                                     -> BookDetailViewModel(repository)
-
-                isAssignableFrom(BookDetailReaderViewModel::class.java)
-                                    -> BookDetailReaderViewModel(repository)
 
                 isAssignableFrom(EditorTextViewModel::class.java)
                                     -> EditorTextViewModel(repository)

@@ -43,12 +43,13 @@ class BookDetailReaderFragment : Fragment() {
             }
         })
 
-        viewModel.selectedChapterToEdit.observe(viewLifecycleOwner, Observer {
+        viewModel.selectedChapterToRead.observe(viewLifecycleOwner, Observer {
             it?.let {
                 mainviewModel.selectChpaterToRead(it)
                 viewModel.doneNavigateToReader()
             }
         })
+
 
         book = requireArguments().get("book") as? Book
 

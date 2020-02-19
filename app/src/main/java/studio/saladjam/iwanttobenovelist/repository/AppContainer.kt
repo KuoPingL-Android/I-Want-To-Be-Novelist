@@ -4,11 +4,14 @@ import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 
 class AppContainer(val context: Context) {
@@ -24,7 +27,25 @@ class AppContainer(val context: Context) {
     }
 
     fun getChaptersRefFrom(bookID: String): CollectionReference {
-        return bookCollection.document(bookID).collection("chapters")
+        return bookCollection
+            .document(bookID)
+            .collection("chapters")
+    }
+
+    fun getChapterQueryFrom(bookID: String, chapterIndex: Int): Query {
+        return bookCollection
+            .document(bookID)
+            .collection("chapters")
+            .whereEqualTo("chapterIndex", chapterIndex)
+    }
+
+    fun getImageCoordinatesQueryFrom(bookID: String, chapter: Chapter): Query {
+        return bookCollection
+            .document(bookID)
+            .collection("chapters")
+            .document(chapter.chapterID)
+            .collection("coordinates")
+            .whereIn("imageID", chapter.images)
     }
 
     fun getFollowingBookRefFrom(userID: String): CollectionReference {

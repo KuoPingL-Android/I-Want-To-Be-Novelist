@@ -106,13 +106,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         /** BOOK SCENE */
-        viewModel.selectedBook.observe(this, Observer {
-            it?.let {book ->
-                nav.navigate(NavigationDirections.actionGlobalBookDetailReaderFragment(book))
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
-                viewModel.doneNavigateToBook()
-            }
-        })
+//        viewModel.selectedBook.observe(this, Observer {
+//            it?.let {book ->
+//                nav.navigate(NavigationDirections.actionGlobalBookDetailReaderFragment(book))
+//                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+//                viewModel.doneNavigateToBook()
+//            }
+//        })
 
         /** BOOK EDITING SCENE */
         viewModel.selectBookToEdit.observe(this, Observer {
@@ -143,16 +143,17 @@ class MainActivity : AppCompatActivity() {
         /** BOOK READING FRAGMENT */
         viewModel.selectedBookToRead.observe(this, Observer {
             it?.let {
-//                nav.navigate(NavigationDirections)
+                nav.navigate(NavigationDirections.actionGlobalBookDetailReaderFragment(it))
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneDisplayingReadingBook()
             }
         })
 
-        /** BOOK READING FRAGMENT */
+        /** CHAPTER READING FRAGMENT */
         viewModel.selectedChapterToRead.observe(this, Observer {
             it?.let {
-
+                //TODO: CONNECT to READER SCENE
+//                nav.navigate()
                 showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 viewModel.doneSelectChapterToRead()
             }

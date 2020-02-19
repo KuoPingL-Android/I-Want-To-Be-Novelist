@@ -41,4 +41,25 @@ interface Repository {
     suspend fun postChapterWithDetails(chapter: Chapter,
                                        bitmapsMap: Map<String, Bitmap>,
                                        addOnCoordinators: List<ImageBlockRecorder>): Result<Boolean>
+
+    /** READING PAGE */
+    /** COMMENT */
+    //TODO: ADD COMMENT REPOSITORY
+    /** FOLLOW CHAPTER */
+    //TODO: ADD FOLLOW CHAPTER REPOSITORY
+    /** LIKE CHAPTER */
+//    suspend fun updateLikeChapter(chapter: Chapter)
+
+    /** GET A CHAPTER from BOOK */
+    /**
+     * @param Map<String, ImageBlockRecorder> :
+     * this contains the File location of the Image
+     * and the Actual view Location of the Image relative to the
+     *
+     * @param Chapter: the Chapter with the ChapterID in the book
+     * */
+    suspend fun getChapterWithDetails(chapterIndex: Int, book: Book): Result<Pair<Chapter, List<ImageBlockRecorder>>>
+
+    /**  */
+
 }

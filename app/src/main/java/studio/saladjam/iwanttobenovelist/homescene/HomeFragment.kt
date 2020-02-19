@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
 
         viewModel.selectedBook.observe(this, Observer {
             it?.let {
-                mainViewModel?.selectBook(it)
+                mainViewModel?.selectedBookToRead(it)
                 viewModel.doneSelectingBook()
             }
         })
