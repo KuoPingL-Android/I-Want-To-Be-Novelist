@@ -47,10 +47,6 @@ constructor(context: Context,
         }
     }
 
-    fun setImageBitmap(bitmap: Bitmap?) {
-        image_image_block_image.setImageBitmap(bitmap)
-    }
-
     fun setImageSize(width: Int, height: Int) {
         var imageLayoutParams = mainImageView.layoutParams
 
@@ -66,6 +62,7 @@ constructor(context: Context,
         val storage = IWBNApplication.container.getStorageInstance(url)
         Glide.with(image_image_block_image.context)
             .load(storage)
+            .placeholder(android.R.drawable.gallery_thumb)
             .into(image_image_block_image)
     }
 

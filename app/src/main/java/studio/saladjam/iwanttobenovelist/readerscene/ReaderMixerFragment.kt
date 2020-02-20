@@ -63,10 +63,6 @@ class ReaderMixerFragment : Fragment() {
 
         viewModel.fetchChapterDetails(chapter.chapterIndex)
 
-//        viewModel.
-//
-
-
 
         return binding.root
     }
