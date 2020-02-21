@@ -33,14 +33,14 @@ class HomeFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        viewModel.selectedBook.observe(this, Observer {
+        viewModel.selectedBook.observe(viewLifecycleOwner, Observer {
             it?.let {
                 mainViewModel?.selectedBookToRead(it)
                 viewModel.doneSelectingBook()
             }
         })
 
-        viewModel.areDataRead.observe(this, Observer {
+        viewModel.areDataRead.observe(viewLifecycleOwner, Observer {
             it?.let {isReady ->
                 if(isReady) {
                     viewModel.prepareFinalList()
@@ -70,21 +70,22 @@ class HomeFragment : Fragment() {
             }
         })
 
+        viewModel.shouldNavigateToMyWork.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel
+                viewModel.doneNavigateToMyWork()
+            }
+        })
+
+        viewModel.shouldNavigateToMyFollow.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.doneNavigateToMyFollow()
+            }
+        })
+
         binding.viewModel = viewModel
 
         viewModel.fetchDatas()
         return binding.root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        val homeLocation = IntArray(2)
-//        binding.imageHomeV1Logo.getLocationOnScreen(homeLocation)
-//
-//        val searchBarLocation = IntArray(2)
-//        binding.searchHomeV1.getLocationOnScreen(searchBarLocation)
-//
-//        binding.searchHomeV1.maxWidth = searchBarLocation.first() - (homeLocation.first() + binding.imageHomeV1Logo.width + 16.toPx())
-//
-//    }
 }

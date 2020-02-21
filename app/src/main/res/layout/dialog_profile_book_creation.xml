@@ -74,6 +74,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_profile_book_creation_title"
                 app:layout_constraintBottom_toTopOf="@id/button_profile_book_create_book"
+                app:layout_constraintDimensionRatio="2:3"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
@@ -86,10 +87,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:cardCornerRadius="30dp">
+
                     <ImageView
                         android:id="@+id/image_profile_book_creation_cover"
                         android:layout_width="match_parent"
