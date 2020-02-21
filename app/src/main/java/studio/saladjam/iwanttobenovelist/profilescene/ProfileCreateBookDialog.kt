@@ -274,6 +274,10 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
             val bitmap = photoUri?.getBitmap(binding.imageProfileBookCreationCover.width, binding.imageProfileBookCreationCover.height)
             binding.imageProfileBookCreationCover.setImageBitmap(bitmap)
 
+            viewModel.setImage(bitmap)
+            binding.imageProfileBookCreationCover.setImageBitmap(bitmap)
+            imageSelection.dismiss()
+
             photoUri = null
         }
     }
@@ -286,7 +290,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
+            "JPEG_cover_", /* prefix */
             ".jpg", /* suffix */
             storageDir /* directory */
         ).apply {
