@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
+import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
@@ -44,6 +45,8 @@ class HomeCurrentReadViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.V
                 }
             })
         }
+
+        binding.textItemHomeV1Seeall.setTouchDelegate()
 
         binding.executePendingBindings()
     }

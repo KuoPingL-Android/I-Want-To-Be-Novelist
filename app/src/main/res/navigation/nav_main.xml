@@ -35,7 +35,12 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="studio.saladjam.iwanttobenovelist.profilescene.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <argument
+            android:name="tab"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
     <action
         android:id="@+id/action_global_profileFragment"
         app:destination="@id/profileFragment"

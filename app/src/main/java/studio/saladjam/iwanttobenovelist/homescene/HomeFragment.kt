@@ -73,13 +73,14 @@ class HomeFragment : Fragment() {
 
         viewModel.shouldNavigateToMyWork.observe(viewLifecycleOwner, Observer {
             it?.let {
-                mainViewModel
+                mainViewModel?.navigateToProfilePage(MainViewModel.PROFILETABS.WORKS)
                 viewModel.doneNavigateToMyWork()
             }
         })
 
         viewModel.shouldNavigateToMyFollow.observe(viewLifecycleOwner, Observer {
             it?.let {
+                mainViewModel?.navigateToProfilePage(MainViewModel.PROFILETABS.FOLLOWS)
                 viewModel.doneNavigateToMyFollow()
             }
         })

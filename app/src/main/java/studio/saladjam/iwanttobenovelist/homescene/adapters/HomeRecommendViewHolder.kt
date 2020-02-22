@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
+import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
@@ -99,6 +100,8 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
 
 
         }
+
+        binding.textItemHomeV1Seeall.setTouchDelegate()
 
         binding.executePendingBindings()
     }

@@ -8,6 +8,12 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
 class MainViewModel: ViewModel() {
+
+    enum class PROFILETABS(val value: Int) {
+        FOLLOWS(0),
+        WORKS(1)
+    }
+
     /***
      * LIVE DATAs and Corresponding ACTIONS
      */
@@ -54,12 +60,12 @@ class MainViewModel: ViewModel() {
     }
 
     /** NAVIGATE to PROFILE SCENE */
-    private val _shouldNavigateToProfilePage = MutableLiveData<Boolean>()
-    val shouldNavigateToProfilePage: LiveData<Boolean>
+    private val _shouldNavigateToProfilePage = MutableLiveData<Int>()
+    val shouldNavigateToProfilePage: LiveData<Int>
         get() = _shouldNavigateToProfilePage
 
-    fun navigateToProfilePage() {
-        _shouldNavigateToProfilePage.value = true
+    fun navigateToProfilePage(profileTab: PROFILETABS = PROFILETABS.FOLLOWS) {
+        _shouldNavigateToProfilePage.value = profileTab.value
     }
 
     fun doneNavigateToProfilePage() {

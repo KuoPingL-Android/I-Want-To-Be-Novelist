@@ -44,8 +44,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.navigation_profile -> {
-                viewModel.navigateToProfilePage()
-                true
+
+                if (IWBNApplication.user.token == null) {
+                    false
+                } else {
+                    viewModel.navigateToProfilePage()
+                    true
+                }
             }
             else -> {
                 false
@@ -97,7 +102,8 @@ class MainActivity : AppCompatActivity() {
                     viewModel.doneNavigateToProfilePage()
                     viewModel.navigateToLoginPage()
                 } else {
-                    nav.navigate(NavigationDirections.actionGlobalProfileFragment())
+                    binding.bottomnavMain.selectedItemId = R.id.navigation_profile
+                    nav.navigate(NavigationDirections.actionGlobalProfileFragment(it))
                     showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
                 }
 

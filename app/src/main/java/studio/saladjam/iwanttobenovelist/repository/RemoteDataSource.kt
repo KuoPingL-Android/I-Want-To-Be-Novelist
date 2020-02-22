@@ -359,9 +359,11 @@ object IWBNRemoteDataSource: Repository {
 
     /** HOME DATA */
     override suspend fun getMostPopularBooks(): Result<List<Book>> = suspendCoroutine { continuation ->
-        IWBNApplication.container.bookCollection.orderBy("popularity", Query.Direction.DESCENDING).limit(20).get()
+        IWBNApplication.container
+            .bookCollection.orderBy("popularity", Query.Direction.DESCENDING)
+            .limit(10).get()
             .addOnSuccessListener {snapShot ->
-                continuation.resume(Result.Success(snapShot.toObjects(Book::class.java)))
+                continuation.resume(Result.Success(snapShot.toObjects(Book::class.java).filter { it.chapterCount > 0 }))
             }
             .addOnFailureListener {exception ->
                 continuation.resume(Result.Error(exception))

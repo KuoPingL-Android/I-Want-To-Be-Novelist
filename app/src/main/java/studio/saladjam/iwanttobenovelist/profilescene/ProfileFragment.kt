@@ -10,9 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_UNLABELED
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
@@ -24,6 +28,8 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
 
     private val viewModel by viewModels<ProfileViewModel> { getVMFactory() }
+
+    private var initialTabNumber: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,13 +50,15 @@ class ProfileFragment : Fragment() {
 
         viewModel.fetchUserWork()
 
+        initialTabNumber = requireArguments().get("tab") as Int
+
         return binding.root
     }
 
     private fun setupTabLayout() {
+
         binding.tablayoutProfile.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -62,6 +70,16 @@ class ProfileFragment : Fragment() {
             }
 
         })
+
+//        binding.viewpagerProfile.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageScrolled(
+//                position: Int,
+//                positionOffset: Float,
+//                positionOffsetPixels: Int
+//            ) {
+//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+//            }
+//        })
 
         binding.tablayoutProfile.isTabIndicatorFullWidth = false
     }
@@ -82,8 +100,16 @@ class ProfileFragment : Fragment() {
                     tab.icon?.setTint(Color.parseColor("#ee888888"))
                 }
             }
-
-
         }.attach()
+
+
+        initialTabNumber?.let {
+            CoroutineScope(Dispatchers.Main).launch {
+                binding.viewpagerProfile.currentItem = it
+                initialTabNumber = null
+            }
+
+        }
+
     }
 }
