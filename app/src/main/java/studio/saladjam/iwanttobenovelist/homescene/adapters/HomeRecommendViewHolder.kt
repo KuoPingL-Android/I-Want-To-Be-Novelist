@@ -88,7 +88,7 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                             outRect.left = 20.toPx()
                         }
                         (parent.adapter?.itemCount?: 1) - 1 -> {
-                            outRect.right = parent.width/2 - 50.toPx()
+                            outRect.right = parent.width/2 - parent.width/6
                         }
                         else -> {
                             outRect.left = 10.toPx()
