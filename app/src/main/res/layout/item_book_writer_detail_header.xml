@@ -16,7 +16,7 @@
         tools:background="#000">
 
         <TextView
-            android:id="@+id/text_book_writer_category"
+            android:id="@+id/text_book_writer_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -42,8 +42,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@id/text_book_writer_category"
-            app:layout_constraintTop_toBottomOf="@id/text_book_writer_category"
+            app:layout_constraintStart_toStartOf="@id/text_book_writer_author"
+            app:layout_constraintTop_toBottomOf="@id/text_book_writer_author"
             app:layout_constraintWidth_percent="0.6"
             tools:text="THE FAMOUS ESCAPE"
             android:text="@{book.title}"/>
@@ -85,7 +85,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
-            android:id="@+id/image_item_book_writer_follow"
+            android:id="@+id/text_item_book_writer_follow"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/bookmark_icon"
@@ -98,9 +98,9 @@
             android:id="@+id/text_item_book_writer_fav_count"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="@id/image_item_book_writer_follow"
-            app:layout_constraintBottom_toBottomOf="@id/image_item_book_writer_follow"
-            app:layout_constraintStart_toEndOf="@id/image_item_book_writer_follow"
+            app:layout_constraintTop_toTopOf="@id/text_item_book_writer_follow"
+            app:layout_constraintBottom_toBottomOf="@id/text_item_book_writer_follow"
+            app:layout_constraintStart_toEndOf="@id/text_item_book_writer_follow"
             android:layout_marginStart="8dp"
 
             tools:text="12345"

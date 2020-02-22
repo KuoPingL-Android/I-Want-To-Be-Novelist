@@ -29,7 +29,9 @@ class ProfileFragment : Fragment() {
 
     private val viewModel by viewModels<ProfileViewModel> { getVMFactory() }
 
-    private var initialTabNumber: Int? = null
+    private var initialTabNumber = -1
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,8 +52,6 @@ class ProfileFragment : Fragment() {
 
         viewModel.fetchUserWork()
 
-        initialTabNumber = requireArguments().get("tab") as Int
-
         return binding.root
     }
 
@@ -70,16 +70,6 @@ class ProfileFragment : Fragment() {
             }
 
         })
-
-//        binding.viewpagerProfile.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageScrolled(
-//                position: Int,
-//                positionOffset: Float,
-//                positionOffsetPixels: Int
-//            ) {
-//                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-//            }
-//        })
 
         binding.tablayoutProfile.isTabIndicatorFullWidth = false
     }
@@ -102,13 +92,13 @@ class ProfileFragment : Fragment() {
             }
         }.attach()
 
+        val tag = requireArguments().get("tab") as Int
 
-        initialTabNumber?.let {
+        if (initialTabNumber != tag) {
+            initialTabNumber = tag
             CoroutineScope(Dispatchers.Main).launch {
-                binding.viewpagerProfile.currentItem = it
-                initialTabNumber = null
+                binding.viewpagerProfile.currentItem = initialTabNumber
             }
-
         }
 
     }

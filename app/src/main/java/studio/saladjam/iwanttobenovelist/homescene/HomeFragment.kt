@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
 
         viewModel.shouldNavigateToMyFollow.observe(viewLifecycleOwner, Observer {
             it?.let {
-                mainViewModel?.navigateToProfilePage(MainViewModel.PROFILETABS.FOLLOWS)
+                mainViewModel?.navigateToProfilePage(MainViewModel.PROFILETABS.DEFAULT)
                 viewModel.doneNavigateToMyFollow()
             }
         })

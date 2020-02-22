@@ -363,7 +363,10 @@ object IWBNRemoteDataSource: Repository {
             .bookCollection.orderBy("popularity", Query.Direction.DESCENDING)
             .limit(10).get()
             .addOnSuccessListener {snapShot ->
-                continuation.resume(Result.Success(snapShot.toObjects(Book::class.java).filter { it.chapterCount > 0 }))
+
+                val list = snapShot.toObjects(Book::class.java).filter { it.chapterCount > 0 }
+
+                continuation.resume(Result.Success(list))
             }
             .addOnFailureListener {exception ->
                 continuation.resume(Result.Error(exception))

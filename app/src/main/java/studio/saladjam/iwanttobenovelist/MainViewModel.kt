@@ -10,6 +10,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 class MainViewModel: ViewModel() {
 
     enum class PROFILETABS(val value: Int) {
+        DEFAULT(-1),
         FOLLOWS(0),
         WORKS(1)
     }
