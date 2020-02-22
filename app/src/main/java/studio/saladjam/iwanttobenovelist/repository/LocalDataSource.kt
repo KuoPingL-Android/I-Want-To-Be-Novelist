@@ -84,4 +84,8 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     ): Result<Pair<Chapter, List<ImageBlockRecorder>>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun getLikesForBook(book: Book): Result<List<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

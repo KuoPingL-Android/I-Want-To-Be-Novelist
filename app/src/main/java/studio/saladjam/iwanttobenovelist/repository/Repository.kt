@@ -60,6 +60,7 @@ interface Repository {
      * */
     suspend fun getChapterWithDetails(chapterIndex: Int, book: Book): Result<Pair<Chapter, List<ImageBlockRecorder>>>
 
-    /**  */
+    /** GET LIKES from BOOK */
+    suspend fun getLikesForBook(book: Book): Result<List<String>>
 
 }

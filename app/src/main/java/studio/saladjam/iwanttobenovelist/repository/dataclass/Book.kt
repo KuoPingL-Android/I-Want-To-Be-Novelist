@@ -16,6 +16,7 @@ data class Book(
     val authorName: String = "",
     var cover: String = "",
     var summary: String = "",
+    var latestChapterID: String = "",
     val chapterCount: Int = 0,
     val comments: List<Comment> = listOf(),
     val followers: List<Follower> = listOf(),
@@ -37,7 +38,8 @@ data class Book(
             LASTUPDATEDTIME("lastUpdatedTime"),
             LANGUAGE("language"),
             POPULARITY("popularity"),
-            CHAPTERCOUNT("chapterCount")
+            CHAPTERCOUNT("chapterCount"),
+            LATESTCHAPTERID("latestChapterID")
         }
     }
 }
@@ -61,7 +63,7 @@ data class Chapter(
     val chapterIndex: Int = 0,
     var title: String = "",
     val subtitle: String = "",
-//    val sections: List<Section>? = null,
+    val updatedTime: Long = 0L,
     var images: List<String> = listOf(),
     var text: String = "",
     var popularity: Long = 0L,
@@ -77,6 +79,7 @@ data class Chapter(
             POPULARITY("popularity"),
             CHAPTERID("chapterID"),
             ISOPENTOPUBLIC("isOpenToPublic"),
+            UPDATEDTIME("updatedTime"),
             TEXT("text")
         }
     }

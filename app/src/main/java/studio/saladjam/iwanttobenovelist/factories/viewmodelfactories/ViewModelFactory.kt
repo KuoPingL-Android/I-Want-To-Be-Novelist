@@ -9,6 +9,7 @@ import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerV1ViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
+import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
 import studio.saladjam.iwanttobenovelist.profilescene.*
@@ -69,6 +70,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(EditorMixerV1ViewModel::class.java)
                                     -> EditorMixerV1ViewModel(repository)
+
+                isAssignableFrom(HomeWorkInProgressViewModel::class.java)
+                                    -> HomeWorkInProgressViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

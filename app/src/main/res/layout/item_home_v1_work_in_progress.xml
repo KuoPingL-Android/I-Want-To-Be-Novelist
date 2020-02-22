@@ -7,6 +7,9 @@
         <variable
             name="book"
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+        <variable
+            name="chapter"
+            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -15,9 +18,20 @@
         app:cardCornerRadius="10dp"
         android:elevation="10dp">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progressbar_item_home_v1_work_in_progress"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:visibility="gone"/>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -62,7 +76,8 @@
                     app:layout_constraintStart_toStartOf="@id/text_item_work_in_progress_home_v1_title"
                     app:layout_constraintEnd_toEndOf="@id/text_item_work_in_progress_home_v1_title"
                     android:textSize="14dp"
-                    android:text="Latest Chapter"/>
+                    tools:text="Latest Chapter"
+                    android:text="@{chapter.title}"/>
 
                 <TextView
                     android:id="@+id/text_item_work_in_progress_home_v1_progress"
@@ -90,6 +105,7 @@
                         android:layout_height="20dp"
                         android:src="@drawable/favorite_icon_liked"/>
                     <TextView
+                        android:id="@+id/text_item_work_in_progress_home_v1_likes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -98,10 +114,6 @@
                         android:layout_marginStart="10dp"/>
 
                 </LinearLayout>
-
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

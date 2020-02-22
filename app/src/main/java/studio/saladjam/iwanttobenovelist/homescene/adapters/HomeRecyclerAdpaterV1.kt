@@ -9,11 +9,12 @@ import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBind
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
+import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import java.lang.IllegalArgumentException
 
 /** THIS IS the MAIN ADAPTER for HOME PAGE */
-class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSealItems, RecyclerView.ViewHolder>
+class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel, val workInProgressViewModel: HomeWorkInProgressViewModel) : ListAdapter<HomeSealItems, RecyclerView.ViewHolder>
     (CallbackFactory().create(HomeSealItems::class.java)) {
 
     companion object {
@@ -37,11 +38,12 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel) : ListAdapter<HomeSeal
 
             WORK_IN_PROGRESS -> {
                 HomeWorkInProgressViewHolder(ItemHomeV1Binding
-                    .inflate(LayoutInflater.from(parent.context), parent, false))
+                    .inflate(LayoutInflater.from(parent.context), parent, false), workInProgressViewModel)
             }
 
             RECOMMEND -> {
-                HomeRecommendViewHolder(ItemHomeV1RecommendlistBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                HomeRecommendViewHolder(ItemHomeV1RecommendlistBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false))
             }
 
             else -> {

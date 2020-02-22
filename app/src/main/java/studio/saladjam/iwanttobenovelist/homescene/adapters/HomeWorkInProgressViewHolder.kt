@@ -8,9 +8,12 @@ import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
+import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 
-class HomeWorkInProgressViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewHolder(binding.root) {
+class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
+                                   private val workInProgressViewModel: HomeWorkInProgressViewModel) :
+    RecyclerView.ViewHolder(binding.root) {
     fun bind(sealItem: HomeSealItems.WorkInProgress, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
@@ -22,7 +25,7 @@ class HomeWorkInProgressViewHolder(val binding: ItemHomeV1Binding) : RecyclerVie
             textItemHomeV1Seeall.setTextColor(Color.parseColor("#000000"))
 
             /** SET ADAPTERs for RECYCLERVIEW */
-            recyclerItemHomeV1.adapter = HomeWorkInProgressItemAdapter(viewModel, section)
+            recyclerItemHomeV1.adapter = HomeWorkInProgressItemAdapter(viewModel, section, workInProgressViewModel)
             (recyclerItemHomeV1.adapter as HomeWorkInProgressItemAdapter).submitList(sealItem.books)
 
             recyclerItemHomeV1.addItemDecoration(object : RecyclerView.ItemDecoration() {

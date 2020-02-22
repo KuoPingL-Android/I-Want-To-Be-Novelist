@@ -31,6 +31,19 @@ import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
 
+    /** GET LIKES from BOOK */
+    override suspend fun getLikesForBook(book: Book): Result<List<String>> = suspendCoroutine {continuation ->
+        IWBNApplication.container.bookCollection
+            .document(book.bookID)
+            .collection("likes")
+            .get()
+            .addOnSuccessListener {
+                continuation.resume(Result.Success(it.toObjects(String::class.java)))
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
     /** GET CHAPTER DETAIL  */
     override suspend fun getChapterWithDetails(
         chapterIndex: Int,

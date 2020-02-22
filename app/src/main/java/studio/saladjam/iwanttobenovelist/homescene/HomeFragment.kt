@@ -20,6 +20,7 @@ import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeV1Binding
     private val viewModel by viewModels<HomeViewModel> { getVMFactory() }
+    private val workInProgressViewModel by viewModels<HomeWorkInProgressViewModel> { getVMFactory() }
     private var mainViewModel: MainViewModel? = null
 
 
@@ -48,7 +49,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.recyclerHomeMain.adapter = HomeRecyclerAdpaterV1(viewModel)
+        binding.recyclerHomeMain.adapter = HomeRecyclerAdpaterV1(viewModel, workInProgressViewModel)
 
         binding.recyclerHomeMain.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
