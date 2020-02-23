@@ -22,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="56dp"
             android:layout_marginEnd="16dp"
-            android:text="@{book.category}"
+            android:text="@{book.authorName}"
             android:textColor="@android:color/white"
             android:textSize="@dimen/book_detail_category_size"
             android:textStyle="bold"
@@ -84,16 +84,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageView
+        <TextView
             android:id="@+id/text_item_book_writer_follow"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/bookmark_icon"
-            android:tint="@color/iwbn_primary_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/iwbn_primary_color"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/text_item_book_writer_summary"
             app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_summary"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Followers :"
+            android:textStyle="bold"/>
         <TextView
             android:id="@+id/text_item_book_writer_fav_count"
             android:layout_width="wrap_content"

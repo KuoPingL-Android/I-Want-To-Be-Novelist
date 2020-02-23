@@ -99,3 +99,13 @@ data class Section(
     val comments: List<Comment>? = null,
     val popularity: Long = 0L
 ): Parcelable
+
+@Parcelize
+data class BookFollowee(
+    val bookID: String = ""
+): Parcelable
+
+@Parcelize
+data class BookFollower(
+    val userID: String = ""
+): Parcelable

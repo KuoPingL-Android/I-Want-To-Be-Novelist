@@ -39,7 +39,7 @@ class BookDetailWriterFragment : Fragment() {
 
         book = requireArguments().get("book") as Book
 
-        viewModel.book = requireArguments().get("book") as? Book
+        viewModel.book = book
 
         viewModel.selectedChapterToEdit.observe(this, Observer {
             it?.let {
@@ -67,7 +67,7 @@ class BookDetailWriterFragment : Fragment() {
             }
         })
 
-        viewModel.fetchChapters()
+        viewModel.checkBookInfo()
         return binding.root
     }
 }

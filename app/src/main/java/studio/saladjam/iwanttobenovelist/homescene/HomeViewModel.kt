@@ -79,7 +79,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
     fun prepareFinalList() {
 
-        if (_finalList.value != null) {return}
+//        if (_finalList.value != null) {return}
 
         val list = mutableListOf<HomeSealItems>()
 
@@ -113,11 +113,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
     fun fetchDatas() {
         fetchRecommendedList()
-        when(user.role) {
-            Roles.WRITER.value -> {
-                fetchMyWorkList()
-            }
-        }
+        fetchMyWorkList()
 
         if(user.token == null) {
             // VISITOR
@@ -173,22 +169,26 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     }
 
     /** WRITER or REVIEWER's LIST they FOLLOW */
+
     private fun fetchMyFollowList() {
-        coroutineScope.launch {
-            val result = repository.getUserFollowing(user)
-            when(result) {
-                is Result.Success -> {
-                    _myFollowList.value = result.data
-                }
+        repository.addBooksFollowingSnapshotListener(user.userID) {
+            coroutineScope.launch {
+                val result = repository.getFollowingBooks(it)
 
-                is Result.Error -> {
-                    _myFollowList.value = listOf()
-                    result.exception
-                }
+                when(result) {
+                    is Result.Success -> {
+                        _myFollowList.value = result.data
+                    }
 
-                is Result.Fail -> {
-                    _myFollowList.value = listOf()
-                    result.error
+                    is Result.Error -> {
+                        _myFollowList.value = listOf()
+                        result.exception
+                    }
+
+                    is Result.Fail -> {
+                        _myFollowList.value = listOf()
+                        result.error
+                    }
                 }
             }
         }

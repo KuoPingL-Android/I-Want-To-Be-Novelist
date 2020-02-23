@@ -29,8 +29,7 @@ data class User(
     val followers: List<Follower> = listOf(), // UserID + createdTime
     val popularity: Long = 0L,
     val authorFollowees: List<Followee> = listOf(), // UserID + createdTime
-    val commenterFollowees: List<Followee> = listOf(), // UserID + createdTime
-    val bookFollowees: List<BookFollowee> = listOf() // BookID + createdTime
+    val commenterFollowees: List<Followee> = listOf() // UserID + createdTime
 ): Parcelable
 
 @Parcelize
@@ -46,11 +45,6 @@ data class Followee(
     val createdDate: String = ""
 ): Parcelable
 
-@Parcelize
-data class BookFollowee(
-    val bookID: String = "",
-    val createdDate: String = ""
-): Parcelable
 
 @Parcelize
 data class UserComment(

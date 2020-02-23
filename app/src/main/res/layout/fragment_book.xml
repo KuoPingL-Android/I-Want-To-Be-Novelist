@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/bookmark_icon"
+                android:src="@{viewModel.isFollowing ? @drawable/bookmarked_icon : @drawable/bookmark_icon}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,8 @@
                 app:layout_constraintDimensionRatio="1"
                 android:tint="@color/iwbn_primary_color"
                 android:padding="5dp"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:onClick="@{()->viewModel.triggerFollowBook()}"/>
 
             <Button
                 android:id="@+id/button_book_writer_back"

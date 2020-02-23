@@ -7,6 +7,7 @@
         <variable
             name="chapter"
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +28,7 @@
             android:textColor="#000"
             tools:text="CHAPTER TITLE"
             android:text="@{chapter.title}"/>
+
         <TextView
             android:id="@+id/text_book_chapter_subtitle"
             android:layout_width="0dp"
@@ -39,13 +41,40 @@
             android:textSize="16dp"
             android:layout_marginBottom="8dp"
             tools:text="CHAPTER SUBTITLE"
-            android:text="@{chapter.subtitle}"/>
+            android:text="@{chapter.subtitle}"
+            android:visibility="@{chapter.subtitle == null || chapter.subtitle.empty ? View.GONE : View.VISIBLE}"/>
+
+        <ImageView
+            android:id="@+id/image_book_chapter_fav"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/favorite_icon"
+            app:layout_constraintBottom_toBottomOf="@id/text_book_chapter_fav_count"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="@+id/text_book_chapter_title"
+            app:layout_constraintTop_toTopOf="@id/text_book_chapter_fav_count" />
+
+        <TextView
+            android:id="@+id/text_book_chapter_fav_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/image_book_chapter_fav"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@id/text_book_chapter_subtitle"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@id/view_book_chapter_divider"
+            android:layout_marginBottom="8dp"
+            tools:text="12345" />
+
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/text_book_chapter_subtitle"
-            app:layout_constraintBottom_toTopOf="@id/view_book_chapter_divider" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/view_book_chapter_divider"
+            app:layout_constraintTop_toBottomOf="@id/text_book_chapter_subtitle" />
         <View
             android:id="@+id/view_book_chapter_divider"
             android:layout_width="0dp"

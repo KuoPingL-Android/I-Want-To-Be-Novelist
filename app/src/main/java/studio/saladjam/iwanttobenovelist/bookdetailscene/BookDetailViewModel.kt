@@ -31,13 +31,17 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     //TODO: EXPAND TO ADD NEW SECTION
 
 
+    fun checkBookInfo() {
+        fetchChapters()
+        checkIfBookIsFollowed()
+    }
 
     /** FETCH ALL CHAPTERS */
     private val _chapters = MutableLiveData<List<Chapter>>()
     val chapters: LiveData<List<Chapter>>
         get() = _chapters
 
-    fun fetchChapters() {
+    private fun fetchChapters() {
 
         _status.value = APILoadingStatus.LOADING
 
@@ -90,6 +94,69 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
     fun donePreparingNewChapter() {
         _shouldAddChapter.value = null
+    }
+
+    /** FOLLOW BOOK */
+    private val _isFollowing = MutableLiveData<Boolean>()
+    val isFollowing: LiveData<Boolean>
+        get() = _isFollowing
+
+    private fun checkIfBookIsFollowed() {
+
+        book?.let {book ->
+            _status.value = APILoadingStatus.LOADING
+
+            coroutineScope.launch {
+                val result = repository.getIsFollowedBook(book)
+                when(result) {
+                    is Result.Success -> {
+                        _status.value = APILoadingStatus.DONE
+                        _error.value = null
+                        _isFollowing.value = result.data
+                    }
+
+                    is Result.Fail -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.error
+                    }
+
+                    is Result.Error -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.exception.localizedMessage
+                    }
+                }
+            }
+        }
+    }
+
+    fun triggerFollowBook() {
+
+        book?.let {book ->
+            _status.value = APILoadingStatus.LOADING
+            coroutineScope.launch {
+                val result = repository.updateFollowBook(book)
+
+                when(result) {
+                    is Result.Success -> {
+                        _status.value = APILoadingStatus.DONE
+                        _error.value = null
+                        _isFollowing.value = result.data
+                    }
+
+                    is Result.Fail -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.error
+                    }
+
+                    is Result.Error -> {
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.exception.localizedMessage
+                    }
+                }
+
+
+            }
+        }
     }
 
     /** EDIT THE SELECTED CHAPTER */

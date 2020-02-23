@@ -1,7 +1,6 @@
 package studio.saladjam.iwanttobenovelist.repository
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -12,12 +11,9 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FacebookAuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.Query
-import kotlinx.coroutines.coroutineScope
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
@@ -30,6 +26,66 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
+
+    /** UPDATE if SHOULD FOLLOW BOOK */
+    override suspend fun getIsFollowedBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
+        val bookID = book.bookID
+        val userID = IWBNApplication.user.userID
+        val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
+        followerRef.get()
+            .addOnSuccessListener {
+
+                if (it.exists()) {
+                    continuation.resume(Result.Success(true))
+                } else {
+                    continuation.resume(Result.Success(false))
+                }
+
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
+    override suspend fun updateFollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
+        val bookID = book.bookID
+        val userID = IWBNApplication.user.userID
+        val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
+        followerRef.get()
+            .addOnSuccessListener {
+                if (it.exists()) {
+                    followerRef.delete()
+                        .addOnSuccessListener {
+                            IWBNApplication.container.getUserFollowBookCollection(userID)
+                                .document(bookID)
+                                .delete()
+                                .addOnSuccessListener {
+                                    continuation.resume(Result.Success(false))
+                                }
+                                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                } else {
+                    followerRef.set(BookFollower(userID))
+                        .addOnSuccessListener {
+                            IWBNApplication.container.getUserFollowBookCollection(userID)
+                                .document(bookID)
+                                .set(BookFollowee(bookID))
+                                .addOnSuccessListener {
+                                    continuation.resume(Result.Success(true))
+                                }
+                                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                }
+
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
 
     /** GET LIKES from BOOK */
     override suspend fun getLikesForBook(book: Book): Result<List<String>> = suspendCoroutine {continuation ->
@@ -368,35 +424,74 @@ object IWBNRemoteDataSource: Repository {
 
                 continuation.resume(Result.Success(list))
             }
-            .addOnFailureListener {exception ->
-                continuation.resume(Result.Error(exception))
+            .addOnFailureListener {exception -> continuation.resume(Result.Error(exception)) }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+    }
+
+    override fun addBooksFollowingSnapshotListener(userID: String, callback: (List<BookFollowee>) -> Unit) {
+         IWBNApplication.container.getUserFollowBookCollection(userID)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            querySnapshot?.let {
+                callback(it.toObjects(BookFollowee::class.java))
             }
-            .addOnCanceledListener {
-                continuation.resume(Result.Fail("CANCELED"))
-            }
+        }
+    }
+
+
+    override suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>> = suspendCoroutine {continuation ->
+
+        val finalList = mutableListOf<Book>()
+        for (i in 0 until list.size) {
+            IWBNApplication.container.bookCollection.document(list[i].bookID)
+                .get()
+                .addOnSuccessListener {
+
+                    it.toObject(Book::class.java)?.let {book ->
+                        finalList.add(book)
+                    }
+
+                    if (i == list.size - 1) {
+                        continuation.resume(Result.Success(finalList))
+                    }
+
+                }
+                .addOnFailureListener {exception -> continuation.resume(Result.Error(exception)) }
+                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+        }
     }
 
     override suspend fun getUserFollowing(user: User): Result<List<Book>> = suspendCoroutine {continuation ->
-        if (user.bookFollowees.isEmpty()) {
-            continuation.resume(Result.Success(listOf()))
-        } else {
-            val bookIDs = user.bookFollowees
-            IWBNApplication.container.bookCollection.whereArrayContains("bookID", bookIDs).get()
-                .addOnCompleteListener {task ->
-                    if (task.isSuccessful) {
-                        val results = task.result?.toObjects(Book::class.java)
-                        if (results != null) continuation.resume(Result.Success(results))
-                        else continuation.resume(Result.Success(listOf()))
-                    } else if (task.isCanceled) {
-                        continuation.resume(Result.Fail("CANCELED"))
-                    } else if (task.exception != null) {
-                        continuation.resume(Result.Error(task.exception!!))
-                    } else
-                    {
-                        continuation.resume(Result.Fail("UNKNOWN"))
+
+        val userID = user.userID
+
+        IWBNApplication.container.getUserFollowBookCollection(userID).get()
+            .addOnSuccessListener {
+                val books = it.toObjects(BookFollowee::class.java)
+                val resultList = mutableListOf<Book>()
+
+                if (books.isEmpty()) { continuation.resume(Result.Success(listOf())) }
+                else {
+                    for (i in 0 until  books.size) {
+                        IWBNApplication.container.bookCollection.document(books[i].bookID)
+                            .get()
+                            .addOnSuccessListener {
+                                it.toObject(Book::class.java)?.let {book ->
+                                    resultList.add(book)
+                                }
+
+                                if (i == books.size - 1) {
+                                    continuation.resume(Result.Success(resultList))
+                                }
+                            }
+                            .addOnFailureListener {exception ->
+                                continuation.resume(Result.Error(exception))
+                            }
+                            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
                     }
                 }
-        }
+            }
+            .addOnFailureListener {exception -> continuation.resume(Result.Error(exception)) }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
     }
 
     override suspend fun getUserRecommendedList(user: User): Result<List<Book>> = suspendCoroutine {continuation ->

@@ -57,7 +57,7 @@ class BookDetailReaderFragment : Fragment() {
 
         book?.let {
             viewModel.book = it
-            viewModel.fetchChapters()
+            viewModel.checkBookInfo()
         }
 
         return binding.root

@@ -48,8 +48,12 @@ class AppContainer(val context: Context) {
             .whereIn("imageID", chapter.images)
     }
 
-    fun getFollowingBookRefFrom(userID: String): CollectionReference {
-        return userCollection.document(userID).collection("books")
+    fun getFollowersCollectionRefFrom(bookID: String): CollectionReference {
+        return bookCollection.document(bookID).collection("followers")
+    }
+
+    fun getUserFollowBookCollection(userID: String): CollectionReference {
+        return userCollection.document(userID).collection("booksFollowing")
     }
 
     val fireStorage = FirebaseStorage.getInstance()

@@ -92,4 +92,23 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.getLikesForBook(book)
     }
 
+    override suspend fun updateFollowBook(book: Book): Result<Boolean> {
+        return remoteDataSource.updateFollowBook(book)
+    }
+
+    override suspend fun getIsFollowedBook(book: Book): Result<Boolean> {
+        return remoteDataSource.getIsFollowedBook(book)
+    }
+
+    override fun addBooksFollowingSnapshotListener(
+        userID: String,
+        callback: (List<BookFollowee>) -> Unit
+    ) {
+        remoteDataSource.addBooksFollowingSnapshotListener(userID, callback)
+    }
+
+    override suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>> {
+        return remoteDataSource.getFollowingBooks(list)
+    }
+
 }

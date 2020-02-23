@@ -20,6 +20,7 @@ interface Repository {
     suspend fun getUserRecommendedList(user: User): Result<List<Book>>
     suspend fun getUserWork(user: User, limit: Long? = null): Result<List<Book>>
     suspend fun getUserFollowing(user: User): Result<List<Book>>
+    fun addBooksFollowingSnapshotListener(userID: String, callback: (List<BookFollowee>) -> Unit)
     suspend fun getMostPopularBooks(): Result<List<Book>>
 
     /** CATEGORY */
@@ -63,4 +64,11 @@ interface Repository {
     /** GET LIKES from BOOK */
     suspend fun getLikesForBook(book: Book): Result<List<String>>
 
+    /** FOLLOW the BOOK */
+    suspend fun updateFollowBook(book: Book): Result<Boolean>
+
+    /** CHECK IF BOOK IS FOLLOWED */
+    suspend fun getIsFollowedBook(book: Book): Result<Boolean>
+
+    suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>>
 }

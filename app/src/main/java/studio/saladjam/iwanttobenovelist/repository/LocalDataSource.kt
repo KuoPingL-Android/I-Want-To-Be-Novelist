@@ -88,4 +88,23 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     override suspend fun getLikesForBook(book: Book): Result<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun updateFollowBook(book: Book): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getIsFollowedBook(book: Book): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun addBooksFollowingSnapshotListener(
+        userID: String,
+        callback: (List<BookFollowee>) -> Unit
+    ) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
