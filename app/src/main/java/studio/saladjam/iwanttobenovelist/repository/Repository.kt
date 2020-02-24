@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
 interface Repository {
     suspend fun loginUser(user: User): Result<Boolean>
@@ -71,4 +72,7 @@ interface Repository {
     suspend fun getIsFollowedBook(book: Book): Result<Boolean>
 
     suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>>
+
+    /** SEARCH PAGE */
+    suspend fun getBooksBasedOn(value: String = "", filter: SearchFilters = SearchFilters.POPULARITY): Result<List<Book>>
 }

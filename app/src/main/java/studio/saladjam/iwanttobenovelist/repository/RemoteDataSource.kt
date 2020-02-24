@@ -19,6 +19,8 @@ import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.Util
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
+import studio.saladjam.iwanttobenovelist.searchscene.getFirestoreSortingKey
 import java.io.ByteArrayOutputStream
 import java.lang.IllegalStateException
 import java.util.*
@@ -26,6 +28,109 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
+
+    /** MAKE SEARCH ON BOOKS based on VALUE and FILTER */
+    override suspend fun getBooksBasedOn(value: String, filter: SearchFilters): Result<List<Book>> = suspendCoroutine {continuation ->
+        // SEARCH BY FILTER
+        val query = IWBNApplication.container.bookCollection
+            .orderBy(filter.getFirestoreSortingKey(), Query.Direction.DESCENDING)
+
+        if (value.isEmpty()) {
+
+            when(filter) {
+                SearchFilters.POPULARITY -> {
+                    query.get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                }
+
+                SearchFilters.MOST_RECENTLY -> {
+                    query.get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+                }
+
+                SearchFilters.COMPLETED -> {
+                    query.whereEqualTo(Book.Companion.BookKeys.ISCOMPLETED.string, true).get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                }
+
+                SearchFilters.RECOMMENDED -> {
+                    query.whereIn(Book.Companion.BookKeys.CATEGORY.string, IWBNApplication.user.preferredCategories).get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                }
+            }
+        } else {
+            // SEARCH BY BOTH
+            when(filter) {
+                SearchFilters.POPULARITY -> {
+                    IWBNApplication.container.bookCollection
+                        .orderBy(filter.getFirestoreSortingKey(), Query.Direction.DESCENDING)
+                        .orderBy(Book.Companion.BookKeys.TITLE.string)
+                        .startAt(value)
+                        .get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener {
+                            continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener {
+                            continuation.resume(Result.Error(it)) }
+                }
+
+                SearchFilters.MOST_RECENTLY -> {
+                    query.orderBy(Book.Companion.BookKeys.TITLE.string)
+                        .startAt(value).endAt(value + "\uf8ff")
+                        .get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+                }
+
+                SearchFilters.COMPLETED -> {
+                    query.whereEqualTo(Book.Companion.BookKeys.ISCOMPLETED.string, true)
+                        .orderBy(Book.Companion.BookKeys.TITLE.string)
+                        .startAt(value).endAt(value + "\uf8ff")
+                        .get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                }
+
+                SearchFilters.RECOMMENDED -> {
+                    query.whereIn(Book.Companion.BookKeys.CATEGORY.string, IWBNApplication.user.preferredCategories)
+                        .orderBy(Book.Companion.BookKeys.TITLE.string)
+                        .startAt(value).endAt(value + "\uf8ff")
+                        .get()
+                        .addOnSuccessListener {
+                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                }
+            }
+        }
+    }
 
     /** UPDATE if SHOULD FOLLOW BOOK */
     override suspend fun getIsFollowedBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
@@ -345,17 +450,16 @@ object IWBNRemoteDataSource: Repository {
         val bookIDs = user.favoriteBooks.sortedBy { it.lastSeenDate }.map { it.bookID }.reversed()
 
         if (bookIDs.isEmpty()) {
-            continuation.resume(Result.Fail("No bookID found"))
-            return@suspendCoroutine
+            continuation.resume(Result.Success(listOf()))
+        } else {
+            IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
+                .addOnSuccessListener {
+                    val books = it.toObjects(Book::class.java)
+                    continuation.resume(Result.Success(books))
+                }
+                .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+                .addOnFailureListener { continuation.resume(Result.Error(it)) }
         }
-
-        IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
-            .addOnSuccessListener {
-                val books = it.toObjects(Book::class.java)
-                continuation.resume(Result.Success(books))
-            }
-            .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
-            .addOnFailureListener { continuation.resume(Result.Error(it)) }
     }
 
     private suspend fun getBooksFromIDs(bookIDs: List<String>): Result<List<Book>> = suspendCoroutine { continuation ->
@@ -441,6 +545,9 @@ object IWBNRemoteDataSource: Repository {
     override suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>> = suspendCoroutine {continuation ->
 
         val finalList = mutableListOf<Book>()
+
+        if (list.isEmpty()) {continuation.resume(Result.Success(finalList)); return@suspendCoroutine}
+
         for (i in 0 until list.size) {
             IWBNApplication.container.bookCollection.document(list[i].bookID)
                 .get()

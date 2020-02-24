@@ -5,6 +5,7 @@ import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
 /**
  * This is a combination of Local and Remote Data Sources
@@ -109,6 +110,10 @@ class DataSource(private val localDataSource: Repository,
 
     override suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>> {
         return remoteDataSource.getFollowingBooks(list)
+    }
+
+    override suspend fun getBooksBasedOn(value: String, filter: SearchFilters): Result<List<Book>> {
+        return remoteDataSource.getBooksBasedOn(value, filter)
     }
 
 }

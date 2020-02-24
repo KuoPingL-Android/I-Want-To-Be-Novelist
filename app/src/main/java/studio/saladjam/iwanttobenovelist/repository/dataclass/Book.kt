@@ -27,7 +27,8 @@ data class Book(
     val lastUpdatedTime: Long = Calendar.getInstance().timeInMillis,
     val language: String = "zh",
     val category: String = "未知",
-    var isOpenToPublic: Boolean = false
+    var isOpenToPublic: Boolean = false,
+    var isCompleted: Boolean = false
 ): Parcelable {
     companion object {
         enum class BookKeys(val string: String) {
@@ -39,7 +40,9 @@ data class Book(
             LANGUAGE("language"),
             POPULARITY("popularity"),
             CHAPTERCOUNT("chapterCount"),
-            LATESTCHAPTERID("latestChapterID")
+            LATESTCHAPTERID("latestChapterID"),
+            ISCOMPLETED("isCompleted"),
+            CATEGORY("category")
         }
     }
 }

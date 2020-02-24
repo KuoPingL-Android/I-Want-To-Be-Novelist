@@ -16,19 +16,19 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 class HomeBookRecyclerAdapter(val viewModel: HomeViewModel): ListAdapter<Book, HomeBookViewHolder>(CallbackFactory().create(Book::class.java)){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeBookViewHolder {
 
-        val layoutParams =
-            if(viewModel.onlyShowMostPopularBooks.value == true) ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            else ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
+//        val layoutParams =
+//            if(viewModel.onlyShowMostPopularBooks.value == true) ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
+//            else ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//
 //        val parentLayoutParams =
 //            if (viewModel.onlyShowMostPopularBooks.value == true) ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT)
 //            else parent.layoutParams
 //
 //        parent.layoutParams = parentLayoutParams
-
-        if(viewModel.onlyShowMostPopularBooks.value == true) {
-            print("HERE")
-        }
+//
+//        if(viewModel.onlyShowMostPopularBooks.value == true) {
+//            print("HERE")
+//        }
 
         val viewHolder = HomeBookViewHolder(ItemHomeBooksBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 

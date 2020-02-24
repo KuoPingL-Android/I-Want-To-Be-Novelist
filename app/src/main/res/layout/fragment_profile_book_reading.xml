@@ -22,7 +22,8 @@
             android:orientation="vertical"
             tools:listitem="@layout/item_profile_bookitem"
             app:spanCount="1"
-            tools:itemCount="12" />
+            tools:itemCount="12"
+            app:homeBooks="@{viewModel.books}"/>
 
     </LinearLayout>
 </layout>

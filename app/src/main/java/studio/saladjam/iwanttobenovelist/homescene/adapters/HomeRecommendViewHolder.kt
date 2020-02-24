@@ -1,6 +1,8 @@
 package studio.saladjam.iwanttobenovelist.homescene.adapters
 
+import android.graphics.Color
 import android.graphics.Rect
+import android.util.Log
 import android.view.View
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
@@ -52,7 +54,6 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
 //                }
 //            }
 
-
             recyclerItemHomeV1.adapter = HomeRecommendItemAdapter(viewModel, section)
             (recyclerItemHomeV1.adapter as HomeRecommendItemAdapter).submitList(sealItem.books)
 
@@ -83,6 +84,9 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
+
+                    Log.i("RV", "outRect.right=${outRect.right}")
+
                     outRect.right = 10.toPx()
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {

@@ -58,7 +58,12 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="studio.saladjam.iwanttobenovelist.searchscene.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <argument
+            android:name="searchFilter"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
     <dialog
         android:id="@+id/loginSelectNameDialog"
         android:name="studio.saladjam.iwanttobenovelist.loginscene.LoginSelectNameDialog"
@@ -140,4 +145,10 @@
     <action
         android:id="@+id/action_global_readerMixerFragment"
         app:destination="@id/readerMixerFragment" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@+id/navigation"
+        app:popUpToInclusive="true" />
 </navigation>

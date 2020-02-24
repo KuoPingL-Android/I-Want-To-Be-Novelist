@@ -14,6 +14,7 @@ import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
 import studio.saladjam.iwanttobenovelist.loginscene.*
 import studio.saladjam.iwanttobenovelist.profilescene.*
 import studio.saladjam.iwanttobenovelist.repository.Repository
+import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
 import java.lang.IllegalArgumentException
 
 @Suppress("UNCHECKED_CAST")
@@ -73,6 +74,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(HomeWorkInProgressViewModel::class.java)
                                     -> HomeWorkInProgressViewModel(repository)
+
+                isAssignableFrom(SearchViewModel::class.java)
+                                    -> SearchViewModel(repository)
 
                 else -> {throw IllegalArgumentException("${modelClass} is not supported")}
             }

@@ -35,27 +35,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="30dp"/>
+            android:layout_marginStart="30dp"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_home_v1"
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="2dp"
+
+            app:layout_constraintBottom_toBottomOf="@id/image_home_v1_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_home_v1_logo"
+            android:background="#888"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
             app:layout_constraintBottom_toBottomOf="@id/image_home_v1_logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/image_home_v1_logo"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="60dp"
-            app:iconifiedByDefault="false"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:background="@drawable/bg_search_view"/>
+            app:layout_constraintStart_toEndOf="@id/image_home_v1_logo"
+            android:background="#888"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_home_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/search_home_v1"
+            app:layout_constraintTop_toBottomOf="@id/image_home_v1_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_home_v1"

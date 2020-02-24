@@ -7,11 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import studio.saladjam.iwanttobenovelist.databinding.ActivityMainBinding
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,8 +40,13 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
-            R.id.navigation_category -> {
-                viewModel.navigateToCategory()
+//            R.id.navigation_category -> {
+//                viewModel.navigateToCategory()
+//                true
+//            }
+
+            R.id.navigation_search -> {
+                viewModel.navigateToSearchRecommend()
                 true
             }
 
@@ -90,6 +97,21 @@ class MainActivity : AppCompatActivity() {
                 nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
                 showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
                 viewModel.doneNavigateToCategory()
+            }
+        })
+
+        /** SEARCH SCENE */
+        viewModel.shouldNavigateToSearchPopular.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.POPULARITY.value))
+                viewModel.doneNavigateToSearchPopular()
+            }
+        })
+
+        viewModel.shouldNavigateToSearchRecommend.observe(this, Observer {
+            it?.let {
+                nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.RECOMMENDED.value))
+                viewModel.doneNavigateToSearchRecommend()
             }
         })
 

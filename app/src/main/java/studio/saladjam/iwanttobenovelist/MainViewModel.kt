@@ -60,6 +60,31 @@ class MainViewModel: ViewModel() {
         _shouldNavigateToCategoryPage.value = null
     }
 
+    /** NAVIGATE to SEARCH SCENE */
+    private val _shouldNavigateToSearchRecommend = MutableLiveData<Boolean>()
+    val shouldNavigateToSearchRecommend: LiveData<Boolean>
+        get() = _shouldNavigateToSearchRecommend
+
+    fun navigateToSearchRecommend() {
+        _shouldNavigateToSearchRecommend.value = true
+    }
+
+    fun doneNavigateToSearchRecommend() {
+        _shouldNavigateToSearchRecommend.value = null
+    }
+
+    private val _shouldNavigateToSearchPopular = MutableLiveData<Boolean>()
+    val shouldNavigateToSearchPopular: LiveData<Boolean>
+        get() = _shouldNavigateToSearchPopular
+
+    fun navigateToSearchPopular() {
+        _shouldNavigateToSearchPopular.value = true
+    }
+
+    fun doneNavigateToSearchPopular() {
+        _shouldNavigateToSearchPopular.value = null
+    }
+
     /** NAVIGATE to PROFILE SCENE */
     private val _shouldNavigateToProfilePage = MutableLiveData<Int>()
     val shouldNavigateToProfilePage: LiveData<Int>
@@ -72,20 +97,6 @@ class MainViewModel: ViewModel() {
     fun doneNavigateToProfilePage() {
         _shouldNavigateToProfilePage.value = null
     }
-
-    /** NAVIGATE to BOOK */
-//    private val _selectedBook = MutableLiveData<Book>()
-//    val selectedBook: LiveData<Book>
-//        get() = _selectedBook
-//
-//    fun selectBook(book: Book) {
-//        _selectedBook.value = book
-//    }
-//
-//    fun doneNavigateToBook() {
-//        _selectedBook.value = null
-//    }
-
 
     /** NAVIGATE to BOOK DETAIL --- DIVIDED into WRITER and READER VERSION */
     // WRITER
@@ -161,6 +172,8 @@ class MainViewModel: ViewModel() {
     fun doneSelectChapterToRead() {
         _selectedChapterToRead.value = null
     }
+
+
 
 
 }

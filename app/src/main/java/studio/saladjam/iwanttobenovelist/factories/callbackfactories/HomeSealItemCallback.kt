@@ -25,6 +25,12 @@ class HomeSealItemCallback : DiffUtil.ItemCallback<HomeSealItems>() {
             val sortedNewBooks = newItem.books.sortedBy { it.bookID }
 
             return sortedNewBooks.containsAll(sortedOldBooks) && sortedOldBooks.containsAll(sortedNewBooks)
+        } else if (oldItem is HomeSealItems.Recommend && newItem is HomeSealItems.Recommend) {
+
+            val sortedOldBooks = oldItem.books.sortedBy { it.bookID }
+            val sortedNewBooks = newItem.books.sortedBy { it.bookID }
+
+            return sortedNewBooks.containsAll(sortedOldBooks) && sortedOldBooks.containsAll(sortedNewBooks)
         }
         return false
     }
@@ -35,6 +41,8 @@ class HomeSealItemCallback : DiffUtil.ItemCallback<HomeSealItems>() {
         } else if (oldItem is HomeSealItems.CurrentReading && newItem is HomeSealItems.CurrentReading) {
             return oldItem.books == newItem.books
         } else if (oldItem is HomeSealItems.WorkInProgress && newItem is HomeSealItems.WorkInProgress) {
+            return oldItem.books == newItem.books
+        } else if (oldItem is HomeSealItems.Recommend && newItem is HomeSealItems.Recommend) {
             return oldItem.books == newItem.books
         }
         return false

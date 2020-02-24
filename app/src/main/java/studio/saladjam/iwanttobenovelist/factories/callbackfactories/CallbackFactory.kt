@@ -5,6 +5,7 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSeal
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
 @Suppress("UNCHECKED_CAST")
 class CallbackFactory : DiffItemCallbackFactoryInterface {
@@ -17,6 +18,7 @@ class CallbackFactory : DiffItemCallbackFactoryInterface {
                 isAssignableFrom(Book::class.java) -> BookCallback()
                 isAssignableFrom(HomeSealItems::class.java) -> HomeSealItemCallback()
                 isAssignableFrom(BookDetailSealedItem::class.java) -> BookDetailSealedItemCallback()
+                isAssignableFrom(SearchFilters::class.java) -> SearchFiltersCallback()
                 else -> IllegalArgumentException("UNKNOWN CLASS")
             }
         } as T

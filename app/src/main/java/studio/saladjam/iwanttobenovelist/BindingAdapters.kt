@@ -15,11 +15,15 @@ import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdap
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecyclerViewAdapter
+import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileBookReadingAdapter
 import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileWorkAdapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Roles
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
+import studio.saladjam.iwanttobenovelist.searchscene.adapters.SearchFilterAdapter
+import studio.saladjam.iwanttobenovelist.searchscene.adapters.SearchResultAdapter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -36,15 +40,11 @@ fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
     val adapter = recyclerView.adapter
 
     when (adapter) {
-        is HomeBookRecyclerAdapter -> {
-            adapter.submitList(books)
-        }
+        is HomeBookRecyclerAdapter -> adapter.submitList(books)
 
-        is CategoryListAdapter -> {
-            adapter.submitList(books)
-        }
+        is CategoryListAdapter -> adapter.submitList(books)
 
-
+        is ProfileBookReadingAdapter -> adapter.submitList(books)
     }
 }
 
@@ -87,6 +87,16 @@ fun bindChapter(recyclerView: RecyclerView, bookDetailSealedItems: List<BookDeta
             adapter.submitList(bookDetailSealedItems)
         }
     }
+}
+
+@BindingAdapter("filters")
+fun bindFilter(recyclerView: RecyclerView, filters: List<SearchFilters>?) {
+    (recyclerView.adapter as? SearchFilterAdapter)?.submitList(filters)
+}
+
+@BindingAdapter("filterResults")
+fun bindFilteredResult(recyclerView: RecyclerView, filteredBooks: List<Book>?) {
+    (recyclerView.adapter as? SearchResultAdapter)?.submitList(filteredBooks)
 }
 
 /** IMAGE URL */

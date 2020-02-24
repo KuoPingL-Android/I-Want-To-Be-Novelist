@@ -6,10 +6,15 @@
         android:title="@string/hint_nav_home"
         />
 
-    <item
+    <!--item
         android:id="@+id/navigation_category"
         android:icon="@drawable/bottom_nav_category_selector"
-        android:title="@string/hint_nav_category"/>
+        android:title="@string/hint_nav_category"/-->
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/search_icon"
+        android:title="@string/hint_nav_search"/>
 
     <item
         android:id="@+id/navigation_profile"

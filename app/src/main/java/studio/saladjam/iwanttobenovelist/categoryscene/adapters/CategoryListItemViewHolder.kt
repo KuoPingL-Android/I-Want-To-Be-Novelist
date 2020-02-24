@@ -15,5 +15,4 @@ class CategoryListItemViewHolder (val binding: ItemCategoryBookBinding):
         }
         binding.executePendingBindings()
     }
-
 }

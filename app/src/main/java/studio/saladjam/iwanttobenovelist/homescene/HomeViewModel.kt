@@ -79,11 +79,8 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
     fun prepareFinalList() {
 
-//        if (_finalList.value != null) {return}
-
         val list = mutableListOf<HomeSealItems>()
 
-        //TODO: FIX ALL LIST to PROPER ONES
         if (_recommendedList.value != null) {
             list.add(HomeSealItems.Recommend("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
         }

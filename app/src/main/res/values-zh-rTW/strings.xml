@@ -51,6 +51,7 @@
     <string name="hint_nav_profile">個人</string>
     <string name="hint_nav_category">分類</string>
     <string name="hint_nav_home">首頁</string>
+    <string name="hint_nav_search">收尋</string>
 
     <string name="ratio4to5">4:5</string>
     <string name="select_picture">Select Picture</string>
@@ -64,4 +65,10 @@
 
     <string name="hint_chapter_title">Chapter Title</string>
     <string name="hint_editor_text_content">Your Journey Begins Here ...</string>
+
+    <!-- SEARCH FILTERS -->
+    <string name="search_filter_popularity">人氣作品</string>
+    <string name="search_filter_most_recent">最新作品</string>
+    <string name="search_filter_recommended">推薦作品</string>
+    <string name="search_filter_completed">已完成作品</string>
 </resources>

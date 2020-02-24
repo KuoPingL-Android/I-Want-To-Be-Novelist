@@ -10,6 +10,7 @@ class BookCallback : DiffUtil.ItemCallback<Book>() {
     }
 
     override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-        return oldItem === newItem
+        return  (oldItem.authorID == newItem.authorID) &&
+                (oldItem.bookID == newItem.bookID)
     }
 }
