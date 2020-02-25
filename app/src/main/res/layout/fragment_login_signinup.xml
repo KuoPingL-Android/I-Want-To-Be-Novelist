@@ -48,8 +48,7 @@
             android:text="@string/title_chinese_today"
             style="@style/TitleText"
             app:layout_constraintBottom_toTopOf="@id/text_signup_day"
-            app:layout_constraintStart_toStartOf="@id/text_signup_day"
-            />
+            app:layout_constraintStart_toStartOf="@id/text_signup_day"/>
         <TextView
             android:id="@+id/text_signup_want"
             android:layout_width="0dp"
@@ -109,6 +108,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_percent="0.7"
             app:layout_constraintHorizontal_bias="0"
+            android:focusable="false"
             android:onClick="@{()->viewModel.loginWithFacebookSelected()}"
             android:clickable="@{!viewModel.isLoading}"/>
 
@@ -123,29 +123,35 @@
             android:textSize="18sp"
             android:textAlignment="viewStart"
             android:paddingStart="30dp"
-            app:layout_constraintBottom_toTopOf="@id/button_signup_visitor"
-            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="86dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.7"
             app:layout_constraintHorizontal_bias="1"
+            android:focusable="false"
             android:shadowColor="#000"
             android:onClick="@{()->viewModel.loginWithGoogleSelected()}"
             android:clickable="@{!viewModel.isLoading}"/>
 
         <Button
+            android:visibility="gone"
             android:id="@+id/button_signup_visitor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/visitor"
             android:fontFamily="sans-serif-black"
             android:textSize="18sp"
+            android:focusable="false"
             android:background="@drawable/signup_visitor_bg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="56dp"
-            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintWidth_percent="0.85"
+            app:layout_constraintHorizontal_bias="0"
+            android:textAlignment="viewEnd"
+            android:paddingEnd="30dp"
             android:onClick="@{()->viewModel.loginAsVisitorSelected()}"
             android:clickable="@{!viewModel.isLoading}"/>
 

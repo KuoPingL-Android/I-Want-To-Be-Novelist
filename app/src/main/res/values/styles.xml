@@ -58,7 +58,7 @@
     </style>
 
     <style name="CreateBookDialog">
-        <item name="android:windowBackground">#66000000</item>
+        <item name="android:windowBackground">#66ffffff</item>
     </style>
 
 

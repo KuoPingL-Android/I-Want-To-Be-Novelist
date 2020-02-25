@@ -37,7 +37,7 @@
     <string name="hint_writer_description">作家除了能評論作品，\n也可以發表書籍。</string>
     <string name="hint_reviewer_description">評論家可以評論他人作品。</string>
     <string name="button_confirm">確定</string>
-    <string name="text_choose_category">請挑選書喜歡的籍類型</string>
+    <string name="text_choose_category">挑選書籍類型</string>
     <string name="hint_max_interest">最多5項</string>
     <string name="button_complete">完成</string>
     <string name="hint_please_pick_a_role">請選角色</string>

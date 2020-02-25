@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        currentFragment = R.layout.fragment_login
+        currentFragment = R.id.loginFragment
 
         // NAVIGATION
         binding.bottomnavMain.setOnNavigationItemSelectedListener(bottomNavOnItemSelectedListener)
