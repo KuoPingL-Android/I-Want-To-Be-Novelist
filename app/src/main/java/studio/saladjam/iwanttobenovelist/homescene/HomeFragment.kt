@@ -99,6 +99,13 @@ class HomeFragment : Fragment() {
             }
         })
 
+        viewModel.selectedWork.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel?.displayEditingBook(it)
+                viewModel.doneSelectingWork()
+            }
+        })
+
         binding.viewModel = viewModel
 
         viewModel.fetchDatas()

@@ -1,7 +1,6 @@
 package studio.saladjam.iwanttobenovelist.homescene
 
 import androidx.lifecycle.*
-import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,13 +30,12 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
     val latestChapters: LiveData<MutableMap<String, Chapter?>>
         get() = _latestChapters
 
-    private val _numbersOfLikes = MutableLiveData<MutableMap<String, Int>>()
+    private val _numbersOfFollowers = MutableLiveData<MutableMap<String, Int>>()
         .apply {
             value = mutableMapOf()
         }
-    val numbersOfLikes: LiveData<MutableMap<String, Int>>
-        get() = _numbersOfLikes
-
+    val numbersOfFollowers: LiveData<MutableMap<String, Int>>
+        get() = _numbersOfFollowers
 
 
     private val _chapterStatues = MutableLiveData<MutableMap<String, APILoadingStatus>>()
@@ -47,16 +45,16 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
     val chapterStatues: LiveData<MutableMap<String, APILoadingStatus>>
         get() = _chapterStatues
 
-    private val _likesStatuses = MutableLiveData<MutableMap<String, APILoadingStatus>>()
+    private val _followingStatuses = MutableLiveData<MutableMap<String, APILoadingStatus>>()
         .apply {
             value = mutableMapOf()
         }
-    val likesStatuses: LiveData<MutableMap<String, APILoadingStatus>>
-        get() = _likesStatuses
+    val followingStatuses: LiveData<MutableMap<String, APILoadingStatus>>
+        get() = _followingStatuses
 
     val statuses = MediatorLiveData<MutableMap<String, APILoadingStatus>>().apply {
         addSource(_chapterStatues) {  }
-        addSource(_likesStatuses) { }
+        addSource(_followingStatuses) { }
     }
 
     private val _errors = MutableLiveData<MutableMap<String, String>>()
@@ -70,6 +68,18 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
     private val _books = mutableMapOf<String, Book>()
     private val _bookIDs = mutableListOf<String>()
 
+    private val _selectedBook = MutableLiveData<Book>()
+    val selectedBook: LiveData<Book>
+        get() = _selectedBook
+
+    fun selected(book: Book) {
+        _selectedBook.value = book
+    }
+
+    fun doneSelectingBook() {
+        _selectedBook.value = null
+    }
+
     fun addBook(book: Book) {
         if (_books.filter { it.key == book.bookID }.isNotEmpty()) {
             return
@@ -78,7 +88,7 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
         _books[book.bookID] = book
 
         fetchLatestChapterFor(book)
-        fetchNumberOfLikesFor(book)
+        fetchNumberOfFollowersFor(book)
     }
 
     private fun fetchLatestChapterFor(book: Book) {
@@ -119,36 +129,36 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
         }
     }
 
-    private fun fetchNumberOfLikesFor(book: Book) {
+    private fun fetchNumberOfFollowersFor(book: Book) {
         val id = book.bookID
-        _likesStatuses.value?.set(id, APILoadingStatus.LOADING)
+        _followingStatuses.value?.set(id, APILoadingStatus.LOADING)
 
         coroutineScope.launch {
             val result = repository.getFollowersForBook(book)
 
-            _numbersOfLikes.value?.set(id, when(result) {
+            _numbersOfFollowers.value?.set(id, when(result) {
                 is Result.Success -> {
-                    _likesStatuses.value?.set(id, APILoadingStatus.DONE)
+                    _followingStatuses.value?.set(id, APILoadingStatus.DONE)
                     result.data.size
                 }
 
                 is Result.Error -> {
-                    _likesStatuses.value?.set(id, APILoadingStatus.ERROR)
+                    _followingStatuses.value?.set(id, APILoadingStatus.ERROR)
                     0
                 }
 
                 is Result.Fail -> {
-                    _likesStatuses.value?.set(id, APILoadingStatus.ERROR)
+                    _followingStatuses.value?.set(id, APILoadingStatus.ERROR)
                     0
                 }
 
                 else -> {
-                    _likesStatuses.value?.set(id, APILoadingStatus.ERROR)
+                    _followingStatuses.value?.set(id, APILoadingStatus.ERROR)
                     0
                 }
             })
 
-            _numbersOfLikes.value = _numbersOfLikes.value
+            _numbersOfFollowers.value = _numbersOfFollowers.value
 
         }
     }

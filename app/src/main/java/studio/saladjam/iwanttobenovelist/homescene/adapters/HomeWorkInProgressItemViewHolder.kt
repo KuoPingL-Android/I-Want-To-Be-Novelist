@@ -5,10 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.IWBNApplication
-import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1CurrentReadingBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1WorkInProgressBinding
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
@@ -51,7 +48,7 @@ class HomeWorkInProgressItemViewHolder (val binding: ItemHomeV1WorkInProgressBin
             }
         })
 
-        workInProgressViewModel.numbersOfLikes.observe(this, Observer {
+        workInProgressViewModel.numbersOfFollowers.observe(this, Observer {
             it?.let { likes ->
                 binding.textItemWorkInProgressHomeV1Likes.text = "${likes[book.bookID]}"
             }
