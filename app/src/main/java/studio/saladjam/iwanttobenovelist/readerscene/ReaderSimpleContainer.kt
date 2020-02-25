@@ -11,9 +11,11 @@ import android.graphics.Paint
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.fragment_editor_mixer.view.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
@@ -263,7 +265,7 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
             var layoutParams = imageBlock.layoutParams
 
             if (layoutParams == null) {
-                layoutParams = ViewGroup.LayoutParams(w.toInt(),h.toInt())
+                layoutParams = ConstraintLayout.LayoutParams(w.toInt(),h.toInt())
             } else {
                 layoutParams.height = h.toInt()
                 layoutParams.width = w.toInt()
@@ -289,10 +291,10 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
         if (child is ReaderImageBlock) {
 
             if (imageBlock.contains(child)) return
-
             val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
 
             imageBlock.put(child, frame)
+
             invalidate()
         }
     }
@@ -302,6 +304,7 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
 
         imageBlock.keys.forEach {view ->
             val frame = Frame(view.x.toInt(), view.y.toInt(), view.width, view.height)
+
             imageBlock[view] = frame
             wordFrame.interceptWith(frame)?.let {
                 return view
