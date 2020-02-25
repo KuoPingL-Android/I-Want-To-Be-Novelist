@@ -36,13 +36,14 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    outRect.right = 5.toPx()
+                    outRect.right = 10.toPx()
+                    outRect.left = 10.toPx()
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
                             outRect.left = 20.toPx()
                         }
-                        else -> {
-                            outRect.left = 5.toPx()
+                        (parent.adapter?.itemCount ?: 1) - 1 -> {
+                            outRect.right = 30.toPx()
                         }
                     }
                 }
