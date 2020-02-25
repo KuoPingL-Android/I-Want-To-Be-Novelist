@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
 import studio.saladjam.iwanttobenovelist.databinding.FragmentBookWriterDetailBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
+import studio.saladjam.iwanttobenovelist.extensions.toast
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
@@ -64,6 +66,13 @@ class BookDetailWriterFragment : Fragment() {
             it?.let {
                 findNavController().navigateUp()
                 viewModel.doneNavigatingToPreviousPage()
+            }
+        })
+
+        viewModel.shouldShowBookDetailEditor.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                activity?.toast("Coming Soon")
+                viewModel.doneShowingEditorForBookDetail()
             }
         })
 

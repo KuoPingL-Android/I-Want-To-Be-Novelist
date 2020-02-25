@@ -7,8 +7,6 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 class BookDetailWriterChaptersViewHolder (val binding: ItemBookChapterBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(chapter: Chapter) {
         binding.chapter = chapter
-
-
         binding.executePendingBindings()
     }
 }

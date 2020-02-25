@@ -116,6 +116,7 @@
             app:layout_constraintStart_toEndOf="@id/text_item_book_writer_follow"
             android:layout_marginStart="8dp"
             tools:text="12345"
+            android:text="0"
             android:textColor="@color/iwbn_primary_color"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

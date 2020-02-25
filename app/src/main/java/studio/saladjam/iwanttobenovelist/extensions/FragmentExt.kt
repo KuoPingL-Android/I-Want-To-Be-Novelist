@@ -1,5 +1,7 @@
 package studio.saladjam.iwanttobenovelist.extensions
 
+import android.app.Activity
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.factories.viewmodelfactories.BookViewModelFactory
@@ -14,4 +16,8 @@ fun Fragment.getVMFactory(): ViewModelFactory {
 fun Fragment.getVMFactory(book: Book): BookViewModelFactory {
     val repo = IWBNApplication.container.repository
     return BookViewModelFactory(repo, book)
+}
+
+fun Activity.toast(msg: String) {
+    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 }

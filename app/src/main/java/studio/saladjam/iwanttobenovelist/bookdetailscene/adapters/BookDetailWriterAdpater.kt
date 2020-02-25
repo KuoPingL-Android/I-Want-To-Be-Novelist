@@ -32,6 +32,7 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListA
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> {
                 holder.bind((getItem(position) as BookDetailSealedItem.Header).book, viewModel)
+                holder.binding.buttonItemBookWriterEdit.setOnClickListener { viewModel.editBookDetail() }
             }
 
             is BookDetailWriterChaptersViewHolder -> {

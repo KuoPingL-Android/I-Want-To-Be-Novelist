@@ -191,6 +191,21 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     }
 
     /** FETCH CHAPTERS LIKEs and BOOK FOLLOWERS */
+    //TODO: IMPLEMENT
+
+    /** DISPLAY DIALOG to EDIT BOOK INFO */
+    private val _shouldShowBookDetailEditor = MutableLiveData<Boolean>()
+    val shouldShowBookDetailEditor: LiveData<Boolean>
+        get() = _shouldShowBookDetailEditor
+
+    fun editBookDetail() {
+        _shouldShowBookDetailEditor.value = true
+    }
+
+    fun doneShowingEditorForBookDetail() {
+        _shouldShowBookDetailEditor.value = null
+    }
+
 
 
     /** NAVIGATE to READER PAGE */
