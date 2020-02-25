@@ -77,6 +77,19 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
             }
         })
 
+        viewModel.shouldAskForName.observe(this, Observer {
+            it?.let{
+                LoginSelectNameDialog{wrappedName ->
+                    wrappedName?.let {name ->
+                        android.os.Handler().postDelayed({
+                            viewModel.updateUserName(name)
+                        }, 1000)
+                    }
+                }.show(fragmentManager!!, "selectname")
+                viewModel.doneAskingForName()
+            }
+        })
+
         return binding.root
     }
 

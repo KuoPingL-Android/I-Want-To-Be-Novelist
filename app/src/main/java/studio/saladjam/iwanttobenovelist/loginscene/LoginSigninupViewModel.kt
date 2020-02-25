@@ -68,6 +68,25 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         loginFromFb()
     }
 
+    /** ASK FOR NAME */
+    private val _shouldAskForName = MutableLiveData<Boolean>()
+    val shouldAskForName: LiveData<Boolean>
+        get() = _shouldAskForName
+
+    fun promptToAskForName() {
+        _shouldAskForName.value = true
+    }
+
+    fun doneAskingForName() {
+        _shouldAskForName.value = null
+    }
+
+    fun updateUserName(name: String) {
+        IWBNApplication.user.name = name
+        _shouldNavigateToNextLoginPage.value = true
+    }
+
+
     private fun loginFromFb() {
         _status.value = APILoadingStatus.LOADING
         fbCallBackManager = CallbackManager.Factory.create()
@@ -77,7 +96,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
                 is Result.Success -> {
                     _status.value = APILoadingStatus.DONE
                     if (result.data) {
-                        _shouldNavigateToNextLoginPage.value = true
+                        promptToAskForName()
                     } else {
                         // Do nothing
                     }
@@ -115,7 +134,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         val result = repository.handleGoogleTask(completedTask)
         when(result) {
             is Result.Success -> {
-                _shouldNavigateToNextLoginPage.value = true
+                promptToAskForName()
             }
 
             is Result.Fail -> {

@@ -16,7 +16,7 @@ class LoginFragment : Fragment() {
     private lateinit var adapter: LoginFragmentViewPagerAdapter
 
     /**LOGIN PAGES and COMPLETE HANDLER*/
-    private val pages = listOf(LoginPages.SIGNINUP, LoginPages.SELECT_ROLE, LoginPages.SELECT_INTERESTS)
+    private val pages = listOf(LoginPages.SIGNINUP, LoginPages.SELECT_INTERESTS)
     private val completeHandler: LoginPagesCompleteHandler = {isCompleted ->
         if (isCompleted) {
             // Check if this is the last item

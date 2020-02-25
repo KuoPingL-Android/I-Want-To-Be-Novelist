@@ -354,8 +354,6 @@ object IWBNRemoteDataSource: Repository {
         val storageRef = IWBNApplication.container.fireStorage.reference
         val byteArrayOutput = ByteArrayOutputStream()
 
-        Logger.i("imageBitmap.byteCount=${imageBitmap.byteCount}")
-
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutput)
         val bytes = byteArrayOutput.toByteArray()
 
@@ -386,7 +384,18 @@ object IWBNRemoteDataSource: Repository {
                             IWBNApplication.container.getWrittenBookRefFrom(IWBNApplication.user.userID)
                                 .document(bookID).set(bookRef)
                                 .addOnSuccessListener {
-                                    continuation.resume(Result.Success(book))
+                                   if (IWBNApplication.user.role == Roles.REVIEWER.value) {
+                                       // UPDATE USER STATUS
+                                       IWBNApplication.user.role = Roles.WRITER.value
+
+                                       IWBNApplication.container.userCollection.document(IWBNApplication.user.userID)
+                                           .set(IWBNApplication.user)
+                                           .addOnSuccessListener {
+                                               continuation.resume(Result.Success(book))
+                                           }
+                                           .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                                           .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                                   }
                                 }
                                 .addOnCanceledListener { Result.Fail("CANCELED") }
                                 .addOnFailureListener { continuation.resume(Result.Error(it)) }
