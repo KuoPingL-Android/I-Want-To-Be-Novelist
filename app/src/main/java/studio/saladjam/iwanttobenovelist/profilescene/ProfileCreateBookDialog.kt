@@ -92,8 +92,6 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
                         }
                     }
                 }
-
-
                 viewModel.doneDisplayingImageSelector()
             }
         })

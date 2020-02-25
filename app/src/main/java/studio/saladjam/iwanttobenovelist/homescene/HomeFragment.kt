@@ -61,11 +61,12 @@ class HomeFragment : Fragment() {
 
                 val space = (parent.height * 0.1).toInt()
 
-                outRect.bottom = 15.toPx()
+                outRect.top = 5.toPx()
+                outRect.bottom = 5.toPx()
 
                 when(parent.getChildLayoutPosition(view)) {
-                    0 -> outRect.top = 15.toPx()
-                    else -> outRect.top = 15.toPx()
+                    0 -> outRect.top = 10.toPx()
+                    (parent.adapter?.itemCount ?: 1) - 1 -> outRect.bottom = 10.toPx()
                 }
             }
         })
