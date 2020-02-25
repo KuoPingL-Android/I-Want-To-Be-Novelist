@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LABELED
 import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_UNLABELED
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.bind
 import studio.saladjam.iwanttobenovelist.databinding.FragmentProfileBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileFragmentStateAdapter
@@ -63,13 +65,17 @@ class ProfileFragment : Fragment() {
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.icon?.setTint(Color.parseColor("#ee888888"))
+                tab?.tabLabelVisibility = (TAB_LABEL_VISIBILITY_LABELED)
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.icon?.setTint(Color.parseColor("#000000"))
+                tab?.tabLabelVisibility = (TAB_LABEL_VISIBILITY_UNLABELED)
             }
 
         })
+
+        binding.tablayoutProfile.setSelectedTabIndicatorColor(resources.getColor(android.R.color.black))
 
         binding.tablayoutProfile.isTabIndicatorFullWidth = false
     }
@@ -78,16 +84,17 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         TabLayoutMediator(binding.tablayoutProfile, binding.viewpagerProfile) {tab, position ->
-            tab.setTabLabelVisibility(TAB_LABEL_VISIBILITY_UNLABELED)
             when(position) {
                 0 -> {
                     tab.icon = (IWBNApplication.context.getDrawable(R.drawable.bookmark_icon))
                     tab.icon?.setTint(Color.parseColor("#000000"))
+                    tab.text = "追蹤書籍"
                 }
 
                 1 ->  {
                     tab.icon = (IWBNApplication.context.getDrawable(R.drawable.pen_icon))
                     tab.icon?.setTint(Color.parseColor("#ee888888"))
+                    tab.text = "個人作品"
                 }
             }
         }.attach()
