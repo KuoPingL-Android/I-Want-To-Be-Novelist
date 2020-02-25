@@ -116,17 +116,26 @@ fun bindDates(textView: TextView, lastUpdatedTime: Long) {
     var finalString = ""
     val currentTime = Calendar.getInstance().timeInMillis
     val diff = currentTime - lastUpdatedTime
+    var seconds = TimeUnit.SECONDS.convert(diff, TimeUnit.MILLISECONDS)
+    var minutes = seconds.toFloat() / 60.toFloat()
+    var hours = minutes / 24.toFloat()
     var days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
     val years = days / 365
     days -= years * 365
 
-    if(years > 0) {
-        finalString += "$years 年 "
+    if(years.toInt() > 0) {
+        finalString += "${years.toInt()} 年 "
+    } else if (days.toInt() > 0) {
+        finalString += "${days.toInt()} 天"
+    } else if (hours.toInt() > 0) {
+        finalString += "${hours.toInt()} 小時"
+    } else if (minutes.toInt() > 0) {
+        finalString += "${minutes.toInt()} 分鐘"
+    } else {
+        finalString += "${seconds.toInt()} 秒"
     }
 
-    finalString += "$days 天"
-
-    textView.text = finalString
+    textView.text = finalString + "前更新"
 }
 
 /** HOME BOOK ITEM LAYOUTPARAMS */

@@ -112,4 +112,8 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     override suspend fun getBooksBasedOn(value: String, filter: SearchFilters): Result<List<Book>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun getFollowersForBook(book: Book): Result<List<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

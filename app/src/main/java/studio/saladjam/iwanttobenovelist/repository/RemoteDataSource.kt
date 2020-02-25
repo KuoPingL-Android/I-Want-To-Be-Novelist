@@ -166,6 +166,19 @@ object IWBNRemoteDataSource: Repository {
             .addOnFailureListener { continuation.resume(Result.Error(it)) }
     }
 
+    /** GET LIKES from BOOK */
+    override suspend fun getFollowersForBook(book: Book): Result<List<String>> = suspendCoroutine {continuation ->
+        IWBNApplication.container.bookCollection
+            .document(book.bookID)
+            .collection("followers")
+            .get()
+            .addOnSuccessListener {
+                continuation.resume(Result.Success(it.toObjects(BookFollower::class.java).map { it.userID }))
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
     /** GET CHAPTER DETAIL  */
     override suspend fun getChapterWithDetails(
         chapterIndex: Int,

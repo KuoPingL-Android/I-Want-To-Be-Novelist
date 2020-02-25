@@ -133,7 +133,6 @@ class MainActivity : AppCompatActivity() {
                     nav.navigate(NavigationDirections.actionGlobalProfileFragment(it))
                     showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
                 }
-
                 viewModel.doneNavigateToProfilePage()
             }
         })

@@ -65,6 +65,9 @@ interface Repository {
     /** GET LIKES from BOOK */
     suspend fun getLikesForBook(book: Book): Result<List<String>>
 
+    /** GET FOLLOWERS from BOOK */
+    suspend fun getFollowersForBook(book: Book): Result<List<String>>
+
     /** FOLLOW the BOOK */
     suspend fun updateFollowBook(book: Book): Result<Boolean>
 

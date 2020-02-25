@@ -116,4 +116,8 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.getBooksBasedOn(value, filter)
     }
 
+    override suspend fun getFollowersForBook(book: Book): Result<List<String>> {
+        return remoteDataSource.getFollowersForBook(book)
+    }
+
 }

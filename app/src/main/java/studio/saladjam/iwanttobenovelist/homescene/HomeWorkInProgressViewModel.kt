@@ -35,7 +35,7 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
         .apply {
             value = mutableMapOf()
         }
-            val numbersOfLikes: LiveData<MutableMap<String, Int>>
+    val numbersOfLikes: LiveData<MutableMap<String, Int>>
         get() = _numbersOfLikes
 
 
@@ -124,7 +124,7 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
         _likesStatuses.value?.set(id, APILoadingStatus.LOADING)
 
         coroutineScope.launch {
-            val result = repository.getLikesForBook(book)
+            val result = repository.getFollowersForBook(book)
 
             _numbersOfLikes.value?.set(id, when(result) {
                 is Result.Success -> {
