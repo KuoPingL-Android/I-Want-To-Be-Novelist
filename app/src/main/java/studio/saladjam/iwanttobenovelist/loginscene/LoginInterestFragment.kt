@@ -24,7 +24,7 @@ class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandl
     private val viewModel by viewModels<LoginInterestViewModel> { getVMFactory() }
 
     // Current Span Count = 3
-    private val spanCount = 3
+    private val spanCount = 2
 
     override fun onCreateView(
         inflater: LayoutInflater,
