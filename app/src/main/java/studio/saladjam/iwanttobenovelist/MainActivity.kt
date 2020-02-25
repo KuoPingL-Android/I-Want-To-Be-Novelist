@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_search -> {
                 if(viewModel.shouldNavigateToSearchRecommend.value == null
                     && viewModel.shouldNavigateToSearchPopular.value == null) {
-                    viewModel.navigateToSearchRecommend()
+                    viewModel.navigateToSearchPopular()
                 }
                 true
             }
