@@ -155,7 +155,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/iwbn_primary_color"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="0dp"

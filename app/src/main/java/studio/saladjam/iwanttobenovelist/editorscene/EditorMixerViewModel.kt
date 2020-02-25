@@ -126,9 +126,8 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
         _status.value = APILoadingStatus.LOADING
 
         coroutineScope.launch {
-            val result = repository.postChapterWithDetails(chapter, bitmapsMap, coordinators)
 
-            when(result) {
+            when(val result = repository.postChapterWithDetails(chapter, bitmapsMap, coordinators)) {
                 is Result.Success -> {
                     _error.value = null
                     _status.value = APILoadingStatus.DONE
