@@ -88,8 +88,8 @@ class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
         val user = IWBNApplication.user
         user.preferredCategories = selectedCategory
         coroutineScope.launch {
-            val result = repository.loginUser(user)
-            when(result) {
+
+            when(val result = repository.loginUser(user)) {
                 is Result.Success -> {
                     Logger.i("createUser RESULT : ${result.data}")
                     _shouldNavigateToHome.value = true

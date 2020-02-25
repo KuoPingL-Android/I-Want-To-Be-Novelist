@@ -106,6 +106,7 @@ fun bind(imageView: ImageView, imageUrl: String?) {
         val storage = IWBNApplication.container.getStorageInstance(url)
         Glide.with(imageView.context)
             .load(storage)
+            .placeholder(R.drawable.placeholder_icon)
             .into(imageView)
     }
 }
