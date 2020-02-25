@@ -395,6 +395,8 @@ object IWBNRemoteDataSource: Repository {
                                            }
                                            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
                                            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                                   } else {
+                                       continuation.resume(Result.Success(book))
                                    }
                                 }
                                 .addOnCanceledListener { Result.Fail("CANCELED") }
