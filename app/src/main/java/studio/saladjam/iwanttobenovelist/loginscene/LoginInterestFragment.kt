@@ -24,7 +24,7 @@ class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandl
     private val viewModel by viewModels<LoginInterestViewModel> { getVMFactory() }
 
     // Current Span Count = 3
-    private val spanCount = 2
+    private val spanCount = 3
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,24 +43,29 @@ class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandl
                 state: RecyclerView.State
             ) {
                 val index = binding.recyclerInterestCategories.getChildLayoutPosition(view)
+
+                outRect.top = 5.toPx()
+                outRect.bottom = 5.toPx()
+                outRect.left = 5.toPx()
+                outRect.right = 5.toPx()
+
                 when(index%spanCount) {
                     0 -> {
-                        outRect.bottom = 5.toPx()
-                        outRect.right = 5.toPx()
-                        if (index != 0) {
-                            outRect.top = 5.toPx()
-                        } else {
+                        outRect.left = 0.toPx()
+                        if (index == 0) {
+                            outRect.top = 10.toPx()
+                        }
+                    }
+
+                    1 -> {
+                        if (index == 1) {
                             outRect.top = 10.toPx()
                         }
                     }
 
                     else -> {
-                        outRect.bottom = 5.toPx()
-                        outRect.right = 5.toPx()
-                        outRect.left = 5.toPx()
-                        if (index >= spanCount) {
-                            outRect.top = 5.toPx()
-                        } else {
+                        outRect.right = 0.toPx()
+                        if (index == 2) {
                             outRect.top = 10.toPx()
                         }
                     }

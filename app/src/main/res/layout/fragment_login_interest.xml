@@ -3,78 +3,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="studio.saladjam.iwanttobenovelist.loginscene.LoginInterestViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/text_interest_title"
+            style="@style/TitleText_NoBorder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/text_choose_category"
-            style="@style/TitleText_NoBorder"
-            android:textAlignment="viewStart"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="56dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/text_choose_category"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_interest_subtitle"
+            style="@style/SubtitleText_NoBorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hint_max_interest"
-            style="@style/SubtitleText_NoBorder"
-            app:layout_constraintTop_toBottomOf="@id/text_interest_title"
-            app:layout_constraintStart_toStartOf="@id/text_interest_title"/>
+            app:layout_constraintStart_toStartOf="@id/text_interest_title"
+            app:layout_constraintTop_toBottomOf="@id/text_interest_title" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_interest_categories"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintTop_toBottomOf="@id/text_interest_subtitle"
-            app:layout_constraintBottom_toTopOf="@id/button_signup_google"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:scrollbars="vertical"
-            app:spanCount="3"
-            app:categories="@{viewModel.categories}"/>
-     <Button
+            app:categories="@{viewModel.categories}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/button_signup_google"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_interest_subtitle"
+            app:spanCount="3" />
+
+        <Button
             android:id="@+id/button_signup_google"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
-            android:background="@drawable/signup_google_bg"
-            app:layout_constraintBottom_toTopOf="@id/button_signup_visitor"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="100dp"
+            android:layout_marginBottom="86dp"
+            android:background="@drawable/signup_google_bg"
+            android:clickable="false"
+            android:fontFamily="sans-serif-black"
             android:shadowColor="#000"
-            android:clickable="false"/>
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/button_signup_visitor"
+            style="@style/Login_Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/button_complete"
-            style="@style/Login_Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="56dp"
-            app:layout_constraintWidth_percent="0.5"
-            android:onClick="@{()->viewModel.createUser()}"/>
+            android:onClick="@{()->viewModel.createUser()}"
+            android:text="@string/button_complete"
+            app:layout_constraintTop_toTopOf="@id/button_signup_google"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -33,6 +33,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath "com.google.gms:google-services:$version_google_services"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_nav"
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta02'
     }
 }
 

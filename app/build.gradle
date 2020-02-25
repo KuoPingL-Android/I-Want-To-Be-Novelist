@@ -10,11 +10,19 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     dataBinding {
         enabled = true
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
     defaultConfig {
         applicationId "studio.saladjam.iwanttobenovelist"
@@ -49,6 +57,8 @@ dependencies {
 
     // Google analytics
     implementation "com.google.firebase:firebase-analytics:$version_firebase_analytics"
+
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     // Firestore
     implementation "com.google.firebase:firebase-firestore:$version_firebase_firestore"
@@ -111,4 +121,7 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
     kapt "com.github.bumptech.glide:compiler:$version_glide"
+
+    // Add the Firebase SDK for Crashlytics.
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
 }
