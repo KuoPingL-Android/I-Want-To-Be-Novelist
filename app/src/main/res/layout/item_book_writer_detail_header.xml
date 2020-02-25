@@ -16,7 +16,7 @@
         tools:background="#000">
 
         <TextView
-            android:id="@+id/text_book_writer_author"
+            android:id="@+id/text_book_writer_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -24,7 +24,7 @@
             android:layout_marginEnd="16dp"
             android:text="@{book.authorName}"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/book_detail_category_size"
+            android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,11 +42,24 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="@id/text_book_writer_author"
-            app:layout_constraintTop_toBottomOf="@id/text_book_writer_author"
+            app:layout_constraintStart_toStartOf="@id/text_book_writer_category"
+            app:layout_constraintTop_toBottomOf="@id/text_book_writer_category"
             app:layout_constraintWidth_percent="0.6"
             tools:text="THE FAMOUS ESCAPE"
             android:text="@{book.title}"/>
+
+        <TextView
+            android:id="@+id/text_book_writer_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{book.category}"
+            android:textColor="@android:color/white"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/text_item_book_writer_title"
+            app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_title"
+            tools:text="科幻" />
 
         <TextView
             android:id="@+id/text_item_book_writer_summary"
@@ -59,9 +72,8 @@
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@id/text_item_book_writer_title"
-            app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_title"
+            app:layout_constraintTop_toBottomOf="@id/text_book_writer_author"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_percent="0.8"
             tools:text="This is the Summary of the Book"
@@ -103,7 +115,6 @@
             app:layout_constraintBottom_toBottomOf="@id/text_item_book_writer_follow"
             app:layout_constraintStart_toEndOf="@id/text_item_book_writer_follow"
             android:layout_marginStart="8dp"
-
             tools:text="12345"
             android:textColor="@color/iwbn_primary_color"/>
 

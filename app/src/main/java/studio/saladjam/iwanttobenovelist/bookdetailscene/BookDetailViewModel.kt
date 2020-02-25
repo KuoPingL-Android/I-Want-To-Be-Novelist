@@ -190,6 +190,9 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         }
     }
 
+    /** FETCH CHAPTERS LIKEs and BOOK FOLLOWERS */
+
+
     /** NAVIGATE to READER PAGE */
     private val _selectedChapterToRead = MutableLiveData<Chapter>()
     val selectedChapterToRead: LiveData<Chapter>
