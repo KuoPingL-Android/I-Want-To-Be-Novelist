@@ -63,7 +63,6 @@ class HomeFragment : Fragment() {
 
                 outRect.bottom = 15.toPx()
 
-
                 when(parent.getChildLayoutPosition(view)) {
                     0 -> outRect.top = 15.toPx()
                     else -> outRect.top = 15.toPx()
@@ -82,6 +81,20 @@ class HomeFragment : Fragment() {
             it?.let {
                 mainViewModel?.navigateToProfilePage(MainViewModel.PROFILETABS.DEFAULT)
                 viewModel.doneNavigateToMyFollow()
+            }
+        })
+
+        viewModel.shouldNavigateToPopular.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel?.navigateToSearchPopular()
+                viewModel.doneNavigateToPopular()
+            }
+        })
+
+        viewModel.shouldNavigateToRecommend.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel?.navigateToSearchRecommend()
+                viewModel.doneNavigateToRecommend()
             }
         })
 

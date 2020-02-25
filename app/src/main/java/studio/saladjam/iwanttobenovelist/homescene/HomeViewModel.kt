@@ -216,6 +216,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         when(homeSection) {
             HomeSections.RECOMMEND.value -> {
                 Logger.i("NAVIGATE TO RECOMMEND")
+                _shouldNavigateToRecommend.value = true
             }
 
             HomeSections.CURRENTREAD.value -> {
@@ -229,7 +230,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
             }
 
             HomeSections.POPULAR.value -> {
-
+                _shouldNavigateToPopular.value = true
             }
         }
     }
@@ -283,5 +284,23 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
     fun doneNavigateToMyWork() {
         _shouldNavigateToMyWork.value = null
+    }
+
+    /** NAVIGATE to RECOMMEND */
+    private val _shouldNavigateToRecommend = MutableLiveData<Boolean>()
+    val shouldNavigateToRecommend: LiveData<Boolean>
+        get() = _shouldNavigateToRecommend
+
+    fun doneNavigateToRecommend() {
+        _shouldNavigateToRecommend.value = null
+    }
+
+    /** NAVIGATE to POPULAR */
+    private val _shouldNavigateToPopular = MutableLiveData<Boolean>()
+    val shouldNavigateToPopular: LiveData<Boolean>
+        get() = _shouldNavigateToPopular
+
+    fun doneNavigateToPopular() {
+        _shouldNavigateToPopular.value = null
     }
 }

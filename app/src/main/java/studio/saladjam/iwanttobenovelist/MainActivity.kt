@@ -46,7 +46,10 @@ class MainActivity : AppCompatActivity() {
 //            }
 
             R.id.navigation_search -> {
-                viewModel.navigateToSearchRecommend()
+                if(viewModel.shouldNavigateToSearchRecommend.value == null
+                    && viewModel.shouldNavigateToSearchPopular.value == null) {
+                    viewModel.navigateToSearchRecommend()
+                }
                 true
             }
 
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.shouldNavigateToSearchPopular.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.POPULARITY.value))
+                binding.bottomnavMain.selectedItemId = R.id.navigation_search
                 viewModel.doneNavigateToSearchPopular()
             }
         })
@@ -111,6 +115,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.shouldNavigateToSearchRecommend.observe(this, Observer {
             it?.let {
                 nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.RECOMMENDED.value))
+                binding.bottomnavMain.selectedItemId = R.id.navigation_search
                 viewModel.doneNavigateToSearchRecommend()
             }
         })

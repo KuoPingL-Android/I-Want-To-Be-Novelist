@@ -11,12 +11,19 @@ import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
 
 class SearchFilterAdapter(private val viewModel: SearchViewModel): ListAdapter<SearchFilters, SearchFilterViewHolder>(CallbackFactory().create(SearchFilters::class.java)) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchFilterViewHolder {
         return SearchFilterViewHolder(ItemSearchFiltersBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: SearchFilterViewHolder, position: Int) {
-        holder.bind(getItem(position), viewModel)
+        val filter = getItem(position)
+        holder.bind(filter, viewModel)
+        holder.binding.textItemSearchFiltersFilter.isSelected = (filter == viewModel.selectedFilter.value)
+        holder.binding.root.setOnClickListener {
+            viewModel.select(filter)
+            notifyDataSetChanged()
+        }
     }
 
 }

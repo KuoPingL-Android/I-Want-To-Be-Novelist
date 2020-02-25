@@ -12,10 +12,6 @@ class SearchFilterViewHolder(val binding: ItemSearchFiltersBinding): RecyclerVie
     fun bind(filter: SearchFilters, viewModel: SearchViewModel) {
         binding.filter = filter
         binding.root.isClickable = true
-        binding.root.setOnClickListener {
-            viewModel.select(filter)
-        }
         binding.executePendingBindings()
     }
-
 }

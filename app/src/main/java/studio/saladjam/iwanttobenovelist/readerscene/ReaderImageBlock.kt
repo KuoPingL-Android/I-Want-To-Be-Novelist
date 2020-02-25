@@ -62,7 +62,7 @@ constructor(context: Context,
         val storage = IWBNApplication.container.getStorageInstance(url)
         Glide.with(image_image_block_image.context)
             .load(storage)
-            .placeholder(android.R.drawable.gallery_thumb)
+            //.placeholder(android.R.drawable.gallery_thumb)
             .into(image_image_block_image)
     }
 

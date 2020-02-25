@@ -24,6 +24,7 @@ class SearchFragment : Fragment() {
     private lateinit var filterAdapter: SearchFilterAdapter
     private lateinit var resultAdapter: SearchResultAdapter
     private var mainViewModel: MainViewModel? = null
+    private var initialFilter: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +72,7 @@ class SearchFragment : Fragment() {
             }
         })
 
+
         binding.searchCategorySearchview.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -86,7 +88,9 @@ class SearchFragment : Fragment() {
 
         })
 
-        viewModel.makeSearch()
+        initialFilter = requireArguments().get("searchFilter") as Int
+//            binding.recyclerSearchFilters.
+        viewModel.select(initialFilter!!.getSearchFilter())
 
         return binding.root
     }

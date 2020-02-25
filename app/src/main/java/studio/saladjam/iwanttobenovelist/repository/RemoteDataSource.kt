@@ -67,7 +67,8 @@ object IWBNRemoteDataSource: Repository {
                 }
 
                 SearchFilters.RECOMMENDED -> {
-                    query.whereIn(Book.Companion.BookKeys.CATEGORY.string, IWBNApplication.user.preferredCategories).get()
+                    query//.whereIn(Book.Companion.BookKeys.CATEGORY.string, IWBNApplication.user.preferredCategories)
+                        .get()
                         .addOnSuccessListener {
                             continuation.resume(Result.Success(it.toObjects(Book::class.java)))
                         }
@@ -77,58 +78,18 @@ object IWBNRemoteDataSource: Repository {
             }
         } else {
             // SEARCH BY BOTH
-            when(filter) {
-                SearchFilters.POPULARITY -> {
-                    IWBNApplication.container.bookCollection
-                        .orderBy(filter.getFirestoreSortingKey(), Query.Direction.DESCENDING)
-                        .orderBy(Book.Companion.BookKeys.TITLE.string)
-                        .startAt(value)
-                        .get()
-                        .addOnSuccessListener {
-                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
-                        }
-                        .addOnCanceledListener {
-                            continuation.resume(Result.Fail("CANCELED")) }
-                        .addOnFailureListener {
-                            continuation.resume(Result.Error(it)) }
+            IWBNApplication.container.bookCollection
+                .orderBy(Book.Companion.BookKeys.TITLE.string)
+                .startAt(value)
+                .endAt(value + "\uf8ff")
+                .get()
+                .addOnSuccessListener {
+                    continuation.resume(Result.Success(it.toObjects(Book::class.java)))
                 }
-
-                SearchFilters.MOST_RECENTLY -> {
-                    query.orderBy(Book.Companion.BookKeys.TITLE.string)
-                        .startAt(value).endAt(value + "\uf8ff")
-                        .get()
-                        .addOnSuccessListener {
-                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
-                        }
-                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-
-                }
-
-                SearchFilters.COMPLETED -> {
-                    query.whereEqualTo(Book.Companion.BookKeys.ISCOMPLETED.string, true)
-                        .orderBy(Book.Companion.BookKeys.TITLE.string)
-                        .startAt(value).endAt(value + "\uf8ff")
-                        .get()
-                        .addOnSuccessListener {
-                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
-                        }
-                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                }
-
-                SearchFilters.RECOMMENDED -> {
-                    query.whereIn(Book.Companion.BookKeys.CATEGORY.string, IWBNApplication.user.preferredCategories)
-                        .orderBy(Book.Companion.BookKeys.TITLE.string)
-                        .startAt(value).endAt(value + "\uf8ff")
-                        .get()
-                        .addOnSuccessListener {
-                            continuation.resume(Result.Success(it.toObjects(Book::class.java)))
-                        }
-                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                }
-            }
+                .addOnCanceledListener {
+                    continuation.resume(Result.Fail("CANCELED")) }
+                .addOnFailureListener {
+                    continuation.resume(Result.Error(it)) }
         }
     }
 
