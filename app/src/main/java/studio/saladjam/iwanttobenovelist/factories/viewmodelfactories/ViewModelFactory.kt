@@ -30,12 +30,6 @@ class ViewModelFactory(private val repository: Repository)
                 isAssignableFrom(LoginSigninupViewModel::class.java)
                                     -> LoginSigninupViewModel(repository)
 
-                isAssignableFrom(LoginRoleViewModel::class.java)
-                                    -> LoginRoleViewModel(repository)
-
-                isAssignableFrom(LoginSelectNameViewModel::class.java)
-                                    -> LoginSelectNameViewModel(repository)
-
                 isAssignableFrom(LoginInterestViewModel::class.java)
                                     -> LoginInterestViewModel(repository)
 

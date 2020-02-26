@@ -3,9 +3,9 @@ package studio.saladjam.iwanttobenovelist.loginscene.adapter
 import androidx.fragment.app.Fragment
 import studio.saladjam.iwanttobenovelist.loginscene.LoginInterestFragment
 import studio.saladjam.iwanttobenovelist.loginscene.LoginPagesCompleteHandler
-import studio.saladjam.iwanttobenovelist.loginscene.LoginRoleFragment
 import studio.saladjam.iwanttobenovelist.loginscene.LoginSigninupFragment
 import studio.saladjam.iwanttobenovelist.loginscene.pagesenum.LoginPages
+import java.lang.IllegalArgumentException
 
 class LoginPagesCreator {
 
@@ -16,12 +16,12 @@ class LoginPagesCreator {
                     LoginSigninupFragment(completeHandler)
                 }
 
-                LoginPages.SELECT_ROLE -> {
-                    LoginRoleFragment(completeHandler)
-                }
-
                 LoginPages.SELECT_INTERESTS -> {
                     LoginInterestFragment(completeHandler)
+                }
+
+                else -> {
+                    throw IllegalArgumentException("Page Not Found")
                 }
             }
         }
