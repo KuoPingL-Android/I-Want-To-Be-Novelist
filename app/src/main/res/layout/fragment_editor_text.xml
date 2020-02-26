@@ -29,7 +29,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintWidth_percent="0.30"
                 android:background="@drawable/bg_dialog_book_creation"
                 android:backgroundTint="#8000">
 
@@ -53,7 +53,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:gravity="center"
                     android:text="成功儲存"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:visibility="@{viewModel.status == APILoadingStatus.DONE ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/iwbn_primary_color"/>
 
