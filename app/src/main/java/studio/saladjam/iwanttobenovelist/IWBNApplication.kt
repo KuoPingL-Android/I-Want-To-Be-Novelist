@@ -48,10 +48,8 @@ class IWBNApplication : Application() {
         if (Build.VERSION.SDK_INT >= 21) {
             registerNetworkCallback()
         }
-
         // INITIALIZE FIREBASE
         FirebaseApp.initializeApp(context)
-
         // INITIALIZE APPCONTAINER
         container = AppContainer(context)
     }
