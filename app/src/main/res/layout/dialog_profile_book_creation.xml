@@ -131,23 +131,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="@{viewModel.status == APILoadingStatus.LOADING || viewModel.status == APILoadingStatus.DONE ? View.VISIBLE : View.GONE}"
-            android:background="#8888"
-            android:clickable="true">
+            style="@style/LoadingIndicatorParent">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintWidth_percent="0.5"
-                android:background="@drawable/bg_dialog_book_creation"
-                android:backgroundTint="#8000"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp">
+                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintWidth_percent="0.4"
+                style="@style/LoadingIndicatorContainer">
                 <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

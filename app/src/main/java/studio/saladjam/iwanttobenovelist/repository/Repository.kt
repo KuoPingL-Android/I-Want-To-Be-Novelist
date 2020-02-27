@@ -13,6 +13,7 @@ import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 interface Repository {
     suspend fun loginUser(user: User): Result<Boolean>
     suspend fun getCategory(): Result<Categories>
+    suspend fun checkIfUserExist(user: User): Result<Boolean>
     suspend fun loginViaFacebook(callbackManager: CallbackManager): Result<Boolean>
     fun handleGoogleTask(completedTask: Task<GoogleSignInAccount>): Result<Boolean>
     suspend fun getUser(token: String): Result<User>

@@ -61,5 +61,32 @@
         <item name="android:windowBackground">#66ffffff</item>
     </style>
 
+    <style name="LoadingIndicator">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateTint">@color/iwbn_primary_color</item>
+    </style>
+
+    <style name="LoadingIndicatorText">
+        <item name="android:textColor">@color/iwbn_primary_color</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LoadingIndicatorContainer">
+
+        <item name="android:background">@drawable/bg_dialog_book_creation</item>
+        <item name="android:backgroundTint">#8000</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+
+    </style>
+
+    <style name="LoadingIndicatorParent">
+        <item name="android:background">@color/loading_view</item>
+        <item name="android:clickable">true</item>
+    </style>
 
 </resources>

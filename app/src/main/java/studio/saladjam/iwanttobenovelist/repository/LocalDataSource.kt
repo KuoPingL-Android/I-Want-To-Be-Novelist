@@ -116,4 +116,8 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     override suspend fun getFollowersForBook(book: Book): Result<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override suspend fun checkIfUserExist(user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

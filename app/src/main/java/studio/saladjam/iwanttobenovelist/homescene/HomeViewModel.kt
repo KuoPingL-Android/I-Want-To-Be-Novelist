@@ -124,8 +124,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     /** RECOMMENDED LIST for EVERYONE */
     private fun fetchRecommendedList() {
         coroutineScope.launch {
-            val result = repository.getUserRecommendedList(user)
-            when(result) {
+            when(val result = repository.getUserRecommendedList(user)) {
                 is Result.Success -> {
                     _recommendedList.value = result.data
                 }

@@ -1,6 +1,7 @@
 package studio.saladjam.iwanttobenovelist.loginscene
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -91,14 +92,14 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         _status.value = APILoadingStatus.LOADING
         fbCallBackManager = CallbackManager.Factory.create()
         coroutineScope.launch {
-            val result = repository.loginViaFacebook(fbCallBackManager)
-            when(result) {
+
+            when(val result = repository.loginViaFacebook(fbCallBackManager)) {
                 is Result.Success -> {
-                    _status.value = APILoadingStatus.DONE
+
                     if (result.data) {
-                        promptToAskForName()
+                        doubleCheckUserExistence()
                     } else {
-                        // Do nothing
+                        _status.value = APILoadingStatus.DONE
                     }
                 }
 
@@ -134,7 +135,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         val result = repository.handleGoogleTask(completedTask)
         when(result) {
             is Result.Success -> {
-                promptToAskForName()
+                doubleCheckUserExistence()
             }
 
             is Result.Fail -> {
@@ -148,10 +149,24 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     }
 
 
+    /** DOUBLE CHECK if USER EXISTs before asking for names */
+    fun doubleCheckUserExistence() {
+        coroutineScope.launch {
+            when(val result = repository.checkIfUserExist(IWBNApplication.user)){
+                is Result.Success -> {
 
-    /**LOGIN as VISITOR*/
-    fun loginAsVisitorSelected() {
-        _shouldNavigateToHomePage.value = true
+                    if (result.data) {
+                        navigateToHomePage()
+                    } else {
+                        promptToAskForName()
+                    }
+                }
+
+                is Result.Error -> {
+                    _error.value = result.exception.localizedMessage
+                }
+            }
+        }
     }
 
     /**NAVIGATION*/
@@ -159,6 +174,10 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     private val _shouldNavigateToHomePage = MutableLiveData<Boolean>()
     val shouldNavigateToHomePage: LiveData<Boolean>
         get() = _shouldNavigateToHomePage
+
+    fun navigateToHomePage() {
+        _shouldNavigateToHomePage.value = true
+    }
 
     fun doneNavigateToHomePage() {
         _shouldNavigateToHomePage.value = null

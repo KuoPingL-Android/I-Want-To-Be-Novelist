@@ -69,5 +69,6 @@
     <string name="search_filter_most_recent">Most Recent</string>
     <string name="search_filter_recommended">Recommended</string>
     <string name="search_filter_completed">Completed</string>
+    <string name="hint_success_login">Login Success</string>
 
 </resources>

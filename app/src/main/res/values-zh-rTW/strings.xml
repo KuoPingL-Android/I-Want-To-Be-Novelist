@@ -71,4 +71,5 @@
     <string name="search_filter_most_recent">最新作品</string>
     <string name="search_filter_recommended">推薦作品</string>
     <string name="search_filter_completed">已完成作品</string>
+    <string name="hint_success_login">登入成功</string>
 </resources>

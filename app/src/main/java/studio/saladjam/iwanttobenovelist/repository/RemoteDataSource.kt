@@ -14,10 +14,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.Query
-import studio.saladjam.iwanttobenovelist.IWBNApplication
-import studio.saladjam.iwanttobenovelist.Logger
-import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.Util
+import studio.saladjam.iwanttobenovelist.*
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
 import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 import studio.saladjam.iwanttobenovelist.searchscene.getFirestoreSortingKey
@@ -690,12 +687,7 @@ object IWBNRemoteDataSource: Repository {
                             }
                             .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
                             .addOnFailureListener { continuation.resume(Result.Error(it)) }
-
                     }
-
-
-
-
                 }
                 .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
                 .addOnFailureListener { continuation.resume(Result.Error(it)) }
@@ -727,6 +719,23 @@ object IWBNRemoteDataSource: Repository {
         }
     }
 
+    override suspend fun checkIfUserExist(user: User): Result<Boolean> = suspendCoroutine {continuation ->
+        IWBNApplication.container.userCollection
+            .whereEqualTo(User.Companion.UserKeys.EMAIL.key, user.email)
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    continuation.resume(Result.Success(false))
+                } else {
+                    IWBNApplication.user = it.toObjects(User::class.java).first()
+                    UserManager.userID = IWBNApplication.user.userID
+                    continuation.resume(Result.Success(true))
+                }
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
     /** LOGIN */
     override suspend fun getUser(token: String): Result<User> = suspendCoroutine {continuation ->
         if (!IWBNApplication.isNetworkConnected) {
@@ -745,12 +754,8 @@ object IWBNRemoteDataSource: Repository {
                 }
 
             }
-            .addOnCanceledListener {
-                continuation.resume(Result.Fail("Get User Cancelled"))
-            }
-            .addOnFailureListener {
-                continuation.resume(Result.Error(it))
-            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("Get User Cancelled")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
     }
 
     override fun handleGoogleTask(completedTask: Task<GoogleSignInAccount>): Result<Boolean> {
@@ -801,6 +806,7 @@ object IWBNRemoteDataSource: Repository {
                             val email = jsonObject.get("email")
                             val id = jsonObject.get("id")
                             val name = jsonObject.get("name")
+
                             IWBNApplication.user.apply {
                                 userID = id as String
                                 this.email = email as String

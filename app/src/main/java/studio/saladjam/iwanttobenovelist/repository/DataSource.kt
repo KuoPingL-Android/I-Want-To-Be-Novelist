@@ -14,6 +14,10 @@ import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 class DataSource(private val localDataSource: Repository,
                  private val remoteDataSource: Repository): Repository {
 
+    override suspend fun checkIfUserExist(user: User): Result<Boolean> {
+        return remoteDataSource.checkIfUserExist(user)
+    }
+
     override suspend fun loginUser(user: User): Result<Boolean> {
         return remoteDataSource.loginUser(user)
     }

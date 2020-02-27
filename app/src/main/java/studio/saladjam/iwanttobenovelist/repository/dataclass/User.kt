@@ -30,7 +30,17 @@ data class User(
     val popularity: Long = 0L,
     val authorFollowees: List<Followee> = listOf(), // UserID + createdTime
     val commenterFollowees: List<Followee> = listOf() // UserID + createdTime
-): Parcelable
+): Parcelable {
+    companion object {
+        enum class UserKeys(val key: String) {
+            USERID("userID"),
+            NAME("name"),
+            EMAIL("email"),
+            ROLE("role"),
+            TOKEN("token")
+        }
+    }
+}
 
 @Parcelize
 data class BookCollection(

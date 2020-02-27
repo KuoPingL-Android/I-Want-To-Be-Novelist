@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.UserManager
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
@@ -30,16 +31,14 @@ class LaunchViewModel(private val repository: Repository) : ViewModel() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
     fun checkIfFirstTimeUser() {
-        val currentUser = IWBNApplication.container.auth.currentUser
+        val userID = UserManager.userID
 
-        if (currentUser == null) {
+        if (userID == null) {
             _shouldNavigateToLogin.value = true
         } else {
             _status.value = APILoadingStatus.LOADING
             coroutineScope.launch {
-                val result = repository.getUser(currentUser.uid)
-
-                when (result) {
+                when (val result = repository.getUser(userID)) {
                     is Result.Success -> {
                         IWBNApplication.user = result.data
                         _status.value = APILoadingStatus.DONE
