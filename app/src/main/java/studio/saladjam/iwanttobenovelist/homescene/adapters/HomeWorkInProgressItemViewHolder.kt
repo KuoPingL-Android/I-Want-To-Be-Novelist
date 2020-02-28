@@ -15,6 +15,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 class HomeWorkInProgressItemViewHolder (val binding: ItemHomeV1WorkInProgressBinding, val workInProgressViewModel: HomeWorkInProgressViewModel)
     : RecyclerView.ViewHolder(binding.root), LifecycleOwner {
 
+    /** LIFECYCLE */
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle {
@@ -36,6 +37,7 @@ class HomeWorkInProgressItemViewHolder (val binding: ItemHomeV1WorkInProgressBin
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
+    /** BINDING */
     fun bind(book: Book, viewModel: HomeViewModel, section: HomeSections) {
         binding.book = book
         binding.root.setOnClickListener {

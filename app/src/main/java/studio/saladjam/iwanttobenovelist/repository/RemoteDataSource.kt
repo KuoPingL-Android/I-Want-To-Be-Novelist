@@ -91,42 +91,42 @@ object IWBNRemoteDataSource: Repository {
     }
 
     /** UPDATE if SHOULD FOLLOW BOOK */
-    override suspend fun updateFollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
+    override suspend fun followBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
         val bookID = book.bookID
         val userID = IWBNApplication.user.userID
         val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
-        followerRef.get()
-            .addOnSuccessListener {
-                if (it.exists()) {
-                    followerRef.delete()
-                        .addOnSuccessListener {
-                            IWBNApplication.container.getUserFollowBookCollection(userID)
-                                .document(bookID)
-                                .delete()
-                                .addOnSuccessListener {
-                                    continuation.resume(Result.Success(false))
-                                }
-                                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                        }
-                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                } else {
-                    followerRef.set(BookFollower(userID))
-                        .addOnSuccessListener {
-                            IWBNApplication.container.getUserFollowBookCollection(userID)
-                                .document(bookID)
-                                .set(BookFollowee(bookID))
-                                .addOnSuccessListener {
-                                    continuation.resume(Result.Success(true))
-                                }
-                                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                        }
-                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                }
 
+        followerRef.set(BookFollower(userID))
+            .addOnSuccessListener {
+                IWBNApplication.container.getUserFollowBookCollection(userID)
+                    .document(bookID)
+                    .set(BookFollowee(bookID))
+                    .addOnSuccessListener {
+                        continuation.resume(Result.Success(true))
+                    }
+                    .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                    .addOnFailureListener { continuation.resume(Result.Error(it)) }
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
+    override suspend fun unfollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
+        val bookID = book.bookID
+        val userID = IWBNApplication.user.userID
+        val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
+
+        followerRef.delete()
+            .addOnSuccessListener {
+                // THEN GO to USER BOOK COLLECTION and DELETE the BOOK
+                IWBNApplication.container.getUserFollowBookCollection(userID)
+                    .document(bookID)
+                    .delete()
+                    .addOnSuccessListener {
+                        continuation.resume(Result.Success(false))
+                    }
+                    .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                    .addOnFailureListener { continuation.resume(Result.Error(it)) }
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
             .addOnFailureListener { continuation.resume(Result.Error(it)) }

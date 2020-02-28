@@ -33,7 +33,7 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<B
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> {
-                holder.bind((getItem(position) as BookDetailSealedItem.Header).book, viewModel)
+                holder.bind(viewModel)
                 holder.binding.buttonItemBookWriterEdit.visibility = View.GONE
             }
 

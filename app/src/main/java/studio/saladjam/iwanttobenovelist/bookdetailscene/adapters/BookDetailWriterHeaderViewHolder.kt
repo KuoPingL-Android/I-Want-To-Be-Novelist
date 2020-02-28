@@ -34,18 +34,9 @@ class BookDetailWriterHeaderViewHolder (val binding: ItemBookWriterDetailHeaderB
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 
-    fun bind(book: Book, viewModel: BookDetailViewModel) {
+    fun bind(viewModel: BookDetailViewModel) {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
-        //TODO: CONNECT with VIEWMODEL
-
-//        viewModel.totalFollowers.observe(this, Observer {
-//            it?.let {
-//                binding.text
-//            }
-//        })
-
         binding.executePendingBindings()
     }
 }

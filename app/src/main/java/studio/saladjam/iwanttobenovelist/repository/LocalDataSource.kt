@@ -90,7 +90,11 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun updateFollowBook(book: Book): Result<Boolean> {
+    override suspend fun followBook(book: Book): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun unfollowBook(book: Book): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

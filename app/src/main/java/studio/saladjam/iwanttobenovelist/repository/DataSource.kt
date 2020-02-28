@@ -97,8 +97,12 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.getLikesForBook(book)
     }
 
-    override suspend fun updateFollowBook(book: Book): Result<Boolean> {
-        return remoteDataSource.updateFollowBook(book)
+    override suspend fun followBook(book: Book): Result<Boolean> {
+        return remoteDataSource.followBook(book)
+    }
+
+    override suspend fun unfollowBook(book: Book): Result<Boolean> {
+        return remoteDataSource.unfollowBook(book)
     }
 
     override fun addBooksFollowingSnapshotListener(

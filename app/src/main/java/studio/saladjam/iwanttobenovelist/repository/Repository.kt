@@ -71,7 +71,8 @@ interface Repository {
     suspend fun getFollowersForBook(book: Book): Result<List<String>>
 
     /** FOLLOW the BOOK */
-    suspend fun updateFollowBook(book: Book): Result<Boolean>
+    suspend fun followBook(book: Book): Result<Boolean>
+    suspend fun unfollowBook(book: Book): Result<Boolean>
 
     suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>>
 

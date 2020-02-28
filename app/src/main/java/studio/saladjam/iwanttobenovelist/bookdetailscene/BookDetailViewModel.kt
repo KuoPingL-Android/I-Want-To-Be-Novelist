@@ -24,6 +24,11 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
+
     private val _status = MutableLiveData<APILoadingStatus>()
     val status: LiveData<APILoadingStatus>
         get() = _status
@@ -155,37 +160,54 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     }
 
     fun triggerFollowBook() {
+        book?.let { book ->
+            if (_isFollowing.value == true) {
+                coroutineScope.launch {
+                    when(val result = repository.unfollowBook(book)) {
+                        is Result.Success -> {
+                            _status.value = APILoadingStatus.DONE
+                            _error.value = null
 
-        book?.let {book ->
-            _status.value = APILoadingStatus.LOADING
-            coroutineScope.launch {
-
-                when(val result = repository.updateFollowBook(book)) {
-                    is Result.Success -> {
-                        _status.value = APILoadingStatus.DONE
-                        _error.value = null
-                        if (_isFollowing.value == true) {
-                            // This means user unfollows it
-                            totalFollowers.value = totalFollowers.value?.minus(1)
-
-                            Log.i("TOTAL FOLLOWER", "${totalFollowers.value}")
-                        } else {
-                            totalFollowers.value = totalFollowers.value?.plus(1)
+                            if (_isFollowing.value != result.data) {
+                                totalFollowers.value = totalFollowers.value?.minus(1)
+                                _isFollowing.value = result.data
+                            }
                         }
-                        _isFollowing.value = result.data
-                    }
 
-                    is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
-                        _error.value = result.error
-                    }
+                        is Result.Fail -> {
+                            _status.value = APILoadingStatus.ERROR
+                            _error.value = result.error
+                        }
 
-                    is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
-                        _error.value = result.exception.localizedMessage
+                        is Result.Error -> {
+                            _status.value = APILoadingStatus.ERROR
+                            _error.value = result.exception.localizedMessage
+                        }
                     }
                 }
+            } else {
+                coroutineScope.launch {
+                    when(val result = repository.followBook(book)) {
+                        is Result.Success -> {
+                            _status.value = APILoadingStatus.DONE
+                            _error.value = null
+                            if (_isFollowing.value != result.data) {
+                                totalFollowers.value = totalFollowers.value?.plus(1)
+                                _isFollowing.value = result.data
+                            }
+                        }
 
+                        is Result.Fail -> {
+                            _status.value = APILoadingStatus.ERROR
+                            _error.value = result.error
+                        }
+
+                        is Result.Error -> {
+                            _status.value = APILoadingStatus.ERROR
+                            _error.value = result.exception.localizedMessage
+                        }
+                    }
+                }
             }
         }
     }
@@ -222,7 +244,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     }
 
     /** FETCH CHAPTERS LIKEs and BOOK FOLLOWERS */
-    //TODO: IMPLEMENT
+    //TODO: IMPLEMENT CHAPTER LIKES
 
     /** DISPLAY DIALOG to EDIT BOOK INFO */
     private val _shouldShowBookDetailEditor = MutableLiveData<Boolean>()

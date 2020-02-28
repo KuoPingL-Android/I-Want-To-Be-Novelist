@@ -32,7 +32,7 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListA
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> {
-                holder.bind((getItem(position) as BookDetailSealedItem.Header).book, viewModel)
+                holder.bind(viewModel)
                 holder.binding.buttonItemBookWriterEdit.setOnClickListener { viewModel.editBookDetail() }
             }
 
