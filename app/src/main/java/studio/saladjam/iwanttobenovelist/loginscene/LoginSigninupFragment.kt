@@ -40,6 +40,15 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
 
         binding.viewModel = viewModel
 
+
+        /** API STATUS */
+        viewModel.dialogInfo.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel.displayLoadingDialog(it.first, it.second)
+                viewModel.doneDisplayingDialog()
+            }
+        })
+
         viewModel.loginWithFacebook.observe(this, Observer{
             it?.let{
                 // Login with Facebook

@@ -24,6 +24,10 @@ class ProfileCreateBookViewModel (private val repository: Repository): ViewModel
     val status: LiveData<APILoadingStatus>
         get() = _status
 
+    fun donePerformingStatu() {
+        _status.value = null
+    }
+
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error

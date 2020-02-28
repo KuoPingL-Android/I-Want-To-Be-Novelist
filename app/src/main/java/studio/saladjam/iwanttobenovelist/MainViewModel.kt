@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
 class MainViewModel: ViewModel() {
 
@@ -171,6 +172,32 @@ class MainViewModel: ViewModel() {
 
     fun doneSelectChapterToRead() {
         _selectedChapterToRead.value = null
+    }
+
+
+    /** DISPLAY MESSAGE DIALOG */
+    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+        get() = _dialogInfo
+
+    fun displayLoadingDialog(message: String, status: APILoadingStatus) {
+        _dialogInfo.value = Pair(message, status)
+    }
+
+    fun doneReceivingDialogInfo() {
+        _dialogInfo.value = null
+    }
+
+    private val _shouldDisplaySimpleTextScene = MutableLiveData<Boolean>()
+    val shouldDisplaySimpleTextScene: LiveData<Boolean>
+        get() = _shouldDisplaySimpleTextScene
+
+    fun displaySimpleTextScene() {
+        _shouldDisplaySimpleTextScene.value = true
+    }
+
+    fun doneDisplayingSimpleTextScene() {
+        _shouldDisplaySimpleTextScene.value = null
     }
 
 

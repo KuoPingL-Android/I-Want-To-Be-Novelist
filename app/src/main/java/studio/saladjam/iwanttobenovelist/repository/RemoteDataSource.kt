@@ -157,6 +157,11 @@ object IWBNRemoteDataSource: Repository {
             .collection("likes")
             .get()
             .addOnSuccessListener {
+
+                val list = it.toObjects(String::class.java)
+
+                val newList = list.filter { it == "MyString" }
+
                 continuation.resume(Result.Success(it.toObjects(String::class.java)))
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }

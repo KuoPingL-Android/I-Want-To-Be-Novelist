@@ -1,6 +1,7 @@
 package studio.saladjam.iwanttobenovelist
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -12,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import studio.saladjam.iwanttobenovelist.databinding.ActivityMainBinding
+import studio.saladjam.iwanttobenovelist.dialog.LoadingDialog
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityMainBinding
+    private var loadingDialog: LoadingDialog? = null
     private var currentFragment: Int = -1
 
     private val viewModel by lazy {
@@ -39,11 +42,6 @@ class MainActivity : AppCompatActivity() {
                 viewModel.navigateToHomePage()
                 true
             }
-
-//            R.id.navigation_category -> {
-//                viewModel.navigateToCategory()
-//                true
-//            }
 
             R.id.navigation_search -> {
                 if(viewModel.shouldNavigateToSearchRecommend.value == null
@@ -79,8 +77,10 @@ class MainActivity : AppCompatActivity() {
         /** LOGIN PAGE */
         viewModel.shouldNavigateToLoginPage.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalLoginFragment())
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalLoginFragment())
+                    showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                }
                 viewModel.doneNavigateToLoginPage()
             }
         })
@@ -88,8 +88,10 @@ class MainActivity : AppCompatActivity() {
         /** HOME PAGE */
         viewModel.shouldNavigateToHomePage.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalHomeFragment())
-                showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalHomeFragment())
+                    showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                }
                 viewModel.doneNavigateToHomePage()
             }
         })
@@ -97,8 +99,10 @@ class MainActivity : AppCompatActivity() {
         /** CATEGORY SCENE */
         viewModel.shouldNavigateToCategoryPage.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
-                showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalCategoryFragment())
+                    showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                }
                 viewModel.doneNavigateToCategory()
             }
         })
@@ -106,16 +110,20 @@ class MainActivity : AppCompatActivity() {
         /** SEARCH SCENE */
         viewModel.shouldNavigateToSearchPopular.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.POPULARITY.value))
-                binding.bottomnavMain.selectedItemId = R.id.navigation_search
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.POPULARITY.value))
+                    binding.bottomnavMain.selectedItemId = R.id.navigation_search
+                }
                 viewModel.doneNavigateToSearchPopular()
             }
         })
 
         viewModel.shouldNavigateToSearchRecommend.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.RECOMMENDED.value))
-                binding.bottomnavMain.selectedItemId = R.id.navigation_search
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalSearchFragment(SearchFilters.RECOMMENDED.value))
+                    binding.bottomnavMain.selectedItemId = R.id.navigation_search
+                }
                 viewModel.doneNavigateToSearchRecommend()
             }
         })
@@ -124,14 +132,16 @@ class MainActivity : AppCompatActivity() {
         viewModel.shouldNavigateToProfilePage.observe(this, Observer {
             it?.let {
 
-                if (IWBNApplication.user.token == null) {
-                    //TODO: SHOW DIALOG TO SIGNUP
-                    viewModel.doneNavigateToProfilePage()
-                    viewModel.navigateToLoginPage()
-                } else {
-                    binding.bottomnavMain.selectedItemId = R.id.navigation_profile
-                    nav.navigate(NavigationDirections.actionGlobalProfileFragment(it))
-                    showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                performNavigation {
+                    if (IWBNApplication.user.token == null) {
+                        //TODO: SHOW DIALOG TO SIGNUP
+                        viewModel.doneNavigateToProfilePage()
+                        viewModel.navigateToLoginPage()
+                    } else {
+                        binding.bottomnavMain.selectedItemId = R.id.navigation_profile
+                        nav.navigate(NavigationDirections.actionGlobalProfileFragment(it))
+                        showBars(ToolBarBottomNavDisplays.DISPLAYBOTTOMNAVONLY)
+                    }
                 }
                 viewModel.doneNavigateToProfilePage()
             }
@@ -149,8 +159,10 @@ class MainActivity : AppCompatActivity() {
         /** BOOK EDITING SCENE */
         viewModel.selectBookToEdit.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalBookWriteDetailFragment(it))
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalBookWriteDetailFragment(it))
+                    showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                }
                 viewModel.doneDisplayingEditingBook()
             }
         })
@@ -158,8 +170,10 @@ class MainActivity : AppCompatActivity() {
         /** EDITOR SCENE -> EDITOR TEXT FRAGMENT */
         viewModel.selectedChapterForEditing.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalEditorTextFragment(it))
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalEditorTextFragment(it))
+                    showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                }
                 viewModel.doneNavigateToEditor()
             }
         })
@@ -167,7 +181,9 @@ class MainActivity : AppCompatActivity() {
         /** EDITOR SCENE -> EDITOR MIXER FRAGMENT */
         viewModel.selectedChapterForModifcation.observe(this, Observer {
             it?.let {chapter ->
-                nav.navigate(NavigationDirections.actionGlobalEditorMixerFragment(chapter))
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalEditorMixerFragment(chapter))
+                }
                 viewModel.doneNavigationToModify()
             }
         })
@@ -175,8 +191,10 @@ class MainActivity : AppCompatActivity() {
         /** BOOK READING FRAGMENT */
         viewModel.selectedBookToRead.observe(this, Observer {
             it?.let {
-                nav.navigate(NavigationDirections.actionGlobalBookDetailReaderFragment(it))
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalBookDetailReaderFragment(it))
+                    showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                }
                 viewModel.doneDisplayingReadingBook()
             }
         })
@@ -185,8 +203,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.selectedChapterToRead.observe(this, Observer {
             it?.let {
                 //TODO: CONNECT to READER SCENE
-                nav.navigate(NavigationDirections.actionGlobalReaderMixerFragment(it.first, it.second))
-                showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalReaderMixerFragment(it.first, it.second))
+                    showBars(ToolBarBottomNavDisplays.HIDEBOTH)
+                }
                 viewModel.doneSelectChapterToRead()
             }
         })
@@ -207,6 +227,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         setupOnNaigateListener()
+        setupDialogObservers()
     }
 
     private fun setupOnNaigateListener() {
@@ -221,6 +242,30 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun setupDialogObservers() {
+        viewModel.dialogInfo.observe(this, Observer {
+            it?.let {
+                displayLoadingDialog(it.first, it.second)
+                viewModel.doneReceivingDialogInfo()
+            }
+        })
+    }
+
+    private fun performNavigation(action:()->Unit) {
+        if (loadingDialog != null && loadingDialog!!.isVisible) {
+            Handler().postDelayed({
+                viewModel.doneReceivingDialogInfo()
+            }, 1000)
+            Handler().postDelayed({
+                action()
+            }, 500)
+        } else {
+            action()
+        }
+        viewModel.doneDisplayingSimpleTextScene()
+    }
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -270,4 +315,25 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomBar(value: Boolean) {
         binding.bottomnavMain.visibility = if (value) View.VISIBLE else View.GONE
     }
+
+    /** DIALOG */
+    private fun displayLoadingDialog(message: String, status: APILoadingStatus) {
+        if (loadingDialog == null) {
+            loadingDialog = LoadingDialog()
+        }
+
+        loadingDialog?.setMessage(message, status)
+
+        if (!loadingDialog!!.isVisible) {
+            loadingDialog?.show(supportFragmentManager, "loadingDialog")
+        }
+
+        if (status == APILoadingStatus.DONE) {
+            Handler().postDelayed({
+                loadingDialog?.dismiss()
+                loadingDialog = null
+            }, 1000)
+        }
+    }
+
 }

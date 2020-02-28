@@ -20,12 +20,15 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
+import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.DialogProfileBookCreationBinding
 import studio.saladjam.iwanttobenovelist.extensions.getBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -35,6 +38,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
 
     private lateinit var binding: DialogProfileBookCreationBinding
     private val viewModel by viewModels<ProfileCreateBookViewModel> { getVMFactory() }
+    private var mainVieWModel: MainViewModel? = null
     private lateinit var imageSelection: ImageSelectorDialog
     private var photoUri: Uri? = null
 
@@ -49,8 +53,9 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
         savedInstanceState: Bundle?
     ): View? {
         binding = DialogProfileBookCreationBinding.inflate(inflater)
-
         binding.lifecycleOwner = this
+
+        mainVieWModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
 
@@ -131,6 +136,15 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
             it?.let {
                 workViewModel.notifyBookCreated(it)
                 dismiss()
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it == APILoadingStatus.DONE) {
+                    //TODO: DISPLAY LOGIN SUCCESS
+                    viewModel.donePerformingStatu()
+                }
             }
         })
 

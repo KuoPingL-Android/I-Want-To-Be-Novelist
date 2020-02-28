@@ -71,6 +71,7 @@
         <item name="android:textSize">24dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="LoadingIndicatorContainer">
@@ -87,6 +88,18 @@
     <style name="LoadingIndicatorParent">
         <item name="android:background">@color/loading_view</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="LoginDialog">
+        <item name="android:windowBackground">#8888</item>
+    </style>
+
+    <style name="DialogText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/iwbn_primary_color</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

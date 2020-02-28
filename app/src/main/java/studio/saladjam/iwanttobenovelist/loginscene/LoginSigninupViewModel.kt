@@ -38,6 +38,16 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     val loadingStatus: LiveData<APILoadingStatus>
         get() = _status
 
+    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+        get() = _dialogInfo
+
+    fun doneDisplayingDialog() {
+        _dialogInfo.value = null
+        _status.value = null
+        _error.value = null
+    }
+
     val isLoading = MediatorLiveData<Boolean>().apply {
         addSource(loadingStatus){ value = loadingStatus.value == APILoadingStatus.LOADING }
     }
@@ -89,30 +99,35 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
 
 
     private fun loginFromFb() {
-        _status.value = APILoadingStatus.LOADING
-        fbCallBackManager = CallbackManager.Factory.create()
-        coroutineScope.launch {
+        if (IWBNApplication.isNetworkConnected) {
+            _status.value = APILoadingStatus.LOADING
+            fbCallBackManager = CallbackManager.Factory.create()
+            coroutineScope.launch {
 
-            when(val result = repository.loginViaFacebook(fbCallBackManager)) {
-                is Result.Success -> {
+                when(val result = repository.loginViaFacebook(fbCallBackManager)) {
+                    is Result.Success -> {
 
-                    if (result.data) {
-                        doubleCheckUserExistence()
-                    } else {
-                        _status.value = APILoadingStatus.DONE
+                        if (result.data) {
+                            doubleCheckUserExistence()
+                        } else {
+                            // Something is Wrong
+                            _status.value = APILoadingStatus.ERROR
+                        }
+                    }
+
+                    is Result.Error -> {
+                        _error.value = result.exception.toString()
+                        _status.value = APILoadingStatus.ERROR
+                    }
+
+                    is Result.Fail -> {
+                        Logger.i("ERROR = ${result.error}")
+                        _status.value = APILoadingStatus.ERROR
                     }
                 }
-
-                is Result.Error -> {
-                    _error.value = result.exception.toString()
-                    _status.value = APILoadingStatus.ERROR
-                }
-
-                is Result.Fail -> {
-                    Logger.i("ERROR = ${result.error}")
-                    _status.value = APILoadingStatus.ERROR
-                }
             }
+        } else {
+//            _dialogInfo.value = Pair(getString(R.string.internet_not_connected), APILoadingStatus.ERROR)
         }
     }
 
@@ -132,8 +147,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     var mGoogleSignInClient: GoogleSignInClient? = null
 
     fun handleGoogleTask(completedTask: Task<GoogleSignInAccount>) {
-        val result = repository.handleGoogleTask(completedTask)
-        when(result) {
+        when(val result = repository.handleGoogleTask(completedTask)) {
             is Result.Success -> {
                 doubleCheckUserExistence()
             }
@@ -151,21 +165,33 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
 
     /** DOUBLE CHECK if USER EXISTs before asking for names */
     fun doubleCheckUserExistence() {
-        coroutineScope.launch {
-            when(val result = repository.checkIfUserExist(IWBNApplication.user)){
-                is Result.Success -> {
+        if (IWBNApplication.isNetworkConnected) {
+            _dialogInfo.value = Pair("", APILoadingStatus.LOADING)
+            coroutineScope.launch {
+                when(val result = repository.checkIfUserExist(IWBNApplication.user)){
+                    is Result.Success -> {
 
-                    if (result.data) {
-                        navigateToHomePage()
-                    } else {
-                        promptToAskForName()
+                        if (result.data) {
+                            _dialogInfo.value = Pair(getString(R.string.hint_success_login), APILoadingStatus.DONE)
+                            navigateToHomePage()
+                        } else {
+                            promptToAskForName()
+                            _dialogInfo.value = Pair("", APILoadingStatus.DONE)
+                        }
+                    }
+
+                    is Result.Fail -> {
+                        _dialogInfo.value = Pair("", APILoadingStatus.ERROR)
+                    }
+
+                    is Result.Error -> {
+                        _error.value = result.exception.localizedMessage
+                        _dialogInfo.value = Pair("", APILoadingStatus.ERROR)
                     }
                 }
-
-                is Result.Error -> {
-                    _error.value = result.exception.localizedMessage
-                }
             }
+        } else {
+            _dialogInfo.value = Pair(getString(R.string.internet_not_connected), APILoadingStatus.ERROR)
         }
     }
 

@@ -30,33 +30,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintWidth_percent="0.8"
             app:layout_constraintVertical_bias="0.3"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            android:background="@drawable/bg_dialog_book_creation">
 
-            <TextView
-                android:id="@+id/text_profile_book_creation_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                android:text="@string/text_title"
-                android:textColor="@android:color/black"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                />
+            android:background="@drawable/bg_dialog_book_creation">
 
             <EditText
                 android:id="@+id/edit_profile_book_creation_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                app:layout_constraintTop_toBottomOf="@id/text_profile_book_creation_title"
-                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="56dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:backgroundTint="@android:color/black"
@@ -88,29 +71,29 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:cardCornerRadius="30dp">
+                    app:cardCornerRadius="30dp"
+                    android:layout_marginBottom="5dp">
 
                     <ImageView
                         android:id="@+id/image_profile_book_creation_cover"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/sample_cover" />
+                        android:src="@drawable/cover_placeholder_icon" />
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/button_profile_book_create_book"
-                android:background="@drawable/bg_round_corners_button"
+                android:background="@drawable/bg_create_book_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                app:layout_constraintStart_toStartOf="@id/edit_profile_book_creation_title"
-                app:layout_constraintEnd_toEndOf="@id/edit_profile_book_creation_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="16dp"
                 android:text="@string/text_create_book"
                 android:onClick="@{()->viewModel.createBook()}"
                 android:enabled='@{viewModel.isDataPrepared == true ? true:false}'/>
@@ -120,8 +103,10 @@
                 android:layout_width="36dp"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintEnd_toEndOf="@id/layout_profile_book_creation"
-                app:layout_constraintTop_toTopOf="@id/layout_profile_book_creation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
                 android:backgroundTint="@android:color/black"
                 android:background="@drawable/close_icon" />
 
@@ -130,7 +115,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.status == APILoadingStatus.LOADING || viewModel.status == APILoadingStatus.DONE ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
             style="@style/LoadingIndicatorParent">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -152,20 +137,6 @@
                     android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
                     android:indeterminate="true"
                     android:indeterminateTint="@color/iwbn_primary_color"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintWidth_percent="0.75"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:gravity="center"
-                    tools:text="新增成功"
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/iwbn_primary_color"
-                    android:visibility="@{viewModel.status == APILoadingStatus.DONE ? View.VISIBLE : View.GONE}"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
