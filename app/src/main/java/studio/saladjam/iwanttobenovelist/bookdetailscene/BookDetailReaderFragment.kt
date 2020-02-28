@@ -17,6 +17,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 
 class BookDetailReaderFragment : Fragment() {
     private val viewModel by viewModels<BookDetailViewModel> { getVMFactory() }
+    private val chapterViewModel by viewModels<ChapterDetailViewModel> { getVMFactory() }
 
     private lateinit var binding: FragmentBookBinding
     private lateinit var mainviewModel: MainViewModel
@@ -36,7 +37,7 @@ class BookDetailReaderFragment : Fragment() {
 
         book = requireArguments().get("book") as? Book
 
-        binding.recyclerBookReadDetail.adapter = BookDetailReaderAdapter(viewModel)
+        binding.recyclerBookReadDetail.adapter = BookDetailReaderAdapter(viewModel, chapterViewModel)
 
         book?.let {
             viewModel.book = it

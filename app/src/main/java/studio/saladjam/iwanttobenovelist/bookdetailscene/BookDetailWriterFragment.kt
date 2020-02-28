@@ -21,6 +21,7 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
 class BookDetailWriterFragment : Fragment() {
     private val viewModel by viewModels<BookDetailViewModel> { getVMFactory() }
+    private val chapterViewModel by viewModels<ChapterDetailViewModel> { getVMFactory() }
 
     private lateinit var binding: FragmentBookWriterDetailBinding
     private lateinit var mainviewModel: MainViewModel
@@ -33,7 +34,7 @@ class BookDetailWriterFragment : Fragment() {
     ): View? {
         binding = FragmentBookWriterDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        binding.recyclerBookWriteDetail.adapter = BookDetailWriterAdpater(viewModel)
+        binding.recyclerBookWriteDetail.adapter = BookDetailWriterAdpater(viewModel, chapterViewModel)
 
         binding.viewModel = viewModel
 

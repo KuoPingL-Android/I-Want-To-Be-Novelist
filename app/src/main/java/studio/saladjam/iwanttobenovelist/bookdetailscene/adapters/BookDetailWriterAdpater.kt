@@ -5,13 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeWorkInProgressItemViewHolder
 import java.lang.IllegalArgumentException
 
-class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>
+class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel, private val chapterViewModel: ChapterDetailViewModel):
+    ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>
     (CallbackFactory().create(BookDetailSealedItem::class.java)) {
 
     companion object {
@@ -38,7 +40,7 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListA
 
             is BookDetailWriterChaptersViewHolder -> {
                 val chapter = (getItem(position) as BookDetailSealedItem.Chapters).chapter
-                holder.bind(chapter)
+                holder.bind(chapter, chapterViewModel)
                 holder.itemView.setOnClickListener {
                     viewModel.editChapter(chapter)
                 }

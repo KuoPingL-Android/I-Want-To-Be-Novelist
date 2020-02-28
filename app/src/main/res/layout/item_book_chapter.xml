@@ -8,6 +8,9 @@
             name="chapter"
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
         <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,13 +49,14 @@
 
         <ImageView
             android:id="@+id/image_book_chapter_fav"
-            android:layout_width="0dp"
+            android:layout_width="12dp"
             android:layout_height="0dp"
-            android:src="@drawable/favorite_icon"
+            android:src="@{viewModel.getDoesUserLikeChapter(chapter) ? @drawable/favorite_icon_liked: @drawable/favorite_icon}"
             app:layout_constraintBottom_toBottomOf="@id/text_book_chapter_fav_count"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toStartOf="@+id/text_book_chapter_title"
-            app:layout_constraintTop_toTopOf="@id/text_book_chapter_fav_count" />
+            app:layout_constraintTop_toTopOf="@id/text_book_chapter_fav_count"
+            app:layout_constraintVertical_bias="0.7"/>
 
         <TextView
             android:id="@+id/text_book_chapter_fav_count"
@@ -60,13 +64,13 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/image_book_chapter_fav"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             app:layout_constraintTop_toBottomOf="@id/text_book_chapter_subtitle"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintBottom_toTopOf="@id/view_book_chapter_divider"
-            android:layout_marginBottom="8dp"
-            tools:text="12345" />
+            android:layout_marginBottom="4dp"
+            android:text="@{viewModel.likesFromIntToString(viewModel.getNumberOfLikesForChapter(chapter))}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

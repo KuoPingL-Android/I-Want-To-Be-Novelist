@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import java.lang.IllegalArgumentException
 
-class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>(CallbackFactory().create(BookDetailSealedItem::class.java)) {
+class BookDetailReaderAdapter(val viewModel: BookDetailViewModel, val chapterViewModel: ChapterDetailViewModel):
+    ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>(CallbackFactory().create(BookDetailSealedItem::class.java)) {
 
     companion object {
         const val BOOK_HEADER = 0
@@ -39,7 +41,7 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<B
 
             is BookDetailWriterChaptersViewHolder -> {
                 val chapter = (getItem(position) as BookDetailSealedItem.Chapters).chapter
-                holder.bind(chapter)
+                holder.bind(chapter, chapterViewModel)
                 holder.itemView.setOnClickListener {
                     viewModel.selectReadingChapter(chapter)
                 }
@@ -59,6 +61,7 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<B
         super.onViewAttachedToWindow(holder)
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> holder.onAttached()
+            is BookDetailWriterChaptersViewHolder -> holder.onAttached()
         }
     }
 
@@ -66,6 +69,7 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<B
         super.onViewDetachedFromWindow(holder)
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> holder.onDetached()
+            is BookDetailWriterChaptersViewHolder -> holder.onDetached()
         }
     }
 }

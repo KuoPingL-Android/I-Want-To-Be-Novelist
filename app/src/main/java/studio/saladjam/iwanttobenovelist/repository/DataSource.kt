@@ -93,8 +93,8 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.getChapterWithDetails(chapterIndex, book)
     }
 
-    override suspend fun getLikesForBook(book: Book): Result<List<String>> {
-        return remoteDataSource.getLikesForBook(book)
+    override suspend fun getLikesForChapter(chapter: Chapter): Result<List<String>> {
+        return remoteDataSource.getLikesForChapter(chapter)
     }
 
     override suspend fun followBook(book: Book): Result<Boolean> {

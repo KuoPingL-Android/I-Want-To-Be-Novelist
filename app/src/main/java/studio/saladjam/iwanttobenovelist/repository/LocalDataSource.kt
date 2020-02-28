@@ -86,7 +86,7 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getLikesForBook(book: Book): Result<List<String>> {
+    override suspend fun getLikesForChapter(chapter: Chapter): Result<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

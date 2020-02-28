@@ -90,7 +90,7 @@ object IWBNRemoteDataSource: Repository {
         }
     }
 
-    /** UPDATE if SHOULD FOLLOW BOOK */
+    /** BOOK - UPDATE FOLLOWER */
     override suspend fun followBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
         val bookID = book.bookID
         val userID = IWBNApplication.user.userID
@@ -133,24 +133,20 @@ object IWBNRemoteDataSource: Repository {
     }
 
     /** GET LIKES from BOOK */
-    override suspend fun getLikesForBook(book: Book): Result<List<String>> = suspendCoroutine {continuation ->
-        IWBNApplication.container.bookCollection
-            .document(book.bookID)
+    override suspend fun getLikesForChapter(chapter: Chapter): Result<List<String>> = suspendCoroutine {continuation ->
+        IWBNApplication.container
+            .getChaptersRefFrom(chapter.bookID)
+            .document(chapter.chapterID)
             .collection("likes")
             .get()
             .addOnSuccessListener {
-
-                val list = it.toObjects(String::class.java)
-
-                val newList = list.filter { it == "MyString" }
-
                 continuation.resume(Result.Success(it.toObjects(String::class.java)))
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
             .addOnFailureListener { continuation.resume(Result.Error(it)) }
     }
 
-    /** GET LIKES from BOOK */
+    /** GET FOLLOWERS from BOOK */
     override suspend fun getFollowersForBook(book: Book): Result<List<String>> = suspendCoroutine {continuation ->
         IWBNApplication.container.bookCollection
             .document(book.bookID)
