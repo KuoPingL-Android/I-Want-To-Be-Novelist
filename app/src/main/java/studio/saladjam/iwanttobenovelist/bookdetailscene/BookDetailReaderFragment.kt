@@ -32,9 +32,16 @@ class BookDetailReaderFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        mainviewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
+        book = requireArguments().get("book") as? Book
+
         binding.recyclerBookReadDetail.adapter = BookDetailReaderAdapter(viewModel)
 
-        mainviewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        book?.let {
+            viewModel.book = it
+            viewModel.checkBookInfo()
+        }
 
         viewModel.shouldGoBackToPreviousPage.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -52,13 +59,6 @@ class BookDetailReaderFragment : Fragment() {
             }
         })
 
-
-        book = requireArguments().get("book") as? Book
-
-        book?.let {
-            viewModel.book = it
-            viewModel.checkBookInfo()
-        }
 
         return binding.root
     }

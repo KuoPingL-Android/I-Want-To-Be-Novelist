@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nav: NavController
 
     private val bottomNavOnItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {item ->
-        val nav = findNavController(R.id.fragment_main)
 
         when(item.itemId) {
             R.id.navigation_home -> {

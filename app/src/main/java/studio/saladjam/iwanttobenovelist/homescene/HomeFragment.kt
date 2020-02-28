@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
-import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
@@ -34,12 +33,6 @@ class HomeFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        viewModel.selectedBook.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                mainViewModel?.selectedBookToRead(it)
-                viewModel.doneSelectingBook()
-            }
-        })
 
         viewModel.areDataRead.observe(viewLifecycleOwner, Observer {
             it?.let {isReady ->
@@ -101,8 +94,15 @@ class HomeFragment : Fragment() {
 
         viewModel.selectedWork.observe(viewLifecycleOwner, Observer {
             it?.let {
-                mainViewModel?.displayEditingBook(it)
+                mainViewModel?.selectedBookToEdit(it)
                 viewModel.doneSelectingWork()
+            }
+        })
+
+        viewModel.selectedBook.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel?.selectedBookToRead(it)
+                viewModel.doneSelectingBook()
             }
         })
 

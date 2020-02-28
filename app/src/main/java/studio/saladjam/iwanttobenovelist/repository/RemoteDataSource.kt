@@ -91,24 +91,6 @@ object IWBNRemoteDataSource: Repository {
     }
 
     /** UPDATE if SHOULD FOLLOW BOOK */
-    override suspend fun getIsFollowedBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
-        val bookID = book.bookID
-        val userID = IWBNApplication.user.userID
-        val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
-        followerRef.get()
-            .addOnSuccessListener {
-
-                if (it.exists()) {
-                    continuation.resume(Result.Success(true))
-                } else {
-                    continuation.resume(Result.Success(false))
-                }
-
-            }
-            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-            .addOnFailureListener { continuation.resume(Result.Error(it)) }
-    }
-
     override suspend fun updateFollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
         val bookID = book.bookID
         val userID = IWBNApplication.user.userID

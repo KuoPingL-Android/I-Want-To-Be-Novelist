@@ -73,9 +73,6 @@ interface Repository {
     /** FOLLOW the BOOK */
     suspend fun updateFollowBook(book: Book): Result<Boolean>
 
-    /** CHECK IF BOOK IS FOLLOWED */
-    suspend fun getIsFollowedBook(book: Book): Result<Boolean>
-
     suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>>
 
     /** SEARCH PAGE */

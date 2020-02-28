@@ -101,10 +101,6 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.updateFollowBook(book)
     }
 
-    override suspend fun getIsFollowedBook(book: Book): Result<Boolean> {
-        return remoteDataSource.getIsFollowedBook(book)
-    }
-
     override fun addBooksFollowingSnapshotListener(
         userID: String,
         callback: (List<BookFollowee>) -> Unit

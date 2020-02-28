@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="book"
-            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+            name="viewModel"
+            type="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="56dp"
             android:layout_marginEnd="16dp"
-            android:text="@{book.authorName}"
+            android:text="@{viewModel.book.category}"
             android:textColor="@android:color/white"
             android:textSize="16dp"
             android:textStyle="bold"
@@ -46,14 +46,14 @@
             app:layout_constraintTop_toBottomOf="@id/text_book_writer_category"
             app:layout_constraintWidth_percent="0.6"
             tools:text="THE FAMOUS ESCAPE"
-            android:text="@{book.title}"/>
+            android:text="@{viewModel.book.title}"/>
 
         <TextView
             android:id="@+id/text_book_writer_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@{book.category}"
+            android:text="@{viewModel.book.authorName}"
             android:textColor="@android:color/white"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_percent="0.8"
             tools:text="This is the Summary of the Book"
-            android:text="@{book.summary}"/>
+            android:text="@{viewModel.book.summary}"/>
 
         <TextView
             android:id="@+id/button_item_book_writer_edit"
@@ -116,7 +116,7 @@
             app:layout_constraintStart_toEndOf="@id/text_item_book_writer_follow"
             android:layout_marginStart="8dp"
             tools:text="12345"
-            android:text="0"
+            android:text="@={viewModel.longToString(viewModel.totalFollowers)}"
             android:textColor="@color/iwbn_primary_color"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -105,7 +105,7 @@ class MainViewModel: ViewModel() {
     val selectBookToEdit: LiveData<Book>
         get() = _selectBookToEdit
 
-    fun displayEditingBook(book: Book) {
+    fun selectedBookToEdit(book: Book) {
         _selectBookToEdit.value = book
     }
 

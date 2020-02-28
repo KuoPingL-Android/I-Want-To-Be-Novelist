@@ -94,10 +94,6 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun getIsFollowedBook(book: Book): Result<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun addBooksFollowingSnapshotListener(
         userID: String,
         callback: (List<BookFollowee>) -> Unit

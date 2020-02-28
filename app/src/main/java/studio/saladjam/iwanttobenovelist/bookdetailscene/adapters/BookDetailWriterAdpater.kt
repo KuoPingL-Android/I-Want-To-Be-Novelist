@@ -8,6 +8,7 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeWorkInProgressItemViewHolder
 import java.lang.IllegalArgumentException
 
 class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>
@@ -50,6 +51,20 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel): ListA
             is BookDetailSealedItem.Header -> BOOK_HEADER
             is BookDetailSealedItem.Chapters -> BOOK_CHAPTER
             else -> throw IllegalArgumentException("ITEM TYPE UNKNOWN")
+        }
+    }
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        when(holder) {
+            is BookDetailWriterHeaderViewHolder -> holder.onAttached()
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        when(holder) {
+            is BookDetailWriterHeaderViewHolder -> holder.onDetached()
         }
     }
 

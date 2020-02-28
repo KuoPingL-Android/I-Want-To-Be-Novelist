@@ -1,16 +1,21 @@
 package studio.saladjam.iwanttobenovelist.bookdetailscene
 
+import android.util.Log
+import androidx.databinding.BindingConversion
+import androidx.databinding.InverseMethod
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import java.lang.NumberFormatException
 
 class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
@@ -53,9 +58,8 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         }
 
         coroutineScope.launch {
-            val result = repository.getChaptersIn(book!!)
 
-            when(result) {
+            when(val result = repository.getChaptersIn(book!!)) {
                 is Result.Success -> {
                     _status.value = APILoadingStatus.DONE
                     _error.value = null
@@ -101,18 +105,39 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     val isFollowing: LiveData<Boolean>
         get() = _isFollowing
 
+    val totalFollowers = MutableLiveData<Long>().apply {
+        value = 0
+    }
+
+    @InverseMethod("stringToLong")
+    fun longToString(value: Long): String {
+        return value.toString()
+    }
+
+    fun stringToLong(value: String): Long {
+        return try {
+            value.toLong().let {
+                it
+            }
+        } catch (e: NumberFormatException) {
+            0L
+        }
+    }
+
+
     private fun checkIfBookIsFollowed() {
 
         book?.let {book ->
             _status.value = APILoadingStatus.LOADING
 
             coroutineScope.launch {
-                val result = repository.getIsFollowedBook(book)
-                when(result) {
+
+                when(val result = repository.getFollowersForBook(book)) {
                     is Result.Success -> {
                         _status.value = APILoadingStatus.DONE
                         _error.value = null
-                        _isFollowing.value = result.data
+                        totalFollowers.value = result.data.size.toLong()
+                        _isFollowing.value = result.data.contains(IWBNApplication.user.userID)
                     }
 
                     is Result.Fail -> {
@@ -134,12 +159,19 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         book?.let {book ->
             _status.value = APILoadingStatus.LOADING
             coroutineScope.launch {
-                val result = repository.updateFollowBook(book)
 
-                when(result) {
+                when(val result = repository.updateFollowBook(book)) {
                     is Result.Success -> {
                         _status.value = APILoadingStatus.DONE
                         _error.value = null
+                        if (_isFollowing.value == true) {
+                            // This means user unfollows it
+                            totalFollowers.value = totalFollowers.value?.minus(1)
+
+                            Log.i("TOTAL FOLLOWER", "${totalFollowers.value}")
+                        } else {
+                            totalFollowers.value = totalFollowers.value?.plus(1)
+                        }
                         _isFollowing.value = result.data
                     }
 
@@ -153,7 +185,6 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                         _error.value = result.exception.localizedMessage
                     }
                 }
-
 
             }
         }

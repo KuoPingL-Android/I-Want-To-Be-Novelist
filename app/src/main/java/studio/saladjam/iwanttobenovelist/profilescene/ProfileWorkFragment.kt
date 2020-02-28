@@ -67,7 +67,7 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
 
         viewModel.selectBookForDisplayDetail.observe(this, Observer {
             it?.let {
-                mainViewModel.displayEditingBook(it)
+                mainViewModel.selectedBookToEdit(it)
                 viewModel.doneShowingBookDetail()
             }
         })

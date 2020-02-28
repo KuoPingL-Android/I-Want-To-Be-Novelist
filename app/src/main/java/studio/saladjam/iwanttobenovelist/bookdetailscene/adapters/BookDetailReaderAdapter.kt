@@ -54,4 +54,18 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel): ListAdapter<B
             else -> throw IllegalArgumentException("ITEM TYPE UNKNOWN")
         }
     }
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        when(holder) {
+            is BookDetailWriterHeaderViewHolder -> holder.onAttached()
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        when(holder) {
+            is BookDetailWriterHeaderViewHolder -> holder.onDetached()
+        }
+    }
 }
