@@ -1,7 +1,5 @@
 package studio.saladjam.iwanttobenovelist.bookdetailscene
 
-import android.util.Log
-import androidx.databinding.BindingConversion
 import androidx.databinding.InverseMethod
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
@@ -163,7 +161,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         book?.let { book ->
             if (_isFollowing.value == true) {
                 coroutineScope.launch {
-                    when(val result = repository.unfollowBook(book)) {
+                    when(val result = repository.postUnfollowBook(book)) {
                         is Result.Success -> {
                             _status.value = APILoadingStatus.DONE
                             _error.value = null
@@ -187,7 +185,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                 }
             } else {
                 coroutineScope.launch {
-                    when(val result = repository.followBook(book)) {
+                    when(val result = repository.postFollowBook(book)) {
                         is Result.Success -> {
                             _status.value = APILoadingStatus.DONE
                             _error.value = null

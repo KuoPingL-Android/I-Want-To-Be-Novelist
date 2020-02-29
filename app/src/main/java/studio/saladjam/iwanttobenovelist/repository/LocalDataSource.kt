@@ -90,11 +90,11 @@ class IWBNLocalDataSource(private val context: Context): Repository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun followBook(book: Book): Result<Boolean> {
+    override suspend fun postFollowBook(book: Book): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override suspend fun unfollowBook(book: Book): Result<Boolean> {
+    override suspend fun postUnfollowBook(book: Book): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -118,6 +118,14 @@ class IWBNLocalDataSource(private val context: Context): Repository {
     }
 
     override suspend fun checkIfUserExist(user: User): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun postLikeChapter(chapter: Chapter): Result<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun postDislikeChapter(chapter: Chapter): Result<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

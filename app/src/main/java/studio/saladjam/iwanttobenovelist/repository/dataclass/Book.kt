@@ -112,3 +112,8 @@ data class BookFollowee(
 data class BookFollower(
     val userID: String = ""
 ): Parcelable
+
+@Parcelize
+data class ChapterLiker(
+    val userID: String = ""
+): Parcelable

@@ -39,6 +39,10 @@ class AppContainer(val context: Context) {
             .whereEqualTo("chapterIndex", chapterIndex)
     }
 
+    fun getLikesRefFrom(chapter: Chapter): CollectionReference {
+        return getChaptersRefFrom(chapter.bookID).document(chapter.chapterID).collection("likes")
+    }
+
     fun getImageCoordinatesQueryFrom(bookID: String, chapter: Chapter): Query {
         return bookCollection
             .document(bookID)

@@ -68,7 +68,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="16dp"
                 android:gravity="center"
-                android:src="@drawable/favorite_icon"
+                android:src="@{viewModel.doLikeChapter ? @drawable/favorite_icon_liked : @drawable/favorite_icon}"
                 android:tint="@color/iwbn_primary_color"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"

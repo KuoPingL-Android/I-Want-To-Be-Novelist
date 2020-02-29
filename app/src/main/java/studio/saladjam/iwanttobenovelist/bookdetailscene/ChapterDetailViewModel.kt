@@ -45,10 +45,6 @@ class ChapterDetailViewModel(private val repository: Repository) : ViewModel() {
 
     fun fetchLikesForChapter(chapter: Chapter) {
 
-        if (likesForChapters.value?.get(chapter.chapterID) != null) {
-            return
-        }
-
         _status.value = APILoadingStatus.LOADING
 
         coroutineScope.launch {

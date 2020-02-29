@@ -66,13 +66,15 @@ interface Repository {
     ///TODO: GET RID OF THIS LIKES
     /** GET LIKES from BOOK */
     suspend fun getLikesForChapter(chapter: Chapter): Result<List<String>>
+    suspend fun postLikeChapter(chapter: Chapter): Result<Boolean>
+    suspend fun postDislikeChapter(chapter: Chapter): Result<Boolean>
 
     /** GET FOLLOWERS from BOOK */
     suspend fun getFollowersForBook(book: Book): Result<List<String>>
 
     /** FOLLOW the BOOK */
-    suspend fun followBook(book: Book): Result<Boolean>
-    suspend fun unfollowBook(book: Book): Result<Boolean>
+    suspend fun postFollowBook(book: Book): Result<Boolean>
+    suspend fun postUnfollowBook(book: Book): Result<Boolean>
 
     suspend fun getFollowingBooks(list: List<BookFollowee>): Result<List<Book>>
 

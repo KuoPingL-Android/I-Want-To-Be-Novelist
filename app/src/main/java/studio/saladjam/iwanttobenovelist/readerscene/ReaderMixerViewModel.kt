@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -57,6 +58,8 @@ class ReaderMixerViewModel (private val repository: Repository,
         _isFirstChapter.value = chapter.chapterIndex == 0
         _currentIndex.value = "${chapter.chapterIndex + 1} / ${book.chapterCount}"
         _isLastChapter.value = chapter.chapterIndex == book.chapterCount - 1
+
+        checkIfLikeChapter()
     }
 
     fun fetchChapterDetails(chapterIndex: Int) {
@@ -103,6 +106,7 @@ class ReaderMixerViewModel (private val repository: Repository,
         get() = _isLastChapter
 
 
+
     /** BUTTON ACTIONS */
     /** LIKE */
     private val _shouldLikeOrUnlikeTheChapter = MutableLiveData<Boolean>()
@@ -110,11 +114,92 @@ class ReaderMixerViewModel (private val repository: Repository,
         get() = _shouldLikeOrUnlikeTheChapter
 
     fun triggerLikeButton() {
-        _shouldLikeOrUnlikeTheChapter.value = true
+
+        _currentChapter.value?.let {chapter ->
+            val likeChapter = doLikeChapter.value ?: false
+
+            _status.value = APILoadingStatus.LOADING
+            _error.value = null
+
+            if (likeChapter) {
+                coroutineScope.launch {
+                    when(val result = repository.postDislikeChapter(chapter)) {
+                        is Result.Success -> {
+                            doLikeChapter.value = false
+                            _error.value = null
+                            _status.value = APILoadingStatus.DONE
+                            numberOfLikes.value = numberOfLikes.value?.minus(1)
+                        }
+
+                        is Result.Error -> {
+                            _error.value = result.exception.localizedMessage
+                            _status.value = APILoadingStatus.ERROR
+                        }
+
+                        is Result.Fail -> {
+                            _error.value = result.error
+                            _status.value = APILoadingStatus.ERROR
+                        }
+                    }
+                }
+            } else {
+                coroutineScope.launch {
+                    when(val result = repository.postLikeChapter(chapter)) {
+                        is Result.Success -> {
+                            doLikeChapter.value = true
+                            _error.value = null
+                            _status.value = APILoadingStatus.DONE
+                            numberOfLikes.value = numberOfLikes.value?.plus(1)
+                        }
+
+                        is Result.Error -> {
+                            _error.value = result.exception.localizedMessage
+                            _status.value = APILoadingStatus.ERROR
+                        }
+
+                        is Result.Fail -> {
+                            _error.value = result.error
+                            _status.value = APILoadingStatus.ERROR
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     fun doneTriggeringLikeButton() {
         _shouldLikeOrUnlikeTheChapter.value = null
+    }
+
+    val doLikeChapter = MutableLiveData<Boolean>()
+    val numberOfLikes = MutableLiveData<Int>()
+
+    private fun checkIfLikeChapter() {
+        _currentChapter.value?.let {chapter ->
+            coroutineScope.launch {
+                when(val result = repository.getLikesForChapter(chapter)) {
+                    is Result.Success -> {
+                        doLikeChapter.value = result.data.contains(IWBNApplication.user.userID)
+                        numberOfLikes.value = result.data.size
+                    }
+
+                    is Result.Error -> {
+                        _error.value = result.exception.localizedMessage
+                        _status.value = APILoadingStatus.ERROR
+                        doLikeChapter.value = false
+                        numberOfLikes.value = 0
+                    }
+
+                    is Result.Fail -> {
+                        _error.value = result.error
+                        _status.value = APILoadingStatus.ERROR
+                        doLikeChapter.value = false
+                        numberOfLikes.value = 0
+                    }
+                }
+            }
+        }
     }
 
     /** COMMENT */

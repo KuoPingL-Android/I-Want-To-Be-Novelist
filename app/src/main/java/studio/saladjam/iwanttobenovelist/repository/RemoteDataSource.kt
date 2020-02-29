@@ -26,6 +26,30 @@ import kotlin.coroutines.suspendCoroutine
 
 object IWBNRemoteDataSource: Repository {
 
+    override suspend fun postLikeChapter(chapter: Chapter): Result<Boolean> = suspendCoroutine { continuation ->
+
+        val likesRef = IWBNApplication.container.getLikesRefFrom(chapter)
+        val userID = IWBNApplication.user.userID
+        val data = ChapterLiker(userID)
+
+        likesRef.document(userID).set(data)
+            .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+    }
+
+    override suspend fun postDislikeChapter(chapter: Chapter): Result<Boolean> = suspendCoroutine { continuation ->
+
+        IWBNApplication.container
+            .getLikesRefFrom(chapter)
+            .document(IWBNApplication.user.userID)
+            .delete()
+            .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+    }
+
     /** MAKE SEARCH ON BOOKS based on VALUE and FILTER */
     override suspend fun getBooksBasedOn(value: String, filter: SearchFilters): Result<List<Book>> = suspendCoroutine {continuation ->
         // SEARCH BY FILTER
@@ -91,7 +115,7 @@ object IWBNRemoteDataSource: Repository {
     }
 
     /** BOOK - UPDATE FOLLOWER */
-    override suspend fun followBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
+    override suspend fun postFollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
         val bookID = book.bookID
         val userID = IWBNApplication.user.userID
         val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
@@ -111,7 +135,7 @@ object IWBNRemoteDataSource: Repository {
             .addOnFailureListener { continuation.resume(Result.Error(it)) }
     }
 
-    override suspend fun unfollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
+    override suspend fun postUnfollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
         val bookID = book.bookID
         val userID = IWBNApplication.user.userID
         val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
@@ -140,7 +164,7 @@ object IWBNRemoteDataSource: Repository {
             .collection("likes")
             .get()
             .addOnSuccessListener {
-                continuation.resume(Result.Success(it.toObjects(String::class.java)))
+                continuation.resume(Result.Success(it.toObjects(ChapterLiker::class.java).map { it.userID }))
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
             .addOnFailureListener { continuation.resume(Result.Error(it)) }
