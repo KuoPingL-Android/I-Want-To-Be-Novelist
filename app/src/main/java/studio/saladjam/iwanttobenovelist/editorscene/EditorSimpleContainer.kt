@@ -323,6 +323,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             child.deletionCallback = {
                 imageBlock.remove(it)
+                bottomToTopImageBlock.remove(it)
                 removeView(it)
             }
 
@@ -334,6 +335,8 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             bottomToTopImageBlock.add(child)
 
+            bringChildToFront(child)
+
             invalidate()
 
             child.callback = {
@@ -344,6 +347,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             }
 
             child.bringToFrontCallback = {
+                if (bottomToTopImageBlock.last() != child)
                 bottomToTopImageBlock.moveToLast(child)
             }
         }

@@ -328,11 +328,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (status == APILoadingStatus.DONE) {
+
+            var mills = 1000L
+
+            if (message.isEmpty()) {
+                mills = 0L
+            }
+
             Handler().postDelayed({
                 loadingDialog?.dismiss()
                 loadingDialog = null
-            }, 1000)
+            }, mills)
         }
+
+        if (status == APILoadingStatus.ERROR) {
+            loadingDialog?.dismiss()
+            loadingDialog = null
+        }
+
     }
 
 }

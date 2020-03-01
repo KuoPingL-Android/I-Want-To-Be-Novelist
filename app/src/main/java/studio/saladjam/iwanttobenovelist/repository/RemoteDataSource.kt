@@ -380,7 +380,7 @@ object IWBNRemoteDataSource: Repository {
     /** GET CHAPTERs FROM BOOK */
     override suspend fun getChaptersIn(book: Book): Result<List<Chapter>> = suspendCoroutine { continuation ->
         IWBNApplication.container.getChaptersRefFrom(book.bookID)
-            .orderBy(Chapter.Companion.ChapterKeys.INDEX.string, Query.Direction.DESCENDING)
+            .orderBy(Chapter.Companion.ChapterKeys.INDEX.string, Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener {
                 continuation.resume(Result.Success(it.toObjects(Chapter::class.java)))
