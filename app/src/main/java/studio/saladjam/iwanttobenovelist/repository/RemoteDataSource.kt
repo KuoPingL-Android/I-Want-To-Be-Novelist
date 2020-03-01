@@ -237,7 +237,11 @@ object IWBNRemoteDataSource: Repository {
 
         var chapterID = chapter.chapterID
         val isNewChapter = chapterID.isEmpty()
-        if (chapterID.isEmpty()) chapter.chapterID = IWBNApplication.container.getChaptersRefFrom(chapter.bookID).document().id
+        if (chapterID.isEmpty())
+        {
+            chapter.chapterID = IWBNApplication.container.getChaptersRefFrom(chapter.bookID).document().id
+            chapterID = chapter.chapterID
+        }
 
         if (bitmapsMap.keys.isEmpty()) {
 
