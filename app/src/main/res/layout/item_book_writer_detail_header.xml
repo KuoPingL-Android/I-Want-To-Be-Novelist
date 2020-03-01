@@ -49,6 +49,17 @@
             android:text="@{viewModel.book.title}"/>
 
         <TextView
+            android:id="@+id/text_book_writer_author_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/text_item_book_writer_title"
+            app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_title"
+            android:textColor="@android:color/white"
+            android:textSize="14dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/text_author_title"/>
+
+        <TextView
             android:id="@+id/text_book_writer_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,9 +68,9 @@
             android:textColor="@android:color/white"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/text_item_book_writer_title"
+            app:layout_constraintStart_toEndOf="@id/text_book_writer_author_title"
             app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_title"
-            tools:text="科幻" />
+            tools:text="某某某" />
 
         <TextView
             android:id="@+id/text_item_book_writer_summary"
@@ -87,11 +98,11 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_round_corners_button"
             android:clickable="true"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:text="Edit"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Manage"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

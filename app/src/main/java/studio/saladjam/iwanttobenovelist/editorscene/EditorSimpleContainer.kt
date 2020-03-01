@@ -245,6 +245,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
     /** IMAGES */
     private val imageBlock = mutableMapOf<EditorImageBlock, Frame>()
+    private val bottomToTopImageBlock = mutableListOf<EditorImageBlock>()
 
     /** ADD BLOCKs when READ from CHAPTERS */
     fun addBlocks(blockRecorders: List<ImageBlockRecorder>, isTouchable: Boolean = false) {
@@ -253,6 +254,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
         }
 
         imageBlock.clear()
+        bottomToTopImageBlock.clear()
 
         blockRecorders.forEach {
 
@@ -329,6 +331,9 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             }
 
             imageBlock[child] = frame
+
+            bottomToTopImageBlock.add(child)
+
             invalidate()
 
             child.callback = {
@@ -336,6 +341,10 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
                 imageBlock[child] =frame
                 invalidate()
+            }
+
+            child.bringToFrontCallback = {
+                bottomToTopImageBlock.moveToLast(child)
             }
         }
     }
@@ -380,9 +389,10 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
         if (imageBlock.keys.isEmpty()) return Pair(map, blocks)
 
-        for ((k, v) in imageBlock) {
+        for (k in bottomToTopImageBlock) {
             val imageID = UUID.randomUUID().toString()
-            map.put(imageID, k.getImage())
+            map[imageID] = k.getImage()
+            val v = imageBlock[k]!!
             blocks.add(ImageBlockRecorder(
                 imageID,
                 x = (v.x.toDp() - paddingStart.toDp()).toInt(),

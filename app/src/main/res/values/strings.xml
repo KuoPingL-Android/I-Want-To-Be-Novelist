@@ -83,6 +83,8 @@
     <string name="btn_delete_image">Delete Image</string>
     <string name="editor_btn_add_images">Add Images</string>
     <string name="editor_btn_edit_text">Edit Text</string>
+    <string name="hint_category">Category</string>
+    <string name="text_author_title">Author :</string>
 
 
 </resources>

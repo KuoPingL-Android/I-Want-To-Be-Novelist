@@ -177,6 +177,7 @@ constructor(context: Context,
     private var secondOriginUp = false
 
     var callback: ((view: View) -> Unit)? = null
+    var bringToFrontCallback: ((view: View) -> Unit)? = null
 
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -194,6 +195,7 @@ constructor(context: Context,
             // when being touched
             MotionEvent.ACTION_DOWN -> {
                 parent.bringChildToFront(this)
+                bringToFrontCallback?.invoke(this)
                 // 1 finger
                 originUp = false
                 secondOriginUp = false

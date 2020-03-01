@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="book"
+            type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_book_detail_top"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="#000"
+            android:alpha="0.6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:gravity="center"
+                android:text="@string/editor_save"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/iwbn_primary_color"
+                android:clickable="true"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_book_detail_cardview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_book_detail_top"
+            app:layout_constraintDimensionRatio="3:4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintHorizontal_bias="0"
+            app:cardCornerRadius="30dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/image_book_detail_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <EditText
+            android:id="@+id/edit_book_detail_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/cardview_book_detail_cardview"
+            app:layout_constraintStart_toEndOf ="@id/cardview_book_detail_cardview"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
+            android:hint="@string/hint_book_title"
+            app:layout_constraintBottom_toTopOf="@id/spinner_book_detail_category"
+            app:layout_constraintVertical_weight="0.5"
+            android:singleLine="true"/>
+
+        <Spinner
+            android:id="@+id/spinner_book_detail_category"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@id/edit_book_detail_title"
+            app:layout_constraintStart_toStartOf="@id/edit_book_detail_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_weight="0.5"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardview_book_detail_cardview"/>
+
+        <EditText
+            android:id="@+id/edit_book_detail_summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/cardview_book_detail_cardview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:lines="5"
+            android:background="@drawable/bg_editor_selector"/>
+
+        <TextView
+            android:id="@+id/text_book_detail_remainder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/edit_book_detail_summary"
+            app:layout_constraintEnd_toEndOf="@id/edit_book_detail_summary"
+            android:layout_marginTop="16dp"
+            android:textSize="14dp"
+            android:textColor="#000"
+            tools:text="14 Characters left"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout_book_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_book_detail_remainder"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_book_detail_chapters"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tablayout_book_detail"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
