@@ -132,4 +132,7 @@ class DataSource(private val localDataSource: Repository,
         return remoteDataSource.postDislikeChapter(chapter)
     }
 
+    override suspend fun getBook(bookID: String): Result<Book> {
+        return remoteDataSource.getBook(bookID)
+    }
 }

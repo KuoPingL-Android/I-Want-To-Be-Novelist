@@ -34,6 +34,9 @@ interface Repository {
     /** CREATE BOOK */
     suspend fun createBook(title: String, imageBitmap: Bitmap): Result<Book>
 
+    /** FETCH BOOK */
+    suspend fun getBook(bookID: String): Result<Book>
+
     /**  FETCH BOOK CHAPTERS */
     suspend fun getChaptersIn(book: Book): Result<List<Chapter>>
 

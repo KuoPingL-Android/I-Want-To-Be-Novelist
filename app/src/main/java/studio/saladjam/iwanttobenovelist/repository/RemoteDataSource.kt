@@ -245,6 +245,11 @@ object IWBNRemoteDataSource: Repository {
 
         if (bitmapsMap.keys.isEmpty()) {
 
+            // DELETE OLD IMAGES
+            if (chapter.images.isNotEmpty()) {
+                chapter.images = listOf()
+            }
+
             IWBNApplication.container
                 .getChaptersRefFrom(bookID)
                 .document(chapterID)
@@ -449,6 +454,22 @@ object IWBNRemoteDataSource: Repository {
                 } else {
                     continuation.resume(Result.Fail("ERROR in METADATA"))
                 }
+
+            }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener{ continuation.resume(Result.Error(it)) }
+    }
+
+    override suspend fun getBook(bookID: String): Result<Book> = suspendCoroutine {continuation ->
+        IWBNApplication.container.bookCollection.document(bookID)
+            .get()
+            .addOnSuccessListener {
+                it.toObject(Book::class.java)?.let {
+                    continuation.resume(Result.Success(it))
+                    return@addOnSuccessListener
+                }
+
+                continuation.resume(Result.Fail("getBook: Something is Wrong"))
 
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }

@@ -78,6 +78,7 @@
     <string name="editor_save">Save</string>
     <string name="editor_preview">Preview</string>
     <string name="editor_done">Done</string>
+    <string name="editor_new_chapter_prepared">New Chapter Prepared</string>
     <string name="editor_error_save">Failed</string>
     <string name="btn_delete_image">Delete Image</string>
     <string name="editor_btn_add_images">Add Images</string>

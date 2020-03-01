@@ -74,7 +74,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             }
 
             var word = text.substring(letterIndex, spaceIndex)
-            var chars = word.toCharArray()
+            val chars = word.toCharArray()
             var indexOfInterest = -1
 
             for(i in 0 until chars.count()) {

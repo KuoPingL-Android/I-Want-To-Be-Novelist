@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
@@ -19,6 +20,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
     var book: Book? = null
 
+    /** NETWORK */
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
@@ -35,9 +37,16 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     val error: LiveData<String>
         get() = _error
 
+    /** DIALOG */
+    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+        get() = _dialogInfo
+
+    fun doneDisplayingDialog() {
+        _dialogInfo.value = null
+    }
 
     //TODO: EXPAND TO ADD NEW SECTION
-
 
     fun checkBookInfo() {
         fetchChapters()
@@ -90,13 +99,48 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     val shouldAddChapter: LiveData<Boolean>
         get() = _shouldAddChapter
 
-    fun addChapter() {
-        if(_shouldAddChapter.value == true) {
-            return
-        }
-        _shouldAddChapter.value = true
+    private var _isReadyToAddChapter = true
 
-        // FETCH BOOK TOTAL CHAPTER NUMBERS
+    fun addChapter() {
+        if(!_isReadyToAddChapter) return
+
+        _isReadyToAddChapter = false
+
+        if (book == null) {
+            _shouldAddChapter.value = null
+            _isReadyToAddChapter = true
+        } else {
+            _status.value = APILoadingStatus.LOADING
+            _dialogInfo.value = Pair("", _status.value!!)
+            coroutineScope.launch {
+                _isReadyToAddChapter = true
+                when(val result = repository.getBook(book!!.bookID)) {
+                    is Result.Success -> {
+                        book = result.data
+                        _shouldAddChapter.value = true
+                        _status.value = APILoadingStatus.DONE
+                        _error.value = null
+                        _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_done), _status.value!!)
+                    }
+
+                    is Result.Fail -> {
+                        _shouldAddChapter.value = null
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.error
+                        _dialogInfo.value = Pair("", _status.value!!)
+                    }
+
+                    is Result.Error -> {
+                        _shouldAddChapter.value = null
+                        _status.value = APILoadingStatus.ERROR
+                        _error.value = result.exception.localizedMessage
+                        _dialogInfo.value = Pair("", _status.value!!)
+                    }
+                }
+            }
+        }
+
+
     }
 
     fun donePreparingNewChapter() {

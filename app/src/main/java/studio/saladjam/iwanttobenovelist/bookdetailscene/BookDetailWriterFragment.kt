@@ -53,7 +53,7 @@ class BookDetailWriterFragment : Fragment() {
 
         viewModel.shouldAddChapter.observe(viewLifecycleOwner, Observer {
             it?.let {
-                book?.let { unwrappedBook ->
+                viewModel.book?.let { unwrappedBook ->
                     val chapter = Chapter(bookID = unwrappedBook.bookID,
                         chapterIndex = unwrappedBook.chapterCount,
                         title = "Chapter ${unwrappedBook.chapterCount + 1}")
@@ -74,6 +74,13 @@ class BookDetailWriterFragment : Fragment() {
             it?.let {
                 activity?.toast("Coming Soon")
                 viewModel.doneShowingEditorForBookDetail()
+            }
+        })
+
+        viewModel.dialogInfo.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainviewModel.displayLoadingDialog(it.first, it.second)
+                viewModel.doneDisplayingDialog()
             }
         })
 
