@@ -61,7 +61,7 @@ interface Repository {
      *
      * @param Chapter: the Chapter with the ChapterID in the book
      * */
-    suspend fun getChapterWithDetails(chapterIndex: Int, book: Book): Result<Pair<Chapter, List<ImageBlockRecorder>>>
+    suspend fun getChapterWithDetails(chapterIndex: Int, bookID: String): Result<Pair<Chapter, List<ImageBlockRecorder>>>
 
     ///TODO: GET RID OF THIS LIKES
     /** GET LIKES from BOOK */

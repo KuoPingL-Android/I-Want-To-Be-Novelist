@@ -14,7 +14,9 @@ import androidx.core.view.marginBottom
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.layout_image_block.view.*
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
 import kotlin.math.absoluteValue
@@ -296,7 +298,25 @@ constructor(context: Context,
         }
 
         return true
+    }
 
+    fun setImageSize(width: Int, height: Int) {
+        var imageLayoutParams = mainImageView.layoutParams
+
+        if(imageLayoutParams == null) {
+            imageLayoutParams = LayoutParams(width, height)
+        }
+
+        mainImageView.layoutParams = imageLayoutParams
 
     }
+
+    fun setImageUrl(url: String) {
+        val storage = IWBNApplication.container.getStorageInstance(url)
+        Glide.with(image_image_block_image.context)
+            .load(storage)
+            //.placeholder(android.R.drawable.gallery_thumb)
+            .into(image_image_block_image)
+    }
+
 }

@@ -88,9 +88,9 @@ class DataSource(private val localDataSource: Repository,
 
     override suspend fun getChapterWithDetails(
         chapterIndex: Int,
-        book: Book
+        bookID: String
     ): Result<Pair<Chapter, List<ImageBlockRecorder>>> {
-        return remoteDataSource.getChapterWithDetails(chapterIndex, book)
+        return remoteDataSource.getChapterWithDetails(chapterIndex, bookID)
     }
 
     override suspend fun getLikesForChapter(chapter: Chapter): Result<List<String>> {

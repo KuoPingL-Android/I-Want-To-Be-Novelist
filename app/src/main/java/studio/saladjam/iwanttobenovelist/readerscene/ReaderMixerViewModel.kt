@@ -43,9 +43,13 @@ class ReaderMixerViewModel (private val repository: Repository,
     private val _chapters = mutableListOf<Chapter>()
     private val _chaptersDetails = mutableMapOf<Chapter, MutableList<ImageBlockRecorder>>()
 
-    private val _chapterBlocks = MutableLiveData<List<ImageBlockRecorder>>()
-    val chapterBlocks: LiveData<List<ImageBlockRecorder>>
+    private val _chapterBlocks = MutableLiveData<MutableMap<String, List<ImageBlockRecorder>>>()
+    val chapterBlocks: LiveData<MutableMap<String, List<ImageBlockRecorder>>>
         get() = _chapterBlocks
+
+    private val _currentChapterBlock = MutableLiveData<List<ImageBlockRecorder>>()
+    val currentChapterBlock: LiveData<List<ImageBlockRecorder>>
+        get() = _currentChapterBlock
 
     fun displayChapter(chapter: Chapter) {
         if (!_chapters.contains(chapter)) {
@@ -64,27 +68,42 @@ class ReaderMixerViewModel (private val repository: Repository,
 
     fun fetchChapterDetails(chapterIndex: Int) {
 
+        if (chapterIndex < 0) return
+
         _status.value = APILoadingStatus.LOADING
+        val chapterOfInterest = _chapters.filter { it.chapterIndex == chapterIndex }
+
+        if (chapterOfInterest.isNotEmpty()) {
+
+            displayChapter(chapterOfInterest.first())
+
+            if (_chapterBlocks.value?.keys?.contains(chapterOfInterest.first().chapterID) == true) {
+                _currentChapterBlock.value = _chapterBlocks.value!![chapterOfInterest.first().chapterID]
+                _status.value = APILoadingStatus.DONE
+                return
+            }
+        }
 
         coroutineScope.launch {
-            val result = repository.getChapterWithDetails(chapterIndex, book)
 
-            when(result) {
+            when(val result = repository.getChapterWithDetails(chapterIndex, book.bookID)) {
                 is Result.Success -> {
-                    displayChapter(result.data.first)
-                    _chapterBlocks.value = result.data.second
+                    val chapter = result.data.first
+                    displayChapter(chapter)
+                    _chapterBlocks.value?.put(chapter.chapterID, result.data.second)
+                    _currentChapterBlock.value = result.data.second
                     _status.value = APILoadingStatus.DONE
                     _error.value = null
                 }
 
                 is Result.Fail -> {
-                    _chapterBlocks.value = null
+                    _currentChapterBlock.value = null
                     _status.value = APILoadingStatus.ERROR
                     _error.value = result.error
                 }
 
                 is Result.Error -> {
-                    _chapterBlocks.value = null
+                    _currentChapterBlock.value = null
                     _status.value = APILoadingStatus.ERROR
                     _error.value = result.exception.localizedMessage
                 }
@@ -109,9 +128,6 @@ class ReaderMixerViewModel (private val repository: Repository,
 
     /** BUTTON ACTIONS */
     /** LIKE */
-    private val _shouldLikeOrUnlikeTheChapter = MutableLiveData<Boolean>()
-    val shouldLikeOrUnlikeTheChapter: LiveData<Boolean>
-        get() = _shouldLikeOrUnlikeTheChapter
 
     fun triggerLikeButton() {
 
@@ -168,10 +184,6 @@ class ReaderMixerViewModel (private val repository: Repository,
 
     }
 
-    fun doneTriggeringLikeButton() {
-        _shouldLikeOrUnlikeTheChapter.value = null
-    }
-
     val doLikeChapter = MutableLiveData<Boolean>()
     val numberOfLikes = MutableLiveData<Int>()
 
@@ -220,13 +232,26 @@ class ReaderMixerViewModel (private val repository: Repository,
     val shouldNavigateToNextChapter: LiveData<Boolean>
         get() = _shouldNavigateToNextChapter
 
-    fun navigateToNextChapter() {
-        //TODO: FETCH NEXT CHAPTER instead of changing these variables
-        _shouldNavigateToNextChapter.value = true
-    }
+    private val _isFetchingChapter = MutableLiveData<Boolean>()
+    val isFetchingChapter: LiveData<Boolean>
+        get() = _isFetchingChapter
 
-    fun doneNavigateToNextChapter() {
-        _shouldNavigateToNextChapter.value = null
+    fun navigateToNextChapter() {
+
+        if (_status.value == APILoadingStatus.LOADING) return
+
+        _status.value = APILoadingStatus.LOADING
+
+        if (_currentChapter.value == null)
+        {
+            _status.value = APILoadingStatus.DONE
+            return
+        }
+
+        _currentChapter.value?.let {
+            fetchChapterDetails(it.chapterIndex + 1)
+        }
+
     }
 
     /** PREVIOUS CHAPTER */
@@ -235,7 +260,19 @@ class ReaderMixerViewModel (private val repository: Repository,
         get() = _shouldNavigateToPreviousChapter
 
     fun navigateToPreviousChapter() {
-        _shouldNavigateToPreviousChapter.value = true
+        if (_status.value == APILoadingStatus.LOADING) return
+
+        _status.value = APILoadingStatus.LOADING
+
+        if (_currentChapter.value == null)
+        {
+            _status.value = APILoadingStatus.DONE
+            return
+        }
+
+        _currentChapter.value?.let {
+            fetchChapterDetails(it.chapterIndex - 1)
+        }
     }
 
     fun doneNavigateToPreviousChapter() {

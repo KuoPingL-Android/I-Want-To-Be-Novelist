@@ -50,7 +50,7 @@
     <string name="hint_nav_profile">個人</string>
     <string name="hint_nav_category">分類</string>
     <string name="hint_nav_home">首頁</string>
-    <string name="hint_nav_search">收尋</string>
+    <string name="hint_nav_search">搜尋</string>
 
     <string name="ratio4to5">4:5</string>
     <string name="select_picture">Select Picture</string>
@@ -70,5 +70,18 @@
     <string name="search_filter_recommended">Recommended</string>
     <string name="search_filter_completed">Completed</string>
     <string name="hint_success_login">Login Success</string>
+
+    <!-- EDITOR PAGES -->
+    <string name="editor_edit">Edit</string>
+    <string name="editor_edit_text">Edit Text</string>
+    <string name="editor_edit_image">Edit Image</string>
+    <string name="editor_save">Save</string>
+    <string name="editor_preview">Preview</string>
+    <string name="editor_done">Done</string>
+    <string name="editor_error_save">Failed</string>
+    <string name="btn_delete_image">Delete Image</string>
+    <string name="editor_btn_add_images">Add Images</string>
+    <string name="editor_btn_edit_text">Edit Text</string>
+
 
 </resources>

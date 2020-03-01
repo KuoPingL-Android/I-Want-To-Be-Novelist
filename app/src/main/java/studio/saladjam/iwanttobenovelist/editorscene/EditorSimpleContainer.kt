@@ -11,12 +11,14 @@ import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.fragment_editor_mixer.view.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
-import studio.saladjam.iwanttobenovelist.custom.Frame
-import studio.saladjam.iwanttobenovelist.custom.interceptWith
+import studio.saladjam.iwanttobenovelist.extensions.Frame
+import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
 import studio.saladjam.iwanttobenovelist.extensions.*
+import studio.saladjam.iwanttobenovelist.readerscene.ReaderImageBlock
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
 import java.io.*
@@ -41,6 +43,9 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
         mPaint = paint
+
+        mCharPaints.clear()
+        words.clear()
         calculateTextBlocks()
     }
     /** TEXT BLOCKS */
@@ -212,11 +217,11 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                     if (lineRecord.containsKey(currentY.toInt())) {
                         val list = lineRecord.get(currentY.toInt())!!.toMutableList()
                         list.add(CharLocator(letterIndex + charIndex, charFrame, char))
-                        lineRecord.put(currentY.toInt(), list)
+                        lineRecord[currentY.toInt()] =  list
 
                     } else {
                         val list = mutableListOf(CharLocator(letterIndex + charIndex, charFrame, char))
-                        lineRecord.put(currentY.toInt(), list)
+                        lineRecord[currentY.toInt()] = list
                     }
 
                     canvas?.drawText(char, tempCurrentX, currentY, charPaint)
@@ -241,6 +246,70 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     /** IMAGES */
     private val imageBlock = mutableMapOf<EditorImageBlock, Frame>()
 
+    /** ADD BLOCKs when READ from CHAPTERS */
+    fun addBlocks(blockRecorders: List<ImageBlockRecorder>, isTouchable: Boolean = false) {
+        imageBlock.keys.forEach {
+            removeView(it)
+        }
+
+        imageBlock.clear()
+
+        blockRecorders.forEach {
+
+            val x = it.x.toPx().toFloat()
+            val y = it.y.toPx().toFloat()
+            val w = it.wToParentWRatio * width
+            val h = w / it.wToHRatio
+
+
+
+            if (isTouchable) {
+                val imageBlock = EditorImageBlock(context)
+                var layoutParams = imageBlock.layoutParams
+
+                if (layoutParams == null) {
+                    layoutParams = ConstraintLayout.LayoutParams(w.toInt(),h.toInt())
+                } else {
+                    layoutParams.height = h.toInt()
+                    layoutParams.width = w.toInt()
+                }
+
+//            var imageLayoutParams =
+
+                imageBlock.x = x
+                imageBlock.y = y
+                imageBlock.layoutParams = layoutParams
+
+                imageBlock.setImageSize(w.toInt(), h.toInt())
+
+                imageBlock.setImageUrl(it.imageLocation)
+
+                addView(imageBlock)
+            } else {
+                val imageBlock = ReaderImageBlock(context)
+                var layoutParams = imageBlock.layoutParams
+
+                if (layoutParams == null) {
+                    layoutParams = ConstraintLayout.LayoutParams(w.toInt(),h.toInt())
+                } else {
+                    layoutParams.height = h.toInt()
+                    layoutParams.width = w.toInt()
+                }
+
+                imageBlock.x = x
+                imageBlock.y = y
+                imageBlock.layoutParams = layoutParams
+
+                imageBlock.setImageSize(w.toInt(), h.toInt())
+
+                imageBlock.setImageUrl(it.imageLocation)
+
+                addView(imageBlock)
+            }
+        }
+    }
+
+
     override fun addView(child: View?) {
         super.addView(child)
 
@@ -248,9 +317,10 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             if (imageBlock.contains(child)) return
 
-            val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
+            val frame = Frame(child.x.toInt(), child.y.toInt(), 0, child.width, child.height)
 
             child.deletionCallback = {
+                imageBlock.remove(it)
                 removeView(it)
             }
 
@@ -258,11 +328,11 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                 child.enableDeletion()
             }
 
-            imageBlock.put(child, frame)
+            imageBlock[child] = frame
             invalidate()
 
             child.callback = {
-                val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
+                val frame = Frame(child.x.toInt(), child.y.toInt(), 0, child.width, child.height)
 
                 imageBlock[child] =frame
                 invalidate()
@@ -307,6 +377,9 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     fun getDetails(): Pair<Map<String, Bitmap>, List<ImageBlockRecorder>> {
         val map = mutableMapOf<String, Bitmap>()
         val blocks = mutableListOf<ImageBlockRecorder>()
+
+        if (imageBlock.keys.isEmpty()) return Pair(map, blocks)
+
         for ((k, v) in imageBlock) {
             val imageID = UUID.randomUUID().toString()
             map.put(imageID, k.getImage())

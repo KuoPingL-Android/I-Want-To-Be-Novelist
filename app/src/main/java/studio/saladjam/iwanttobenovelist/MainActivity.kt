@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.selectedChapterForEditing.observe(this, Observer {
             it?.let {
                 performNavigation {
-                    nav.navigate(NavigationDirections.actionGlobalEditorTextFragment(it))
+                    nav.navigate(NavigationDirections.actionGlobalEditorFragment(it))
                     showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 }
                 viewModel.doneNavigateToEditor()

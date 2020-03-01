@@ -4,20 +4,28 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Parcelable
 import android.util.Log
 import android.view.TouchDelegate
 import android.view.View
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 
-data class Frame (var x: Int, var y: Int, var width: Int, var height: Int) {
+@Parcelize
+data class Frame (var x: Int, var y: Int, var width: Int, var height: Int, var z: Int = 0): Parcelable {
+    @IgnoredOnParcel
     val origin: Origin = Origin(x, y)
     companion object {
-        val zero = Frame(0,0,0,0)
+        val zero = Frame(0,0,0, 0,0)
     }
+    @IgnoredOnParcel
     val maxX = x + width
+    @IgnoredOnParcel
     val maxY = y + height
 }
 
-data class Origin(val x: Int, val y: Int)
+@Parcelize
+data class Origin(val x: Int, val y: Int): Parcelable
 
 fun View.frameInSurface(): Frame {
 
@@ -90,4 +98,27 @@ fun View.setTouchDelegate() {
         rect.right += 100  // increase right hit area
         parent.touchDelegate = TouchDelegate(rect, this)
     }
+}
+
+fun Frame.interceptWith(frame: Frame): Frame? {
+
+    // Check if one of them contains the other one
+    val sortedX = listOf(x, maxX, frame.x, frame.maxX).sorted()
+
+    val sortedY = listOf(y, maxY, frame.y, frame.maxY).sorted()
+
+    var overlappingFrame: Frame? =
+        Frame(
+            sortedX[1], sortedY[1], sortedX[2] - sortedX[1], sortedY[2] - sortedY[1]
+        )
+
+    if ((overlappingFrame!!.x == maxX && overlappingFrame.maxX == frame.x) ||
+        (overlappingFrame.x == frame.maxX && overlappingFrame.maxX == x)) {
+        return null
+    }
+    if ((overlappingFrame.y == maxY && overlappingFrame.maxY == frame.y) ||
+        (overlappingFrame.y == frame.maxY && overlappingFrame.maxY == y)) {
+        return null
+    }
+    return overlappingFrame
 }

@@ -44,6 +44,7 @@ class AppContainer(val context: Context) {
     }
 
     fun getImageCoordinatesQueryFrom(bookID: String, chapter: Chapter): Query {
+
         return bookCollection
             .document(bookID)
             .collection("chapters")

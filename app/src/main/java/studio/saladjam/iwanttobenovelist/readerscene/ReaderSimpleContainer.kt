@@ -19,12 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.fragment_editor_mixer.view.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
-import studio.saladjam.iwanttobenovelist.custom.Frame
-import studio.saladjam.iwanttobenovelist.custom.interceptWith
-import studio.saladjam.iwanttobenovelist.extensions.convertToBitmap
-import studio.saladjam.iwanttobenovelist.extensions.getFontHeight
-import studio.saladjam.iwanttobenovelist.extensions.isBasicLatin
-import studio.saladjam.iwanttobenovelist.extensions.toPx
+import studio.saladjam.iwanttobenovelist.extensions.*
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
 import java.io.*

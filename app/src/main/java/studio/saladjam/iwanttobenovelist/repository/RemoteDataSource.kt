@@ -186,11 +186,10 @@ object IWBNRemoteDataSource: Repository {
     /** GET CHAPTER DETAIL  */
     override suspend fun getChapterWithDetails(
         chapterIndex: Int,
-        book: Book
+        bookID: String
     ): Result<Pair<Chapter, List<ImageBlockRecorder>>> = suspendCoroutine { continuation ->
 
         val tag = "getChapterWithDetails"
-        val bookID = book.bookID
 
         IWBNApplication.container.getChapterQueryFrom(bookID, chapterIndex).get()
             .addOnSuccessListener {
@@ -200,19 +199,25 @@ object IWBNRemoteDataSource: Repository {
 
                 val chapter = it.toObjects(Chapter::class.java).first()
 
-                // FETCH COORDINATES
-                IWBNApplication.container.getImageCoordinatesQueryFrom(bookID, chapter).get()
-                    .addOnSuccessListener { coordinatesSnapshot ->
+                if (chapter.images.isNotEmpty()) {
+                    // FETCH COORDINATES
+                    IWBNApplication.container.getImageCoordinatesQueryFrom(bookID, chapter).get()
+                        .addOnSuccessListener { coordinatesSnapshot ->
 
-                        val coordinates = coordinatesSnapshot
-                            .toObjects(ImageBlockRecorder::class.java)
-                            .filter { chapter.images.contains(it.imageID) }
+                            val coordinates = coordinatesSnapshot
+                                .toObjects(ImageBlockRecorder::class.java)
+                                .filter { chapter.images.contains(it.imageID) }
 
-                        continuation.resume(Result.Success(Pair(chapter, coordinates)))
+                            continuation.resume(Result.Success(Pair(chapter, coordinates)))
 
-                    }
-                    .addOnCanceledListener { continuation.resume(Result.Fail("$tag CANCELED")) }
-                    .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                        }
+                        .addOnCanceledListener { continuation.resume(Result.Fail("$tag CANCELED")) }
+                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                } else {
+                    continuation.resume(Result.Success(Pair(chapter, listOf())))
+                }
+
+
 
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
@@ -232,87 +237,101 @@ object IWBNRemoteDataSource: Repository {
 
         var chapterID = chapter.chapterID
         val isNewChapter = chapterID.isEmpty()
-        if (chapterID.isEmpty()) chapterID = IWBNApplication.container.getChaptersRefFrom(chapter.bookID).document().id
+        if (chapterID.isEmpty()) chapter.chapterID = IWBNApplication.container.getChaptersRefFrom(chapter.bookID).document().id
 
-        for ((id, bitmap) in bitmapsMap) {
+        if (bitmapsMap.keys.isEmpty()) {
 
-            val byteArrayOutput = ByteArrayOutputStream()
-
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput)
-            val bytes = byteArrayOutput.toByteArray()
-
-            storageRef.child(bookID + "/${id}.jpg").putBytes(bytes)
+            IWBNApplication.container
+                .getChaptersRefFrom(bookID)
+                .document(chapterID)
+                .set(chapter)
                 .addOnSuccessListener {
-                    numberOfImageUploaded += 1
 
-                    // FILL IN THE IMAGE LOCATION
-                    if (it.metadata != null &&
-                        it.metadata?.path != null && it?.metadata?.bucket != null) {
-                        val imageLocation = "gs://" + it.metadata!!.bucket + "/" + it.metadata!!.path
-                        addOnCoordinators.filter { it.imageID == id }.first().imageLocation = imageLocation
-                    }
-
-
-                    if (numberOfImageUploaded == bitmapsMap.keys.count()) {
-                        // UPDATE CHAPTER
-                        chapter.images = bitmapsMap.keys.toList()
-
-                        if (chapter.chapterID.isEmpty()) {
-                            chapter.chapterID = IWBNApplication.container
-                                .getChaptersRefFrom(bookID)
-                                .document().id
-                        }
-
-                        IWBNApplication.container
-                            .getChaptersRefFrom(bookID)
-                            .document(chapter.chapterID)
-                            .set(chapter)
-                            .addOnSuccessListener {
-
-                                // UPLOAD COORDINATES
-                                var j = 0
-
-                                for (coordinate in addOnCoordinators) {
-                                    IWBNApplication.container
-                                        .getChaptersRefFrom(bookID)
-                                        .document(chapter.chapterID)
-                                        .collection("coordinates")
-                                        .document(coordinate.imageID)
-                                        .set(coordinate)
-                                        .addOnSuccessListener {
-
-                                            j+=1
-
-                                            if(j == addOnCoordinators.count()) {
-
-                                                if(isNewChapter) {
-                                                    IWBNApplication.container.bookCollection.document(bookID)
-                                                        .update(Book.Companion.BookKeys.CHAPTERCOUNT.string, chapter.chapterIndex + 1)
-                                                        .addOnSuccessListener { continuation.resume(Result.Success(true)) }
-                                                        .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
-                                                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                                                } else {
-                                                    continuation.resume(Result.Success(true))
-                                                }
-                                            }
-
-                                        }
-                                        .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
-                                        .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                                }
-
-
-                            }
-                            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                    if (isNewChapter) {
+                        IWBNApplication.container.bookCollection.document(bookID)
+                            .update(Book.Companion.BookKeys.CHAPTERCOUNT.string, chapter.chapterIndex + 1)
+                            .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+                            .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
                             .addOnFailureListener { continuation.resume(Result.Error(it)) }
-
+                    } else {
+                        continuation.resume(Result.Success(true))
                     }
                 }
-                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
                 .addOnFailureListener { continuation.resume(Result.Error(it)) }
+        } else {
+            for ((id, bitmap) in bitmapsMap) {
+
+                val byteArrayOutput = ByteArrayOutputStream()
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutput)
+                val bytes = byteArrayOutput.toByteArray()
+
+                storageRef.child(bookID + "/${id}.jpg").putBytes(bytes)
+                    .addOnSuccessListener {
+                        numberOfImageUploaded += 1
+
+                        // FILL IN THE IMAGE LOCATION
+                        if (it.metadata != null &&
+                            it.metadata?.path != null && it?.metadata?.bucket != null) {
+                            val imageLocation = "gs://" + it.metadata!!.bucket + "/" + it.metadata!!.path
+                            addOnCoordinators.filter { it.imageID == id }.first().imageLocation = imageLocation
+                        }
+
+
+                        if (numberOfImageUploaded == bitmapsMap.keys.count()) {
+                            // UPDATE CHAPTER
+                            chapter.images = bitmapsMap.keys.toList()
+
+                            IWBNApplication.container
+                                .getChaptersRefFrom(bookID)
+                                .document(chapter.chapterID)
+                                .set(chapter)
+                                .addOnSuccessListener {
+
+                                    // UPLOAD COORDINATES
+                                    var j = 0
+
+                                    for (coordinate in addOnCoordinators) {
+                                        IWBNApplication.container
+                                            .getChaptersRefFrom(bookID)
+                                            .document(chapter.chapterID)
+                                            .collection("coordinates")
+                                            .document(coordinate.imageID)
+                                            .set(coordinate)
+                                            .addOnSuccessListener {
+
+                                                j+=1
+
+                                                if(j == addOnCoordinators.count()) {
+
+                                                    if(isNewChapter) {
+                                                        IWBNApplication.container.bookCollection.document(bookID)
+                                                            .update(Book.Companion.BookKeys.CHAPTERCOUNT.string, chapter.chapterIndex + 1)
+                                                            .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+                                                            .addOnCanceledListener { continuation.resume(Result.Fail("postChapter : CANCELED")) }
+                                                            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                                                    } else {
+                                                        continuation.resume(Result.Success(true))
+                                                    }
+                                                }
+
+                                            }
+                                            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                                            .addOnFailureListener { continuation.resume(Result.Error(it)) }
+                                    }
+
+
+                                }
+                                .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
+
+                        }
+                    }
+                    .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                    .addOnFailureListener { continuation.resume(Result.Error(it)) }
+            }
         }
-
-
 
     }
 

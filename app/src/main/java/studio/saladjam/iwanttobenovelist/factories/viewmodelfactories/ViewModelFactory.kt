@@ -9,6 +9,7 @@ import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerV1ViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.EditorMixerViewModel
+import studio.saladjam.iwanttobenovelist.editorscene.EditorViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
@@ -69,6 +70,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(EditorMixerV1ViewModel::class.java)
                                     -> EditorMixerV1ViewModel(repository)
+
+                isAssignableFrom(EditorViewModel::class.java)
+                                    -> EditorViewModel(repository)
 
                 isAssignableFrom(HomeWorkInProgressViewModel::class.java)
                                     -> HomeWorkInProgressViewModel(repository)

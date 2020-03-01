@@ -43,10 +43,6 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
     val shouldAddImage: LiveData<Boolean>
         get() = _shouldAddImage
 
-    private val _newImage = MutableLiveData<Image>()
-    val newImage: LiveData<Image>
-        get() = _newImage
-
     fun addNewImage() {
         if (_shouldAddImage.value == true) return
         _shouldAddImage.value = true
@@ -54,10 +50,6 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
 
     fun doneAddingImage() {
         _shouldAddImage.value = null
-    }
-
-    fun selectImage(image: Image) {
-        _newImage.value = image
     }
 
     /** DELETE IMAGE TRIGGER */
@@ -117,7 +109,7 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
     fun doneSaveChapter() {
         _shouldSaveChapter.value = null
     }
-
+    val test = MutableLiveData<Boolean>()
 
     fun saveChapterDetails(chapter: Chapter,
                            bitmapsMap: Map<String, Bitmap>,

@@ -42,13 +42,8 @@ class ReaderMixerFragment : Fragment() {
 
         viewModel.displayChapter(chapter)
 
-        viewModel.shouldNavigateToNextChapter.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                viewModel.doneNavigateToNextChapter()
-            }
-        })
 
-        viewModel.chapterBlocks.observe(viewLifecycleOwner, Observer {
+        viewModel.currentChapterBlock.observe(viewLifecycleOwner, Observer {
             it?.let {
                 binding.simpleContainer.addBlocks(it)
             }
@@ -60,6 +55,7 @@ class ReaderMixerFragment : Fragment() {
                 viewModel.doneNavigateToPreviousPage()
             }
         })
+
 
         viewModel.fetchChapterDetails(chapter.chapterIndex)
 
