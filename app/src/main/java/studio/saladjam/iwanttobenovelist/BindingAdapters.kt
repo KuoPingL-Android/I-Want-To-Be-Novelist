@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailManageAdapter
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailReaderAdapter
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
@@ -64,8 +65,6 @@ fun bindBooks(recyclerView: RecyclerView, books: List<Book>?) {
         is ProfileWorkAdapter -> {
             adapter.submitList(books)
         }
-
-
     }
 }
 
@@ -97,6 +96,13 @@ fun bindFilter(recyclerView: RecyclerView, filters: List<SearchFilters>?) {
 @BindingAdapter("filterResults")
 fun bindFilteredResult(recyclerView: RecyclerView, filteredBooks: List<Book>?) {
     (recyclerView.adapter as? SearchResultAdapter)?.submitList(filteredBooks)
+}
+
+@BindingAdapter("chapters")
+fun bindChapaters(recyclerView: RecyclerView, chapters: List<Chapter>?) {
+    when(val adapter = recyclerView.adapter) {
+        is BookDetailManageAdapter -> adapter.submitList(chapters)
+    }
 }
 
 /** IMAGE URL */
@@ -179,4 +185,13 @@ fun bindTextView(textView: TextView, role: Int?) {
 @BindingAdapter("booksNumber")
 fun bindTextViewToBookCount(textView: TextView, books: Int?) {
     textView.text = if (books == null) "0" else "${books}"
+}
+
+@BindingAdapter("word", "targetCount")
+fun bindTextViewToWordCount(textView: TextView, word: String?, targetCount: Int) {
+    var wordCount = word?.length ?: 0
+
+    if (wordCount >= targetCount) wordCount = targetCount
+
+    textView.text = IWBNApplication.context.getString(R.string.editor_manage_word_count, wordCount, targetCount)
 }

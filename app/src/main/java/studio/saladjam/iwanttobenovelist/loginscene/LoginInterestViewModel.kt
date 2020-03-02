@@ -11,6 +11,7 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
 class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
     private val _categories = MutableLiveData<List<Genre>>()
@@ -27,6 +28,10 @@ class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
         _shouldNavigateToHome.value = null
     }
 
+    private val _status = MutableLiveData<APILoadingStatus>()
+    val status: LiveData<APILoadingStatus>
+        get() = _status
+
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error
@@ -37,6 +42,15 @@ class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         job.cancel()
+    }
+
+    /** DIALOG INFO */
+    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+        get() = _dialogInfo
+
+    fun doneShowingDialog() {
+        _dialogInfo.value = null
     }
 
     init {
@@ -87,20 +101,33 @@ class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
     fun createUser() {
         val user = IWBNApplication.user
         user.preferredCategories = selectedCategory
+
+        _status.value = APILoadingStatus.LOADING
+        _dialogInfo.value = Pair("", _status.value!!)
+
         coroutineScope.launch {
 
             when(val result = repository.loginUser(user)) {
                 is Result.Success -> {
                     Logger.i("createUser RESULT : ${result.data}")
+                    _status.value = APILoadingStatus.DONE
+                    _error.value = null
+                    _dialogInfo.value = Pair(IWBNApplication.context.getString(R.string.button_complete), _status.value!!)
                     _shouldNavigateToHome.value = true
                 }
 
                 is Result.Error -> {
                     Logger.i("createUser ERROR : ${result.exception}")
+                    _error.value = result.exception.localizedMessage
+                    _status.value = APILoadingStatus.ERROR
+                    _dialogInfo.value = Pair("", _status.value!!)
                 }
 
                 is Result.Fail -> {
                     Logger.i("createUser FAILED : ${result.error}")
+                    _error.value = result.error
+                    _status.value = APILoadingStatus.ERROR
+                    _dialogInfo.value = Pair("", _status.value!!)
                 }
             }
         }

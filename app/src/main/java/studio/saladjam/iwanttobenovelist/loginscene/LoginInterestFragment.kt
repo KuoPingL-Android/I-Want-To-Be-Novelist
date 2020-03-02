@@ -22,6 +22,9 @@ class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandl
     private lateinit var binding: FragmentLoginInterestBinding
 
     private val viewModel by viewModels<LoginInterestViewModel> { getVMFactory() }
+    private val mainViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+    }
 
     // Current Span Count = 3
     private val spanCount = 3
@@ -73,12 +76,17 @@ class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandl
             }
         })
 
-        viewModel.shouldNavigateToHome.observe(this, Observer {
+        viewModel.shouldNavigateToHome.observe(viewLifecycleOwner, Observer {
             it?.let {
-//                findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())
-                val mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
                 mainViewModel.navigateToHomePage()
                 viewModel.doneNavigateToHome()
+            }
+        })
+
+        viewModel.dialogInfo.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                mainViewModel.displayLoadingDialog(it.first, it.second)
+                viewModel.doneShowingDialog()
             }
         })
 

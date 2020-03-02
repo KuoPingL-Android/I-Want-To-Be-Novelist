@@ -60,6 +60,7 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel, privat
         super.onViewAttachedToWindow(holder)
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> holder.onAttached()
+            is BookDetailWriterChaptersViewHolder -> holder.onAttached()
         }
     }
 
@@ -67,6 +68,7 @@ class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel, privat
         super.onViewDetachedFromWindow(holder)
         when(holder) {
             is BookDetailWriterHeaderViewHolder -> holder.onDetached()
+            is BookDetailWriterChaptersViewHolder -> holder.onDetached()
         }
     }
 

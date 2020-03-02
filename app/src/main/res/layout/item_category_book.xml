@@ -74,6 +74,7 @@
                     android:lines="2"
                     android:textColor="@android:color/black"
                     android:text="@{book.title}"/>
+
                 <TextView
                     android:id="@+id/text_home_item_author"
                     android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import studio.saladjam.iwanttobenovelist.*
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
@@ -127,6 +128,9 @@ object IWBNRemoteDataSource: Repository {
                     .set(BookFollowee(bookID))
                     .addOnSuccessListener {
                         continuation.resume(Result.Success(true))
+
+                        IWBNApplication.container.bookCollection.document(bookID).update("popularity", FieldValue.increment(1))
+
                     }
                     .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
                     .addOnFailureListener { continuation.resume(Result.Error(it)) }
@@ -148,6 +152,7 @@ object IWBNRemoteDataSource: Repository {
                     .delete()
                     .addOnSuccessListener {
                         continuation.resume(Result.Success(false))
+                        IWBNApplication.container.bookCollection.document(bookID).update("popularity", FieldValue.increment(-1))
                     }
                     .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
                     .addOnFailureListener { continuation.resume(Result.Error(it)) }
@@ -460,6 +465,14 @@ object IWBNRemoteDataSource: Repository {
             .addOnFailureListener{ continuation.resume(Result.Error(it)) }
     }
 
+    /** UPDATE BOOK */
+    override suspend fun updateBook(book: Book): Result<Boolean> = suspendCoroutine {continuation ->
+        IWBNApplication.container.bookCollection.document(book.bookID).set(book)
+            .addOnSuccessListener { continuation.resume(Result.Success(true)) }
+            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+            .addOnFailureListener{ continuation.resume(Result.Error(it)) }
+    }
+
     override suspend fun getBook(bookID: String): Result<Book> = suspendCoroutine {continuation ->
         IWBNApplication.container.bookCollection.document(bookID)
             .get()
@@ -554,7 +567,7 @@ object IWBNRemoteDataSource: Repository {
     override suspend fun getMostPopularBooks(): Result<List<Book>> = suspendCoroutine { continuation ->
         IWBNApplication.container
             .bookCollection.orderBy("popularity", Query.Direction.DESCENDING)
-            .limit(10).get()
+            .limit(5).get()
             .addOnSuccessListener {snapShot ->
 
                 val list = snapShot.toObjects(Book::class.java).filter { it.chapterCount > 0 }

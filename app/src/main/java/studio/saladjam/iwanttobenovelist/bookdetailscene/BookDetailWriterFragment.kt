@@ -72,7 +72,7 @@ class BookDetailWriterFragment : Fragment() {
 
         viewModel.shouldShowBookDetailEditor.observe(viewLifecycleOwner, Observer {
             it?.let {
-                activity?.toast("Coming Soon")
+                mainviewModel.selectBookToManage(book!!)
                 viewModel.doneShowingEditorForBookDetail()
             }
         })

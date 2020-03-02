@@ -53,7 +53,9 @@ class ChapterDetailViewModel(private val repository: Repository) : ViewModel() {
                     _error.value = null
                     _status.value = APILoadingStatus.DONE
                     likesForChapters.value?.put(chapter.chapterID, result.data.size)
+                    likesForChapters.value = likesForChapters.value
                     doesUserLikeChapters.value?.put(chapter.chapterID, result.data.contains(IWBNApplication.user.userID))
+                    doesUserLikeChapters.value = doesUserLikeChapters.value
                 }
 
                 is Result.Fail -> {

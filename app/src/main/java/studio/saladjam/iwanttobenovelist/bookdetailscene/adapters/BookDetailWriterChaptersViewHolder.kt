@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
@@ -36,7 +37,15 @@ class BookDetailWriterChaptersViewHolder (val binding: ItemBookChapterBinding):
     fun bind(chapter: Chapter, viewModel: ChapterDetailViewModel) {
         binding.chapter = chapter
         binding.viewModel = viewModel
+
+        viewModel.likesForChapters.observe(this, Observer {
+            it?.let {
+                binding.textBookChapterFavCount.text = "${it[chapter.chapterID] ?: 0}"
+            }
+        })
+
         viewModel.fetchLikesForChapter(chapter)
+
         binding.executePendingBindings()
     }
 }

@@ -86,5 +86,10 @@
     <string name="hint_category">Category</string>
     <string name="text_author_title">Author :</string>
 
+    <!-- EDITOR MANAGE -->
+    <string name="editor_manage_sort">Sort</string>
+    <string name="editor_manage_open_to_public">Publish</string>
+    <string name="editor_manage_word_count">%d / %d</string>
+
 
 </resources>

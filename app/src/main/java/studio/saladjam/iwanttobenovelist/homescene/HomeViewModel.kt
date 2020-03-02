@@ -91,12 +91,12 @@ class HomeViewModel(val repository: Repository): ViewModel() {
             }
         }
 
-        if (!_myWorkList.value.isNullOrEmpty()) {
-            list.add(HomeSealItems.WorkInProgress("My Work", _myWorkList.value!!, HomeSections.WORKINPROGRESS))
-        }
-
         if (!_popularList.value.isNullOrEmpty()) {
             list.add(HomeSealItems.General("Popular", _popularList.value!!, HomeSections.POPULAR))
+        }
+
+        if (!_myWorkList.value.isNullOrEmpty()) {
+            list.add(HomeSealItems.WorkInProgress("My Work", _myWorkList.value!!, HomeSections.WORKINPROGRESS))
         }
 
         _finalList.value = list

@@ -87,4 +87,9 @@
     <string name="hint_category">類別</string>
     <string name="text_author_title">作者 :</string>
 
+    <!-- EDITOR MANAGE -->
+    <string name="editor_manage_sort">排列</string>
+    <string name="editor_manage_open_to_public">發布</string>
+    <string name="editor_manage_word_count"> %d / %d </string>
+
 </resources>

@@ -35,7 +35,6 @@
             android:id="@+id/text_item_book_writer_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:maxLines="2"
             android:textColor="@color/iwbn_primary_color"
             android:textSize="20dp"
@@ -56,20 +55,19 @@
             app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_title"
             android:textColor="@android:color/white"
             android:textSize="14dp"
-            android:layout_marginTop="8dp"
             android:text="@string/text_author_title"/>
 
         <TextView
             android:id="@+id/text_book_writer_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@{viewModel.book.authorName}"
             android:textColor="@android:color/white"
             android:textSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_book_writer_author_title"
-            app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_title"
+            app:layout_constraintTop_toTopOf="@id/text_book_writer_author_title"
+            app:layout_constraintBottom_toBottomOf="@id/text_book_writer_author_title"
             tools:text="某某某" />
 
         <TextView
@@ -77,16 +75,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:lines="6"
-            android:maxLines="6"
+            android:layout_marginEnd="16dp"
+            android:lines="5"
+            android:ellipsize="marquee"
             android:textColor="@color/iwbn_primary_color"
             android:textSize="16dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/text_item_book_writer_title"
             app:layout_constraintTop_toBottomOf="@id/text_book_writer_author"
-            app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintHorizontal_bias="0"
             tools:text="This is the Summary of the Book"
             android:text="@{viewModel.book.summary}"/>
 
@@ -114,7 +113,8 @@
             android:textColor="@color/iwbn_primary_color"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@id/text_item_book_writer_title"
-            app:layout_constraintTop_toBottomOf="@id/text_item_book_writer_summary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
             android:text="Followers :"
             android:textStyle="bold"/>

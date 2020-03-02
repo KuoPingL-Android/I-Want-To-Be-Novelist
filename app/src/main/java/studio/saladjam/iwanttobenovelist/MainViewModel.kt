@@ -175,6 +175,19 @@ class MainViewModel: ViewModel() {
     }
 
 
+    /** NAVIGATE to BOOK MANAGER */
+    private val _selectedBookToManage = MutableLiveData<Book>()
+    val selectedBookToManage: LiveData<Book>
+        get() = _selectedBookToManage
+
+    fun selectBookToManage(book: Book) {
+        _selectedBookToManage.value = book
+    }
+
+    fun doneSelectBookToManage() {
+        _selectedBookToManage.value = null
+    }
+
     /** DISPLAY MESSAGE DIALOG */
     private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
     val dialogInfo: LiveData<Pair<String, APILoadingStatus>>

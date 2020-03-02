@@ -26,7 +26,7 @@ data class Book(
     val createdTime: Long = Calendar.getInstance().timeInMillis,
     val lastUpdatedTime: Long = Calendar.getInstance().timeInMillis,
     val language: String = "zh",
-    val category: String = "未知",
+    var category: String = "未知",
     var isOpenToPublic: Boolean = false,
     var isCompleted: Boolean = false
 ): Parcelable {

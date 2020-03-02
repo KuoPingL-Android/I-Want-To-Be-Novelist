@@ -135,4 +135,8 @@ class DataSource(private val localDataSource: Repository,
     override suspend fun getBook(bookID: String): Result<Book> {
         return remoteDataSource.getBook(bookID)
     }
+
+    override suspend fun updateBook(book: Book): Result<Boolean> {
+        return remoteDataSource.updateBook(book)
+    }
 }

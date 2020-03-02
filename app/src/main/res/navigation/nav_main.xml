@@ -162,4 +162,15 @@
     <action
         android:id="@+id/action_global_editorFragment"
         app:destination="@id/editorFragment" />
+    <fragment
+        android:id="@+id/bookDetailManageFragment"
+        android:name="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailManageFragment"
+        android:label="BookDetailManageFragment" >
+        <argument
+            android:name="book"
+            app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_bookDetailManageFragment"
+        app:destination="@id/bookDetailManageFragment" />
 </navigation>

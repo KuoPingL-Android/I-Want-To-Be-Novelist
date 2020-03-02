@@ -37,6 +37,9 @@ interface Repository {
     /** FETCH BOOK */
     suspend fun getBook(bookID: String): Result<Book>
 
+    /** SAVE BOOK */
+    suspend fun updateBook(book: Book): Result<Boolean>
+
     /**  FETCH BOOK CHAPTERS */
     suspend fun getChaptersIn(book: Book): Result<List<Chapter>>
 

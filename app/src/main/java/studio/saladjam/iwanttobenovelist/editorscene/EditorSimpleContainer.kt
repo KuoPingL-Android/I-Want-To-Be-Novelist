@@ -319,7 +319,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             if (imageBlock.contains(child)) return
 
-            val frame = Frame(child.x.toInt(), child.y.toInt(), 0, child.width, child.height)
+            val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
 
             child.deletionCallback = {
                 imageBlock.remove(it)
@@ -340,7 +340,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
             invalidate()
 
             child.callback = {
-                val frame = Frame(child.x.toInt(), child.y.toInt(), 0, child.width, child.height)
+                val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
 
                 imageBlock[child] =frame
                 invalidate()

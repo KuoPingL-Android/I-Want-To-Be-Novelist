@@ -210,6 +210,15 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.selectedBookToManage.observe(this, Observer {
+            it?.let {
+                performNavigation {
+                    nav.navigate(NavigationDirections.actionGlobalBookDetailManageFragment(it))
+                }
+                viewModel.doneSelectBookToManage()
+            }
+        })
+
         currentFragment = R.id.loginFragment
 
         // NAVIGATION
