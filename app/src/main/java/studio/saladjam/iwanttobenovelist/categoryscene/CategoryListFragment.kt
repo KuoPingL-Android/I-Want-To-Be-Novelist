@@ -17,12 +17,10 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 
 class CategoryListFragment(val genre: Genre): Fragment() {
 
-    companion object {
-        const val RECYCLERVIEW_ITEM_OFFSETS_TOP = 10
-        const val RECYCLERVIEW_ITEM_OFFSETS_LEFT = 10
-        const val RECYCLERVIEW_ITEM_OFFSETS_RIGHT = 10
-        const val RECYCLERVIEW_ITEM_OFFSETS_BOTTOM = 10
-    }
+    private val recyclerViewOffsetTop = 10
+    private val recyclerViewOffsetRight = 10
+    private val recyclerViewOffsetLeft = 10
+    private val recyclerViewOffsetBottom = 10
 
     private lateinit var binding: ItemCategoryListBinding
     private val viewModel by viewModels<CategoryListViewModel> { getVMFactory() }
@@ -37,7 +35,7 @@ class CategoryListFragment(val genre: Genre): Fragment() {
 
         viewModel.selectedBook.observe(this, Observer {
             it?.let {
-                //
+                //TODO:
             }
         })
 
@@ -51,10 +49,10 @@ class CategoryListFragment(val genre: Genre): Fragment() {
                 state: RecyclerView.State
             ) {
 
-                outRect.right = RECYCLERVIEW_ITEM_OFFSETS_RIGHT.toPx()
-                outRect.left = RECYCLERVIEW_ITEM_OFFSETS_LEFT.toPx()
-                outRect.top = RECYCLERVIEW_ITEM_OFFSETS_TOP.toPx()
-                outRect.bottom = RECYCLERVIEW_ITEM_OFFSETS_BOTTOM.toPx()
+                outRect.right = recyclerViewOffsetRight.toPx()
+                outRect.left = recyclerViewOffsetLeft.toPx()
+                outRect.top = recyclerViewOffsetTop.toPx()
+                outRect.bottom = recyclerViewOffsetBottom.toPx()
             }
         })
 
