@@ -1,5 +1,6 @@
 package studio.saladjam.iwanttobenovelist.categoryscene
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,10 +18,12 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 
 class CategoryListFragment(val genre: Genre): Fragment() {
 
-    private val recyclerViewOffsetTop = 10
-    private val recyclerViewOffsetRight = 10
-    private val recyclerViewOffsetLeft = 10
-    private val recyclerViewOffsetBottom = 10
+    companion object {
+        const val RECYCLER_VIEW_ITEM_OFFSET_TOP = 10
+        const val RECYCLER_VIEW_ITEM_OFFSET_RIGHT = 10
+        const val RECYCLER_VIEW_ITEM_OFFSET_LEFT = 10
+        const val RECYCLER_VIEW_ITEM_OFFSET_BOTTOM = 10
+    }
 
     private lateinit var binding: ItemCategoryListBinding
     private val viewModel by viewModels<CategoryListViewModel> { getVMFactory() }
@@ -49,10 +52,10 @@ class CategoryListFragment(val genre: Genre): Fragment() {
                 state: RecyclerView.State
             ) {
 
-                outRect.right = recyclerViewOffsetRight.toPx()
-                outRect.left = recyclerViewOffsetLeft.toPx()
-                outRect.top = recyclerViewOffsetTop.toPx()
-                outRect.bottom = recyclerViewOffsetBottom.toPx()
+                outRect.right = RECYCLER_VIEW_ITEM_OFFSET_RIGHT.toPx()
+                outRect.left = RECYCLER_VIEW_ITEM_OFFSET_LEFT.toPx()
+                outRect.top = RECYCLER_VIEW_ITEM_OFFSET_TOP.toPx()
+                outRect.bottom = RECYCLER_VIEW_ITEM_OFFSET_BOTTOM.toPx()
             }
         })
 
