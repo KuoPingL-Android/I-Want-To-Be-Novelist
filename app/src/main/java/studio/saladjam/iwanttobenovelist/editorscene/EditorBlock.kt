@@ -56,7 +56,11 @@ constructor( context: Context,
         primaryPaint = Paint(primaryEditText.paint)
 
         val params = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        params.setMargins(20.toPx(), 30.toPx(), 20.toPx(), 30.toPx())
+        params.
+            setMargins(SPACE_HORIZONTAL_TO_VIEW_.toPx(),
+            SPACE_VERTICAL_TO_VIEW.toPx(),
+            SPACE_HORIZONTAL_TO_VIEW_.toPx(),
+            SPACE_VERTICAL_TO_VIEW.toPx())
 
 //        primaryEditText.visibility = View.INVISIBLE
         primaryEditText.setTextColor(context.resources.getColor(android.R.color.transparent))
