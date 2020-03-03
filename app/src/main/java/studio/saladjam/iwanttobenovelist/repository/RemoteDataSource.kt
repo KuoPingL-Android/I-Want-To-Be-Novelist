@@ -48,7 +48,6 @@ object IWBNRemoteDataSource: Repository {
             .addOnSuccessListener { continuation.resume(Result.Success(true)) }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
             .addOnFailureListener { continuation.resume(Result.Error(it)) }
-
     }
 
     /** MAKE SEARCH ON BOOKS based on VALUE and FILTER */
@@ -922,6 +921,7 @@ object IWBNRemoteDataSource: Repository {
                     task.isSuccessful -> {
                         auth.currentUser?.let {firebaseUser ->
                             IWBNApplication.user.userID = firebaseUser.uid
+                            UserManager.userID = firebaseUser.uid
                             IWBNApplication.container.userCollection.document(user.userID).set(user)
                                 .addOnCompleteListener {task ->
                                     if (task.isSuccessful) {
@@ -956,6 +956,7 @@ object IWBNRemoteDataSource: Repository {
                     task.isSuccessful -> {
                         auth.currentUser?.let {firebaseUser ->
                             IWBNApplication.user.userID = firebaseUser.uid
+                            UserManager.userID = firebaseUser.uid
                             IWBNApplication.container.userCollection.document(user.userID).set(user)
                                 .addOnCompleteListener {task ->
                                     if (task.isSuccessful) {

@@ -209,7 +209,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         _shouldNavigateToHomePage.value = null
     }
 
-    // SELECT ROLE PAGE
+    // NAVIGATE to NEXT PAGE
     private val _shouldNavigateToNextLoginPage = MutableLiveData<Boolean>()
     val shouldNavigateToNextLoginPage: LiveData<Boolean>
         get() = _shouldNavigateToNextLoginPage

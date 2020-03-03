@@ -17,6 +17,9 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
 class BookDetailManageViewModel(private val repository: Repository) : ViewModel() {
+
+    private val mWordCountLimit = 100
+
     /** NETWORK */
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
@@ -41,7 +44,7 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
 
     /** TAGET TEXT COUNT */
     val charLimits = MutableLiveData<Int>().apply {
-        value = 100
+        value = mWordCountLimit
     }
 
     /** BOOK INFO */

@@ -59,9 +59,7 @@ class LoginInterestViewModel(private val repository: Repository) : ViewModel() {
 
     private fun fetchCategories() {
         coroutineScope.launch {
-            val result = repository.getCategory()
-
-            when (result) {
+            when (val result = repository.getCategory()) {
                 is Result.Success -> {
                     val list = result.data
                     Logger.i("LIST = ${list}")
