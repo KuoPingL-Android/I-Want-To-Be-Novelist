@@ -1,26 +1,21 @@
 package studio.saladjam.iwanttobenovelist.homescene.adapters
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
-import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_login_signinup.view.*
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.extensions.getFloat
 import studio.saladjam.iwanttobenovelist.extensions.getPixelSize
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import kotlin.math.absoluteValue
 
 class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : RecyclerView.ViewHolder(binding.root) {
-
 
     companion object {
         private val BOOK_COVER_W_H_RATIO
@@ -95,14 +90,14 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
 
                     for (i in 0 until layoutManager.childCount) {
                         val child = layoutManager.getChildAt(i)!!
-                        val childStartpoint
+                        val childStartPoint
                                 = (layoutManager.getDecoratedLeft(child) +
                                 layoutManager.getDecoratedRight(child)) / 2f -
                                 child.width/2f
 
-                        val d = minOf(distance, (startingPoint - childStartpoint).absoluteValue)
+                        val d = minOf(distance, (startingPoint - childStartPoint).absoluteValue)
                         val scale =
-                            1 + -RECYCLER_ITEM_WH_RATIO * d / distance
+                            1 - RECYCLER_ITEM_WH_RATIO * d / distance
                         child.scaleX = scale
                         child.scaleY = scale
                     }

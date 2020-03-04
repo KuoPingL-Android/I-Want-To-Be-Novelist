@@ -64,6 +64,9 @@
     <string name="hint_chapter_title">Chapter Title</string>
     <string name="hint_editor_text_content">Your Journey Begins Here ...</string>
 
+    <!-- CONSTANT RATIO -->
+    <string name="book_cover_wh_ratio">2:3</string>
+
     <!-- SEARCH FILTERS -->
     <string name="search_filter_popularity">Popularity</string>
     <string name="search_filter_most_recent">Most Recent</string>
