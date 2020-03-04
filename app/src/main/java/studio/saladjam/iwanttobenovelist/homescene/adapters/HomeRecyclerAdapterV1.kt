@@ -4,9 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
+import studio.saladjam.iwanttobenovelist.homescene.HomeRecyclerItemTypes
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
@@ -17,14 +20,16 @@ import studio.saladjam.iwanttobenovelist.homescene.viewholders.HomeWorkInProgres
 import java.lang.IllegalArgumentException
 
 /** THIS IS the MAIN ADAPTER for HOME PAGE */
-class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel, val workInProgressViewModel: HomeWorkInProgressViewModel) : ListAdapter<HomeSealItems, RecyclerView.ViewHolder>
-    (CallbackFactory().create(HomeSealItems::class.java)) {
+class HomeRecyclerAdapterV1(val viewModel: HomeViewModel,
+                            private  val workInProgressViewModel: HomeWorkInProgressViewModel) :
+    ListAdapter<HomeSealItems, RecyclerView.ViewHolder>(
+        CallbackFactory().create(HomeSealItems::class.java)) {
 
     companion object {
-        const val GENERAL = 0
-        const val CURRENT_READ = 1
-        const val WORK_IN_PROGRESS = 2
-        const val RECOMMEND = 3
+        private val GENERAL             = HomeRecyclerItemTypes.GENERAL.value
+        private val CURRENT_READ        = HomeRecyclerItemTypes.CURRENT_READING.value
+        private val WORK_IN_PROGRESS    = HomeRecyclerItemTypes.WORK_IN_PROGRESS.value
+        private val RECOMMEND           = HomeRecyclerItemTypes.RECOMMEND.value
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -57,7 +62,10 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel, val workInProgressView
             }
 
             else -> {
-                throw IllegalArgumentException("HomeRecyclerAdpaterV1 : UNKNOWN VIEW TYPE")
+                throw IllegalArgumentException(
+                    IWBNApplication.instance.
+                        getString(R.string.exception_unrecognized_viewtype,
+                            this::class.java, viewType))
             }
         }
     }

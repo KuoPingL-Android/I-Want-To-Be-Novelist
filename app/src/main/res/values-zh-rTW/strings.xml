@@ -99,5 +99,6 @@
     <string name="exception_api_cancel">%s: process canceled</string>
     <string name="exception_api_failed">%s: process failed</string>
     <string name="exception_unrecognized_class">%s: Unrecognized class %s</string>
+    <string name="exception_unrecognized_viewtype">%s: Unrecognized view type %d</string>
 
 </resources>

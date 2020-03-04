@@ -14,7 +14,7 @@ import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
-import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdapterV1
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeV1Binding
@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.recyclerHomeMain.adapter = HomeRecyclerAdpaterV1(viewModel, workInProgressViewModel)
+        binding.recyclerHomeMain.adapter = HomeRecyclerAdapterV1(viewModel, workInProgressViewModel)
 
         binding.recyclerHomeMain.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(

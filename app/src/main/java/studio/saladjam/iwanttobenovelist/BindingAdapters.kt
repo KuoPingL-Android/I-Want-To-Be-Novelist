@@ -13,7 +13,7 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSeal
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
-import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdapterV1
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecyclerViewAdapter
 import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileBookReadingAdapter
@@ -71,7 +71,7 @@ fun bindBooks(recyclerView: RecyclerView, books: List<Book>?) {
 @BindingAdapter("homeSealedItems")
 fun bindHomeSealedItem(recyclerView: RecyclerView, items: List<HomeSealItems>?) {
     val adapter = recyclerView.adapter
-    (adapter as? HomeRecyclerAdpaterV1)?.submitList(items)
+    (adapter as? HomeRecyclerAdapterV1)?.submitList(items)
 }
 
 @BindingAdapter("bookDetailSealedItems")
