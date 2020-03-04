@@ -34,8 +34,6 @@ class EditorMixerFragment: Fragment() {
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
-        private const val ADDON_EDIT_TEXT_PADDING = 10
-        private const val ADDON_EDIT_TEXT_DEFAULT_HEIGHT = 50
     }
 
     override fun onCreateView(
@@ -113,8 +111,10 @@ class EditorMixerFragment: Fragment() {
     private fun buildEditText(string: String) : EditText {
         val txtColor = ContextCompat.getColor(context!!, android.R.color.white)
         val bgColor = ContextCompat.getColor(context!!, R.color.colorPrimaryDark)
-        val padding = ADDON_EDIT_TEXT_PADDING.toPx()
-        val height = ADDON_EDIT_TEXT_DEFAULT_HEIGHT.toPx()
+        val padding = IWBNApplication.instance.
+            getPixelSize(R.dimen.editor_addon_edit_text_padding)
+        val height = IWBNApplication.instance.
+            getPixelSize(R.dimen.editor_addon_edit_text_default_height)
 
         return EditText(context!!).apply {
             setText(string)
@@ -125,7 +125,7 @@ class EditorMixerFragment: Fragment() {
             setPadding(padding, padding, padding, padding)
             hint = "Please Enter Text Here"
             layoutParams = params
-            background = IWBNApplication.context.resources.getColor(android.R.color.transparent).toDrawable()
+            background = IWBNApplication.context.getColor(android.R.color.transparent).toDrawable()
             gravity = Gravity.CENTER_VERTICAL
             setTextColor(txtColor)
             setBackgroundColor(bgColor)
