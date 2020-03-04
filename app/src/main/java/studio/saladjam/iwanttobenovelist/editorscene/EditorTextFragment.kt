@@ -40,7 +40,7 @@ class EditorTextFragment : Fragment() {
         binding = FragmentEditorTextBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        chapter = requireArguments().get("chapter") as? Chapter
+        chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as? Chapter
         chapter?.let {
             viewModel.prepareChapter(it)
         }
