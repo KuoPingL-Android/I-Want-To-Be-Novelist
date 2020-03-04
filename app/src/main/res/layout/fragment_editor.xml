@@ -117,7 +117,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@color/editor_btn_remove_image"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:textSize="16dp"

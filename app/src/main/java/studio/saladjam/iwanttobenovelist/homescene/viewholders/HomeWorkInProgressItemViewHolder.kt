@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.homescene.adapters
+package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
 import android.util.Log
 import androidx.lifecycle.Lifecycle

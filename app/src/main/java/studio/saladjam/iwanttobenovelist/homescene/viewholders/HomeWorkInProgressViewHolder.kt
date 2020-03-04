@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.homescene.adapters
+package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
 import android.graphics.Color
 import android.graphics.Rect
@@ -9,10 +9,14 @@ import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
+import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeWorkInProgressItemAdapter
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 
-class HomeCurrentReadViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(sealItem: HomeSealItems.CurrentReading, viewModel: HomeViewModel, section: HomeSections) {
+class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
+                                   private val workInProgressViewModel: HomeWorkInProgressViewModel) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(sealItem: HomeSealItems.WorkInProgress, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
             homeSection = sealItem.section.value
@@ -23,8 +27,13 @@ class HomeCurrentReadViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.V
             textItemHomeV1Seeall.setTextColor(Color.parseColor("#000000"))
 
             /** SET ADAPTERs for RECYCLERVIEW */
-            recyclerItemHomeV1.adapter = HomeCurrentReadItemAdapter(viewModel, section)
-            (recyclerItemHomeV1.adapter as HomeCurrentReadItemAdapter).submitList(sealItem.books)
+            recyclerItemHomeV1.adapter =
+                HomeWorkInProgressItemAdapter(
+                    viewModel,
+                    section,
+                    workInProgressViewModel
+                )
+            (recyclerItemHomeV1.adapter as HomeWorkInProgressItemAdapter).submitList(sealItem.books)
 
             recyclerItemHomeV1.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(

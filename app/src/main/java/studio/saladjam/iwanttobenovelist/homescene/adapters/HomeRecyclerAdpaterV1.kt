@@ -11,6 +11,9 @@ import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
+import studio.saladjam.iwanttobenovelist.homescene.viewholders.HomeCurrentReadViewHolder
+import studio.saladjam.iwanttobenovelist.homescene.viewholders.HomeGeneralViewHolder
+import studio.saladjam.iwanttobenovelist.homescene.viewholders.HomeWorkInProgressViewHolder
 import java.lang.IllegalArgumentException
 
 /** THIS IS the MAIN ADAPTER for HOME PAGE */
@@ -27,18 +30,25 @@ class HomeRecyclerAdpaterV1(val viewModel: HomeViewModel, val workInProgressView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
             GENERAL -> {
-                HomeGeneralViewHolder(ItemHomeV1Binding
-                    .inflate(LayoutInflater.from(parent.context), parent, false))
+                HomeGeneralViewHolder(
+                    ItemHomeV1Binding
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
+                )
             }
 
             CURRENT_READ -> {
-                HomeCurrentReadViewHolder(ItemHomeV1Binding
-                    .inflate(LayoutInflater.from(parent.context), parent, false))
+                HomeCurrentReadViewHolder(
+                    ItemHomeV1Binding
+                        .inflate(LayoutInflater.from(parent.context), parent, false)
+                )
             }
 
             WORK_IN_PROGRESS -> {
-                HomeWorkInProgressViewHolder(ItemHomeV1Binding
-                    .inflate(LayoutInflater.from(parent.context), parent, false), workInProgressViewModel)
+                HomeWorkInProgressViewHolder(
+                    ItemHomeV1Binding
+                        .inflate(LayoutInflater.from(parent.context), parent, false),
+                    workInProgressViewModel
+                )
             }
 
             RECOMMEND -> {
