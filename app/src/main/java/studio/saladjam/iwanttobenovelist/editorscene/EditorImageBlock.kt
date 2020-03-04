@@ -235,7 +235,7 @@ constructor(context: Context,
                     val params = mainImageView.layoutParams
 
 
-                    if (newWidth > parentWidth * MINIMUM_RATIO_TO_PARENT_HEIGHT &&
+                    if (newWidth > parentWidth * MINIMUM_RATIO_TO_PARENT_WIDTH &&
                         newHeight > parentHeight * MINIMUM_RATIO_TO_PARENT_HEIGHT) {
 
 
