@@ -1,6 +1,5 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,7 @@ class EditorMixerV1Fragment : Fragment() {
     ): View? {
         binding = FragmentEditorMixerV1Binding.inflate(inflater)
 
-        val chapter = requireArguments().get("chapter") as Chapter
+        val chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as Chapter
 
         binding.mixerEditorMixerV1Editor.setText(chapter.content)
 
