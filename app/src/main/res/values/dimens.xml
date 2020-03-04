@@ -9,6 +9,10 @@
     <dimen name="subtitle_text_size_larger">28sp</dimen>
     <dimen name="book_detail_category_size">14dp</dimen>
 
+    <!-- EDITOR BLOCK DIMEN -->
+    <dimen name="editor_block_horizontal_margin">20dp</dimen>
+    <dimen name="editor_block_vertical_margin">30dp</dimen>
+
     <!-- EDITOR ADDON EDIT TEXT DIMEN-->
     <dimen name="editor_addon_edit_text_size">24f</dimen>
 
