@@ -2,6 +2,8 @@ package studio.saladjam.iwanttobenovelist.factories.viewmodelfactories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailManageViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
@@ -87,7 +89,10 @@ class ViewModelFactory(private val repository: Repository)
                 isAssignableFrom(BookDetailManageViewModel::class.java)
                                     -> BookDetailManageViewModel(repository)
 
-                else -> {throw IllegalArgumentException("${modelClass} is not supported")}
+                else -> {throw IllegalArgumentException(
+                    IWBNApplication.instance
+                        .getString(R.string.exception_unrecognized_class,
+                            this::class.java, modelClass::class.java))}
             }
         } as T
     }
