@@ -92,4 +92,9 @@
     <string name="editor_manage_open_to_public">發布</string>
     <string name="editor_manage_word_count"> %d / %d </string>
 
+    <!-- EXCEPTIONS -->
+    <string name="exception_api_cancel">%s: process canceled</string>
+    <string name="exception_api_failed">%s: process failed</string>
+    <string name="exception_unrecognized_class">%s: Unrecognized class %s</string>
+
 </resources>

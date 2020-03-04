@@ -1,6 +1,7 @@
 package studio.saladjam.iwanttobenovelist.factories.callbackfactories
 
 import androidx.recyclerview.widget.DiffUtil
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -21,7 +22,11 @@ class CallbackFactory : DiffItemCallbackFactoryInterface {
                 isAssignableFrom(BookDetailSealedItem::class.java) -> BookDetailSealedItemCallback()
                 isAssignableFrom(SearchFilters::class.java) -> SearchFiltersCallback()
                 isAssignableFrom(Chapter::class.java) -> ChapterCallback()
-                else -> IllegalArgumentException("UNKNOWN CLASS")
+                else -> IllegalArgumentException(
+                    IWBNApplication.instance
+                        .getString(
+                            studio.saladjam.iwanttobenovelist.R.string.exception_unrecognized_class,
+                            this::class.java, modelClass::class.java))
             }
         } as T
     }
