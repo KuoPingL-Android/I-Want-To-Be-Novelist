@@ -25,6 +25,6 @@
 
     <!-- EDITOR -->
     <color name="editor_btn_add_image">#90ee90</color>
-    <color name="editor_btn_remove_image">android.R.color.holo_red_light</color>
+    <color name="editor_btn_remove_image">@android:color/holo_red_light</color>
 
 </resources>
