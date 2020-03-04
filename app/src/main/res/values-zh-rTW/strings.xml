@@ -81,7 +81,7 @@
     <string name="editor_preview">預覽</string>
     <string name="editor_done">完成</string>
     <string name="editor_error_save">儲存失敗</string>
-    <string name="btn_delete_image">刪除圖案</string>
+    <string name="editor_btn_remove_image">刪除圖案</string>
     <string name="editor_btn_add_images">插圖</string>
     <string name="editor_btn_edit_text">Edit Text</string>
     <string name="hint_category">類別</string>

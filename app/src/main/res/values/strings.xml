@@ -80,7 +80,7 @@
     <string name="editor_done">Done</string>
     <string name="editor_new_chapter_prepared">New Chapter Prepared</string>
     <string name="editor_error_save">Failed</string>
-    <string name="btn_delete_image">Delete Image</string>
+    <string name="editor_btn_remove_image">Delete Image</string>
     <string name="editor_btn_add_images">Add Images</string>
     <string name="editor_btn_edit_text">Edit Text</string>
     <string name="hint_category">Category</string>

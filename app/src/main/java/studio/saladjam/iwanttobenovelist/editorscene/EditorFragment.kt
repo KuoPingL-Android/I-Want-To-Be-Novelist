@@ -2,7 +2,6 @@ package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +14,10 @@ import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.bind
+import studio.saladjam.iwanttobenovelist.constants.IntentConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorBinding
-import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
 import studio.saladjam.iwanttobenovelist.extensions.getBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 
 class EditorFragment: Fragment() {
@@ -32,6 +29,7 @@ class EditorFragment: Fragment() {
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
+        private const val BITMAP_LIMIT_RATIO = 3
     }
 
     override fun onCreateView(
@@ -46,7 +44,7 @@ class EditorFragment: Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        chapter = requireArguments().get("chapter") as Chapter
+        chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as Chapter
 
         chapter?.let {
             viewModel.prepareChapter(it)
@@ -72,12 +70,16 @@ class EditorFragment: Fragment() {
             it?.let {
                 if(it) {
                     binding.simpleContainer.enableDeletion()
-                    binding.textEditorDelete.setTextColor(Color.parseColor("#90ee90"))
-                    binding.textEditorDelete.text = "Done"
+                    binding.textEditorDelete.setTextColor(
+                        IWBNApplication.context.getColor(R.color.editor_btn_add_image))
+                    binding.textEditorDelete.text =
+                        IWBNApplication.context.getText(R.string.editor_btn_add_images)
                 } else {
                     binding.simpleContainer.disableDeletion()
-                    binding.textEditorDelete.setTextColor(IWBNApplication.context.getColor(android.R.color.holo_red_light))
-                    binding.textEditorDelete.text = "Delete Image"
+                    binding.textEditorDelete.setTextColor(
+                        IWBNApplication.context.getColor(android.R.color.holo_red_light))
+                    binding.textEditorDelete.text =
+                        IWBNApplication.context.getText(R.string.editor_btn_remove_image)
                 }
                 viewModel.doneTriggeringImageDeletion()
             }
@@ -134,7 +136,7 @@ class EditorFragment: Fragment() {
 
     private fun displayImagePicker() {
         val intent = Intent()
-        intent.type = "image/*"
+        intent.type = IntentConstants.IMAGE_TYPE
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)),
             PICK_IMAGE_REQUEST
@@ -144,12 +146,19 @@ class EditorFragment: Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+        if (requestCode == PICK_IMAGE_REQUEST &&
+            resultCode == Activity.RESULT_OK &&
+            data != null && data.data != null) {
 
-            val bitmap = data.data!!.getBitmap(binding.simpleContainer.width / 3, binding.simpleContainer.width / 3)
+            val bitmap = data.data!!
+                .getBitmap(
+                    binding.simpleContainer.width / BITMAP_LIMIT_RATIO,
+                    binding.simpleContainer.width / BITMAP_LIMIT_RATIO)
 
             val imageView = EditorImageBlock(context!!)
-            val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val layoutParams = ViewGroup.
+                LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
             imageView.layoutParams = layoutParams
             imageView.setImageBitmap(bitmap)
             imageView.isClickable = true

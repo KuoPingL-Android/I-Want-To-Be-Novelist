@@ -23,4 +23,8 @@
     <color name="progress_view">#8000</color>
     <color name="progress_tint">@color/iwbn_primary_color</color>
 
+    <!-- EDITOR -->
+    <color name="editor_btn_add_image">#90ee90</color>
+    <color name="editor_btn_remove_image">android.R.color.holo_red_light</color>
+
 </resources>
