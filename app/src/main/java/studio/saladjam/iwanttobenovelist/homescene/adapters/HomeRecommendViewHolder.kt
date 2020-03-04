@@ -27,11 +27,11 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
 
         private val RECYClER_ITEM_START_PADDING
                 = IWBNApplication.instance
-                    .getPixelSize(R.dimen.home_recommend_recycler_first_item_start_padding)
+                    .getPixelSize(R.dimen.item_decorator_large_margin)
 
         private val RECYCLER_ITEM_NORMAL_H_PADDING
                 = IWBNApplication.instance
-                    .getPixelSize(R.dimen.home_recommend_recycler_normal_item_horizontal_padding)
+                    .getPixelSize(R.dimen.item_decorator_normal_margin)
 
         private val RECYCLER_ITEM_WH_RATIO
                 = IWBNApplication.instance

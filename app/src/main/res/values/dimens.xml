@@ -10,8 +10,9 @@
     <dimen name="book_detail_category_size">14dp</dimen>
 
     <!-- HOME RECOMMEND RECYCLER ITEM MARGINS -->
-    <dimen name="home_recommend_recycler_normal_item_horizontal_padding">10dp</dimen>
-    <dimen name="home_recommend_recycler_first_item_start_padding">20dp</dimen>
+    <dimen name="item_decorator_small_margin">5dp</dimen>
+    <dimen name="item_decorator_normal_margin">10dp</dimen>
+    <dimen name="item_decorator_large_margin">20dp</dimen>
 
     <!-- EDITOR BLOCK DIMEN -->
     <dimen name="editor_block_horizontal_margin">20dp</dimen>

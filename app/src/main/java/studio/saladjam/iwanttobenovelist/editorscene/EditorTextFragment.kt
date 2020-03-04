@@ -1,16 +1,10 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,10 +13,8 @@ import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.bind
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorTextBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
 
