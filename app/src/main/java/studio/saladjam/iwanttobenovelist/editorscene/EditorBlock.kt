@@ -25,11 +25,6 @@ constructor( context: Context,
              defStyleRes: Int = 0) :
     FrameLayout(context, attrs, defStyle, defStyleRes) {
 
-    companion object {
-        const val SPACE_HORIZONTAL_TO_VIEW_ = 20
-        const val SPACE_VERTICAL_TO_VIEW = 30
-    }
-
     private val primaryEditText = EditText(context)
     private val primaryPaint: Paint
     private var textHeight = 0
