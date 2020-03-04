@@ -5,3 +5,11 @@ import studio.saladjam.iwanttobenovelist.IWBNApplication
 fun IWBNApplication.getString(res: Int): String {
     return this.applicationContext.resources.getString(res)
 }
+
+fun IWBNApplication.getFloat(res: Int): Float {
+    return this.applicationContext.resources.getFloat(res)
+}
+
+fun IWBNApplication.getPixelSize(res: Int): Int {
+    return this.applicationContext.resources.getDimensionPixelSize(res)
+}

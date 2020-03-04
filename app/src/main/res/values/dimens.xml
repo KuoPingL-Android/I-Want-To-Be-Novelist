@@ -9,4 +9,11 @@
     <dimen name="subtitle_text_size_larger">28sp</dimen>
     <dimen name="book_detail_category_size">14dp</dimen>
 
+    <!-- EDITOR ADDON EDIT TEXT DIMEN-->
+    <dimen name="editor_addon_edit_text_size">24f</dimen>
+
+    <!-- EDITOR TOUCH IMP MINIMUM DIMEN -->
+    <dimen name="touch_imp_minimum_width">50dp</dimen>
+    <dimen name="touch_imp_minimum_height">50dp</dimen>
+
 </resources>
