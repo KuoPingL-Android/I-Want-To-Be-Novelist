@@ -55,7 +55,7 @@ class EditorMixerFragment: Fragment() {
         binding = FragmentEditorMixerBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        chapter = requireArguments().get("chapter") as Chapter
+        chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as Chapter
 
         chapter?.let {
             binding.simpleContainer.setContentWithPaint(it, binding.editEditorMix.paint)
@@ -82,12 +82,16 @@ class EditorMixerFragment: Fragment() {
             it?.let {
                 if(it) {
                     binding.simpleContainer.enableDeletion()
-                    binding.textEditorMixerDelete.setTextColor(Color.parseColor("#90ee90"))
-                    binding.textEditorMixerDelete.setText("Done")
+                    binding.textEditorMixerDelete.setTextColor(
+                        IWBNApplication.context.getColor(R.color.editor_btn_add_image))
+                    binding.textEditorMixerDelete.text =
+                        IWBNApplication.context.getText(R.string.editor_btn_add_images)
                 } else {
                     binding.simpleContainer.disableDeletion()
-                    binding.textEditorMixerDelete.setTextColor(IWBNApplication.context.getColor(android.R.color.holo_red_light))
-                    binding.textEditorMixerDelete.setText("Delete Image")
+                    binding.textEditorMixerDelete.setTextColor(
+                        IWBNApplication.context.getColor(android.R.color.holo_red_light))
+                    binding.textEditorMixerDelete.text =
+                        IWBNApplication.context.getText(R.string.editor_btn_remove_image)
                 }
                 viewModel.doneTriggeringImageDeletion()
             }
