@@ -15,7 +15,7 @@ import studio.saladjam.iwanttobenovelist.extensions.toPx
 /** this is the LAYOUT that holds VIEWPAGER within and DETERMINE the number of FRAGMENT needs to be displayed */
 class EditorMixerV1 @JvmOverloads constructor(context: Context?,
                     attrs: AttributeSet? = null,
-                    defStyle: Int = 0): ConstraintLayout(context, attrs, defStyle) {
+                    defStyle: Int = R.style.EditorMixer): ConstraintLayout(context, attrs, defStyle) {
 
     private var _mViewpager: ViewPager2
     private var _mViewPagerWidth = 0
@@ -25,7 +25,6 @@ class EditorMixerV1 @JvmOverloads constructor(context: Context?,
 
     init {
 
-        setPadding(0.toPx(), 76.toPx(), 0.toPx(), 76.toPx())
         LayoutInflater.from(context).inflate(R.layout.layout_editor_mixer_v1, this, true).apply {
             _mViewpager = viewpager_mixer
             _mPaint = edit_mixer.paint
