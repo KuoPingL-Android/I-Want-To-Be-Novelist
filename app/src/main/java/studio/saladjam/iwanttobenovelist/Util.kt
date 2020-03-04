@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Build
+import studio.saladjam.iwanttobenovelist.extensions.getFloat
+import studio.saladjam.iwanttobenovelist.extensions.getInt
 
 object Util {
 
@@ -23,10 +25,6 @@ object Util {
     }
 
     fun getColor(resourceId: Int): Int {
-        return if (Build.VERSION.SDK_INT >= 23) {
-            IWBNApplication.context.getColor(resourceId)
-        } else {
-            IWBNApplication.context.resources.getColor(resourceId)
-        }
+        return IWBNApplication.instance.getColor(resourceId)
     }
 }

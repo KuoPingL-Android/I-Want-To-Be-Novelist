@@ -21,20 +21,12 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
     /** DATA NEEDED TO BE DISPLAYED */
     private val _recommendedList = MutableLiveData<List<Book>>()
-    val recommendedList: LiveData<List<Book>>
-        get() = _recommendedList
 
     private val _popularList = MutableLiveData<List<Book>>()
-    val popularList: LiveData<List<Book>>
-        get() = _popularList
 
     private val _myWorkList = MutableLiveData<List<Book>>()
-    val myWorkList: LiveData<List<Book>>
-        get() = _myWorkList
 
     private val _myFollowList = MutableLiveData<List<Book>>()
-    val myFollowList: LiveData<List<Book>>
-        get() = _myFollowList
 
     private val _onlyShowMostPopularBooks =
         MediatorLiveData<Boolean>().apply {
@@ -82,21 +74,26 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         val list = mutableListOf<HomeSealItems>()
 
         if (_recommendedList.value != null) {
-            list.add(HomeSealItems.Recommend("Recommend", _recommendedList.value!!, HomeSections.RECOMMEND))
+            list.add(
+                HomeSealItems.
+                    Recommend(_recommendedList.value!!, HomeSections.RECOMMEND))
         }
 
         if (!_myFollowList.value.isNullOrEmpty()) {
             if (user.token != null) {
-                list.add(HomeSealItems.CurrentReading("Currently Reading", _myFollowList.value!!, HomeSections.CURRENTREAD))
+                list.add(HomeSealItems.
+                    CurrentReading(_myFollowList.value!!, HomeSections.CURRENT_READING))
             }
         }
 
         if (!_popularList.value.isNullOrEmpty()) {
-            list.add(HomeSealItems.General("Popular", _popularList.value!!, HomeSections.POPULAR))
+            list.add(HomeSealItems.
+                General(_popularList.value!!, HomeSections.POPULAR))
         }
 
         if (!_myWorkList.value.isNullOrEmpty()) {
-            list.add(HomeSealItems.WorkInProgress("My Work", _myWorkList.value!!, HomeSections.WORKINPROGRESS))
+            list.add(HomeSealItems.
+                WorkInProgress(_myWorkList.value!!, HomeSections.WORK_IN_PROGRESS))
         }
 
         _finalList.value = list
@@ -213,22 +210,22 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     /** SEE ALL is PRESSED */
     fun pressedSeeAllOn(homeSection: String) {
         when(homeSection) {
-            HomeSections.RECOMMEND.value -> {
+            HomeSections.RECOMMEND.id -> {
                 Logger.i("NAVIGATE TO RECOMMEND")
                 _shouldNavigateToRecommend.value = true
             }
 
-            HomeSections.CURRENTREAD.value -> {
+            HomeSections.CURRENT_READING.id -> {
                 Logger.i("NAVIGATE TO CURRENT READ")
                 _shouldNavigateToMyFollow.value = true
             }
 
-            HomeSections.WORKINPROGRESS.value -> {
+            HomeSections.WORK_IN_PROGRESS.id -> {
                 Logger.i("NAVIGATE TO WORK IN PROGRESS")
                 _shouldNavigateToMyWork.value = true
             }
 
-            HomeSections.POPULAR.value -> {
+            HomeSections.POPULAR.id -> {
                 _shouldNavigateToPopular.value = true
             }
         }
@@ -246,7 +243,7 @@ class HomeViewModel(val repository: Repository): ViewModel() {
 
     fun selectBook(book: Book, section: HomeSections) {
         when(section) {
-            HomeSections.WORKINPROGRESS -> {
+            HomeSections.WORK_IN_PROGRESS -> {
                 _selectedWork.value = book
             }
 

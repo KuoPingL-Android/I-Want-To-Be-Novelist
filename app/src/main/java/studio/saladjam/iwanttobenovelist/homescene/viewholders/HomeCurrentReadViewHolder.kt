@@ -16,8 +16,8 @@ class HomeCurrentReadViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.V
     fun bind(sealItem: HomeSealItems.CurrentReading, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
             textItemHomeV1Title.setTextColor(Color.parseColor("#000000"))

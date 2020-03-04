@@ -19,8 +19,8 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
     fun bind(sealItem: HomeSealItems.WorkInProgress, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
             textItemHomeV1Title.setTextColor(Color.parseColor("#000000"))

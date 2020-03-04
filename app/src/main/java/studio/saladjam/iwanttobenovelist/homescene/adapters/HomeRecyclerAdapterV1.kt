@@ -9,7 +9,6 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
-import studio.saladjam.iwanttobenovelist.homescene.HomeRecyclerItemTypes
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
@@ -26,10 +25,10 @@ class HomeRecyclerAdapterV1(val viewModel: HomeViewModel,
         CallbackFactory().create(HomeSealItems::class.java)) {
 
     companion object {
-        private val GENERAL             = HomeRecyclerItemTypes.GENERAL.value
-        private val CURRENT_READ        = HomeRecyclerItemTypes.CURRENT_READING.value
-        private val WORK_IN_PROGRESS    = HomeRecyclerItemTypes.WORK_IN_PROGRESS.value
-        private val RECOMMEND           = HomeRecyclerItemTypes.RECOMMEND.value
+        private val GENERAL             = HomeSections.GENERAL.value
+        private val RECOMMEND           = HomeSections.RECOMMEND.value
+        private val CURRENT_READ        = HomeSections.CURRENT_READING.value
+        private val WORK_IN_PROGRESS    = HomeSections.WORK_IN_PROGRESS.value
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,8 +51,7 @@ class HomeRecyclerAdapterV1(val viewModel: HomeViewModel,
                 HomeWorkInProgressViewHolder(
                     ItemHomeV1Binding
                         .inflate(LayoutInflater.from(parent.context), parent, false),
-                    workInProgressViewModel
-                )
+                    workInProgressViewModel)
             }
 
             RECOMMEND -> {
@@ -72,20 +70,26 @@ class HomeRecyclerAdapterV1(val viewModel: HomeViewModel,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder) {
-            is HomeGeneralViewHolder ->
-                    {holder.bind(getItem(position) as HomeSealItems.General,
-                        viewModel, HomeSections.POPULAR)}
-            is HomeCurrentReadViewHolder ->
-                    {holder.bind(getItem(position) as HomeSealItems.CurrentReading,
-                        viewModel,
-                        HomeSections.CURRENTREAD)}
-            is HomeWorkInProgressViewHolder ->
-                    {holder.bind(getItem(position) as HomeSealItems.WorkInProgress,
-                        viewModel,
-                        HomeSections.WORKINPROGRESS)}
+            is HomeGeneralViewHolder -> {
+                holder.bind(
+                    getItem(position) as HomeSealItems.General,
+                    viewModel,
+                    HomeSections.POPULAR)}
+            is HomeCurrentReadViewHolder -> {
+                holder.bind(
+                    getItem(position) as HomeSealItems.CurrentReading,
+                    viewModel,
+                    HomeSections.CURRENT_READING)}
+            is HomeWorkInProgressViewHolder -> {
+                holder.bind(
+                    getItem(position) as HomeSealItems.WorkInProgress,
+                    viewModel,
+                    HomeSections.WORK_IN_PROGRESS)}
             is HomeRecommendViewHolder -> {
-                holder.bind(getItem(position) as HomeSealItems.Recommend,
-                    viewModel,HomeSections.RECOMMEND)
+                holder.bind(
+                    getItem(position) as HomeSealItems.Recommend,
+                    viewModel,
+                    HomeSections.RECOMMEND)
             }
         }
     }

@@ -67,6 +67,12 @@
     <!-- CONSTANT RATIO -->
     <string name="book_cover_wh_ratio">2:3</string>
 
+    <!-- HOME -->
+    <string name="home_section_recommend_title">Recommend</string>
+    <string name="home_section_work_in_progress_title">My Works</string>
+    <string name="home_section_popular_title">Popular</string>
+    <string name="home_section_currently_reading">Currently Reading</string>
+
     <!-- SEARCH FILTERS -->
     <string name="search_filter_popularity">Popularity</string>
     <string name="search_filter_most_recent">Most Recent</string>
@@ -99,5 +105,14 @@
     <string name="exception_api_failed">%s: process failed</string>
     <string name="exception_unrecognized_class">%s: Unrecognized class %s</string>
     <string name="exception_unrecognized_viewtype">%s: Unrecognized view type %d</string>
+    
+    <!-- TIME -->
+    <string name="unit_second">&#160;second</string>
+    <string name="unit_minutes">&#160;minute</string>
+    <string name="unit_hour">&#160;hour</string>
+    <string name="unit_day">&#160;day</string>
+    <string name="unit_year">&#160;year</string>
+    <string name="before">&#160;ago</string>
+    <string name="time_before">%d%s%s</string>
 
 </resources>

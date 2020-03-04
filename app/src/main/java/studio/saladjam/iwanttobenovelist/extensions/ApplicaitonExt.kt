@@ -13,3 +13,7 @@ fun IWBNApplication.getFloat(res: Int): Float {
 fun IWBNApplication.getPixelSize(res: Int): Int {
     return this.applicationContext.resources.getDimensionPixelSize(res)
 }
+
+fun IWBNApplication.getInt(res: Int): Int {
+    return this.applicationContext.resources.getInteger(res)
+}

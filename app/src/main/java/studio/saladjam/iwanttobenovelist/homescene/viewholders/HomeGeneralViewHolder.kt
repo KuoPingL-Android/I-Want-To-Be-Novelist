@@ -19,8 +19,8 @@ class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewH
     fun bind(sealItem: HomeSealItems.General, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
 

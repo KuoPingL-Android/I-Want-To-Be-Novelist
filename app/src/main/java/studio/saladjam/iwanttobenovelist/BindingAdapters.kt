@@ -12,6 +12,8 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailRead
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
+import studio.saladjam.iwanttobenovelist.extensions.getFloat
+import studio.saladjam.iwanttobenovelist.extensions.getInt
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdapterV1
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
@@ -38,9 +40,8 @@ fun bindCategory(recyclerView: RecyclerView, categories: List<Genre>?) {
 
 @BindingAdapter("homeBooks")
 fun bindBook(recyclerView: RecyclerView, books: List<Book>?) {
-    val adapter = recyclerView.adapter
 
-    when (adapter) {
+    when (val adapter = recyclerView.adapter) {
         is HomeBookRecyclerAdapter -> adapter.submitList(books)
 
         is CategoryListAdapter -> adapter.submitList(books)
@@ -76,9 +77,8 @@ fun bindHomeSealedItem(recyclerView: RecyclerView, items: List<HomeSealItems>?) 
 
 @BindingAdapter("bookDetailSealedItems")
 fun bindChapter(recyclerView: RecyclerView, bookDetailSealedItems: List<BookDetailSealedItem>?) {
-    val adapter = recyclerView.adapter
 
-    when(adapter) {
+    when(val adapter = recyclerView.adapter) {
         is BookDetailWriterAdpater -> {
             adapter.submitList(bookDetailSealedItems)
         }
@@ -120,29 +120,38 @@ fun bind(imageView: ImageView, imageUrl: String?) {
 /** DATE */
 @BindingAdapter("daysSinceLastUpdate")
 fun bindDates(textView: TextView, lastUpdatedTime: Long) {
-    var finalString = ""
     val currentTime = Calendar.getInstance().timeInMillis
     val diff = currentTime - lastUpdatedTime
-    var seconds = TimeUnit.SECONDS.convert(diff, TimeUnit.MILLISECONDS)
-    var minutes = seconds.toFloat() / 60.toFloat()
-    var hours = minutes / 24.toFloat()
-    var days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
-    val years = days / 365
+    val seconds = TimeUnit.SECONDS.convert(diff, TimeUnit.MILLISECONDS)
+    val minutes = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS)
+    val hours   = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS)
+    var days    = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)
+    val years   = days / 365
     days -= years * 365
 
+    val unit: String
+    val value: Int
+
     if(years.toInt() > 0) {
-        finalString += "${years.toInt()} 年 "
+        value = years.toInt()
+        unit = IWBNApplication.context.getString(R.string.unit_year)
     } else if (days.toInt() > 0) {
-        finalString += "${days.toInt()} 天"
+        value = days.toInt()
+        unit = IWBNApplication.context.getString(R.string.unit_day)
     } else if (hours.toInt() > 0) {
-        finalString += "${hours.toInt()} 小時"
+        value = hours.toInt()
+        unit = IWBNApplication.context.getString(R.string.unit_hour)
     } else if (minutes.toInt() > 0) {
-        finalString += "${minutes.toInt()} 分鐘"
+        value = minutes.toInt()
+        unit = IWBNApplication.context.getString(R.string.unit_minutes)
     } else {
-        finalString += "${seconds.toInt()} 秒"
+        value = seconds.toInt()
+        unit = IWBNApplication.context.getString(R.string.unit_second)
     }
 
-    textView.text = finalString + "前更新"
+    textView.text = IWBNApplication.context
+        .getString(R.string.time_before,
+            value, unit, IWBNApplication.context.getString(R.string.before))
 }
 
 /** HOME BOOK ITEM LAYOUTPARAMS */

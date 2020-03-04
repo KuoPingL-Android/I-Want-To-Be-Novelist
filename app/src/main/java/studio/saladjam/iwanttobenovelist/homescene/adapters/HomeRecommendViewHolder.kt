@@ -41,8 +41,8 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
     fun bind(sealItem: HomeSealItems.Recommend, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
 
