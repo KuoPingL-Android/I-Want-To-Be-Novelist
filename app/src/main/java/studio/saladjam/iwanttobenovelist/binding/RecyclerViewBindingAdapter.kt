@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailManageAdapter
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailReaderAdapter
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSealedItem
-import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdpater
+import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdapter
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeBookRecyclerAdapter
 import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdapterV1
@@ -69,7 +69,7 @@ fun bindHomeSealedItem(recyclerView: RecyclerView, items: List<HomeSealItems>?) 
 fun bindChapter(recyclerView: RecyclerView, bookDetailSealedItems: List<BookDetailSealedItem>?) {
 
     when(val adapter = recyclerView.adapter) {
-        is BookDetailWriterAdpater -> {
+        is BookDetailWriterAdapter -> {
             adapter.submitList(bookDetailSealedItems)
         }
         is BookDetailReaderAdapter -> {

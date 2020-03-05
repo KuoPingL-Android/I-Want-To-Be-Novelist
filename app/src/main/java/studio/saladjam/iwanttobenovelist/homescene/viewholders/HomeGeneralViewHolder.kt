@@ -16,6 +16,9 @@ import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
  * */
 
 class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewHolder(binding.root) {
+
+    
+
     fun bind(sealItem: HomeSealItems.General, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {

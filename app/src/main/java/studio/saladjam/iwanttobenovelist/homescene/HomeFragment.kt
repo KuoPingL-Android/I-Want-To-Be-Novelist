@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeV1Binding.inflate(inflater)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         binding.recyclerHomeMain.adapter = HomeRecyclerAdapterV1(viewModel, workInProgressViewModel)
         binding.recyclerHomeMain.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
@@ -66,15 +67,11 @@ class HomeFragment : Fragment() {
             }
         })
 
-        prepareViewModelObserver()
-
-        binding.viewModel = viewModel
-
-        viewModel.fetchDatas()
+        prepareViewModel()
         return binding.root
     }
 
-    private fun prepareViewModelObserver() {
+    private fun prepareViewModel() {
 
         viewModel.areDataRead.observe(viewLifecycleOwner, Observer {
             it?.let {isReady ->
@@ -126,5 +123,7 @@ class HomeFragment : Fragment() {
                 viewModel.doneSelectingBook()
             }
         })
+
+        viewModel.fetchDatas()
     }
 }
