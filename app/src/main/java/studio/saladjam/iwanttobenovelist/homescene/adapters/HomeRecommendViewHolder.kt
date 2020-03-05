@@ -18,18 +18,19 @@ import kotlin.math.absoluteValue
 class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        private val BOOK_COVER_W_H_RATIO
-                = IWBNApplication.instance.getFloat(R.fraction.book_cover_w_to_h_ratio)
-
-        private val BOOK_COVER_H_ITEM_H_RATIO
-                = IWBNApplication.instance
-                    .getFloat(R.fraction.home_recommend_item_cover_height_to_item_height)
-
         private val RECYCLER_ITEM_START_PADDING
                 = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
 
         private val RECYCLER_ITEM_NORMAL_H_PADDING
                 = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+
+        private val BOOK_COVER_W_H_RATIO
+                = IWBNApplication.instance
+                    .getFloat(R.fraction.book_cover_w_to_h_ratio)
+
+        private val BOOK_COVER_H_ITEM_H_RATIO
+                = IWBNApplication.instance
+                    .getFloat(R.fraction.home_recommend_item_cover_height_to_item_height)
 
         private val RECYCLER_ITEM_WH_RATIO
                 = IWBNApplication.instance

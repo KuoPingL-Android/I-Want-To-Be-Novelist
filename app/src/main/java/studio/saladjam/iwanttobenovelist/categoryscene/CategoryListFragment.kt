@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemCategoryListBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
@@ -19,14 +20,19 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 class CategoryListFragment(val genre: Genre): Fragment() {
 
     companion object {
-        const val RECYCLER_VIEW_ITEM_OFFSET_TOP = 10
-        const val RECYCLER_VIEW_ITEM_OFFSET_RIGHT = 10
-        const val RECYCLER_VIEW_ITEM_OFFSET_LEFT = 10
-        const val RECYCLER_VIEW_ITEM_OFFSET_BOTTOM = 10
+        private val RECYCLER_VIEW_ITEM_OFFSET_TOP
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val RECYCLER_VIEW_ITEM_OFFSET_RIGHT
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val RECYCLER_VIEW_ITEM_OFFSET_LEFT
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val RECYCLER_VIEW_ITEM_OFFSET_BOTTOM
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
     }
 
     private lateinit var binding: ItemCategoryListBinding
-    private val viewModel by viewModels<CategoryListViewModel> { getVMFactory() }
+    private val viewModel
+            by viewModels<CategoryListViewModel> { getVMFactory() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,10 +58,10 @@ class CategoryListFragment(val genre: Genre): Fragment() {
                 state: RecyclerView.State
             ) {
 
-                outRect.right = RECYCLER_VIEW_ITEM_OFFSET_RIGHT.toPx()
-                outRect.left = RECYCLER_VIEW_ITEM_OFFSET_LEFT.toPx()
-                outRect.top = RECYCLER_VIEW_ITEM_OFFSET_TOP.toPx()
-                outRect.bottom = RECYCLER_VIEW_ITEM_OFFSET_BOTTOM.toPx()
+                outRect.right   = RECYCLER_VIEW_ITEM_OFFSET_RIGHT
+                outRect.left    = RECYCLER_VIEW_ITEM_OFFSET_LEFT
+                outRect.top     = RECYCLER_VIEW_ITEM_OFFSET_TOP
+                outRect.bottom  = RECYCLER_VIEW_ITEM_OFFSET_BOTTOM
             }
         })
 
