@@ -1,8 +1,6 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.graphics.Bitmap
-import android.media.Image
-import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,9 +12,7 @@ import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
-import kotlin.coroutines.coroutineContext
-import kotlin.system.exitProcess
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class EditorMixerViewModel (private val repository: Repository): ViewModel() {
 
@@ -30,8 +26,8 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
     }
 
     /** STATUS */
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -115,26 +111,26 @@ class EditorMixerViewModel (private val repository: Repository): ViewModel() {
                            bitmapsMap: Map<String, Bitmap>,
                            coordinators: List<ImageBlockRecorder>) {
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         coroutineScope.launch {
 
             when(val result = repository.postChapterWithDetails(chapter, bitmapsMap, coordinators)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = APILoadingStatus.DONE
+                    _status.value = ApiLoadingStatus.DONE
                     _isSavingText.value = null
                 }
 
                 is Result.Error -> {
                     _error.value = result.exception.localizedMessage
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _isSavingText.value = null
                 }
 
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _isSavingText.value = null
                 }
             }

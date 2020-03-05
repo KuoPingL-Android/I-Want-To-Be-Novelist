@@ -7,11 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class EditorTextViewModel(private val repository: Repository) : ViewModel() {
 
@@ -25,8 +24,8 @@ class EditorTextViewModel(private val repository: Repository) : ViewModel() {
     }
 
     /** LOADING STATUS */
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -56,7 +55,7 @@ class EditorTextViewModel(private val repository: Repository) : ViewModel() {
         if(isSavingText.value == true) return
 
         _isSavingText.value = true
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         // CHECK if ALL DATA are COMPLETE
         _chapter.value?.let {chapter ->
@@ -66,22 +65,22 @@ class EditorTextViewModel(private val repository: Repository) : ViewModel() {
                     is Result.Success -> {
 
                         if (result.data) {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                         } else {
-                            _status.value = APILoadingStatus.DONE
+                            _status.value = ApiLoadingStatus.DONE
                         }
                         _error.value = null
                         _isSavingText.value = null
                     }
 
                     is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.error
                         _isSavingText.value = null
                     }
 
                     is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.exception.localizedMessage
                         _isSavingText.value = null
                     }

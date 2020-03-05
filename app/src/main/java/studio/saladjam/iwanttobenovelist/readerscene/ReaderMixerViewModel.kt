@@ -13,13 +13,13 @@ import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class ReaderMixerViewModel (private val repository: Repository,
                             private val book: Book): ViewModel() {
     /** NETWORK */
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val job = Job()
@@ -70,7 +70,7 @@ class ReaderMixerViewModel (private val repository: Repository,
 
         if (chapterIndex < 0) return
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
         val chapterOfInterest = _chapters.filter { it.chapterIndex == chapterIndex }
 
         if (chapterOfInterest.isNotEmpty()) {
@@ -79,7 +79,7 @@ class ReaderMixerViewModel (private val repository: Repository,
 
             if (_chapterBlocks.value?.keys?.contains(chapterOfInterest.first().chapterID) == true) {
                 _currentChapterBlock.value = _chapterBlocks.value!![chapterOfInterest.first().chapterID]
-                _status.value = APILoadingStatus.DONE
+                _status.value = ApiLoadingStatus.DONE
                 return
             }
         }
@@ -92,19 +92,19 @@ class ReaderMixerViewModel (private val repository: Repository,
                     displayChapter(chapter)
                     _chapterBlocks.value?.put(chapter.chapterID, result.data.second)
                     _currentChapterBlock.value = result.data.second
-                    _status.value = APILoadingStatus.DONE
+                    _status.value = ApiLoadingStatus.DONE
                     _error.value = null
                 }
 
                 is Result.Fail -> {
                     _currentChapterBlock.value = null
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _error.value = result.error
                 }
 
                 is Result.Error -> {
                     _currentChapterBlock.value = null
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _error.value = result.exception.localizedMessage
                 }
             }
@@ -134,7 +134,7 @@ class ReaderMixerViewModel (private val repository: Repository,
         _currentChapter.value?.let {chapter ->
             val likeChapter = doLikeChapter.value ?: false
 
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
             _error.value = null
 
             if (likeChapter) {
@@ -143,18 +143,18 @@ class ReaderMixerViewModel (private val repository: Repository,
                         is Result.Success -> {
                             doLikeChapter.value = false
                             _error.value = null
-                            _status.value = APILoadingStatus.DONE
+                            _status.value = ApiLoadingStatus.DONE
                             numberOfLikes.value = numberOfLikes.value?.minus(1)
                         }
 
                         is Result.Error -> {
                             _error.value = result.exception.localizedMessage
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                         }
 
                         is Result.Fail -> {
                             _error.value = result.error
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                         }
                     }
                 }
@@ -164,18 +164,18 @@ class ReaderMixerViewModel (private val repository: Repository,
                         is Result.Success -> {
                             doLikeChapter.value = true
                             _error.value = null
-                            _status.value = APILoadingStatus.DONE
+                            _status.value = ApiLoadingStatus.DONE
                             numberOfLikes.value = numberOfLikes.value?.plus(1)
                         }
 
                         is Result.Error -> {
                             _error.value = result.exception.localizedMessage
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                         }
 
                         is Result.Fail -> {
                             _error.value = result.error
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                         }
                     }
                 }
@@ -198,14 +198,14 @@ class ReaderMixerViewModel (private val repository: Repository,
 
                     is Result.Error -> {
                         _error.value = result.exception.localizedMessage
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         doLikeChapter.value = false
                         numberOfLikes.value = 0
                     }
 
                     is Result.Fail -> {
                         _error.value = result.error
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         doLikeChapter.value = false
                         numberOfLikes.value = 0
                     }
@@ -238,13 +238,13 @@ class ReaderMixerViewModel (private val repository: Repository,
 
     fun navigateToNextChapter() {
 
-        if (_status.value == APILoadingStatus.LOADING) return
+        if (_status.value == ApiLoadingStatus.LOADING) return
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         if (_currentChapter.value == null)
         {
-            _status.value = APILoadingStatus.DONE
+            _status.value = ApiLoadingStatus.DONE
             return
         }
 
@@ -260,13 +260,13 @@ class ReaderMixerViewModel (private val repository: Repository,
         get() = _shouldNavigateToPreviousChapter
 
     fun navigateToPreviousChapter() {
-        if (_status.value == APILoadingStatus.LOADING) return
+        if (_status.value == ApiLoadingStatus.LOADING) return
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         if (_currentChapter.value == null)
         {
-            _status.value = APILoadingStatus.DONE
+            _status.value = ApiLoadingStatus.DONE
             return
         }
 

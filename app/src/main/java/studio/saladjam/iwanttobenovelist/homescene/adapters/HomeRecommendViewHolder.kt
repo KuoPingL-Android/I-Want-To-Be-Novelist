@@ -6,9 +6,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
 import studio.saladjam.iwanttobenovelist.extensions.getFloat
-import studio.saladjam.iwanttobenovelist.extensions.getPixelSize
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
@@ -25,13 +25,11 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                 = IWBNApplication.instance
                     .getFloat(R.fraction.home_recommend_item_cover_height_to_item_height)
 
-        private val RECYClER_ITEM_START_PADDING
-                = IWBNApplication.instance
-                    .getPixelSize(R.dimen.item_decorator_large_margin)
+        private val RECYCLER_ITEM_START_PADDING
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
 
         private val RECYCLER_ITEM_NORMAL_H_PADDING
-                = IWBNApplication.instance
-                    .getPixelSize(R.dimen.item_decorator_normal_margin)
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
 
         private val RECYCLER_ITEM_WH_RATIO
                 = IWBNApplication.instance
@@ -86,7 +84,7 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                     val layoutManager = recyclerView.layoutManager!!
                     val distance = (layoutManager.width.toFloat())
 
-                    val startingPoint = RECYClER_ITEM_START_PADDING.toFloat()
+                    val startingPoint = RECYCLER_ITEM_START_PADDING.toFloat()
 
                     for (i in 0 until layoutManager.childCount) {
                         val child = layoutManager.getChildAt(i)!!
@@ -119,7 +117,7 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
 
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
-                            outRect.left = RECYClER_ITEM_START_PADDING
+                            outRect.left = RECYCLER_ITEM_START_PADDING
                         }
                         (parent.adapter?.itemCount?: 1) - 1 -> {
                             outRect.right =

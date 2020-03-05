@@ -9,7 +9,7 @@ import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class HomeWorkInProgressViewModel (private val repository: Repository): ViewModel() {
 
@@ -38,21 +38,21 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
         get() = _numbersOfFollowers
 
 
-    private val _chapterStatues = MutableLiveData<MutableMap<String, APILoadingStatus>>()
+    private val _chapterStatues = MutableLiveData<MutableMap<String, ApiLoadingStatus>>()
         .apply {
             value = mutableMapOf()
         }
-    val chapterStatues: LiveData<MutableMap<String, APILoadingStatus>>
+    val chapterStatues: LiveData<MutableMap<String, ApiLoadingStatus>>
         get() = _chapterStatues
 
-    private val _followingStatuses = MutableLiveData<MutableMap<String, APILoadingStatus>>()
+    private val _followingStatuses = MutableLiveData<MutableMap<String, ApiLoadingStatus>>()
         .apply {
             value = mutableMapOf()
         }
-    val followingStatuses: LiveData<MutableMap<String, APILoadingStatus>>
+    val followingStatuses: LiveData<MutableMap<String, ApiLoadingStatus>>
         get() = _followingStatuses
 
-    val statuses = MediatorLiveData<MutableMap<String, APILoadingStatus>>().apply {
+    val statuses = MediatorLiveData<MutableMap<String, ApiLoadingStatus>>().apply {
         addSource(_chapterStatues) {  }
         addSource(_followingStatuses) { }
     }
@@ -92,7 +92,7 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
     }
 
     private fun fetchLatestChapterFor(book: Book) {
-        _chapterStatues.value?.set(book.bookID, APILoadingStatus.LOADING)
+        _chapterStatues.value?.set(book.bookID, ApiLoadingStatus.LOADING)
 
         val id = book.bookID
 
@@ -101,7 +101,7 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
 
             _latestChapters.value?.set(id, when(result) {
                 is Result.Success -> {
-                    _chapterStatues.value?.set(id, APILoadingStatus.DONE)
+                    _chapterStatues.value?.set(id, ApiLoadingStatus.DONE)
                     if(result.data.count() > 0) {
                         result.data.sortedByDescending { it.updatedTime }.first()
                     } else {
@@ -110,17 +110,17 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
                 }
 
                 is Result.Error -> {
-                    _chapterStatues.value?.set(id, APILoadingStatus.ERROR)
+                    _chapterStatues.value?.set(id, ApiLoadingStatus.ERROR)
                     null
                 }
 
                 is Result.Fail -> {
-                    _chapterStatues.value?.set(id, APILoadingStatus.ERROR)
+                    _chapterStatues.value?.set(id, ApiLoadingStatus.ERROR)
                     null
                 }
 
                 else -> {
-                    _chapterStatues.value?.set(id, APILoadingStatus.ERROR)
+                    _chapterStatues.value?.set(id, ApiLoadingStatus.ERROR)
                     null
                 }
             })
@@ -131,29 +131,29 @@ class HomeWorkInProgressViewModel (private val repository: Repository): ViewMode
 
     private fun fetchNumberOfFollowersFor(book: Book) {
         val id = book.bookID
-        _followingStatuses.value?.set(id, APILoadingStatus.LOADING)
+        _followingStatuses.value?.set(id, ApiLoadingStatus.LOADING)
 
         coroutineScope.launch {
             val result = repository.getFollowersForBook(book)
 
             _numbersOfFollowers.value?.set(id, when(result) {
                 is Result.Success -> {
-                    _followingStatuses.value?.set(id, APILoadingStatus.DONE)
+                    _followingStatuses.value?.set(id, ApiLoadingStatus.DONE)
                     result.data.size
                 }
 
                 is Result.Error -> {
-                    _followingStatuses.value?.set(id, APILoadingStatus.ERROR)
+                    _followingStatuses.value?.set(id, ApiLoadingStatus.ERROR)
                     0
                 }
 
                 is Result.Fail -> {
-                    _followingStatuses.value?.set(id, APILoadingStatus.ERROR)
+                    _followingStatuses.value?.set(id, ApiLoadingStatus.ERROR)
                     0
                 }
 
                 else -> {
-                    _followingStatuses.value?.set(id, APILoadingStatus.ERROR)
+                    _followingStatuses.value?.set(id, ApiLoadingStatus.ERROR)
                     0
                 }
             })

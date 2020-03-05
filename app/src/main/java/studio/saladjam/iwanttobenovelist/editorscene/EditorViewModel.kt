@@ -1,7 +1,6 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.graphics.Bitmap
-import android.media.Image
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +14,7 @@ import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class EditorViewModel (private val repository: Repository) : ViewModel() {
 
@@ -29,8 +28,8 @@ class EditorViewModel (private val repository: Repository) : ViewModel() {
     }
 
     /** LOADING STATUS */
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -98,8 +97,8 @@ class EditorViewModel (private val repository: Repository) : ViewModel() {
     }
 
     /** LOAIDNG DIALOG */
-    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
-    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+    private val _dialogInfo = MutableLiveData<Pair<String, ApiLoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, ApiLoadingStatus>>
         get() = _dialogInfo
 
     fun doneDisplayingDialog() {
@@ -127,7 +126,7 @@ class EditorViewModel (private val repository: Repository) : ViewModel() {
 
         _isSaving.value = true
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         _dialogInfo.value = Pair("", _status.value!!)
 
@@ -136,21 +135,21 @@ class EditorViewModel (private val repository: Repository) : ViewModel() {
             when(val result = repository.postChapterWithDetails(chapter, bitmapsMap, coordinators)) {
                 is Result.Success -> {
                     _error.value = null
-                    _status.value = APILoadingStatus.DONE
+                    _status.value = ApiLoadingStatus.DONE
                     _isSaving.value = null
                     _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_save), _status.value!!)
                 }
 
                 is Result.Error -> {
                     _error.value = result.exception.localizedMessage
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _isSaving.value = null
                     _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_error_save), _status.value!!)
                 }
 
                 is Result.Fail -> {
                     _error.value = result.error
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _isSaving.value = null
                     _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_error_save), _status.value!!)
                 }
@@ -168,28 +167,28 @@ class EditorViewModel (private val repository: Repository) : ViewModel() {
         chapter.value?.let {chapter ->
             coroutineScope.launch {
 
-                _status.value = APILoadingStatus.LOADING
+                _status.value = ApiLoadingStatus.LOADING
 
                 _dialogInfo.value = Pair("", _status.value!!)
 
                 when(val result = repository.getChapterWithDetails(chapter.chapterIndex, chapter.bookID)) {
                     is Result.Success -> {
                         _currentChapterBlock.value = result.data.second
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_done), _status.value!!)
                     }
 
                     is Result.Fail -> {
                         _error.value = result.error
                         _currentChapterBlock.value = null
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
 
                     is Result.Error -> {
                         _error.value = result.exception.localizedMessage
                         _currentChapterBlock.value = null
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
                 }

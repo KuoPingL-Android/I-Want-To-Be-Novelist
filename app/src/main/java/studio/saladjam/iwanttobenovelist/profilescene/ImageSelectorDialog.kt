@@ -21,6 +21,8 @@ class ImageSelectorDialog(private val viewModel: ProfileCreateBookViewModel) : B
             viewModel.displayCamera()
         }
 
+        binding.buttonImageSelectorFolder.requestLayout()
+
         binding.buttonImageSelectorFolder.setOnClickListener {
             viewModel.displayImageSelector()
         }

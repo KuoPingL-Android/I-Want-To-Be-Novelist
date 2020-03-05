@@ -4,7 +4,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus"/>
+        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus"/>
         <variable
             name="viewModel"
             type="studio.saladjam.iwanttobenovelist.dialog.LoadingDialogViewModel" />
@@ -33,7 +33,7 @@
             android:paddingBottom="8dp">
 
             <ProgressBar
-                android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.status == ApiLoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
                 android:id="@+id/progress_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -45,7 +45,7 @@
                 android:indeterminateTint="@color/progress_tint" />
 
             <TextView
-                android:visibility="@{viewModel.status == APILoadingStatus.DONE || viewModel.status == APILoadingStatus.ERROR ? View.VISIBLE : View.GONE}"
+                android:visibility="@{viewModel.status == ApiLoadingStatus.DONE || viewModel.status == ApiLoadingStatus.ERROR ? View.VISIBLE : View.GONE}"
                 android:id="@+id/text_loading"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

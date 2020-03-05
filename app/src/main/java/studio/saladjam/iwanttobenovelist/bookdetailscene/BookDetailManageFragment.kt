@@ -15,14 +15,13 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailManageAdapter
 import studio.saladjam.iwanttobenovelist.databinding.FragmentBookDetailManageBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class BookDetailManageFragment : Fragment() {
 
@@ -101,7 +100,7 @@ class BookDetailManageFragment : Fragment() {
             it?.let {
                 mainViewModel?.displayLoadingDialog(it.first, it.second)
 
-                if(it.second == APILoadingStatus.DONE) {
+                if(it.second == ApiLoadingStatus.DONE) {
                     if (viewModel.isSaving) {
                         Handler().postDelayed({
                             viewModel.isSaving = false

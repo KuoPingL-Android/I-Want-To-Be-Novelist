@@ -16,7 +16,7 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorTextBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class EditorTextFragment : Fragment() {
     private lateinit var binding: FragmentEditorTextBinding
@@ -55,7 +55,7 @@ class EditorTextFragment : Fragment() {
 
         viewModel.error.observe(this, Observer {
             it?.let {message ->
-                if (message.isNotEmpty() && viewModel.status.value == APILoadingStatus.ERROR) {
+                if (message.isNotEmpty() && viewModel.status.value == ApiLoadingStatus.ERROR) {
                     Toast.makeText(context!!, message, Toast.LENGTH_LONG).show()
                 }
                 viewModel.doneDisplayingError()

@@ -16,6 +16,7 @@ import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                                    private val workInProgressViewModel: HomeWorkInProgressViewModel) :
     RecyclerView.ViewHolder(binding.root) {
+
     fun bind(sealItem: HomeSealItems.WorkInProgress, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
