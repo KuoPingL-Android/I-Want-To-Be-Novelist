@@ -1,12 +1,15 @@
 package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
+import studio.saladjam.iwanttobenovelist.extensions.getScale
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
+import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
@@ -18,13 +21,9 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
     RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        private val DECORATOR_RIGHT_MARGIN
+        private val ITEM_DECORATOR_NORMAL_MARGIN
                 = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
-        private val DECORATOR_LEFT_MARGIN
-                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
-        private val DECORATE_END_MARGIN
-                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
-        private val DECORATE_START_MARGIN
+        private val ITEM_DECORATOR_ENDS_MARGIN
                 = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
 
     }
@@ -54,15 +53,21 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    outRect.right = DECORATOR_RIGHT_MARGIN
-                    outRect.left = DECORATOR_LEFT_MARGIN
+                    outRect.right = ITEM_DECORATOR_NORMAL_MARGIN
+                    outRect.left = ITEM_DECORATOR_NORMAL_MARGIN
 
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
-                            outRect.left = DECORATE_START_MARGIN
+                            outRect.left = ITEM_DECORATOR_ENDS_MARGIN
                         }
                         (parent.adapter?.itemCount ?: 1) - 1 -> {
-                            outRect.right = DECORATE_END_MARGIN
+                            val scale = IWBNApplication.instance
+                                .getScale(R.string.home_card_w_to_h_ratio)
+                            val itemWidth = parent.height * scale
+
+                            outRect.right =
+                                (parent.width - ITEM_DECORATOR_NORMAL_MARGIN * 2
+                                        + ITEM_DECORATOR_ENDS_MARGIN - itemWidth).toInt()
                         }
                     }
                 }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.IWBNApplication.Companion.user
+import studio.saladjam.iwanttobenovelist.repository.NetworkMessages
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -68,7 +69,7 @@ class ProfileBookReadingViewModel (private val repository: Repository): ViewMode
             }
         } else {
             _status.value = ApiLoadingStatus.ERROR
-            _error.value = "NO INTERNET"
+            _error.value = NetworkMessages.NO_INTERNET
         }
     }
 

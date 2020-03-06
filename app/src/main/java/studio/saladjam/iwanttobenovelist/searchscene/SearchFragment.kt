@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentSearchBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
@@ -19,6 +20,14 @@ import studio.saladjam.iwanttobenovelist.searchscene.adapters.SearchFilterAdapte
 import studio.saladjam.iwanttobenovelist.searchscene.adapters.SearchResultAdapter
 
 class SearchFragment : Fragment() {
+
+    companion object {
+        private val ITEM_DECORATOR_NORMAL_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_SMALL_8dp
+        private val ITEM_DECORATOR_ENDS_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL_8dp
+    }
+
     private lateinit var binding: FragmentSearchBinding
     private val viewModel by viewModels<SearchViewModel> { getVMFactory() }
     private lateinit var filterAdapter: SearchFilterAdapter
@@ -61,12 +70,14 @@ class SearchFragment : Fragment() {
                 state: RecyclerView.State
             ) {
 
-                outRect.left = 8.toPx()
-                outRect.right = 8.toPx()
+                outRect.left = ITEM_DECORATOR_NORMAL_MARGIN
+                outRect.right = ITEM_DECORATOR_NORMAL_MARGIN
 
                 when(parent.getChildLayoutPosition(view)) {
-                    0 -> outRect.left = 16.toPx()
-                    (parent.adapter?.itemCount?: 1) - 1 -> outRect.right = 18.toPx()
+                    0
+                        -> outRect.left = ITEM_DECORATOR_ENDS_MARGIN
+                    (parent.adapter?.itemCount?: 1) - 1
+                        -> outRect.right = ITEM_DECORATOR_ENDS_MARGIN
                 }
 
             }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getPixelSize
 import studio.saladjam.iwanttobenovelist.extensions.getScale
@@ -20,10 +21,10 @@ import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 class HomeCurrentReadViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewHolder(binding.root) {
 
     companion object {
-        private val ITEM_DECORATOR_NORMAL_MARGIN = IWBNApplication.instance
-            .getPixelSize(R.dimen.item_decorator_normal_margin)
-        private val ITEM_DECORATOR_ENDS_MARGIN = IWBNApplication.instance
-            .getPixelSize(R.dimen.item_decorator_large_margin)
+        private val ITEM_DECORATOR_NORMAL_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val ITEM_DECORATOR_ENDS_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
     }
 
     fun bind(sealItem: HomeSealItems.CurrentReading, viewModel: HomeViewModel, section: HomeSections) {
@@ -61,7 +62,8 @@ class HomeCurrentReadViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.V
                             val itemWidth = parent.height * scale
 
                             outRect.right =
-                                (parent.width - ITEM_DECORATOR_NORMAL_MARGIN - itemWidth).toInt()
+                                (parent.width - ITEM_DECORATOR_NORMAL_MARGIN * 2
+                                        + ITEM_DECORATOR_ENDS_MARGIN - itemWidth).toInt()
                         }
                     }
                 }

@@ -16,7 +16,9 @@
 
     <!-- HOME RECOMMEND RECYCLER ITEM MARGINS -->
     <dimen name="item_decorator_small_margin">5dp</dimen>
+    <dimen name="item_decorator_small_margin_8dp">8dp</dimen>
     <dimen name="item_decorator_normal_margin">10dp</dimen>
+    <dimen name="item_decorator_normal_margin_8dp">16dp</dimen>
     <dimen name="item_decorator_large_margin">20dp</dimen>
     <dimen name="item_decorator_larger_margin">30dp</dimen>
 

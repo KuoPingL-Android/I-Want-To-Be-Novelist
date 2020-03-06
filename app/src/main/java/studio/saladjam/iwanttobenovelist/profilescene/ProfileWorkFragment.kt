@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentProfileWorksBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
@@ -18,8 +19,15 @@ import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileWorkAdapte
 
 class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragment() {
 
+    companion object {
+        private val CREATE_NEW_BOOK_DIALOG_TAG = "createBookDialog"
+        private val ITEM_DECORATOR_NORMAL_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val ITEM_DECORATOR_ENDS_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
+    }
+
     private lateinit var binding: FragmentProfileWorksBinding
-    private lateinit var adapter: ProfileWorkAdapter
     private val viewModel by viewModels<ProfileWorkViewModel> { getVMFactory() }
 
     override fun onCreateView(
@@ -39,7 +47,7 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
             it?.let {
                 val profileCreateBookDialog = ProfileCreateBookDialog(viewModel)
                 fragmentManager?.let {fm ->
-                    profileCreateBookDialog.show(fm, "createBookDialog")
+                    profileCreateBookDialog.show(fm, CREATE_NEW_BOOK_DIALOG_TAG)
                 }
                 viewModel.doneShowingCreateBookDialog()
             }
@@ -55,12 +63,12 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
             ) {
                 val position = parent.indexOfChild(view)
 
-                outRect.top = 10.toPx()
-                outRect.bottom = 10.toPx()
+                outRect.top = ITEM_DECORATOR_NORMAL_MARGIN
+                outRect.bottom = ITEM_DECORATOR_NORMAL_MARGIN
 
                 when(position) {
-                    0 -> outRect.top = 20.toPx()
-                    parent.childCount - 1 -> outRect.bottom = 20.toPx()
+                    0 -> outRect.top = ITEM_DECORATOR_ENDS_MARGIN
+                    parent.childCount - 1 -> outRect.bottom = ITEM_DECORATOR_ENDS_MARGIN
                 }
             }
         })
@@ -71,12 +79,7 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
                 viewModel.doneShowingBookDetail()
             }
         })
-
-
-
         viewModel.fetchUserWork()
-
-
         return binding.root
     }
 }
