@@ -11,12 +11,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentProfileBookReadingBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileBookReadingAdapter
 
 class ProfileBookReadingFragment(private val profileViewModel: ProfileViewModel) : Fragment() {
+
+    companion object {
+        private val ITEM_DECORATOR_NORMAL_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val ITEM_DECORATOR_ENDS_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
+    }
 
     private lateinit var binding: FragmentProfileBookReadingBinding
     private lateinit var adapter: ProfileBookReadingAdapter
@@ -45,12 +53,12 @@ class ProfileBookReadingFragment(private val profileViewModel: ProfileViewModel)
             ) {
                 val position = parent.indexOfChild(view)
 
-                outRect.top = 10.toPx()
-                outRect.bottom = 10.toPx()
+                outRect.top     = ITEM_DECORATOR_NORMAL_MARGIN
+                outRect.bottom  = ITEM_DECORATOR_NORMAL_MARGIN
 
                 when(position) {
-                    0 -> outRect.top = 20.toPx()
-                    parent.childCount - 1 -> outRect.bottom = 20.toPx()
+                    0 -> outRect.top = ITEM_DECORATOR_ENDS_MARGIN
+                    parent.childCount - 1 -> outRect.bottom = ITEM_DECORATOR_ENDS_MARGIN
                 }
             }
         })
