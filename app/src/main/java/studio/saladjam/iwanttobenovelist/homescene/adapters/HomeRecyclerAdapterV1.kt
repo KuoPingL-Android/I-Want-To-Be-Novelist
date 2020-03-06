@@ -100,9 +100,9 @@ class HomeRecyclerAdapterV1(val viewModel: HomeViewModel,
 
             is HomeSealItems.CurrentReading -> CURRENT_READ
 
-            is HomeSealItems.General -> GENERAL
-
             is HomeSealItems.Recommend -> RECOMMEND
+
+            is HomeSealItems.General -> GENERAL
         }
     }
 

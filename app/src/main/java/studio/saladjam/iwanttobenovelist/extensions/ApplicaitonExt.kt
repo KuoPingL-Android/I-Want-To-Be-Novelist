@@ -25,3 +25,23 @@ fun IWBNApplication.getTime(res: Int) : Long {
 fun IWBNApplication.getStringArray(res: Int) : List<String> {
     return this.applicationContext.resources.getStringArray(res).toList()
 }
+
+fun IWBNApplication.getScale(res: Int) : Double {
+    val scaleString = getString(res)
+    return if (scaleString.contains(":")) {
+        val strings = scaleString.split(":")
+
+        if (strings.count() != 2) 0.toDouble()
+        else {
+            val first = strings.first().toDoubleOrNull() ?: 0.toDouble()
+            val second = strings.last().toDoubleOrNull() ?: 0.toDouble()
+
+            val ratio = first / second
+
+            if (ratio.isInfinite()) 0.toDouble() else ratio
+        }
+
+    } else {
+        scaleString.toDoubleOrNull() ?: 0.toDouble()
+    }
+}
