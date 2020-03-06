@@ -106,6 +106,7 @@
     <string name="exception_api_failed">%s: process failed</string>
     <string name="exception_unrecognized_class">%s: Unrecognized class %s</string>
     <string name="exception_unrecognized_viewtype">%s: Unrecognized view type %d</string>
+    <string name="exception_page_not_found">%s: Page not found</string>
 
     <!-- TIME -->
     <string name="unit_second">秒</string>
@@ -115,5 +116,6 @@
     <string name="unit_year">年</string>
     <string name="before">前</string>
     <string name="time_before">%d%s%s</string>
+    <string name="btn_see_all">See All</string>
 
 </resources>

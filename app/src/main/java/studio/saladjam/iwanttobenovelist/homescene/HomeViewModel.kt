@@ -38,7 +38,8 @@ class HomeViewModel(val repository: Repository): ViewModel() {
         get() = _onlyShowMostPopularBooks
 
     private fun checkAvailableLists() {
-        _onlyShowMostPopularBooks.value = (_myWorkList.value?.isEmpty() == true || user.token == null)
+        _onlyShowMostPopularBooks.value =
+            (_myWorkList.value?.isEmpty() == true || user.token == null)
     }
 
     private val _finalList = MutableLiveData<List<HomeSealItems>>()
@@ -142,8 +143,8 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     /** WRITER's LIST of WORK */
     private fun fetchMyWorkList() {
         coroutineScope.launch {
-            val result = repository.getUserWork(user)
-            when(result) {
+
+            when(val result = repository.getUserWork(user)) {
                 is Result.Success -> {
                     _myWorkList.value = result.data
                 }
@@ -166,9 +167,8 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     private fun fetchMyFollowList() {
         repository.addBooksFollowingSnapshotListener(user.userID) {
             coroutineScope.launch {
-                val result = repository.getFollowingBooks(it)
 
-                when(result) {
+                when(val result = repository.getFollowingBooks(it)) {
                     is Result.Success -> {
                         _myFollowList.value = result.data
                     }
@@ -190,8 +190,8 @@ class HomeViewModel(val repository: Repository): ViewModel() {
     /** VISITOR's LIST of BOOKs */
     private fun fetchMostPopularBooks() {
         coroutineScope.launch {
-            val result = repository.getMostPopularBooks()
-            when(result) {
+
+            when(val result = repository.getMostPopularBooks()) {
                 is Result.Success -> {
                     _popularList.value = result.data
                 }

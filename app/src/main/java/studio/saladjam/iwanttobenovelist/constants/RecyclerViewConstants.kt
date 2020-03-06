@@ -11,4 +11,6 @@ object RecyclerViewConstants {
             = IWBNApplication.instance.getPixelSize(R.dimen.item_decorator_normal_margin)
     val ITEM_DECORATOR_MARGIN_LARGE
             = IWBNApplication.instance.getPixelSize(R.dimen.item_decorator_large_margin)
+    val ITEM_DECORATOR_MARGIN_LARGER
+            = IWBNApplication.instance.getPixelSize(R.dimen.item_decorator_larger_margin)
 }

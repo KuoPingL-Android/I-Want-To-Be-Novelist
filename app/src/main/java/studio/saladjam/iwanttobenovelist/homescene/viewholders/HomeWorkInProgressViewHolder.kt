@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
@@ -17,6 +17,19 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                                    private val workInProgressViewModel: HomeWorkInProgressViewModel) :
     RecyclerView.ViewHolder(binding.root) {
 
+    companion object {
+        private val DECORATOR_RIGHT_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val DECORATOR_LEFT_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val DECORATE_END_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
+        private val DECORATE_START_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
+
+    }
+
+
     fun bind(sealItem: HomeSealItems.WorkInProgress, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
@@ -24,8 +37,6 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
             title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
-            textItemHomeV1Title.setTextColor(Color.parseColor("#000000"))
-            textItemHomeV1Seeall.setTextColor(Color.parseColor("#000000"))
 
             /** SET ADAPTERs for RECYCLERVIEW */
             recyclerItemHomeV1.adapter =
@@ -43,14 +54,15 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    outRect.right = 10.toPx()
-                    outRect.left = 10.toPx()
+                    outRect.right = DECORATOR_RIGHT_MARGIN
+                    outRect.left = DECORATOR_LEFT_MARGIN
+
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
-                            outRect.left = 20.toPx()
+                            outRect.left = DECORATE_START_MARGIN
                         }
                         (parent.adapter?.itemCount ?: 1) - 1 -> {
-                            outRect.right = 30.toPx()
+                            outRect.right = DECORATE_END_MARGIN
                         }
                     }
                 }

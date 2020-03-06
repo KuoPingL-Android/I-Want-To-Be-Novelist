@@ -4,6 +4,11 @@
     <dimen name="bottom_nav_icon_size">26dp</dimen>
     <dimen name="bottom_nav_icon_elevation">4dp</dimen>
 
+    <!--MATERIAL GUIDELINE FONT SIZE-->
+    <dimen name="primary_text">20sp</dimen>
+    <dimen name="secondary_primary_text">16sp</dimen>
+    <dimen name="secondary_text">14sp</dimen>
+    
     <dimen name="title_text_size">40sp</dimen>
     <dimen name="subtitle_text_size">20sp</dimen>
     <dimen name="subtitle_text_size_larger">28sp</dimen>
@@ -13,6 +18,7 @@
     <dimen name="item_decorator_small_margin">5dp</dimen>
     <dimen name="item_decorator_normal_margin">10dp</dimen>
     <dimen name="item_decorator_large_margin">20dp</dimen>
+    <dimen name="item_decorator_larger_margin">30dp</dimen>
 
     <!-- EDITOR BLOCK DIMEN -->
     <dimen name="editor_block_horizontal_margin">20dp</dimen>

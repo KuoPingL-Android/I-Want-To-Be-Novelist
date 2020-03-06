@@ -29,4 +29,6 @@
     <color name="book_item_title_color">#000</color>
     <color name="book_item_author_color">#888</color>
 
+    <color name="text_color_black">#000000</color>
+
 </resources>
