@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginInterestBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
@@ -19,6 +20,14 @@ import studio.saladjam.iwanttobenovelist.loginscene.adapter.LoginInterestRecycle
 
 class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandler)
     : LoginBaseSubFragment(completeHandler) {
+
+    companion object {
+        private val ITEM_DECORATOR_NORMAL_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_SMALL
+        private val ITEM_DECORATOR_ENDS_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+    }
+
     private lateinit var binding: FragmentLoginInterestBinding
 
     private val viewModel by viewModels<LoginInterestViewModel> { getVMFactory() }
@@ -47,29 +56,29 @@ class LoginInterestFragment(private val completeHandler: LoginPagesCompleteHandl
             ) {
                 val index = binding.recyclerInterestCategories.getChildLayoutPosition(view)
 
-                outRect.top = 5.toPx()
-                outRect.bottom = 5.toPx()
-                outRect.left = 5.toPx()
-                outRect.right = 5.toPx()
+                outRect.top     = ITEM_DECORATOR_NORMAL_MARGIN
+                outRect.bottom  = ITEM_DECORATOR_NORMAL_MARGIN
+                outRect.left    = ITEM_DECORATOR_NORMAL_MARGIN
+                outRect.right   = ITEM_DECORATOR_NORMAL_MARGIN
 
                 when(index%spanCount) {
                     0 -> {
                         outRect.left = 0.toPx()
                         if (index == 0) {
-                            outRect.top = 10.toPx()
+                            outRect.top = ITEM_DECORATOR_ENDS_MARGIN
                         }
                     }
 
                     1 -> {
                         if (index == 1) {
-                            outRect.top = 10.toPx()
+                            outRect.top = ITEM_DECORATOR_ENDS_MARGIN
                         }
                     }
 
                     else -> {
                         outRect.right = 0.toPx()
                         if (index == 2) {
-                            outRect.top = 10.toPx()
+                            outRect.top = ITEM_DECORATOR_ENDS_MARGIN
                         }
                     }
                 }
