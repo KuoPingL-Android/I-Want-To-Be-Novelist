@@ -17,7 +17,9 @@ import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginSigninupBinding
+import studio.saladjam.iwanttobenovelist.extensions.getStringArray
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 
 
@@ -52,7 +54,9 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
         viewModel.loginWithFacebook.observe(this, Observer{
             it?.let{
                 // Login with Facebook
-                LoginManager.getInstance().logIn(this, listOf("email"))
+                LoginManager.getInstance()
+                    .logIn(this,
+                        IWBNApplication.instance.getStringArray(R.array.fb_requests))
                 viewModel.doneLoggingInWithFacebook()
             }
         })

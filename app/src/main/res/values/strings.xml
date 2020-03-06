@@ -117,4 +117,9 @@
     <string name="time_before">%d%s%s</string>
     <string name="btn_see_all">See All</string>
 
+    <!-- ========== Facebook ========== -->
+    <string-array name="fb_requests">
+        <item>email</item>
+    </string-array>
+
 </resources>

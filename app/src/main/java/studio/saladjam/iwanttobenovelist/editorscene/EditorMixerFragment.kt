@@ -19,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.constants.IntentConstants
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorMixerBinding
 import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
 import studio.saladjam.iwanttobenovelist.extensions.*
@@ -44,7 +45,7 @@ class EditorMixerFragment: Fragment() {
         binding = FragmentEditorMixerBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as Chapter
+        chapter = requireArguments().get(NavArgKeys.CHAPTER) as Chapter
 
         chapter?.let {
             binding.simpleContainer.setContentWithPaint(it, binding.editEditorMix.paint)

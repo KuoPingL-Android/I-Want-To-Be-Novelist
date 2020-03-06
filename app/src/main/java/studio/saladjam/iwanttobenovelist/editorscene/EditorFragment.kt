@@ -15,6 +15,7 @@ import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.constants.IntentConstants
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorBinding
 import studio.saladjam.iwanttobenovelist.extensions.getBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
@@ -44,7 +45,7 @@ class EditorFragment: Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as Chapter
+        chapter = requireArguments().get(NavArgKeys.CHAPTER) as Chapter
 
         chapter?.let {
             viewModel.prepareChapter(it)

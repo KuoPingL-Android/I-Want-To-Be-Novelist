@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorTextBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
@@ -32,7 +33,7 @@ class EditorTextFragment : Fragment() {
         binding = FragmentEditorTextBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        chapter = requireArguments().get(EditorKeys.NAV_CHAPTER_KEY) as? Chapter
+        chapter = requireArguments().get(NavArgKeys.CHAPTER) as? Chapter
         chapter?.let {
             viewModel.prepareChapter(it)
         }

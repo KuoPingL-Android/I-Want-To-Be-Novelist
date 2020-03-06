@@ -17,3 +17,7 @@ fun IWBNApplication.getPixelSize(res: Int): Int {
 fun IWBNApplication.getInt(res: Int): Int {
     return this.applicationContext.resources.getInteger(res)
 }
+
+fun IWBNApplication.getStringArray(res: Int): List<String> {
+    return this.applicationContext.resources.getStringArray(res).toList()
+}
