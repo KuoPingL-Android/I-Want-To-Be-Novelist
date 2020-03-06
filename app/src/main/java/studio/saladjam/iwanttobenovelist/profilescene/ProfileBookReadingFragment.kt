@@ -19,7 +19,7 @@ import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileBookReadin
 class ProfileBookReadingFragment(private val profileViewModel: ProfileViewModel) : Fragment() {
 
     private lateinit var binding: FragmentProfileBookReadingBinding
-    private lateinit var adapater: ProfileBookReadingAdapter
+    private lateinit var adapter: ProfileBookReadingAdapter
     private val viewModel by viewModels<ProfileBookReadingViewModel> { getVMFactory() }
     private var mainViewModel: MainViewModel? = null
 
@@ -32,9 +32,9 @@ class ProfileBookReadingFragment(private val profileViewModel: ProfileViewModel)
 
         binding.lifecycleOwner = this
 
-        adapater = ProfileBookReadingAdapter(viewModel)
+        adapter = ProfileBookReadingAdapter(viewModel)
 
-        binding.recyclerProfileBookmarks.adapter = adapater
+        binding.recyclerProfileBookmarks.adapter = adapter
 
         binding.recyclerProfileBookmarks.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(

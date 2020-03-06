@@ -67,6 +67,8 @@ class HomeFragment : Fragment() {
             }
         })
 
+        mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
         prepareViewModel()
         return binding.root
     }
