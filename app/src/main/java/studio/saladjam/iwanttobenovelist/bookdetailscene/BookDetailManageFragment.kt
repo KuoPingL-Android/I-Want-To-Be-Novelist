@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailManageAdapter
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentBookDetailManageBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
@@ -28,7 +29,7 @@ class BookDetailManageFragment : Fragment() {
 
     private lateinit var binding: FragmentBookDetailManageBinding
     private val book by lazy {
-        requireArguments().get("book") as Book
+        requireArguments().get(NavArgKeys.BOOK) as Book
     }
     private val viewModel by viewModels<BookDetailManageViewModel> { getVMFactory() }
     private var mainViewModel: MainViewModel? = null
