@@ -28,6 +28,12 @@ import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 private const val RC_SIGN_IN = 1
 
 class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandler) : LoginBaseSubFragment(completeHandler) {
+
+    companion object {
+        private val NAME_REQUEST_DIALOG_TAG = "selectname"
+
+    }
+
     private lateinit var binding: FragmentLoginSigninupBinding
     private val viewModel by viewModels<LoginSigninupViewModel> { getVMFactory() }
 
@@ -68,7 +74,8 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
 
                 // Build a GoogleSignInClient with the options specified by gso.
                 context?.let {context ->
-                    viewModel.mGoogleSignInClient = GoogleSignIn.getClient(context, IWBNApplication.container.googleSigninOptions)
+                    viewModel.mGoogleSignInClient = GoogleSignIn
+                        .getClient(context, IWBNApplication.container.googleSigninOptions)
                     val intent = viewModel.mGoogleSignInClient?.signInIntent
                     startActivityForResult(intent!!, RC_SIGN_IN)
                 }
@@ -100,7 +107,7 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
                             viewModel.updateUserName(name)
                         }, TimeConstants.TIME_1000_ms)
                     }
-                }.show(fragmentManager!!, "selectname")
+                }.show(fragmentManager!!, NAME_REQUEST_DIALOG_TAG)
                 viewModel.doneAskingForName()
             }
         })
