@@ -2,6 +2,7 @@ package studio.saladjam.iwanttobenovelist.loginscene
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginSigninupBinding
 import studio.saladjam.iwanttobenovelist.extensions.getStringArray
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
@@ -94,9 +96,9 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
             it?.let{
                 LoginSelectNameDialog{wrappedName ->
                     wrappedName?.let {name ->
-                        android.os.Handler().postDelayed({
+                        Handler().postDelayed({
                             viewModel.updateUserName(name)
-                        }, 1000)
+                        }, TimeConstants.TIME_1000_ms)
                     }
                 }.show(fragmentManager!!, "selectname")
                 viewModel.doneAskingForName()

@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.ActivityMainBinding
 import studio.saladjam.iwanttobenovelist.dialog.LoadingDialog
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
@@ -263,10 +264,10 @@ class MainActivity : AppCompatActivity() {
         if (loadingDialog != null && loadingDialog!!.isVisible) {
             Handler().postDelayed({
                 viewModel.doneReceivingDialogInfo()
-            }, 1000)
+            }, TimeConstants.TIME_1000_ms)
             Handler().postDelayed({
                 action()
-            }, 500)
+            }, TimeConstants.TIME_500_ms)
         } else {
             action()
         }
@@ -337,10 +338,10 @@ class MainActivity : AppCompatActivity() {
 
         if (status == ApiLoadingStatus.DONE) {
 
-            var mills = 1000L
+            var mills = TimeConstants.TIME_1000_ms
 
             if (message.isEmpty()) {
-                mills = 0L
+                mills = TimeConstants.TIME_INSTANCE
             }
 
             Handler().postDelayed({

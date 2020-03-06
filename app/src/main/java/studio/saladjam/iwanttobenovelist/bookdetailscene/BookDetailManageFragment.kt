@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailManageAdapter
+import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentBookDetailManageBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -24,9 +25,6 @@ import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class BookDetailManageFragment : Fragment() {
-
-    /** CONSTANTS */
-    private val delayedMillisAfterSaving = 1000L
 
     private lateinit var binding: FragmentBookDetailManageBinding
     private val book by lazy {
@@ -105,7 +103,7 @@ class BookDetailManageFragment : Fragment() {
                         Handler().postDelayed({
                             viewModel.isSaving = false
                             findNavController().navigateUp()
-                        }, delayedMillisAfterSaving)
+                        }, TimeConstants.TIME_1000_ms)
                     }
                 }
 
