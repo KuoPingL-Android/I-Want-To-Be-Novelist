@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailManageAdapter
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailManageViewModel
 import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentBookDetailManageBinding

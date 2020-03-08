@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
-import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
@@ -28,7 +30,12 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel, val chapterVie
             BOOK_CHAPTER -> BookDetailWriterChaptersViewHolder(
                 ItemBookChapterBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false))
-            else -> throw IllegalArgumentException("UNKNOWN VIEW TYPE")
+            else -> throw IllegalArgumentException(
+                IWBNApplication.instance
+                    .getString(
+                        R.string.exception_unrecognized_viewtype,
+                        this::class.java,
+                        viewType))
         }
     }
 
@@ -53,7 +60,12 @@ class BookDetailReaderAdapter(val viewModel: BookDetailViewModel, val chapterVie
         return when(getItem(position)) {
             is BookDetailSealedItem.Header -> BOOK_HEADER
             is BookDetailSealedItem.Chapters -> BOOK_CHAPTER
-            else -> throw IllegalArgumentException("ITEM TYPE UNKNOWN")
+            else -> throw IllegalArgumentException(
+                IWBNApplication.instance
+                .getString(
+                    R.string.exception_unrecognized_viewtype,
+                    this::class.java,
+                    position))
         }
     }
 

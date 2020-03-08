@@ -1,12 +1,11 @@
 package studio.saladjam.iwanttobenovelist.bookdetailscene.adapters
 
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 

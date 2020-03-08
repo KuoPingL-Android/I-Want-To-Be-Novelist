@@ -1,7 +1,7 @@
 package studio.saladjam.iwanttobenovelist.bookdetailscene.adapters
 
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailManageViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailManageViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookManageChapterBinding
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 

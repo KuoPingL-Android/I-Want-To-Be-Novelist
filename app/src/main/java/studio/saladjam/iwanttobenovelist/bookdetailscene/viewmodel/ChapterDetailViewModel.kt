@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.bookdetailscene
+package studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel
 
 import androidx.databinding.InverseMethod
 import androidx.lifecycle.LiveData

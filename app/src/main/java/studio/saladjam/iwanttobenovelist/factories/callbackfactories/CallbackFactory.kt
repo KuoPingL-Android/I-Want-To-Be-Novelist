@@ -15,13 +15,20 @@ class CallbackFactory : DiffItemCallbackFactoryInterface {
     override fun <T : DiffUtil.ItemCallback<R>?, R:Any> create(modelClass: Class<R>): T {
         return with(modelClass) {
             when {
-                isAssignableFrom(Genre::class.java) -> GenreCallback()
-                isAssignableFrom(String::class.java) -> StringCallback()
-                isAssignableFrom(Book::class.java) -> BookCallback()
-                isAssignableFrom(HomeSealItems::class.java) -> HomeSealItemCallback()
-                isAssignableFrom(BookDetailSealedItem::class.java) -> BookDetailSealedItemCallback()
-                isAssignableFrom(SearchFilters::class.java) -> SearchFiltersCallback()
-                isAssignableFrom(Chapter::class.java) -> ChapterCallback()
+                isAssignableFrom(Genre::class.java)
+                        -> GenreCallback()
+                isAssignableFrom(String::class.java)
+                        -> StringCallback()
+                isAssignableFrom(Book::class.java)
+                        -> BookCallback()
+                isAssignableFrom(HomeSealItems::class.java)
+                        -> HomeSealItemCallback()
+                isAssignableFrom(BookDetailSealedItem::class.java)
+                        -> BookDetailSealedItemCallback()
+                isAssignableFrom(SearchFilters::class.java)
+                        -> SearchFiltersCallback()
+                isAssignableFrom(Chapter::class.java)
+                        -> ChapterCallback()
                 else -> IllegalArgumentException(
                     IWBNApplication.instance
                         .getString(

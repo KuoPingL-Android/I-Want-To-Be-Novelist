@@ -11,7 +11,7 @@ class BookDetailSealedItemCallback : DiffUtil.ItemCallback<BookDetailSealedItem>
         if (oldItem is BookDetailSealedItem.Header && newItem is BookDetailSealedItem.Header) {
             return true
         } else if (oldItem is BookDetailSealedItem.Chapters && newItem is BookDetailSealedItem.Chapters) {
-            return oldItem.chapter.chapterID === newItem.chapter.chapterID
+            return oldItem.chapter.chapterID == newItem.chapter.chapterID
         }
 
         return false
@@ -24,7 +24,7 @@ class BookDetailSealedItemCallback : DiffUtil.ItemCallback<BookDetailSealedItem>
         if (oldItem is BookDetailSealedItem.Header && newItem is BookDetailSealedItem.Header) {
             return true
         } else if (oldItem is BookDetailSealedItem.Chapters && newItem is BookDetailSealedItem.Chapters) {
-            return oldItem.chapter.chapterID === newItem.chapter.chapterID
+            return oldItem.chapter.chapterID == newItem.chapter.chapterID
         }
 
         return false

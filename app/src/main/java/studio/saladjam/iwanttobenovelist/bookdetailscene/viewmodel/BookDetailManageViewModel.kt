@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.bookdetailscene
+package studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
