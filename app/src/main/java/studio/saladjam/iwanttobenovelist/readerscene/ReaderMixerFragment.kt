@@ -38,15 +38,19 @@ class ReaderMixerFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.simpleContainer.setContentWithPaint(chapter, binding.editEditorMix.paint)
-
         prepareViewModel()
 
         return binding.root
     }
 
     private fun prepareViewModel() {
-        viewModel.displayChapter(chapter)
+//        viewModel.displayChapter(chapter)
+
+        viewModel.currentChapter.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.simpleContainer.setContentWithPaint(it, binding.editEditorMix.paint)
+            }
+        })
 
 
         viewModel.currentChapterBlock.observe(viewLifecycleOwner, Observer {

@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.editorscene
+package studio.saladjam.iwanttobenovelist.editorscene.viewmodel
 
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData

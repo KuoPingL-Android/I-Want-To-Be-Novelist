@@ -126,27 +126,6 @@ class MainViewModel: ViewModel() {
         _selectedChapterForEditing.value = null
     }
 
-
-    /** NAVIGATE to MODIFICATION PAGE (adding Images) with Chapter and Paint */
-    private val _selectedChapterForModification = MutableLiveData<Chapter>()
-    val selectedChapterForModifcation: LiveData<Chapter>
-        get() = _selectedChapterForModification
-
-    private val _modificationBasicPaint = MutableLiveData<Paint>()
-    val modificationBasicPaint: LiveData<Paint>
-        get() = _modificationBasicPaint
-
-    fun navigateToModify(chapter: Chapter, paint: Paint) {
-        _selectedChapterForModification.value = chapter
-        _modificationBasicPaint.value = paint
-    }
-
-    fun doneNavigationToModify() {
-        _modificationBasicPaint.value = null
-        _selectedChapterForModification.value = null
-    }
-
-
     /** READER NAVIGATION */
     /** NAVIGATE TO BOOK */
     private val _selectedBookToRead = MutableLiveData<Book>()

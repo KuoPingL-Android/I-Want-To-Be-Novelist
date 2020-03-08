@@ -176,16 +176,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        /** EDITOR SCENE -> EDITOR MIXER FRAGMENT */
-        viewModel.selectedChapterForModifcation.observe(this, Observer {
-            it?.let {chapter ->
-                performNavigation {
-                    nav.navigate(NavigationDirections.actionGlobalEditorMixerFragment(chapter))
-                }
-                viewModel.doneNavigationToModify()
-            }
-        })
-
         /** BOOK READING FRAGMENT */
         viewModel.selectedBookToRead.observe(this, Observer {
             it?.let {

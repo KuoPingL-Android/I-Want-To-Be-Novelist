@@ -17,6 +17,7 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.constants.IntentConstants
 import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorBinding
+import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorViewModel
 import studio.saladjam.iwanttobenovelist.extensions.getBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter

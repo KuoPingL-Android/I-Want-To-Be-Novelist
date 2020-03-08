@@ -1,19 +1,10 @@
 package studio.saladjam.iwanttobenovelist.readerscene
 
-import studio.saladjam.iwanttobenovelist.editorscene.EditorImageBlock
-
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.ContextWrapper
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import studio.saladjam.iwanttobenovelist.Logger
@@ -21,8 +12,6 @@ import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.extensions.*
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
-import java.io.*
-import java.util.*
 
 
 class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
@@ -48,9 +37,9 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
     private var words = mutableListOf<String>()
 
     fun calculateTextBlocks() {
-        val text = (chapter?.text ?: "").trimEnd()
-
-        Logger.i("TEXT : $text")
+        mCharPaints.clear()
+        words.clear()
+        val text = (mChapter?.text ?: "").trimEnd()
 
         var letterIndex = 0
 

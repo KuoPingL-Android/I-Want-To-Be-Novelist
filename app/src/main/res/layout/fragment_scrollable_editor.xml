@@ -31,16 +31,23 @@
             android:paddingTop="56dp"
             android:paddingBottom="56dp">
 
-            <studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer
-                android:id="@+id/simple_container"
+            <ScrollView
+                android:id="@+id/scrollview_editor"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="32dp"
-                android:paddingEnd="32dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:visibility="@{viewModel.isCurrentlyEditText == true ? View.GONE : View.VISIBLE}">
-            </studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer>
+                android:layout_height="match_parent">
+
+                <studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer
+                    android:id="@+id/simple_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="32dp"
+                    android:paddingEnd="32dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:visibility="@{viewModel.isCurrentlyEditText == true ? View.GONE : View.VISIBLE}">
+                </studio.saladjam.iwanttobenovelist.editorscene.EditorSimpleContainer>
+
+            </ScrollView>
 
             <EditText
                 android:id="@+id/edit_editor"
@@ -55,14 +62,6 @@
                 android:paddingBottom="20dp"
                 android:text="@={viewModel.chapter.text}"
                 android:visibility="@{viewModel.isCurrentlyEditText == true ? View.VISIBLE : View.GONE}" />
-            <!--ScrollView
-                android:id="@+id/scrollview_editor_mixer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-            </ScrollView-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

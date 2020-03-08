@@ -28,11 +28,11 @@ constructor(context: Context,
     ConstraintLayout(context, attrs, defStyle) {
 
     companion object {
-        const val MINIMUM_RATIO_TO_PARENT_WIDTH = 0.3
-        const val MINIMUM_RATIO_TO_PARENT_HEIGHT = 0.1
-        const val MAXIMUM_RATIO_TO_PARENT_HEIGHT = 0.6
-        const val DEFAULT_RATIO_TO_PARENT_WIDTH = 0.3
-        const val DEFAULT_RATIO_TO_PARENT_HEIGHT = 0.1
+        const val MINIMUM_RATIO_TO_PARENT_WIDTH     = 0.3
+        const val MINIMUM_RATIO_TO_PARENT_HEIGHT    = 0.1
+        const val MAXIMUM_RATIO_TO_PARENT_HEIGHT    = 0.6
+        const val DEFAULT_RATIO_TO_PARENT_WIDTH     = 0.3
+        const val DEFAULT_RATIO_TO_PARENT_HEIGHT    = 0.1
     }
 
     private val mainImageView: ImageView
@@ -175,12 +175,12 @@ constructor(context: Context,
         }
     }
 
-    private var originX = 0f
-    private var originY = 0f
-    private var secondOriginX = 0f
-    private var secondOriginY = 0f
-    private var lastDiffX = 0f
-    private var lastDiffY = 0f
+    private var originX         = 0f
+    private var originY         = 0f
+    private var secondOriginX   = 0f
+    private var secondOriginY   = 0f
+    private var lastDiffX       = 0f
+    private var lastDiffY       = 0f
 
     private var originUp = false
     private var secondOriginUp = false

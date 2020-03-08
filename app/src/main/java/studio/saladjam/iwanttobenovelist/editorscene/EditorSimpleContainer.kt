@@ -1,13 +1,9 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -15,12 +11,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.extensions.Frame
-import studio.saladjam.iwanttobenovelist.editorscene.utils.TouchListenerImpl
 import studio.saladjam.iwanttobenovelist.extensions.*
 import studio.saladjam.iwanttobenovelist.readerscene.ReaderImageBlock
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
-import java.io.*
 import java.util.*
 
 
@@ -53,8 +47,6 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
     fun calculateTextBlocks() {
         val text = (chapter?.text ?: "").trimEnd()
-
-        Logger.i("TEXT : $text")
 
         var letterIndex = 0
 

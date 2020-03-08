@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.editorscene
+package studio.saladjam.iwanttobenovelist.editorscene.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +12,9 @@ import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
-class EditorMixerV1ViewModel(val repository: Repository): ViewModel() {
+class EditorTextViewModel(private val repository: Repository) : ViewModel() {
 
+    /** COROUTINESCOPE */
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
@@ -30,6 +31,19 @@ class EditorMixerV1ViewModel(val repository: Repository): ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String>
         get() = _error
+
+    fun doneDisplayingError() {
+        _error.value = null
+    }
+
+    /** PREPARE CHAPTER for MODIFICATION */
+    private val _chapter = MutableLiveData<Chapter>()
+    val chapter: LiveData<Chapter>
+        get() = _chapter
+
+    fun prepareChapter(chapter: Chapter) {
+        _chapter.value = chapter
+    }
 
     /** SAVING CHAPTER */
     private val _isSavingText = MutableLiveData<Boolean>()
@@ -75,16 +89,19 @@ class EditorMixerV1ViewModel(val repository: Repository): ViewModel() {
         }
     }
 
+    /** NAVIGATE to MODIFICATION PAGE */
+    private val _shouldNavigateToModificationPage = MutableLiveData<Boolean>()
+    val shouldNavigateToModificationPage: LiveData<Boolean>
+        get() = _shouldNavigateToModificationPage
 
-    private val _chapter = MutableLiveData<Chapter>()
-    val chapter: LiveData<Chapter>
-        get() = _chapter
-
-    fun setChapter(chapter: Chapter) {
-        _chapter.value = chapter
-
-
+    fun navigateToModificationPage() {
+        _shouldNavigateToModificationPage.value = true
     }
+
+    fun doneNavigateToModificationPage() {
+        _shouldNavigateToModificationPage.value = null
+    }
+
 
     /** NAVIGATE back to PREVIOUS PAGE */
     private val _shouldGoBackToPreviousPage = MutableLiveData<Boolean>()
