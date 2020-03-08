@@ -18,8 +18,6 @@ data class Book(
     var summary: String = "<尚未提供書籍簡介>",
     var latestChapterID: String = "",
     val chapterCount: Int = 0,
-    val comments: List<Comment> = listOf(),
-    val followers: List<Follower> = listOf(),
     val popularity: Long = 0L,
     val totalRecommendation: Long = 0L,
     val recommendationRecords: List<RecommendationRecord>? = null,
@@ -32,17 +30,17 @@ data class Book(
 ): Parcelable {
     companion object {
         enum class BookKeys(val string: String) {
-            ID("bookID"),
-            TITLE("title"),
-            AUTHORID("authorID"),
-            CREATEDTIME("createdTime"),
-            LASTUPDATEDTIME("lastUpdatedTime"),
-            LANGUAGE("language"),
-            POPULARITY("popularity"),
-            CHAPTERCOUNT("chapterCount"),
-            LATESTCHAPTERID("latestChapterID"),
-            ISCOMPLETED("isCompleted"),
-            CATEGORY("category")
+            ID              ("bookID"),
+            TITLE           ("title"),
+            AUTHORID        ("authorID"),
+            LANGUAGE        ("language"),
+            CATEGORY        ("category"),
+            POPULARITY      ("popularity"),
+            CREATEDTIME     ("createdTime"),
+            ISCOMPLETED     ("isCompleted"),
+            CHAPTERCOUNT    ("chapterCount"),
+            LATESTCHAPTERID ("latestChapterID"),
+            LASTUPDATEDTIME ("lastUpdatedTime")
         }
     }
 }
@@ -75,15 +73,15 @@ data class Chapter(
 ): Parcelable {
     companion object {
         enum class ChapterKeys(val string: String) {
-            BOOKID("bookID"),
-            INDEX("chapterIndex"),
-            TITLE("title"),
-            SUBTITLE("subtitle"),
-            POPULARITY("popularity"),
-            CHAPTERID("chapterID"),
-            ISOPENTOPUBLIC("isOpenToPublic"),
-            UPDATEDTIME("updatedTime"),
-            TEXT("text")
+            TEXT            ("text"),
+            TITLE           ("title"),
+            INDEX           ("chapterIndex"),
+            BOOKID          ("bookID"),
+            SUBTITLE        ("subtitle"),
+            CHAPTERID       ("chapterID"),
+            POPULARITY      ("popularity"),
+            UPDATEDTIME     ("updatedTime"),
+            ISOPENTOPUBLIC  ("isOpenToPublic")
         }
     }
 }

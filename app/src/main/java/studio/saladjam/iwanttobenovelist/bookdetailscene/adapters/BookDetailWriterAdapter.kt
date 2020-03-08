@@ -9,10 +9,9 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
-import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeWorkInProgressItemViewHolder
 import java.lang.IllegalArgumentException
 
-class BookDetailWriterAdpater(private val viewModel: BookDetailViewModel, private val chapterViewModel: ChapterDetailViewModel):
+class BookDetailWriterAdapter(private val viewModel: BookDetailViewModel, private val chapterViewModel: ChapterDetailViewModel):
     ListAdapter<BookDetailSealedItem, RecyclerView.ViewHolder>
     (CallbackFactory().create(BookDetailSealedItem::class.java)) {
 

@@ -14,16 +14,19 @@ import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class BookDetailManageViewModel(private val repository: Repository) : ViewModel() {
+
+    private val mWordCountLimit = 100
+
     /** NETWORK */
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
     /** STATUS */
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -31,8 +34,8 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
         get() = _error
 
     /** DIALOG INFO */
-    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
-    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+    private val _dialogInfo = MutableLiveData<Pair<String, ApiLoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, ApiLoadingStatus>>
         get() = _dialogInfo
 
     fun doneDisplayingDialogInfo() {
@@ -41,7 +44,7 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
 
     /** TAGET TEXT COUNT */
     val charLimits = MutableLiveData<Int>().apply {
-        value = 100
+        value = mWordCountLimit
     }
 
     /** BOOK INFO */
@@ -64,7 +67,7 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
 
         book.value?.let {book ->
 
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
             _error.value = null
             _dialogInfo.value = Pair("", _status.value!!)
 
@@ -72,19 +75,19 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
                 when(val result = repository.getChaptersIn(book)) {
                     is Result.Success -> {
                         _chapters.value = result.data
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         _error.value = null
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
 
                     is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.error
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
 
                     is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.exception.localizedMessage
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
@@ -137,7 +140,7 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
 
         book.value?.let {book ->
 
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
             _dialogInfo.value = Pair("", _status.value!!)
             _error.value = null
             isSaving = true
@@ -145,19 +148,19 @@ class BookDetailManageViewModel(private val repository: Repository) : ViewModel(
             coroutineScope.launch {
                 when(val result = repository.updateBook(book)) {
                     is Result.Success -> {
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         _error.value = null
                         _dialogInfo.value = Pair(IWBNApplication.context.getString(R.string.editor_save), _status.value!!)
                     }
 
                     is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.error
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
 
                     is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.exception.localizedMessage
                         _dialogInfo.value = Pair("", _status.value!!)
                     }

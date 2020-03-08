@@ -16,7 +16,6 @@ class BookDetailWriterHeaderViewHolder (val binding: ItemBookWriterDetailHeaderB
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle {
-        Log.i("LIFECYCLE", "${lifecycleRegistry.currentState}")
         return lifecycleRegistry
     }
 
@@ -25,12 +24,10 @@ class BookDetailWriterHeaderViewHolder (val binding: ItemBookWriterDetailHeaderB
     }
 
     fun onAttached() {
-        Log.i("FORMVIEWHOLDER", "onATTACHED")
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
     }
 
     fun onDetached() {
-        Log.i("FORMVIEWHOLDER", "onCREATED")
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
     }
 

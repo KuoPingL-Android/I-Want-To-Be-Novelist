@@ -11,7 +11,7 @@ import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.UserManager
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class LaunchViewModel(private val repository: Repository) : ViewModel() {
 
@@ -23,8 +23,8 @@ class LaunchViewModel(private val repository: Repository) : ViewModel() {
     val shouldNavigateToLogin: LiveData<Boolean>
         get() = _shouldNavigateToLogin
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val job = Job()
@@ -36,16 +36,16 @@ class LaunchViewModel(private val repository: Repository) : ViewModel() {
         if (userID == null) {
             _shouldNavigateToLogin.value = true
         } else {
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
             coroutineScope.launch {
                 when (val result = repository.getUser(userID)) {
                     is Result.Success -> {
                         IWBNApplication.user = result.data
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         _shouldNavigateToHome.value = true
                     }
                     else -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _shouldNavigateToLogin.value = true
                     }
                 }

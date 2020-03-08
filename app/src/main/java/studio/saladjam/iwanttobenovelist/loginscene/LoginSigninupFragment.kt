@@ -2,6 +2,7 @@ package studio.saladjam.iwanttobenovelist.loginscene
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +18,22 @@ import com.google.android.gms.tasks.Task
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentLoginSigninupBinding
+import studio.saladjam.iwanttobenovelist.extensions.getStringArray
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 
 
 private const val RC_SIGN_IN = 1
 
 class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandler) : LoginBaseSubFragment(completeHandler) {
+
+    companion object {
+        private val NAME_REQUEST_DIALOG_TAG = "selectname"
+
+    }
+
     private lateinit var binding: FragmentLoginSigninupBinding
     private val viewModel by viewModels<LoginSigninupViewModel> { getVMFactory() }
 
@@ -52,7 +62,9 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
         viewModel.loginWithFacebook.observe(this, Observer{
             it?.let{
                 // Login with Facebook
-                LoginManager.getInstance().logIn(this, listOf("email"))
+                LoginManager.getInstance()
+                    .logIn(this,
+                        IWBNApplication.instance.getStringArray(R.array.fb_requests))
                 viewModel.doneLoggingInWithFacebook()
             }
         })
@@ -62,7 +74,8 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
 
                 // Build a GoogleSignInClient with the options specified by gso.
                 context?.let {context ->
-                    viewModel.mGoogleSignInClient = GoogleSignIn.getClient(context, IWBNApplication.container.googleSigninOptions)
+                    viewModel.mGoogleSignInClient = GoogleSignIn
+                        .getClient(context, IWBNApplication.container.googleSigninOptions)
                     val intent = viewModel.mGoogleSignInClient?.signInIntent
                     startActivityForResult(intent!!, RC_SIGN_IN)
                 }
@@ -90,11 +103,11 @@ class LoginSigninupFragment(private val completeHandler: LoginPagesCompleteHandl
             it?.let{
                 LoginSelectNameDialog{wrappedName ->
                     wrappedName?.let {name ->
-                        android.os.Handler().postDelayed({
+                        Handler().postDelayed({
                             viewModel.updateUserName(name)
-                        }, 1000)
+                        }, TimeConstants.TIME_1000_ms)
                     }
-                }.show(fragmentManager!!, "selectname")
+                }.show(fragmentManager!!, NAME_REQUEST_DIALOG_TAG)
                 viewModel.doneAskingForName()
             }
         })

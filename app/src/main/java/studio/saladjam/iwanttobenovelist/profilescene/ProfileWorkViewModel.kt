@@ -1,6 +1,5 @@
 package studio.saladjam.iwanttobenovelist.profilescene
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,19 +8,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
-import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.ErrorMessages
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
 
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -39,7 +38,7 @@ class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
         get() = _writtenBooks
 
     fun fetchUserWork() {
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         if(IWBNApplication.isNetworkConnected) {
             coroutineScope.launch {
@@ -48,31 +47,31 @@ class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
 
                 _writtenBooks.value = when (result) {
                     is Result.Success -> {
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         result.data
                     }
 
                     is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.exception.localizedMessage
                         null
                     }
 
                     is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.error
                         null
                     }
                     else -> {
-                        _status.value = APILoadingStatus.ERROR
-                        _error.value = "Unknown Error"
+                        _status.value = ApiLoadingStatus.ERROR
+                        _error.value = ErrorMessages.UNKNOWN
                         null
                     }
                 }
             }
         } else {
-            _status.value = APILoadingStatus.ERROR
-            _error.value = "NO INTERNET"
+            _status.value = ApiLoadingStatus.ERROR
+            _error.value = ErrorMessages.NO_NETWORK
         }
     }
 
@@ -103,15 +102,9 @@ class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
 
     /** NOTIFICATION after BOOK is CREATED */
     private val _finishCreatingBook = MutableLiveData<Boolean>()
-    val finishCreatingBook: LiveData<Boolean>
-        get() = _finishCreatingBook
 
     fun notifyBookCreated(book: Book) {
         _finishCreatingBook.value = true
         _selectBookToDisplayDetail.value = book
-    }
-
-    fun doneReceivingBookCreated() {
-        _finishCreatingBook.value = null
     }
 }

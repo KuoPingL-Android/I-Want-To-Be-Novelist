@@ -13,7 +13,7 @@ import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 import java.lang.NumberFormatException
 
 class BookDetailViewModel (private val repository: Repository): ViewModel() {
@@ -29,8 +29,8 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         job.cancel()
     }
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -38,8 +38,8 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         get() = _error
 
     /** DIALOG */
-    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
-    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+    private val _dialogInfo = MutableLiveData<Pair<String, ApiLoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, ApiLoadingStatus>>
         get() = _dialogInfo
 
     fun doneDisplayingDialog() {
@@ -60,12 +60,12 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
     private fun fetchChapters() {
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         if (book == null) {
             _error.value = null
             _chapters.value = null
-            _status.value = APILoadingStatus.DONE
+            _status.value = ApiLoadingStatus.DONE
             return
         }
 
@@ -73,19 +73,19 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
             when(val result = repository.getChaptersIn(book!!)) {
                 is Result.Success -> {
-                    _status.value = APILoadingStatus.DONE
+                    _status.value = ApiLoadingStatus.DONE
                     _error.value = null
                     _chapters.value = result.data
                 }
 
                 is Result.Fail -> {
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _error.value = result.error
                     _chapters.value = null
                 }
 
                 is Result.Error -> {
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _error.value = result.exception.localizedMessage
                     _chapters.value = null
                 }
@@ -110,7 +110,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
             _shouldAddChapter.value = null
             _isReadyToAddChapter = true
         } else {
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
             _dialogInfo.value = Pair("", _status.value!!)
             coroutineScope.launch {
                 _isReadyToAddChapter = true
@@ -118,21 +118,21 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                     is Result.Success -> {
                         book = result.data
                         _shouldAddChapter.value = true
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         _error.value = null
                         _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_done), _status.value!!)
                     }
 
                     is Result.Fail -> {
                         _shouldAddChapter.value = null
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.error
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
 
                     is Result.Error -> {
                         _shouldAddChapter.value = null
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.exception.localizedMessage
                         _dialogInfo.value = Pair("", _status.value!!)
                     }
@@ -175,25 +175,25 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     private fun checkIfBookIsFollowed() {
 
         book?.let {book ->
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
 
             coroutineScope.launch {
 
                 when(val result = repository.getFollowersForBook(book)) {
                     is Result.Success -> {
-                        _status.value = APILoadingStatus.DONE
+                        _status.value = ApiLoadingStatus.DONE
                         _error.value = null
                         totalFollowers.value = result.data.size.toLong()
                         _isFollowing.value = result.data.contains(IWBNApplication.user.userID)
                     }
 
                     is Result.Fail -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.error
                     }
 
                     is Result.Error -> {
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                         _error.value = result.exception.localizedMessage
                     }
                 }
@@ -207,7 +207,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                 coroutineScope.launch {
                     when(val result = repository.postUnfollowBook(book)) {
                         is Result.Success -> {
-                            _status.value = APILoadingStatus.DONE
+                            _status.value = ApiLoadingStatus.DONE
                             _error.value = null
 
                             if (_isFollowing.value != result.data) {
@@ -217,12 +217,12 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                         }
 
                         is Result.Fail -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = result.error
                         }
 
                         is Result.Error -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = result.exception.localizedMessage
                         }
                     }
@@ -231,7 +231,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                 coroutineScope.launch {
                     when(val result = repository.postFollowBook(book)) {
                         is Result.Success -> {
-                            _status.value = APILoadingStatus.DONE
+                            _status.value = ApiLoadingStatus.DONE
                             _error.value = null
                             if (_isFollowing.value != result.data) {
                                 totalFollowers.value = totalFollowers.value?.plus(1)
@@ -240,12 +240,12 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
                         }
 
                         is Result.Fail -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = result.error
                         }
 
                         is Result.Error -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = result.exception.localizedMessage
                         }
                     }

@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Categories(
     val genres: List<Genre> = listOf()
 ): Parcelable {
-    fun getListFor(language: String = "zh"): List<String> {
+    fun getDisplayNames(language: String = "zh"): List<String> {
         return genres.map { it.zh }
     }
 

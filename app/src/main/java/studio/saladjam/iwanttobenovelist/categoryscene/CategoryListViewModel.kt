@@ -11,7 +11,7 @@ import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class CategoryListViewModel (private val repository: Repository): ViewModel() {
     /** BOOKS */
@@ -20,8 +20,8 @@ class CategoryListViewModel (private val repository: Repository): ViewModel() {
         get() = _books
 
     /** REPOSITORY */
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val job = Job()

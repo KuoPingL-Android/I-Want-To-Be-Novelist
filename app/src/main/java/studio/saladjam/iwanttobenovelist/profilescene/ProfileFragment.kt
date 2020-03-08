@@ -7,10 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_LABELED
 import com.google.android.material.tabs.TabLayout.TAB_LABEL_VISIBILITY_UNLABELED
@@ -19,9 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
-import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.bind
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentProfileBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileFragmentStateAdapter
@@ -32,8 +27,6 @@ class ProfileFragment : Fragment() {
     private val viewModel by viewModels<ProfileViewModel> { getVMFactory() }
 
     private var initialTabNumber = -1
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +40,11 @@ class ProfileFragment : Fragment() {
 
         binding.viewpagerProfile.adapter = ProfileFragmentStateAdapter(this, viewModel)
 
-        val fragments = listOf(ProfileBookReadingFragment(viewModel), ProfileWorkFragment(viewModel))
+        val fragments =
+            listOf(
+                ProfileBookReadingFragment(viewModel),
+                ProfileWorkFragment(viewModel))
+
         (binding.viewpagerProfile.adapter as? ProfileFragmentStateAdapter)?.setFragments(fragments)
 
         setupTabLayout()
@@ -64,18 +61,19 @@ class ProfileFragment : Fragment() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.icon?.setTint(Color.parseColor("#ee888888"))
+                tab?.icon?.setTint(IWBNApplication.instance.getColor(R.color.tab_unselected))
                 tab?.tabLabelVisibility = (TAB_LABEL_VISIBILITY_LABELED)
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.icon?.setTint(Color.parseColor("#000000"))
+                tab?.icon?.setTint(IWBNApplication.instance.getColor(R.color.tab_selected))
                 tab?.tabLabelVisibility = (TAB_LABEL_VISIBILITY_UNLABELED)
             }
 
         })
 
-        binding.tablayoutProfile.setSelectedTabIndicatorColor(resources.getColor(android.R.color.black))
+        binding.tablayoutProfile
+            .setSelectedTabIndicatorColor(IWBNApplication.instance.getColor(R.color.tab_indicator))
 
         binding.tablayoutProfile.isTabIndicatorFullWidth = false
     }
@@ -87,19 +85,19 @@ class ProfileFragment : Fragment() {
             when(position) {
                 0 -> {
                     tab.icon = (IWBNApplication.context.getDrawable(R.drawable.bookmark_icon))
-                    tab.icon?.setTint(Color.parseColor("#000000"))
-                    tab.text = "追蹤書籍"
+                    tab.icon?.setTint(IWBNApplication.instance.getColor(R.color.tab_selected))
+                    tab.text = IWBNApplication.instance.getString(R.string.tab_following)
                 }
 
                 1 ->  {
                     tab.icon = (IWBNApplication.context.getDrawable(R.drawable.pen_icon))
-                    tab.icon?.setTint(Color.parseColor("#ee888888"))
-                    tab.text = "個人作品"
+                    tab.icon?.setTint(IWBNApplication.instance.getColor(R.color.tab_unselected))
+                    tab.text = IWBNApplication.instance.getString(R.string.tab_my_work)
                 }
             }
         }.attach()
 
-        val tag = requireArguments().get("tab") as Int
+        val tag = requireArguments().get(NavArgKeys.TAB_INDEX) as Int
 
         if (initialTabNumber != tag) {
             initialTabNumber = tag

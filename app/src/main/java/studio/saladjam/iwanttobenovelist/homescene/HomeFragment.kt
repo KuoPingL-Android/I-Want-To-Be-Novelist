@@ -10,18 +10,33 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.FragmentHomeV1Binding
+import studio.saladjam.iwanttobenovelist.extensions.getPixelSize
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
-import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdpaterV1
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeRecyclerAdapterV1
 
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeV1Binding
-    private val viewModel by viewModels<HomeViewModel> { getVMFactory() }
-    private val workInProgressViewModel by viewModels<HomeWorkInProgressViewModel> { getVMFactory() }
-    private var mainViewModel: MainViewModel? = null
 
+    companion object {
+        private val ITEM_DECORATOR_SMALL_MARGIN =
+            IWBNApplication.instance.getPixelSize(R.dimen.item_decorator_small_margin)
+        private val ITEM_DECORATOR_NORMAL_MARGIN =
+            IWBNApplication.instance.getPixelSize(R.dimen.item_decorator_normal_margin)
+    }
+
+    private val workInProgressViewModel
+            by viewModels<HomeWorkInProgressViewModel>
+            { getVMFactory() }
+    private val viewModel
+            by viewModels<HomeViewModel>
+            { getVMFactory() }
+
+    private lateinit var binding: FragmentHomeV1Binding
+    private var mainViewModel: MainViewModel? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,9 +45,35 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeV1Binding.inflate(inflater)
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.recyclerHomeMain.adapter = HomeRecyclerAdapterV1(viewModel, workInProgressViewModel)
+        binding.recyclerHomeMain.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+
+                outRect.top = ITEM_DECORATOR_SMALL_MARGIN
+                outRect.bottom = ITEM_DECORATOR_SMALL_MARGIN
+
+                when(parent.getChildLayoutPosition(view)) {
+                    0 ->
+                        outRect.top = ITEM_DECORATOR_NORMAL_MARGIN
+                    (parent.adapter?.itemCount ?: 1) - 1 ->
+                        outRect.bottom = ITEM_DECORATOR_NORMAL_MARGIN
+                }
+            }
+        })
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
+        prepareViewModel()
+        return binding.root
+    }
+
+    private fun prepareViewModel() {
 
         viewModel.areDataRead.observe(viewLifecycleOwner, Observer {
             it?.let {isReady ->
@@ -42,27 +83,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.recyclerHomeMain.adapter = HomeRecyclerAdpaterV1(viewModel, workInProgressViewModel)
-
-        binding.recyclerHomeMain.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-
-                val space = (parent.height * 0.1).toInt()
-
-                outRect.top = 5.toPx()
-                outRect.bottom = 5.toPx()
-
-                when(parent.getChildLayoutPosition(view)) {
-                    0 -> outRect.top = 10.toPx()
-                    (parent.adapter?.itemCount ?: 1) - 1 -> outRect.bottom = 10.toPx()
-                }
-            }
-        })
 
         viewModel.shouldNavigateToMyWork.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -106,9 +126,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.viewModel = viewModel
-
         viewModel.fetchDatas()
-        return binding.root
     }
 }

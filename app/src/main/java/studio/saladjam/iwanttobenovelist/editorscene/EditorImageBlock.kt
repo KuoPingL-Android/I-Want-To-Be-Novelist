@@ -27,12 +27,21 @@ constructor(context: Context,
             defStyle: Int = 0) :
     ConstraintLayout(context, attrs, defStyle) {
 
+    companion object {
+        const val MINIMUM_RATIO_TO_PARENT_WIDTH = 0.3
+        const val MINIMUM_RATIO_TO_PARENT_HEIGHT = 0.1
+        const val MAXIMUM_RATIO_TO_PARENT_HEIGHT = 0.6
+        const val DEFAULT_RATIO_TO_PARENT_WIDTH = 0.3
+        const val DEFAULT_RATIO_TO_PARENT_HEIGHT = 0.1
+    }
+
     private val mainImageView: ImageView
     private val deleteImageView: ImageView
     private val expandImageView: ImageView
     private var deletionEnabled = false
 
     private var isEditing = false
+
 
     fun getImage(): Bitmap {
         val bitmapDrawable = (mainImageView.drawable as BitmapDrawable)
@@ -226,7 +235,8 @@ constructor(context: Context,
                     val params = mainImageView.layoutParams
 
 
-                    if (newWidth > parentWidth * 0.3 && newHeight > parentHeight * 0.1) {
+                    if (newWidth > parentWidth * MINIMUM_RATIO_TO_PARENT_WIDTH &&
+                        newHeight > parentHeight * MINIMUM_RATIO_TO_PARENT_HEIGHT) {
 
 
 
@@ -235,8 +245,8 @@ constructor(context: Context,
                             newHeight = (newWidth.toFloat() / wToHRatio).toInt()
                         }
 
-                        if (newHeight > parentHeight * 0.6) {
-                            newHeight = (parentHeight * 0.6).toInt()
+                        if (newHeight > parentHeight * MAXIMUM_RATIO_TO_PARENT_HEIGHT) {
+                            newHeight = (parentHeight * MAXIMUM_RATIO_TO_PARENT_HEIGHT).toInt()
                             newWidth = (newHeight / wToHRatio).toInt()
                         }
 
@@ -253,11 +263,13 @@ constructor(context: Context,
                         lastDiffY = diffY
                     } else {
                         if (wToHRatio > 1) {
-                            newWidth = (parentWidth * 0.3).toInt()
+                            newWidth = (parentWidth * DEFAULT_RATIO_TO_PARENT_WIDTH).toInt()
                             newHeight = (newWidth / wToHRatio).toInt()
+                            //FIXME: place the newWidth and newHeight to PARAMS
                         } else {
-                            newHeight = (parentHeight * 0.1).toInt()
+                            newHeight = (parentHeight * DEFAULT_RATIO_TO_PARENT_HEIGHT).toInt()
                             newWidth = (newHeight * wToHRatio).toInt()
+                            //FIXME: place the newWidth and newHeight to PARAMS
                         }
                         mainImageView.layoutParams = params
                         lastDiffX = diffX

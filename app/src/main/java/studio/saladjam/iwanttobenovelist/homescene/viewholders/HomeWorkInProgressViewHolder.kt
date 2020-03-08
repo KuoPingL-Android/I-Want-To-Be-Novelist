@@ -1,32 +1,49 @@
-package studio.saladjam.iwanttobenovelist.homescene.adapters
+package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
+import studio.saladjam.iwanttobenovelist.extensions.getScale
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeWorkInProgressItemAdapter
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 
 class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                                    private val workInProgressViewModel: HomeWorkInProgressViewModel) :
     RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        private val ITEM_DECORATOR_NORMAL_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+        private val ITEM_DECORATOR_ENDS_MARGIN
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
+
+    }
+
+
     fun bind(sealItem: HomeSealItems.WorkInProgress, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
-            textItemHomeV1Title.setTextColor(Color.parseColor("#000000"))
-            textItemHomeV1Seeall.setTextColor(Color.parseColor("#000000"))
 
             /** SET ADAPTERs for RECYCLERVIEW */
-            recyclerItemHomeV1.adapter = HomeWorkInProgressItemAdapter(viewModel, section, workInProgressViewModel)
+            recyclerItemHomeV1.adapter =
+                HomeWorkInProgressItemAdapter(
+                    viewModel,
+                    section,
+                    workInProgressViewModel
+                )
             (recyclerItemHomeV1.adapter as HomeWorkInProgressItemAdapter).submitList(sealItem.books)
 
             recyclerItemHomeV1.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -36,14 +53,21 @@ class HomeWorkInProgressViewHolder(private val binding: ItemHomeV1Binding,
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    outRect.right = 10.toPx()
-                    outRect.left = 10.toPx()
+                    outRect.right = ITEM_DECORATOR_NORMAL_MARGIN
+                    outRect.left = ITEM_DECORATOR_NORMAL_MARGIN
+
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
-                            outRect.left = 20.toPx()
+                            outRect.left = ITEM_DECORATOR_ENDS_MARGIN
                         }
                         (parent.adapter?.itemCount ?: 1) - 1 -> {
-                            outRect.right = 30.toPx()
+                            val scale = IWBNApplication.instance
+                                .getScale(R.string.home_card_w_to_h_ratio)
+                            val itemWidth = parent.height * scale
+
+                            outRect.right =
+                                (parent.width - ITEM_DECORATOR_NORMAL_MARGIN * 2
+                                        + ITEM_DECORATOR_ENDS_MARGIN - itemWidth).toInt()
                         }
                     }
                 }

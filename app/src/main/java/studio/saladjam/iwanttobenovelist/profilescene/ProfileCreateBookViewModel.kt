@@ -9,10 +9,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class ProfileCreateBookViewModel (private val repository: Repository): ViewModel() {
 
@@ -20,8 +22,8 @@ class ProfileCreateBookViewModel (private val repository: Repository): ViewModel
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     fun donePerformingStatu() {
@@ -91,7 +93,7 @@ class ProfileCreateBookViewModel (private val repository: Repository): ViewModel
 
     private fun checkIfDataIsReady() {
         if(selectedImage.value == null || title.value == null || title.value?.isEmpty() == true) {
-            _error.value = "MISSING DATA"
+            _error.value = IWBNApplication.instance.getString(R.string.error_missing_data)
             isDataPrepared.value = false
             return
         }
@@ -104,26 +106,27 @@ class ProfileCreateBookViewModel (private val repository: Repository): ViewModel
         get() = _createdBook
 
     fun createBook() {
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
         coroutineScope.launch {
-            val result = repository.createBook(title.value!!, _selectedImage.value!!)
-            when(result) {
+
+            when(val result = repository
+                .createBook(title.value!!, _selectedImage.value!!)) {
                 is Result.Success -> {
                     _error.value = null
                     _createdBook.value = result.data
-                    _status.value = APILoadingStatus.DONE
+                    _status.value = ApiLoadingStatus.DONE
                 }
 
                 is Result.Fail -> {
                     _createdBook.value = null
                     _error.value = result.error
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                 }
 
                 is Result.Error -> {
                     _createdBook.value = null
                     _error.value = result.exception.message
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                 }
             }
         }

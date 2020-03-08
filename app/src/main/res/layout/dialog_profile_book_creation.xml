@@ -11,7 +11,7 @@
             name="book"
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book" />
         <import type="android.view.View"/>
-        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus"/>
+        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,7 +115,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.status == ApiLoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
             style="@style/LoadingIndicatorParent">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -134,7 +134,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.status == ApiLoadingStatus.LOADING ? View.VISIBLE : View.GONE}"
                     android:indeterminate="true"
                     android:indeterminateTint="@color/iwbn_primary_color"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

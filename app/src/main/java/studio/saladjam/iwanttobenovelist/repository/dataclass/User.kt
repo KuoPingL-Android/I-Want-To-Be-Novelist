@@ -33,11 +33,11 @@ data class User(
 ): Parcelable {
     companion object {
         enum class UserKeys(val key: String) {
-            USERID("userID"),
-            NAME("name"),
-            EMAIL("email"),
-            ROLE("role"),
-            TOKEN("token")
+            NAME    ("name"),
+            ROLE    ("role"),
+            EMAIL   ("email"),
+            TOKEN   ("token"),
+            USERID  ("userID"),
         }
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <fraction name="home_recommend_item_cover_height_to_item_height">0.85</fraction>
+    <fraction name="home_recommend_item_scale">0.32</fraction>
+    <fraction name="book_cover_w_to_h_ratio">0.6666666666</fraction>
+</resources>

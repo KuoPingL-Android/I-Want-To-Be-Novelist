@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.homescene.adapters
+package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1GeneralBinding

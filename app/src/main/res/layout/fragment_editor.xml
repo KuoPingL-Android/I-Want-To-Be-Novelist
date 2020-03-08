@@ -8,7 +8,7 @@
             name="viewModel"
             type="studio.saladjam.iwanttobenovelist.editorscene.EditorViewModel" />
         <import type="android.view.View"/>
-        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus"/>
+        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,13 +117,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="@color/editor_btn_remove_image"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:text="@string/btn_delete_image"
+                android:text="@string/editor_btn_remove_image"
                 android:clickable="true"
                 android:visibility="@{viewModel.isCurrentlyEditText == true ? View.GONE : View.VISIBLE}"
                 android:onClick="@{()->viewModel.triggerImageDeletion()}"/>

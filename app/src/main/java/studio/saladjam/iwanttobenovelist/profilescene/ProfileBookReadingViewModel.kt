@@ -9,17 +9,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.IWBNApplication.Companion.user
+import studio.saladjam.iwanttobenovelist.repository.NetworkMessages
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class ProfileBookReadingViewModel (private val repository: Repository): ViewModel() {
     private val job = Job()
     private val coroutineScope = CoroutineScope(job + Dispatchers.Main)
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -32,7 +33,7 @@ class ProfileBookReadingViewModel (private val repository: Repository): ViewMode
         get() = _books
 
     fun fetchBookList() {
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         if(IWBNApplication.isNetworkConnected) {
 
@@ -42,24 +43,24 @@ class ProfileBookReadingViewModel (private val repository: Repository): ViewMode
 
                     _books.value = when (result) {
                         is Result.Success -> {
-                            _status.value = APILoadingStatus.DONE
+                            _status.value = ApiLoadingStatus.DONE
                             _error.value = null
                             result.data
                         }
 
                         is Result.Error -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = result.exception.localizedMessage
                             null
                         }
 
                         is Result.Fail -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = result.error
                             null
                         }
                         else -> {
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                             _error.value = null
                             null
                         }
@@ -67,8 +68,8 @@ class ProfileBookReadingViewModel (private val repository: Repository): ViewMode
                 }
             }
         } else {
-            _status.value = APILoadingStatus.ERROR
-            _error.value = "NO INTERNET"
+            _status.value = ApiLoadingStatus.ERROR
+            _error.value = NetworkMessages.NO_INTERNET
         }
     }
 

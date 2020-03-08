@@ -1,16 +1,10 @@
 package studio.saladjam.iwanttobenovelist.editorscene
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,12 +13,11 @@ import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.bind
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentEditorTextBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class EditorTextFragment : Fragment() {
     private lateinit var binding: FragmentEditorTextBinding
@@ -40,7 +33,7 @@ class EditorTextFragment : Fragment() {
         binding = FragmentEditorTextBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        chapter = requireArguments().get("chapter") as? Chapter
+        chapter = requireArguments().get(NavArgKeys.CHAPTER) as? Chapter
         chapter?.let {
             viewModel.prepareChapter(it)
         }
@@ -63,7 +56,7 @@ class EditorTextFragment : Fragment() {
 
         viewModel.error.observe(this, Observer {
             it?.let {message ->
-                if (message.isNotEmpty() && viewModel.status.value == APILoadingStatus.ERROR) {
+                if (message.isNotEmpty() && viewModel.status.value == ApiLoadingStatus.ERROR) {
                     Toast.makeText(context!!, message, Toast.LENGTH_LONG).show()
                 }
                 viewModel.doneDisplayingError()

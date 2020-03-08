@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,7 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.DialogProfileBookCreationBinding
 import studio.saladjam.iwanttobenovelist.extensions.getBitmap
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -141,7 +140,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (it == APILoadingStatus.DONE) {
+                if (it == ApiLoadingStatus.DONE) {
                     //TODO: DISPLAY LOGIN SUCCESS
                     viewModel.donePerformingStatu()
                 }
@@ -299,7 +298,6 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_cover_", /* prefix */

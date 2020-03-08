@@ -7,6 +7,7 @@ import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1CurrentReadingBin
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
+import studio.saladjam.iwanttobenovelist.homescene.viewholders.HomeCurrentReadItemViewHolder
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 
 class HomeCurrentReadItemAdapter(val viewModel: HomeViewModel, val section: HomeSections) :
@@ -15,7 +16,8 @@ class HomeCurrentReadItemAdapter(val viewModel: HomeViewModel, val section: Home
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeCurrentReadItemViewHolder {
         return HomeCurrentReadItemViewHolder(
             ItemHomeV1CurrentReadingBinding
-                .inflate(LayoutInflater.from(parent.context), parent, false))
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: HomeCurrentReadItemViewHolder, position: Int) {

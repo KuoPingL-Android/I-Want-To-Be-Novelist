@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class MainViewModel: ViewModel() {
 
@@ -189,11 +189,11 @@ class MainViewModel: ViewModel() {
     }
 
     /** DISPLAY MESSAGE DIALOG */
-    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
-    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+    private val _dialogInfo = MutableLiveData<Pair<String, ApiLoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, ApiLoadingStatus>>
         get() = _dialogInfo
 
-    fun displayLoadingDialog(message: String, status: APILoadingStatus) {
+    fun displayLoadingDialog(message: String, status: ApiLoadingStatus) {
         _dialogInfo.value = Pair(message, status)
     }
 

@@ -1,15 +1,14 @@
-package studio.saladjam.iwanttobenovelist.homescene.adapters
+package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
+import studio.saladjam.iwanttobenovelist.homescene.adapters.HomeGeneralItemAdapter
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 
 /** THIS IS THE VIEWHOLDER for HOME MAIN RECYCLER VIEW ITEMS INCLUDING
@@ -17,11 +16,14 @@ import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
  * */
 
 class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewHolder(binding.root) {
+
+    
+
     fun bind(sealItem: HomeSealItems.General, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
 
@@ -57,7 +59,11 @@ class HomeGeneralViewHolder(val binding: ItemHomeV1Binding) : RecyclerView.ViewH
 //            }
 
 
-            recyclerItemHomeV1.adapter = HomeGeneralItemAdapter(viewModel, section)
+            recyclerItemHomeV1.adapter =
+                HomeGeneralItemAdapter(
+                    viewModel,
+                    section
+                )
             (recyclerItemHomeV1.adapter as HomeGeneralItemAdapter).submitList(sealItem.books)
 
             recyclerItemHomeV1.addItemDecoration(object : RecyclerView.ItemDecoration() {

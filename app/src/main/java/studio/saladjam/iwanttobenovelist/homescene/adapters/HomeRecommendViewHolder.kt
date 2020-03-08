@@ -1,25 +1,47 @@
 package studio.saladjam.iwanttobenovelist.homescene.adapters
 
-import android.graphics.Color
 import android.graphics.Rect
 import android.util.Log
 import android.view.View
-import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendlistBinding
+import studio.saladjam.iwanttobenovelist.extensions.getFloat
 import studio.saladjam.iwanttobenovelist.extensions.setTouchDelegate
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.sealitems.HomeSealItems
 import kotlin.math.absoluteValue
 
 class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        private val RECYCLER_ITEM_START_PADDING
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_LARGE
+
+        private val RECYCLER_ITEM_NORMAL_H_PADDING
+                = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
+
+        private val BOOK_COVER_W_H_RATIO
+                = IWBNApplication.instance
+                    .getFloat(R.fraction.book_cover_w_to_h_ratio)
+
+        private val BOOK_COVER_H_ITEM_H_RATIO
+                = IWBNApplication.instance
+                    .getFloat(R.fraction.home_recommend_item_cover_height_to_item_height)
+
+        private val RECYCLER_ITEM_WH_RATIO
+                = IWBNApplication.instance
+                    .getFloat(R.fraction.home_recommend_item_scale)
+    }
+
     fun bind(sealItem: HomeSealItems.Recommend, viewModel: HomeViewModel, section: HomeSections) {
 
         binding.apply {
-            homeSection = sealItem.section.value
-            title = sealItem.title
+            homeSection = sealItem.section.id
+            title = sealItem.section.title
             badge = ""
             this.viewModel = viewModel
 
@@ -63,16 +85,20 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                     val layoutManager = recyclerView.layoutManager!!
                     val distance = (layoutManager.width.toFloat())
 
-                    val startingPoint = 20.toPx().toFloat()
+                    val startingPoint = RECYCLER_ITEM_START_PADDING.toFloat()
 
                     for (i in 0 until layoutManager.childCount) {
                         val child = layoutManager.getChildAt(i)!!
-                        val childStartpoint = (layoutManager.getDecoratedLeft(child) + layoutManager.getDecoratedRight(child)) / 2f - child.width/2f
+                        val childStartPoint
+                                = (layoutManager.getDecoratedLeft(child) +
+                                layoutManager.getDecoratedRight(child)) / 2f -
+                                child.width/2f
 
-                        val d = minOf(distance, (startingPoint - childStartpoint).absoluteValue)
-                        val scale = 1 + -0.32 * d / distance
-                        child.scaleX = scale.toFloat()
-                        child.scaleY = scale.toFloat()
+                        val d = minOf(distance, (startingPoint - childStartPoint).absoluteValue)
+                        val scale =
+                            1 - RECYCLER_ITEM_WH_RATIO * d / distance
+                        child.scaleX = scale
+                        child.scaleY = scale
                     }
                 }
             })
@@ -85,16 +111,19 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                     state: RecyclerView.State
                 ) {
 
-                    Log.i("RV", "outRect.right=${outRect.right}")
+                    outRect.right = RECYCLER_ITEM_NORMAL_H_PADDING
+                    outRect.left = RECYCLER_ITEM_NORMAL_H_PADDING
 
-                    outRect.right = 10.toPx()
-                    outRect.left = 10.toPx()
                     when(parent.getChildLayoutPosition(view)) {
                         0 -> {
-                            outRect.left = 20.toPx()
+                            outRect.left = RECYCLER_ITEM_START_PADDING
                         }
                         (parent.adapter?.itemCount?: 1) - 1 -> {
-                            outRect.right = (parent.width - parent.height * 0.85 / 3 * 2 - 10.toPx()).toInt()
+                            outRect.right =
+                                (parent.width - parent.height *
+                                        BOOK_COVER_H_ITEM_H_RATIO *
+                                        BOOK_COVER_W_H_RATIO -
+                                        RECYCLER_ITEM_NORMAL_H_PADDING).toInt()
                         }
                     }
                 }

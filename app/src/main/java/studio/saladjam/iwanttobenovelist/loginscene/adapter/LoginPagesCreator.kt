@@ -1,6 +1,8 @@
 package studio.saladjam.iwanttobenovelist.loginscene.adapter
 
 import androidx.fragment.app.Fragment
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.loginscene.LoginInterestFragment
 import studio.saladjam.iwanttobenovelist.loginscene.LoginPagesCompleteHandler
 import studio.saladjam.iwanttobenovelist.loginscene.LoginSigninupFragment
@@ -21,7 +23,9 @@ class LoginPagesCreator {
                 }
 
                 else -> {
-                    throw IllegalArgumentException("Page Not Found")
+                    throw IllegalArgumentException(
+                        IWBNApplication.instance
+                            .getString(R.string.exception_page_not_found, this::class.java))
                 }
             }
         }

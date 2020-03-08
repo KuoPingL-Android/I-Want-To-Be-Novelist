@@ -7,7 +7,7 @@
             name="viewModel"
             type="studio.saladjam.iwanttobenovelist.editorscene.EditorMixerViewModel" />
         <import type="android.view.View"/>
-        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus"/>
+        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -162,7 +162,7 @@
             android:layout_height="match_parent"
             android:background="#8888"
             android:clickable="true"
-            android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}">
+            android:visibility="@{viewModel.status == ApiLoadingStatus.LOADING ? View.VISIBLE : View.GONE}">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -184,7 +184,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:indeterminate="true"
                     android:indeterminateTint="@color/iwbn_primary_color"
-                    android:visibility="@{viewModel.status == APILoadingStatus.LOADING ? View.VISIBLE : View.GONE}"/>
+                    android:visibility="@{viewModel.status == ApiLoadingStatus.LOADING ? View.VISIBLE : View.GONE}"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -196,7 +196,7 @@
                     android:gravity="center"
                     android:text="成功儲存"
                     android:textSize="20dp"
-                    android:visibility="@{viewModel.status == APILoadingStatus.DONE ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.status == ApiLoadingStatus.DONE ? View.VISIBLE : View.GONE}"
                     android:textColor="@color/iwbn_primary_color"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

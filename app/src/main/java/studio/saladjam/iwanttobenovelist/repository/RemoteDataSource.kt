@@ -16,7 +16,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import studio.saladjam.iwanttobenovelist.*
+import studio.saladjam.iwanttobenovelist.constants.ErrorMessages
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
+import studio.saladjam.iwanttobenovelist.repository.remote.FirebaseUtil
 import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 import studio.saladjam.iwanttobenovelist.searchscene.getFirestoreSortingKey
 import java.io.ByteArrayOutputStream
@@ -48,13 +50,12 @@ object IWBNRemoteDataSource: Repository {
             .addOnSuccessListener { continuation.resume(Result.Success(true)) }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
             .addOnFailureListener { continuation.resume(Result.Error(it)) }
-
     }
 
     /** MAKE SEARCH ON BOOKS based on VALUE and FILTER */
     override suspend fun getBooksBasedOn(value: String, filter: SearchFilters): Result<List<Book>> = suspendCoroutine {continuation ->
         // SEARCH BY FILTER
-        val query = IWBNApplication.container.bookCollection
+        val query = FirebaseUtil.Collections.BOOKS.ref
             .orderBy(filter.getFirestoreSortingKey(), Query.Direction.DESCENDING)
 
         if (value.isEmpty()) {
@@ -142,7 +143,8 @@ object IWBNRemoteDataSource: Repository {
     override suspend fun postUnfollowBook(book: Book): Result<Boolean> = suspendCoroutine { continuation ->
         val bookID = book.bookID
         val userID = IWBNApplication.user.userID
-        val followerRef = IWBNApplication.container.getFollowersCollectionRefFrom(bookID).document(userID)
+        val followerRef = IWBNApplication.container.bookCollection.document(bookID).collection(
+            FirebaseUtil.COLLECTION_FOLLOWER_KEY).document(userID)
 
         followerRef.delete()
             .addOnSuccessListener {
@@ -152,7 +154,8 @@ object IWBNRemoteDataSource: Repository {
                     .delete()
                     .addOnSuccessListener {
                         continuation.resume(Result.Success(false))
-                        IWBNApplication.container.bookCollection.document(bookID).update("popularity", FieldValue.increment(-1))
+                        IWBNApplication.container.bookCollection.document(bookID)
+                            .update(FirebaseUtil.FIELD_POPULARITY_KEY, FieldValue.increment(-1))
                     }
                     .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
                     .addOnFailureListener { continuation.resume(Result.Error(it)) }
@@ -766,7 +769,13 @@ object IWBNRemoteDataSource: Repository {
                         return@addOnSuccessListener
                     }
 
-                    IWBNApplication.container.bookCollection.whereIn("bookID", bookIDs).get()
+                    var counter = 0
+                    for (id in bookIDs) {
+
+                    }
+
+                    IWBNApplication.container.bookCollection
+                        .whereIn(Book.Companion.BookKeys.ID.string, bookIDs).get()
                         .addOnSuccessListener {
                             val books = it.toObjects(Book::class.java)
 
@@ -803,7 +812,7 @@ object IWBNRemoteDataSource: Repository {
     /** LOGIN */
     override suspend fun getUser(token: String): Result<User> = suspendCoroutine {continuation ->
         if (!IWBNApplication.isNetworkConnected) {
-            continuation.resume(Result.Fail("No network"))
+            continuation.resume(Result.Fail(ErrorMessages.NO_NETWORK))
             return@suspendCoroutine
         }
 
@@ -814,7 +823,7 @@ object IWBNRemoteDataSource: Repository {
                 if (user != null) {
                     continuation.resume(Result.Success(user))
                 } else {
-                    continuation.resume(Result.Fail("Invalid User Token"))
+                    continuation.resume(Result.Fail(ErrorMessages.INVALID_TOKEN))
                 }
 
             }
@@ -828,20 +837,20 @@ object IWBNRemoteDataSource: Repository {
             // Signed in successfully, show authenticated UI.
             Logger.i("ACCOUNT = ${result}")
 
-            val token = result?.idToken
-            val id = result?.id
-            val name = result?.displayName
-            val email = result?.email
+            val id      = result?.id
+            val name    = result?.displayName
+            val email   = result?.email
+            val token   = result?.idToken
 
             if (result == null || id == null || email == null || name == null || token == null) {
-                Result.Fail("GOOGLE RESULT is NULL")
+                Result.Fail(IWBNApplication.instance.getString(R.string.google_exception_null))
             } else {
                 IWBNApplication.user.apply {
-                    this.token = token
-                    this.googleToken = token
-                    this.userID = id
-                    this.name = name
-                    this.email = email
+                    this.token          = token
+                    this.googleToken    = token // tell that user was logged in from Google
+                    this.userID         = id
+                    this.name           = name
+                    this.email          = email
                 }
                 Result.Success(true)
             }
@@ -864,17 +873,20 @@ object IWBNRemoteDataSource: Repository {
                     IWBNApplication.user.fbToken = result.accessToken.token
                     IWBNApplication.user.token = result.accessToken.token
 
-                    /**GET USER ID and EMAIL*/
+                    /** GET USER ID and EMAIL */
                     val request = GraphRequest.newMeRequest(result.accessToken) {jsonObject, graphResponse ->
                         try {
-                            val email = jsonObject.get("email")
-                            val id = jsonObject.get("id")
-                            val name = jsonObject.get("name")
+                            val email = jsonObject.
+                                get(IWBNApplication.instance.getString(R.string.fb_email))
+                            val id = jsonObject.
+                                get(IWBNApplication.instance.getString(R.string.fb_id))
+                            val name = jsonObject.
+                                get(IWBNApplication.instance.getString(R.string.fb_name))
 
                             IWBNApplication.user.apply {
-                                userID = id as String
-                                this.email = email as String
-                                this.name = name as String
+                                userID      = id as String
+                                this.name   = name as String
+                                this.email  = email as String
                             }
 
                             continuation.resume(Result.Success(true))
@@ -902,7 +914,7 @@ object IWBNRemoteDataSource: Repository {
 
                 p0?.message?.let {
                     if (it.contains("ERR_INTERNET_DISCONNECTED")) {
-                        continuation.resume(Result.Fail(Util.getString(R.string.internet_not_connected)))
+                        continuation.resume(Result.Fail(ErrorMessages.NO_NETWORK))
                     } else {
                         continuation.resume(Result.Fail(it))
                     }
@@ -922,6 +934,7 @@ object IWBNRemoteDataSource: Repository {
                     task.isSuccessful -> {
                         auth.currentUser?.let {firebaseUser ->
                             IWBNApplication.user.userID = firebaseUser.uid
+                            UserManager.userID = firebaseUser.uid
                             IWBNApplication.container.userCollection.document(user.userID).set(user)
                                 .addOnCompleteListener {task ->
                                     if (task.isSuccessful) {
@@ -956,6 +969,7 @@ object IWBNRemoteDataSource: Repository {
                     task.isSuccessful -> {
                         auth.currentUser?.let {firebaseUser ->
                             IWBNApplication.user.userID = firebaseUser.uid
+                            UserManager.userID = firebaseUser.uid
                             IWBNApplication.container.userCollection.document(user.userID).set(user)
                                 .addOnCompleteListener {task ->
                                     if (task.isSuccessful) {
@@ -1011,5 +1025,4 @@ object IWBNRemoteDataSource: Repository {
                 }
             }
     }
-
 }

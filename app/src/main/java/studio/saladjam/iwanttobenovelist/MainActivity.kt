@@ -8,13 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import studio.saladjam.iwanttobenovelist.constants.TimeConstants
 import studio.saladjam.iwanttobenovelist.databinding.ActivityMainBinding
 import studio.saladjam.iwanttobenovelist.dialog.LoadingDialog
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
 
@@ -133,7 +133,6 @@ class MainActivity : AppCompatActivity() {
 
                 performNavigation {
                     if (IWBNApplication.user.token == null) {
-                        //TODO: SHOW DIALOG TO SIGNUP
                         viewModel.doneNavigateToProfilePage()
                         viewModel.navigateToLoginPage()
                     } else {
@@ -264,10 +263,10 @@ class MainActivity : AppCompatActivity() {
         if (loadingDialog != null && loadingDialog!!.isVisible) {
             Handler().postDelayed({
                 viewModel.doneReceivingDialogInfo()
-            }, 1000)
+            }, TimeConstants.TIME_1000_ms)
             Handler().postDelayed({
                 action()
-            }, 500)
+            }, TimeConstants.TIME_500_ms)
         } else {
             action()
         }
@@ -280,9 +279,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun showAPIStatusDialog(status: APILoadingStatus) {
+    fun showAPIStatusDialog(status: ApiLoadingStatus) {
         when(status) {
-            APILoadingStatus.LOADING -> {
+            ApiLoadingStatus.LOADING -> {
 
             }
             else -> {
@@ -325,7 +324,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** DIALOG */
-    private fun displayLoadingDialog(message: String, status: APILoadingStatus) {
+    private fun displayLoadingDialog(message: String, status: ApiLoadingStatus) {
         if (loadingDialog == null) {
             loadingDialog = LoadingDialog()
         }
@@ -336,12 +335,12 @@ class MainActivity : AppCompatActivity() {
             loadingDialog?.show(supportFragmentManager, "loadingDialog")
         }
 
-        if (status == APILoadingStatus.DONE) {
+        if (status == ApiLoadingStatus.DONE) {
 
-            var mills = 1000L
+            var mills = TimeConstants.TIME_1000_ms
 
             if (message.isEmpty()) {
-                mills = 0L
+                mills = TimeConstants.TIME_INSTANCE
             }
 
             Handler().postDelayed({
@@ -350,7 +349,7 @@ class MainActivity : AppCompatActivity() {
             }, mills)
         }
 
-        if (status == APILoadingStatus.ERROR) {
+        if (status == ApiLoadingStatus.ERROR) {
             loadingDialog?.dismiss()
             loadingDialog = null
         }

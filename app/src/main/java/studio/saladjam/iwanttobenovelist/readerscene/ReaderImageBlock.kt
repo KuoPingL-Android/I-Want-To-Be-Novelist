@@ -30,9 +30,6 @@ constructor(context: Context,
     private val mainImageView: ImageView
     private val deleteImageView: ImageView
     private val expandImageView: ImageView
-    private var deletionEnabled = false
-
-    private var isEditing = false
 
     init {
         LayoutInflater
@@ -62,7 +59,6 @@ constructor(context: Context,
         val storage = IWBNApplication.container.getStorageInstance(url)
         Glide.with(image_image_block_image.context)
             .load(storage)
-            //.placeholder(android.R.drawable.gallery_thumb)
             .into(image_image_block_image)
     }
 

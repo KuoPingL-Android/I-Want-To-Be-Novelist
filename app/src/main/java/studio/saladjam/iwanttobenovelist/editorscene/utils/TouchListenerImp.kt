@@ -43,8 +43,8 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
                 secondOriginX = view.x - event.getX(1)
                 secondOriginY = view.y - event.getY(1)
 
-                lastDiffX = Math.abs(secondOriginX - originX)
-                lastDiffY = Math.abs(secondOriginY - originY)
+                lastDiffX = (secondOriginX - originX).absoluteValue
+                lastDiffY = (secondOriginY - originY).absoluteValue
             }
             MotionEvent.ACTION_MOVE -> { // a pointer was moved
                 if (event.pointerCount == 2) {

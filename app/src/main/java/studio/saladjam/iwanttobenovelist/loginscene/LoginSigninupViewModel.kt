@@ -1,22 +1,12 @@
 package studio.saladjam.iwanttobenovelist.loginscene
 
-import android.os.Bundle
-import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.GraphRequest
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,17 +19,17 @@ import studio.saladjam.iwanttobenovelist.Util.getString
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 
 class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val loadingStatus: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val loadingStatus: LiveData<ApiLoadingStatus>
         get() = _status
 
-    private val _dialogInfo = MutableLiveData<Pair<String, APILoadingStatus>>()
-    val dialogInfo: LiveData<Pair<String, APILoadingStatus>>
+    private val _dialogInfo = MutableLiveData<Pair<String, ApiLoadingStatus>>()
+    val dialogInfo: LiveData<Pair<String, ApiLoadingStatus>>
         get() = _dialogInfo
 
     fun doneDisplayingDialog() {
@@ -49,7 +39,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     }
 
     val isLoading = MediatorLiveData<Boolean>().apply {
-        addSource(loadingStatus){ value = loadingStatus.value == APILoadingStatus.LOADING }
+        addSource(loadingStatus){ value = loadingStatus.value == ApiLoadingStatus.LOADING }
     }
 
     private val _user = MutableLiveData<User>()
@@ -100,7 +90,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
 
     private fun loginFromFb() {
         if (IWBNApplication.isNetworkConnected) {
-            _status.value = APILoadingStatus.LOADING
+            _status.value = ApiLoadingStatus.LOADING
             fbCallBackManager = CallbackManager.Factory.create()
             coroutineScope.launch {
 
@@ -111,18 +101,18 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
                             doubleCheckUserExistence()
                         } else {
                             // Something is Wrong
-                            _status.value = APILoadingStatus.ERROR
+                            _status.value = ApiLoadingStatus.ERROR
                         }
                     }
 
                     is Result.Error -> {
                         _error.value = result.exception.toString()
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                     }
 
                     is Result.Fail -> {
                         Logger.i("ERROR = ${result.error}")
-                        _status.value = APILoadingStatus.ERROR
+                        _status.value = ApiLoadingStatus.ERROR
                     }
                 }
             }
@@ -166,32 +156,32 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
     /** DOUBLE CHECK if USER EXISTs before asking for names */
     fun doubleCheckUserExistence() {
         if (IWBNApplication.isNetworkConnected) {
-            _dialogInfo.value = Pair("", APILoadingStatus.LOADING)
+            _dialogInfo.value = Pair("", ApiLoadingStatus.LOADING)
             coroutineScope.launch {
                 when(val result = repository.checkIfUserExist(IWBNApplication.user)){
                     is Result.Success -> {
 
                         if (result.data) {
-                            _dialogInfo.value = Pair(getString(R.string.hint_success_login), APILoadingStatus.DONE)
+                            _dialogInfo.value = Pair(getString(R.string.hint_success_login), ApiLoadingStatus.DONE)
                             navigateToHomePage()
                         } else {
                             promptToAskForName()
-                            _dialogInfo.value = Pair("", APILoadingStatus.DONE)
+                            _dialogInfo.value = Pair("", ApiLoadingStatus.DONE)
                         }
                     }
 
                     is Result.Fail -> {
-                        _dialogInfo.value = Pair("", APILoadingStatus.ERROR)
+                        _dialogInfo.value = Pair("", ApiLoadingStatus.ERROR)
                     }
 
                     is Result.Error -> {
                         _error.value = result.exception.localizedMessage
-                        _dialogInfo.value = Pair("", APILoadingStatus.ERROR)
+                        _dialogInfo.value = Pair("", ApiLoadingStatus.ERROR)
                     }
                 }
             }
         } else {
-            _dialogInfo.value = Pair(getString(R.string.internet_not_connected), APILoadingStatus.ERROR)
+            _dialogInfo.value = Pair(getString(R.string.internet_not_connected), ApiLoadingStatus.ERROR)
         }
     }
 
@@ -209,7 +199,7 @@ class LoginSigninupViewModel (private val repository: Repository): ViewModel() {
         _shouldNavigateToHomePage.value = null
     }
 
-    // SELECT ROLE PAGE
+    // NAVIGATE to NEXT PAGE
     private val _shouldNavigateToNextLoginPage = MutableLiveData<Boolean>()
     val shouldNavigateToNextLoginPage: LiveData<Boolean>
         get() = _shouldNavigateToNextLoginPage

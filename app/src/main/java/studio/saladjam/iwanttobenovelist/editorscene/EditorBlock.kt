@@ -2,7 +2,6 @@ package studio.saladjam.iwanttobenovelist.editorscene
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.text.Editable
@@ -13,9 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
-import androidx.core.graphics.drawable.toDrawable
+import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.extensions.getPixelSize
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 
 class EditorBlock @JvmOverloads
@@ -24,11 +24,6 @@ constructor( context: Context,
              defStyle: Int = 0,
              defStyleRes: Int = 0) :
     FrameLayout(context, attrs, defStyle, defStyleRes) {
-
-    companion object {
-        const val SPACE_HORIZONTAL_TO_VIEW_ = 20
-        const val SPACE_VERTICAL_TO_VIEW = 30
-    }
 
     private val primaryEditText = EditText(context)
     private val primaryPaint: Paint
@@ -48,6 +43,11 @@ constructor( context: Context,
 
     private var sortedChildren = mutableListOf<View>()
 
+    private val horizontalMargin = IWBNApplication.instance
+        .getPixelSize(R.dimen.editor_block_horizontal_margin)
+    private val verticalMargin = IWBNApplication.instance
+        .getPixelSize(R.dimen.editor_block_vertical_margin)
+
     init {
 
         LayoutInflater.from(context).inflate(R.layout.item_editor_block, this, true)
@@ -55,8 +55,15 @@ constructor( context: Context,
         // TODO: SET DEFAULT ATTRIBUTES
         primaryPaint = Paint(primaryEditText.paint)
 
-        val params = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        params.setMargins(20.toPx(), 30.toPx(), 20.toPx(), 30.toPx())
+        val params = LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+        params.
+            setMargins(
+                horizontalMargin,
+                verticalMargin,
+                horizontalMargin,
+                verticalMargin)
 
 //        primaryEditText.visibility = View.INVISIBLE
         primaryEditText.setTextColor(context.resources.getColor(android.R.color.transparent))
@@ -142,7 +149,7 @@ constructor( context: Context,
                  * /////   -----------
                  *
                  * */
-                if (currentX <= currentView.left - SPACE_HORIZONTAL_TO_VIEW_.toPx() &&
+                if (currentX <= currentView.left - horizontalMargin &&
                     currentY < currentView.bottom &&
                     currentY >= currentView.top) {
 
@@ -160,7 +167,7 @@ constructor( context: Context,
                     currentX + charWidth > currentView.left) {
 
                     if (currentX > currentView.top) {
-                        currentY = (currentView.bottom + SPACE_VERTICAL_TO_VIEW.toPx().toFloat())
+                        currentY = (currentView.bottom + verticalMargin.toPx().toFloat())
                     }
 
                 }
@@ -189,7 +196,7 @@ constructor( context: Context,
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
         super.addView(child, index, params)
 
-        if (child is View && child != primaryEditText && !(child is ViewGroup)) {
+        if (child is View && child != primaryEditText && (child is ViewGroup).not()) {
             sortedChildren.add(child)
             sortedChildren.sortWith(compareBy({it.top}, {it.left}))
         }

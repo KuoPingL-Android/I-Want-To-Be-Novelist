@@ -1,15 +1,13 @@
-package studio.saladjam.iwanttobenovelist.homescene.adapters
+package studio.saladjam.iwanttobenovelist.homescene.viewholders
 
-import android.graphics.Rect
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1RecommendBinding
-import studio.saladjam.iwanttobenovelist.databinding.ItemRecommendBinding
+import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1CurrentReadingBinding
+import studio.saladjam.iwanttobenovelist.databinding.ItemHomeV1GeneralBinding
 import studio.saladjam.iwanttobenovelist.homescene.HomeSections
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 
-class HomeRecommendItemViewHolder(val binding: ItemHomeV1RecommendBinding): RecyclerView.ViewHolder(binding.root) {
+class HomeCurrentReadItemViewHolder (val binding: ItemHomeV1CurrentReadingBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(book: Book, viewModel: HomeViewModel, section: HomeSections) {
         binding.book = book
         binding.root.isClickable = true

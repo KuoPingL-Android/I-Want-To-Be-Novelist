@@ -7,7 +7,7 @@
             name="viewModel"
             type="studio.saladjam.iwanttobenovelist.editorscene.EditorTextViewModel" />
         <import type="android.view.View"/>
-        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus"/>
+        <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

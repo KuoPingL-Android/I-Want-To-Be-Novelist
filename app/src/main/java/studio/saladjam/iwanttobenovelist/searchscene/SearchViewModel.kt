@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class SearchViewModel(private val repository: Repository) : ViewModel() {
 
@@ -16,8 +16,8 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
     private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 
-    private val _status = MutableLiveData<APILoadingStatus>()
-    val status: LiveData<APILoadingStatus>
+    private val _status = MutableLiveData<ApiLoadingStatus>()
+    val status: LiveData<ApiLoadingStatus>
         get() = _status
 
     private val _error = MutableLiveData<String>()
@@ -69,26 +69,26 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
 
     fun makeSearch() {
 
-        _status.value = APILoadingStatus.LOADING
+        _status.value = ApiLoadingStatus.LOADING
 
         coroutineScope.launch {
             val result = repository.getBooksBasedOn(_searchValue.value!!, _selectedFilter.value!!)
 
             when(result) {
                 is Result.Success -> {
-                    _status.value = APILoadingStatus.DONE
+                    _status.value = ApiLoadingStatus.DONE
                     _error.value = null
                     _books.value = result.data
                 }
 
                 is Result.Error -> {
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _error.value = result.exception.localizedMessage
                     _books.value = listOf()
                 }
 
                 is Result.Fail -> {
-                    _status.value = APILoadingStatus.ERROR
+                    _status.value = ApiLoadingStatus.ERROR
                     _error.value = result.error
                     _books.value = listOf()
                 }

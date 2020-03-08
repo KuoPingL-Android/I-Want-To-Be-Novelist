@@ -8,6 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- ===== TEXTVIEW ===== -->
+    <!-- HOME -->
+    <style name="HomeItemTitleTextView">
+        <item name="android:textColor">@color/title_text_color</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="HomeItemSeeAllTextView" parent="HomeItemTitleTextView">
+        <item name="android:textSize"> 16dp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:color">#8000</item>
+    </style>
+
+    <!-- LOGIN -->
+
+
     <style name="TitleText">
         <item name="android:fontFamily">@font/titlefont</item>
         <item name="android:textSize">@dimen/title_text_size</item>
@@ -100,6 +123,13 @@
         <item name="android:textSize">20dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="EditorMixer">
+        <item name="android:paddingStart">76dp</item>
+        <item name="android:paddingEnd">76dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 
 </resources>

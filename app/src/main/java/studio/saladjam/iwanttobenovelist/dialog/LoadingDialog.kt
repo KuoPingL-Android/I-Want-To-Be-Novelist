@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.DialogLoadingBinding
 import studio.saladjam.iwanttobenovelist.factories.viewmodelfactories.DialogViewModelProviderFactory
-import studio.saladjam.iwanttobenovelist.repository.loadingstatus.APILoadingStatus
+import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 
 class LoadingDialog : AppCompatDialogFragment() {
     private lateinit var binding: DialogLoadingBinding
@@ -37,7 +37,7 @@ class LoadingDialog : AppCompatDialogFragment() {
         return binding.root
     }
 
-    fun setMessage(message: String, status: APILoadingStatus) {
+    fun setMessage(message: String, status: ApiLoadingStatus) {
         viewModel.setMessage(message, status)
     }
 

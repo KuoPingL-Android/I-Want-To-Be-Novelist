@@ -13,9 +13,11 @@ import com.google.firebase.FirebaseApp
 import studio.saladjam.iwanttobenovelist.Util.getString
 import studio.saladjam.iwanttobenovelist.repository.AppContainer
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
+import kotlin.properties.Delegates
 
 class IWBNApplication : Application() {
     companion object {
+        var instance: IWBNApplication by Delegates.notNull()
         lateinit var context: Context
         lateinit var container: AppContainer
         var user = User()
@@ -43,6 +45,7 @@ class IWBNApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         context = applicationContext
         // REGISTER NETWORK CALLBACK
         if (Build.VERSION.SDK_INT >= 21) {
