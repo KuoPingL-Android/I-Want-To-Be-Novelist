@@ -65,16 +65,13 @@ constructor( context: Context,
 
         primaryEditText.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
-                Logger.i("AFTER")
                 invalidate()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Logger.i("BEFORE")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Logger.i("ON")
             }
 
         })
