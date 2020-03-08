@@ -7,7 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
+import studio.saladjam.iwanttobenovelist.constants.ErrorMessages
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -70,14 +73,14 @@ class ProfileViewModel(private val repository: Repository) : ViewModel() {
                     }
                     else -> {
                         _status.value = ApiLoadingStatus.ERROR
-                        _error.value = "Unknown Error"
+                        _error.value = ErrorMessages.UNKNOWN
                         null
                     }
                 }
             }
         } else {
             _status.value = ApiLoadingStatus.ERROR
-            _error.value = "NO INTERNET"
+            _error.value = ErrorMessages.NO_NETWORK
         }
     }
 }

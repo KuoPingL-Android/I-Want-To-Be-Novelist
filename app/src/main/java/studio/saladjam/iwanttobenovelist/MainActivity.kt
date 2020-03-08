@@ -133,7 +133,6 @@ class MainActivity : AppCompatActivity() {
 
                 performNavigation {
                     if (IWBNApplication.user.token == null) {
-                        //TODO: SHOW DIALOG TO SIGNUP
                         viewModel.doneNavigateToProfilePage()
                         viewModel.navigateToLoginPage()
                     } else {

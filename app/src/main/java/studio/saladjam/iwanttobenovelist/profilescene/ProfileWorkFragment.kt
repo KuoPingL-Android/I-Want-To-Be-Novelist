@@ -20,7 +20,7 @@ import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileWorkAdapte
 class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragment() {
 
     companion object {
-        private val CREATE_NEW_BOOK_DIALOG_TAG = "createBookDialog"
+        private const val CREATE_NEW_BOOK_DIALOG_TAG = "createBookDialog"
         private val ITEM_DECORATOR_NORMAL_MARGIN
                 = RecyclerViewConstants.ITEM_DECORATOR_MARGIN_NORMAL
         private val ITEM_DECORATOR_ENDS_MARGIN
@@ -42,7 +42,6 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
 
         val mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        //TODO: SETUP RECYCLER VIEW DATA
         viewModel.shouldCreateNewBook.observe(this, Observer {
             it?.let {
                 val profileCreateBookDialog = ProfileCreateBookDialog(viewModel)

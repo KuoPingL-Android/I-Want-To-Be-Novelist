@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.MainViewModel
+import studio.saladjam.iwanttobenovelist.constants.NavArgKeys
 import studio.saladjam.iwanttobenovelist.databinding.FragmentReaderMixerBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -30,8 +31,8 @@ class ReaderMixerFragment : Fragment() {
         binding = FragmentReaderMixerBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        book = requireArguments().get("book") as Book
-        chapter = requireArguments().get("chapter") as Chapter
+        book = requireArguments().get(NavArgKeys.BOOK) as Book
+        chapter = requireArguments().get(NavArgKeys.CHAPTER) as Chapter
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
@@ -39,7 +40,12 @@ class ReaderMixerFragment : Fragment() {
 
         binding.simpleContainer.setContentWithPaint(chapter, binding.editEditorMix.paint)
 
+        prepareViewModel()
 
+        return binding.root
+    }
+
+    private fun prepareViewModel() {
         viewModel.displayChapter(chapter)
 
 
@@ -56,10 +62,6 @@ class ReaderMixerFragment : Fragment() {
             }
         })
 
-
         viewModel.fetchChapterDetails(chapter.chapterIndex)
-
-
-        return binding.root
     }
 }

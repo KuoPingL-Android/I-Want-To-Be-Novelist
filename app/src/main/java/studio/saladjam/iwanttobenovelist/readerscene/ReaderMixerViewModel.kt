@@ -228,13 +228,6 @@ class ReaderMixerViewModel (private val repository: Repository,
     }
 
     /** NEXT CHAPTER */
-    private val _shouldNavigateToNextChapter = MutableLiveData<Boolean>()
-    val shouldNavigateToNextChapter: LiveData<Boolean>
-        get() = _shouldNavigateToNextChapter
-
-    private val _isFetchingChapter = MutableLiveData<Boolean>()
-    val isFetchingChapter: LiveData<Boolean>
-        get() = _isFetchingChapter
 
     fun navigateToNextChapter() {
 
@@ -255,10 +248,6 @@ class ReaderMixerViewModel (private val repository: Repository,
     }
 
     /** PREVIOUS CHAPTER */
-    private val _shouldNavigateToPreviousChapter = MutableLiveData<Boolean>()
-    val shouldNavigateToPreviousChapter: LiveData<Boolean>
-        get() = _shouldNavigateToPreviousChapter
-
     fun navigateToPreviousChapter() {
         if (_status.value == ApiLoadingStatus.LOADING) return
 
@@ -273,10 +262,6 @@ class ReaderMixerViewModel (private val repository: Repository,
         _currentChapter.value?.let {
             fetchChapterDetails(it.chapterIndex - 1)
         }
-    }
-
-    fun doneNavigateToPreviousChapter() {
-        _shouldNavigateToPreviousChapter.value = null
     }
 
     /** BACK */

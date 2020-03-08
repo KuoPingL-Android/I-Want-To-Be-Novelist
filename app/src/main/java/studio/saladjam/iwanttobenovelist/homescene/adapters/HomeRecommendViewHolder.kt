@@ -111,8 +111,6 @@ class HomeRecommendViewHolder (val binding: ItemHomeV1RecommendlistBinding) : Re
                     state: RecyclerView.State
                 ) {
 
-                    Log.i("RV", "outRect.right=${outRect.right}")
-
                     outRect.right = RECYCLER_ITEM_NORMAL_H_PADDING
                     outRect.left = RECYCLER_ITEM_NORMAL_H_PADDING
 

@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.constants.ErrorMessages
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -63,14 +64,14 @@ class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
                     }
                     else -> {
                         _status.value = ApiLoadingStatus.ERROR
-                        _error.value = "Unknown Error"
+                        _error.value = ErrorMessages.UNKNOWN
                         null
                     }
                 }
             }
         } else {
             _status.value = ApiLoadingStatus.ERROR
-            _error.value = "NO INTERNET"
+            _error.value = ErrorMessages.NO_NETWORK
         }
     }
 
@@ -101,15 +102,9 @@ class ProfileWorkViewModel(private val repository: Repository): ViewModel() {
 
     /** NOTIFICATION after BOOK is CREATED */
     private val _finishCreatingBook = MutableLiveData<Boolean>()
-    val finishCreatingBook: LiveData<Boolean>
-        get() = _finishCreatingBook
 
     fun notifyBookCreated(book: Book) {
         _finishCreatingBook.value = true
         _selectBookToDisplayDetail.value = book
-    }
-
-    fun doneReceivingBookCreated() {
-        _finishCreatingBook.value = null
     }
 }

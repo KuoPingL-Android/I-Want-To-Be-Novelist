@@ -298,7 +298,6 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_cover_", /* prefix */

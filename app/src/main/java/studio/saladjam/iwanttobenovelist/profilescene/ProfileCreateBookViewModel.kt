@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
@@ -91,7 +93,7 @@ class ProfileCreateBookViewModel (private val repository: Repository): ViewModel
 
     private fun checkIfDataIsReady() {
         if(selectedImage.value == null || title.value == null || title.value?.isEmpty() == true) {
-            _error.value = "MISSING DATA"
+            _error.value = IWBNApplication.instance.getString(R.string.error_missing_data)
             isDataPrepared.value = false
             return
         }
@@ -106,8 +108,9 @@ class ProfileCreateBookViewModel (private val repository: Repository): ViewModel
     fun createBook() {
         _status.value = ApiLoadingStatus.LOADING
         coroutineScope.launch {
-            val result = repository.createBook(title.value!!, _selectedImage.value!!)
-            when(result) {
+
+            when(val result = repository
+                .createBook(title.value!!, _selectedImage.value!!)) {
                 is Result.Success -> {
                     _error.value = null
                     _createdBook.value = result.data
