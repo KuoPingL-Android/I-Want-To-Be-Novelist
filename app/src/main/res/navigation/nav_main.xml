@@ -141,4 +141,15 @@
     <action
         android:id="@+id/action_global_bookDetailManageFragment"
         app:destination="@id/bookDetailManageFragment" />
+    <fragment
+        android:id="@+id/scrollableEditorFragment"
+        android:name="studio.saladjam.iwanttobenovelist.editorscene.ScrollableEditorFragment"
+        android:label="ScrollableEditorFragment" >
+        <argument
+            android:name="chapter"
+            app:argType="studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_scrollableEditorFragment"
+        app:destination="@id/scrollableEditorFragment" />
 </navigation>

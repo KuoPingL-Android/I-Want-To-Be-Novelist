@@ -9,10 +9,10 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
-import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorMixerV1ViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorTextViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorMixerViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorViewModel
+import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.ScrollableEditorViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
@@ -54,9 +54,7 @@ class ViewModelFactory(private val repository: Repository)
                                     -> ProfileViewModel(repository)
 
                 isAssignableFrom(EditorMixerViewModel::class.java)
-                                    -> EditorMixerViewModel(
-                    repository
-                )
+                                    -> EditorMixerViewModel(repository)
 
                 isAssignableFrom(ProfileBookReadingViewModel::class.java)
                                     -> ProfileBookReadingViewModel(repository)
@@ -74,19 +72,10 @@ class ViewModelFactory(private val repository: Repository)
                                     -> ChapterDetailViewModel(repository)
 
                 isAssignableFrom(EditorTextViewModel::class.java)
-                                    -> EditorTextViewModel(
-                    repository
-                )
-
-                isAssignableFrom(EditorMixerV1ViewModel::class.java)
-                                    -> EditorMixerV1ViewModel(
-                    repository
-                )
+                                    -> EditorTextViewModel(repository)
 
                 isAssignableFrom(EditorViewModel::class.java)
-                                    -> EditorViewModel(
-                    repository
-                )
+                                    -> EditorViewModel(repository)
 
                 isAssignableFrom(HomeWorkInProgressViewModel::class.java)
                                     -> HomeWorkInProgressViewModel(repository)
@@ -96,6 +85,9 @@ class ViewModelFactory(private val repository: Repository)
 
                 isAssignableFrom(BookDetailManageViewModel::class.java)
                                     -> BookDetailManageViewModel(repository)
+
+                isAssignableFrom(ScrollableEditorViewModel::class.java)
+                                    -> ScrollableEditorViewModel(repository)
 
                 else -> {throw IllegalArgumentException(
                     IWBNApplication.instance

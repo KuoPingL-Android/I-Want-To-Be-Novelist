@@ -170,6 +170,7 @@ class MainActivity : AppCompatActivity() {
             it?.let {
                 performNavigation {
                     nav.navigate(NavigationDirections.actionGlobalEditorFragment(it))
+//                    nav.navigate(NavigationDirections.actionGlobalScrollableEditorFragment(it))
                     showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 }
                 viewModel.doneNavigateToEditor()
@@ -223,11 +224,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        setupOnNaigateListener()
+        setupOnNavigateListener()
         setupDialogObservers()
     }
 
-    private fun setupOnNaigateListener() {
+    private fun setupOnNavigateListener() {
         nav.addOnDestinationChangedListener { controller, destination, arguments ->
             viewModel.currentFragmentType.value =  when(controller.currentDestination?.id) {
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
