@@ -10,7 +10,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel" />
+            type="studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

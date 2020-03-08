@@ -3,7 +3,7 @@ package studio.saladjam.iwanttobenovelist.bookdetailscene.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailManageViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailManageViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookManageChapterBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter

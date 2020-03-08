@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.MainActivity
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailWriterAdapter
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentBookWriterDetailBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book

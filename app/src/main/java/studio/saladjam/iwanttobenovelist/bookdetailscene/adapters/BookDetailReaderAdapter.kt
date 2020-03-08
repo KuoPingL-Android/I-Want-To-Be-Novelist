@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
-import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookChapterBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemBookWriterDetailHeaderBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory

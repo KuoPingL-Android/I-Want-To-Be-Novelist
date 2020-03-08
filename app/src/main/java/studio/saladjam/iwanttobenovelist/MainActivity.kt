@@ -169,8 +169,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.selectedChapterForEditing.observe(this, Observer {
             it?.let {
                 performNavigation {
-                    nav.navigate(NavigationDirections.actionGlobalEditorFragment(it))
-//                    nav.navigate(NavigationDirections.actionGlobalScrollableEditorFragment(it))
+//                    nav.navigate(NavigationDirections.actionGlobalEditorFragment(it))
+                    nav.navigate(NavigationDirections.actionGlobalScrollableEditorFragment(it))
                     showBars(ToolBarBottomNavDisplays.HIDEBOTH)
                 }
                 viewModel.doneNavigateToEditor()

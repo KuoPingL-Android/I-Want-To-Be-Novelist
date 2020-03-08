@@ -9,7 +9,7 @@
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Book"/>
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel" />
+            type="studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailViewModel" />
         <import type="android.view.View"/>
     </data>
 

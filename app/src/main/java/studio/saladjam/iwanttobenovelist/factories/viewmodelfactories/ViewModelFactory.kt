@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.R
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailManageViewModel
-import studio.saladjam.iwanttobenovelist.bookdetailscene.BookDetailViewModel
-import studio.saladjam.iwanttobenovelist.bookdetailscene.ChapterDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailManageViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailViewModel
+import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorTextViewModel
@@ -66,10 +66,14 @@ class ViewModelFactory(private val repository: Repository)
                                     -> ProfileCreateBookViewModel(repository)
 
                 isAssignableFrom(BookDetailViewModel::class.java)
-                                    -> BookDetailViewModel(repository)
+                                    -> BookDetailViewModel(
+                    repository
+                )
 
                 isAssignableFrom(ChapterDetailViewModel::class.java)
-                                    -> ChapterDetailViewModel(repository)
+                                    -> ChapterDetailViewModel(
+                    repository
+                )
 
                 isAssignableFrom(EditorTextViewModel::class.java)
                                     -> EditorTextViewModel(repository)
@@ -84,7 +88,9 @@ class ViewModelFactory(private val repository: Repository)
                                     -> SearchViewModel(repository)
 
                 isAssignableFrom(BookDetailManageViewModel::class.java)
-                                    -> BookDetailManageViewModel(repository)
+                                    -> BookDetailManageViewModel(
+                    repository
+                )
 
                 isAssignableFrom(ScrollableEditorViewModel::class.java)
                                     -> ScrollableEditorViewModel(repository)

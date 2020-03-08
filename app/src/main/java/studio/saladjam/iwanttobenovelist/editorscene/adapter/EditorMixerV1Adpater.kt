@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.editorscene
+package studio.saladjam.iwanttobenovelist.editorscene.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
