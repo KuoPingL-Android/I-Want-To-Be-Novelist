@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import studio.saladjam.iwanttobenovelist.Logger
@@ -88,10 +89,17 @@ class ScrollableEditorSimpleContainer
                 word = text.substring(letterIndex, letterIndex + indexOfInterest)
             }
 
-            // COLLECT all the LETTERS as an ARRAY
-            words.add(word)
-
+            words.addAll(divideWordIntoWords(word))
             letterIndex += word.chars().count().toInt()
+        }
+    }
+
+    private fun divideWordIntoWords(word: String): List<String> {
+        measureText(word)
+        return if (wordWidth < width - paddingStart - paddingEnd) {
+            listOf(word)
+        } else {
+            word.toCharArray().map { it.toString() }
         }
     }
 
@@ -104,6 +112,8 @@ class ScrollableEditorSimpleContainer
     private var wordWidth = 0f
     private var spacing = 8.toPx().toFloat()
 
+    private var currentMaxY = 0f
+
     private fun getFontHeight(): Float {
         return paint?.getFontHeight() ?: 0f
     }
@@ -115,7 +125,7 @@ class ScrollableEditorSimpleContainer
 
         /** DEFAULT */
         currentX = paddingLeft.toFloat()
-        currentY = paddingTop.toFloat() + getFontHeight() // (barsHeight - statusHeight) * 1.0f//paddingTop.toFloat() + statusHeight //+ barsHeight
+        currentY = paddingTop.toFloat() + getFontHeight()
 
         var letterIndex = 0
 
@@ -188,46 +198,49 @@ class ScrollableEditorSimpleContainer
                 viewOfInterest = findWordInterceptingView(wordFrame)
             }
 
-            if (currentY <= height - spacing - getFontHeight()) {
-                val wordChars = word.toCharArray()
-                var tempCurrentX = currentX
+            val wordChars = word.toCharArray()
+            var tempCurrentX = currentX
 
-                Logger.e("CHAR=${word}")
+            Logger.e("CHAR=${word}")
 
-                for (charIndex in 0 until word.count()) {
-                    val charPaint = mCharPaints[letterIndex + charIndex]
-                    val char = wordChars[charIndex].toString()
-                    val charWidth = charPaint.measureText(char)
+            for (charIndex in 0 until word.count()) {
+                val charPaint = mCharPaints[letterIndex + charIndex]
+                val char = wordChars[charIndex].toString()
+                val charWidth = charPaint.measureText(char)
 
-                    // REMEMBER all CHARACTER positions
-                    val charFrame = Frame(
-                        tempCurrentX.toInt(),
-                        currentY.toInt(),
-                        charWidth.toInt(),
-                        getFontHeight().toInt())
+                // REMEMBER all CHARACTER positions
+                val charFrame = Frame(
+                    tempCurrentX.toInt(),
+                    currentY.toInt(),
+                    charWidth.toInt(),
+                    getFontHeight().toInt())
 
-                    if (lineRecord.containsKey(currentY.toInt())) {
-                        val list = lineRecord.get(currentY.toInt())!!.toMutableList()
-                        list.add(CharLocator(letterIndex + charIndex, charFrame, char))
-                        lineRecord[currentY.toInt()] =  list
+                if (lineRecord.containsKey(currentY.toInt())) {
+                    val list = lineRecord[currentY.toInt()]!!.toMutableList()
+                    list.add(CharLocator(letterIndex + charIndex, charFrame, char))
+                    lineRecord[currentY.toInt()] =  list
 
-                    } else {
-                        val list = mutableListOf(CharLocator(letterIndex + charIndex, charFrame, char))
-                        lineRecord[currentY.toInt()] = list
-                    }
-
-                    canvas?.drawText(char, tempCurrentX, currentY, charPaint)
-
-                    tempCurrentX += charWidth
+                } else {
+                    val list = mutableListOf(CharLocator(letterIndex + charIndex, charFrame, char))
+                    lineRecord[currentY.toInt()] = list
                 }
 
-            } else {
-                // STOP DRAWING THE TEXT
-                break
+                canvas?.drawText(char, tempCurrentX, currentY, charPaint)
+
+                tempCurrentX += charWidth
+                if (currentMaxY < currentY + (paint?.getFontHeight() ?: 0f).toInt() + spacing) {
+                    currentMaxY = currentY + (paint?.getFontHeight() ?: 0f).toInt() + spacing
+                }
             }
 
             letterIndex += word.length - 1
 
+            if (height != currentMaxY.toInt()) {
+                val params = layoutParams
+                params.height = currentMaxY.toInt()
+                layoutParams = params
+                requestLayout()
+            }
         }
     }
 
@@ -254,8 +267,6 @@ class ScrollableEditorSimpleContainer
             val y = it.y.toPx().toFloat()
             val w = it.wToParentWRatio * width
             val h = w / it.wToHRatio
-
-
 
             if (isTouchable) {
                 val imageBlock = EditorImageBlock(context)

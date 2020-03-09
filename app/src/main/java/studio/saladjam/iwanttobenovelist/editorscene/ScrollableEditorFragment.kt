@@ -45,7 +45,7 @@ class ScrollableEditorFragment : Fragment() {
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
-        chapter = requireArguments().getParcelable(NavArgKeys.CHAPTER)
+        chapter = requireArguments().get(NavArgKeys.CHAPTER) as Chapter
         chapter?.let {
             viewModel.prepareChapter(it)
             if (it.chapterID.isNotEmpty()) {
