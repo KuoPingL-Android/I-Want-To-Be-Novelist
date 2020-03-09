@@ -29,7 +29,17 @@ fun bind(imageView: ImageView, imageUrl: String?) {
 @BindingAdapter("daysSinceLastUpdate")
 fun bindDates(textView: TextView, lastUpdatedTime: Long) {
     val currentTime = Calendar.getInstance().timeInMillis
-    val diff = currentTime - lastUpdatedTime
+    val (value, unit) = getLastUpdatedTime(currentTime - lastUpdatedTime)
+
+    textView.text = IWBNApplication.context
+        .getString(
+            R.string.time_before,
+            value, unit, IWBNApplication.context.getString(
+                R.string.before
+            ))
+}
+
+fun getLastUpdatedTime(diff: Long): Pair<Int, String> {
     val seconds = TimeUnit.SECONDS.convert(diff, TimeUnit.MILLISECONDS)
     val minutes = TimeUnit.MINUTES.convert(diff, TimeUnit.MILLISECONDS)
     val hours   = TimeUnit.HOURS.convert(diff, TimeUnit.MILLISECONDS)
@@ -40,40 +50,43 @@ fun bindDates(textView: TextView, lastUpdatedTime: Long) {
     val unit: String
     val value: Int
 
-    if(years.toInt() > 0) {
-        value = years.toInt()
-        unit = IWBNApplication.context.getString(
-            R.string.unit_year
-        )
-    } else if (days.toInt() > 0) {
-        value = days.toInt()
-        unit = IWBNApplication.context.getString(
-            R.string.unit_day
-        )
-    } else if (hours.toInt() > 0) {
-        value = hours.toInt()
-        unit = IWBNApplication.context.getString(
-            R.string.unit_hour
-        )
-    } else if (minutes.toInt() > 0) {
-        value = minutes.toInt()
-        unit = IWBNApplication.context.getString(
-            R.string.unit_minutes
-        )
-    } else {
-        value = seconds.toInt()
-        unit = IWBNApplication.context.getString(
-            R.string.unit_second
-        )
+    when {
+        years.toInt() > 0 -> {
+            value = years.toInt()
+            unit = IWBNApplication.context.getString(
+                R.string.unit_year
+            )
+        }
+        days.toInt() > 0 -> {
+            value = days.toInt()
+            unit = IWBNApplication.context.getString(
+                R.string.unit_day
+            )
+        }
+        hours.toInt() > 0 -> {
+            value = hours.toInt()
+            unit = IWBNApplication.context.getString(
+                R.string.unit_hour
+            )
+        }
+        minutes.toInt() > 0 -> {
+            value = minutes.toInt()
+            unit = IWBNApplication.context.getString(
+                R.string.unit_minutes
+            )
+        }
+        else -> {
+            value = seconds.toInt()
+            unit = IWBNApplication.context.getString(
+                R.string.unit_second
+            )
+        }
     }
 
-    textView.text = IWBNApplication.context
-        .getString(
-            R.string.time_before,
-            value, unit, IWBNApplication.context.getString(
-                R.string.before
-            ))
+    return Pair(value, unit)
 }
+
+
 
 /** HOME BOOK ITEM LAYOUTPARAMS */
 @BindingAdapter("layoutHomeMainLayout")

@@ -2,18 +2,16 @@ package studio.saladjam.iwanttobenovelist
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
+import studio.saladjam.iwanttobenovelist.binding.getLastUpdatedTime
 import java.util.concurrent.TimeUnit
 
 class TimeUnitTest {
     @Test
     fun convert1MillToOtherUnits() {
-        val oneMills = 1L
-        val years = TimeUnit.DAYS.convert(oneMills, TimeUnit.MILLISECONDS) / 365
-        assertEquals(0L, TimeUnit.SECONDS.convert(oneMills, TimeUnit.MILLISECONDS))
-        assertEquals(0L, TimeUnit.MINUTES.convert(oneMills, TimeUnit.MILLISECONDS))
-        assertEquals(0L, TimeUnit.HOURS.convert(oneMills, TimeUnit.MILLISECONDS))
-        assertEquals(0L, TimeUnit.DAYS.convert(oneMills, TimeUnit.MILLISECONDS))
-        assertEquals(0L, years)
+        val lastUpdatedTime = 1L
+
+        val (value, unit) = getLastUpdatedTime(lastUpdatedTime)
+        assertEquals(0L, value)
     }
 
     @Test
@@ -28,7 +26,7 @@ class TimeUnitTest {
     }
 
     @Test
-    fun convert60000MillToOtherUnits() {
+    fun convert1MinuteMillToOtherUnits() {
         val oneMills = 1L * 1000 * 60   // 1 MINUTE
         val years = TimeUnit.DAYS.convert(oneMills, TimeUnit.MILLISECONDS) / 365
         assertEquals(60L, TimeUnit.SECONDS.convert(oneMills, TimeUnit.MILLISECONDS))
