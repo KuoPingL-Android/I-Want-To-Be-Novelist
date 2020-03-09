@@ -33,7 +33,9 @@ class ScrollableEditorSimpleContainer
     val paint: Paint?
         get() = mPaint
 
-
+    /** MAXIMUM Y to be Considered */
+    private var letterMaxY = 0f
+    private var blockMaxY = 0f
 
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
@@ -99,7 +101,32 @@ class ScrollableEditorSimpleContainer
         return if (wordWidth < width - paddingStart - paddingEnd) {
             listOf(word)
         } else {
-            word.toCharArray().map { it.toString() }
+            val pattern = "\\w+".toRegex()
+            val results = pattern.findAll(word, 0)
+
+            if (results.count() == 1) {
+                word.toCharArray().map { it.toString() }
+            } else {
+                val words = mutableListOf<String>()
+                var index = 0
+                for (i in 0 until results.count()) {
+                    val result = results.elementAt(i)
+                    val last = result.range.last
+
+                    var subString = word.substring(index)
+
+                    if (i != results.count() - 1) {
+                        subString = word.substring(index, last + 1)
+                    }
+
+                    words.add(subString)
+
+                    index = last + 1
+                }
+
+                words
+            }
+
         }
     }
 
@@ -362,7 +389,6 @@ class ScrollableEditorSimpleContainer
             imageBlock.remove(view)
             invalidate()
         }
-
     }
 
     private fun findWordInterceptingView(wordFrame: Frame): View? {
