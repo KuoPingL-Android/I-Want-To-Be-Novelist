@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.loginscene
+package studio.saladjam.iwanttobenovelist.loginscene.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

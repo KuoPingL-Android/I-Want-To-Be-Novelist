@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import studio.saladjam.iwanttobenovelist.databinding.ItemCategoryBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
-import studio.saladjam.iwanttobenovelist.factories.callbackfactories.StringCallback
-import studio.saladjam.iwanttobenovelist.loginscene.LoginInterestViewModel
+import studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginInterestViewModel
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 
 class LoginInterestRecyclerViewAdapter(val viewModel: LoginInterestViewModel)

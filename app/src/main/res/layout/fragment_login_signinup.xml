@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.loginscene.LoginSigninupViewModel" />
+            type="studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginSigninupViewModel" />
         <import type="studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus"/>
         <import type="android.view.View"/>
     </data>

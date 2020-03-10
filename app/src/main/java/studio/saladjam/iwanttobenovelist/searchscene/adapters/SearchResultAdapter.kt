@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import studio.saladjam.iwanttobenovelist.databinding.ItemSearchBookBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
+import studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel
 
 class SearchResultAdapter(private val viewModel: SearchViewModel): ListAdapter<Book, SearchResultViewHolder>(
     CallbackFactory().create(Book::class.java)) {

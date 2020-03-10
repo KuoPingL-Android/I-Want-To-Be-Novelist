@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryGenreViewPagerAdapter
+import studio.saladjam.iwanttobenovelist.categoryscene.viewmodel.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.databinding.FragmentCategoryV1Binding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 

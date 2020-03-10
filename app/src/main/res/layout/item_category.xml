@@ -12,7 +12,7 @@
             type="studio.saladjam.iwanttobenovelist.repository.dataclass.Genre" />
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.loginscene.LoginInterestViewModel" />
+            type="studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginInterestViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

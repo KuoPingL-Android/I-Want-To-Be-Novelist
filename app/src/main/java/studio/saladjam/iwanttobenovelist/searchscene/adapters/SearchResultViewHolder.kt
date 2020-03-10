@@ -3,7 +3,7 @@ package studio.saladjam.iwanttobenovelist.searchscene.adapters
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.databinding.ItemSearchBookBinding
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
-import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
+import studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel
 
 class SearchResultViewHolder(val binding: ItemSearchBookBinding): RecyclerView.ViewHolder(binding.root) {
 

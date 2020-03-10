@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.categoryscene
+package studio.saladjam.iwanttobenovelist.categoryscene.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

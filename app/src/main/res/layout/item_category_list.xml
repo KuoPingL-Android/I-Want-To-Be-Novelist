@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel" />
+            type="studio.saladjam.iwanttobenovelist.categoryscene.viewmodel.CategoryListViewModel" />
     </data>
 
     <LinearLayout

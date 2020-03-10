@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.loginscene.LoginInterestViewModel" />
+            type="studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginInterestViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

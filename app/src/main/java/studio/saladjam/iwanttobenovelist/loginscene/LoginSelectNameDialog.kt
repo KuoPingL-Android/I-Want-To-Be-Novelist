@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.databinding.DialogLoginSelectNameBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
+import studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginSelectNameViewModel
 
 class LoginSelectNameDialog(val completeHandler: (name: String?)->Unit) : AppCompatDialogFragment() {
 

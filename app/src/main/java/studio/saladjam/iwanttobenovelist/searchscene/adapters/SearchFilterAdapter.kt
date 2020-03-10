@@ -3,12 +3,10 @@ package studio.saladjam.iwanttobenovelist.searchscene.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import studio.saladjam.iwanttobenovelist.databinding.ItemSearchBookBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemSearchFiltersBinding
 import studio.saladjam.iwanttobenovelist.factories.callbackfactories.CallbackFactory
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
-import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
+import studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel
 
 class SearchFilterAdapter(private val viewModel: SearchViewModel): ListAdapter<SearchFilters, SearchFilterViewHolder>(CallbackFactory().create(SearchFilters::class.java)) {
 

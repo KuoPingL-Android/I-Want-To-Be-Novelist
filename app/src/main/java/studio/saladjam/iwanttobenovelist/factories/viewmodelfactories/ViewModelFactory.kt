@@ -7,8 +7,8 @@ import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailManageViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.BookDetailViewModel
 import studio.saladjam.iwanttobenovelist.bookdetailscene.viewmodel.ChapterDetailViewModel
-import studio.saladjam.iwanttobenovelist.categoryscene.CategoryListViewModel
-import studio.saladjam.iwanttobenovelist.categoryscene.CategoryViewModel
+import studio.saladjam.iwanttobenovelist.categoryscene.viewmodel.CategoryListViewModel
+import studio.saladjam.iwanttobenovelist.categoryscene.viewmodel.CategoryViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorTextViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorMixerViewModel
 import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.EditorViewModel
@@ -16,10 +16,12 @@ import studio.saladjam.iwanttobenovelist.editorscene.viewmodel.ScrollableEditorV
 import studio.saladjam.iwanttobenovelist.homescene.HomeViewModel
 import studio.saladjam.iwanttobenovelist.homescene.HomeWorkInProgressViewModel
 import studio.saladjam.iwanttobenovelist.launchscene.LaunchViewModel
-import studio.saladjam.iwanttobenovelist.loginscene.*
+import studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginInterestViewModel
+import studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginSelectNameViewModel
+import studio.saladjam.iwanttobenovelist.loginscene.viewmodel.LoginSigninupViewModel
 import studio.saladjam.iwanttobenovelist.profilescene.*
 import studio.saladjam.iwanttobenovelist.repository.Repository
-import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
+import studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel
 import java.lang.IllegalArgumentException
 
 @Suppress("UNCHECKED_CAST")
@@ -33,22 +35,32 @@ class ViewModelFactory(private val repository: Repository)
                                     -> LaunchViewModel(repository)
 
                 isAssignableFrom(LoginSigninupViewModel::class.java)
-                                    -> LoginSigninupViewModel(repository)
+                                    -> LoginSigninupViewModel(
+                    repository
+                )
 
                 isAssignableFrom(LoginInterestViewModel::class.java)
-                                    -> LoginInterestViewModel(repository)
+                                    -> LoginInterestViewModel(
+                    repository
+                )
 
                 isAssignableFrom(LoginSelectNameViewModel::class.java)
-                                    -> LoginSelectNameViewModel(repository)
+                                    -> LoginSelectNameViewModel(
+                    repository
+                )
 
                 isAssignableFrom(HomeViewModel::class.java)
                                     -> HomeViewModel(repository)
 
                 isAssignableFrom(CategoryViewModel::class.java)
-                                    -> CategoryViewModel(repository)
+                                    -> CategoryViewModel(
+                    repository
+                )
 
                 isAssignableFrom(CategoryListViewModel::class.java)
-                                    -> CategoryListViewModel(repository)
+                                    -> CategoryListViewModel(
+                    repository
+                )
 
                 isAssignableFrom(ProfileViewModel::class.java)
                                     -> ProfileViewModel(repository)
@@ -85,7 +97,9 @@ class ViewModelFactory(private val repository: Repository)
                                     -> HomeWorkInProgressViewModel(repository)
 
                 isAssignableFrom(SearchViewModel::class.java)
-                                    -> SearchViewModel(repository)
+                                    -> SearchViewModel(
+                    repository
+                )
 
                 isAssignableFrom(BookDetailManageViewModel::class.java)
                                     -> BookDetailManageViewModel(

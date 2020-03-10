@@ -1,6 +1,5 @@
 package studio.saladjam.iwanttobenovelist.categoryscene
 
-import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import studio.saladjam.iwanttobenovelist.categoryscene.adapters.CategoryListAdapter
+import studio.saladjam.iwanttobenovelist.categoryscene.viewmodel.CategoryListViewModel
 import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.ItemCategoryListBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 
 class CategoryListFragment(val genre: Genre): Fragment() {

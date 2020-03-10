@@ -15,9 +15,9 @@ import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.constants.RecyclerViewConstants
 import studio.saladjam.iwanttobenovelist.databinding.FragmentSearchBinding
 import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
-import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.searchscene.adapters.SearchFilterAdapter
 import studio.saladjam.iwanttobenovelist.searchscene.adapters.SearchResultAdapter
+import studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel
 
 class SearchFragment : Fragment() {
 

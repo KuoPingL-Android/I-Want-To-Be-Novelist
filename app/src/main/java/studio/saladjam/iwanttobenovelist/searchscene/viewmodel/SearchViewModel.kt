@@ -1,4 +1,4 @@
-package studio.saladjam.iwanttobenovelist.searchscene
+package studio.saladjam.iwanttobenovelist.searchscene.viewmodel
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
@@ -9,6 +9,7 @@ import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
+import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
 
 class SearchViewModel(private val repository: Repository) : ViewModel() {
 
@@ -41,7 +42,8 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
 
     private val _selectedFilter = MutableLiveData<SearchFilters>().apply {
         // DEFAULT
-        value = SearchFilters.POPULARITY
+        value =
+            SearchFilters.POPULARITY
     }
     val selectedFilter: LiveData<SearchFilters>
         get() = _selectedFilter

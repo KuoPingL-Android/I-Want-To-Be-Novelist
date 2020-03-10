@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel" />
+            type="studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

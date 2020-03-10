@@ -1,11 +1,9 @@
 package studio.saladjam.iwanttobenovelist.searchscene.adapters
 
 import androidx.recyclerview.widget.RecyclerView
-import studio.saladjam.iwanttobenovelist.databinding.ItemSearchBookBinding
 import studio.saladjam.iwanttobenovelist.databinding.ItemSearchFiltersBinding
-import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
 import studio.saladjam.iwanttobenovelist.searchscene.SearchFilters
-import studio.saladjam.iwanttobenovelist.searchscene.SearchViewModel
+import studio.saladjam.iwanttobenovelist.searchscene.viewmodel.SearchViewModel
 
 class SearchFilterViewHolder(val binding: ItemSearchFiltersBinding): RecyclerView.ViewHolder(binding.root) {
 
