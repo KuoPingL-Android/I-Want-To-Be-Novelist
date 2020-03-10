@@ -27,6 +27,7 @@
                 android:alpha="0.2"/>
 
             <ImageView
+                android:id="@+id/image_book_writen_detail_bookmark"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:src="@{viewModel.isFollowing ? @drawable/bookmarked_icon : @drawable/bookmark_icon}"
