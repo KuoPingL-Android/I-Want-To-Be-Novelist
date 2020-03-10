@@ -330,7 +330,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
             invalidate()
 
-            child.callback = {
+            child.touchCallback = {
                 val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
 
                 imageBlock[child] =frame

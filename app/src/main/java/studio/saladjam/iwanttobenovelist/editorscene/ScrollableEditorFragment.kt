@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
 import studio.saladjam.iwanttobenovelist.R
 import studio.saladjam.iwanttobenovelist.constants.IntentConstants
@@ -44,6 +45,12 @@ class ScrollableEditorFragment : Fragment() {
         binding.viewModel = viewModel
 
         mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
+        binding.simpleContainer.parentScrollView = binding.scrollviewEditor
+//        binding.simpleContainer.parentScrollView?.setOnTouchListener { v, event ->
+//            Logger.d("OnDragListener event=$event")
+//            false
+//        }
 
         chapter = requireArguments().get(NavArgKeys.CHAPTER) as Chapter
         chapter?.let {

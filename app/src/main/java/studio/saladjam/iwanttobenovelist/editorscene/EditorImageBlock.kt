@@ -185,11 +185,16 @@ constructor(context: Context,
     private var originUp = false
     private var secondOriginUp = false
 
-    var callback: ((view: View) -> Unit)? = null
+    var touchCallback: ((view: View) -> Unit)? = null
     var bringToFrontCallback: ((view: View) -> Unit)? = null
+    var touchUpTouchDownCallback: ((isTouchUp: Boolean) -> Unit)? = null
 
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+        Logger.d("isScrollContainer=$isScrollContainer")
+        Logger.d("event=$event")
+
 
 
         if (event == null) return false
@@ -205,6 +210,7 @@ constructor(context: Context,
             MotionEvent.ACTION_DOWN -> {
                 parent.bringChildToFront(this)
                 bringToFrontCallback?.invoke(this)
+                touchUpTouchDownCallback?.invoke(false)
                 // 1 finger
                 originUp = false
                 secondOriginUp = false
@@ -213,6 +219,7 @@ constructor(context: Context,
             }
             MotionEvent.ACTION_POINTER_DOWN -> {
                 // Multiple figures
+                touchUpTouchDownCallback?.invoke(false)
                 secondOriginX = x - event.getX(1)
                 secondOriginY = y - event.getY(1)
 
@@ -301,13 +308,15 @@ constructor(context: Context,
                     y = newY
                 }
 
-                callback?.invoke(this)
+                touchCallback?.invoke(this)
             }
             MotionEvent.ACTION_UP -> {
+                touchUpTouchDownCallback?.invoke(true)
                 originUp = true
             }
             MotionEvent.ACTION_POINTER_UP -> {
                 secondOriginUp = true
+                touchUpTouchDownCallback?.invoke(true)
             }
         }
 
@@ -332,5 +341,6 @@ constructor(context: Context,
             //.placeholder(android.R.drawable.gallery_thumb)
             .into(image_image_block_image)
     }
+
 
 }

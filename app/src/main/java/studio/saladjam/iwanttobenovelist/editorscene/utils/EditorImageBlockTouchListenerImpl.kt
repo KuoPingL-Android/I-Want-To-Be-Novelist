@@ -107,7 +107,7 @@ class EditorImageBlockTouchListenerImpl (val minWidth: Int, val minHeight: Int, 
             }
         }
 
-        return true
+        return false
     }
 
 }

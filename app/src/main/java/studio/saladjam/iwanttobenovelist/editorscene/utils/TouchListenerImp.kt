@@ -103,6 +103,6 @@ class TouchListenerImpl(val minWidth: Int, val minHeight: Int, val callback: ((v
             }
         }
 
-        return true
+        return false
     }
 }

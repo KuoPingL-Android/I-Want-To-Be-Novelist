@@ -5,10 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ScrollView
 import androidx.constraintlayout.widget.ConstraintLayout
+import kotlinx.android.synthetic.main.fragment_editor.view.*
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.extensions.Frame
@@ -17,12 +19,16 @@ import studio.saladjam.iwanttobenovelist.readerscene.ReaderImageBlock
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.dataclass.ImageBlockRecorder
 import java.util.*
+import kotlin.math.max
 
 
 class ScrollableEditorSimpleContainer
 @JvmOverloads constructor(context: Context,
                           attrs: AttributeSet? = null,
-                          defStyle: Int = 0): FrameLayout(context, attrs, defStyle) {
+                          defStyle: Int = 0): ConstraintLayout(context, attrs, defStyle) {
+    /** PARENT SCROLLVIEW */
+    var parentScrollView: ScrollView? = null
+
     /** TEXT */
     private var mChapter: Chapter? = null
     val chapter: Chapter?
@@ -35,11 +41,11 @@ class ScrollableEditorSimpleContainer
 
     /** MAXIMUM Y to be Considered */
     private var letterMaxY = 0f
-    private var blockMaxY = 0f
 
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
         mPaint = paint
+
 
         mCharPaints.clear()
         words.clear()
@@ -119,7 +125,13 @@ class ScrollableEditorSimpleContainer
                         subString = word.substring(index, last + 1)
                     }
 
-                    words.add(subString)
+                    measureText(subString)
+
+                    if (wordIsTooLong) {
+                        words.addAll(subString.toCharArray().map { it.toString() })
+                    } else {
+                        words.add(subString)
+                    }
 
                     index = last + 1
                 }
@@ -129,6 +141,9 @@ class ScrollableEditorSimpleContainer
 
         }
     }
+
+    val wordIsTooLong: Boolean
+        get() = wordWidth < width - paddingStart - paddingEnd
 
     /** RECORDERs */
     private var lineRecord: MutableMap<Int, List<CharLocator>> = mutableMapOf()
@@ -145,10 +160,13 @@ class ScrollableEditorSimpleContainer
         return paint?.getFontHeight() ?: 0f
     }
 
+    private var shouldRedraw = true
+
     override fun dispatchDraw(canvas: Canvas?) {
         super.dispatchDraw(canvas)
 
         if (words.isEmpty()) return // NOTHING TO DRAW
+        if (!shouldRedraw) return
 
         /** DEFAULT */
         currentX = paddingLeft.toFloat()
@@ -255,20 +273,23 @@ class ScrollableEditorSimpleContainer
                 canvas?.drawText(char, tempCurrentX, currentY, charPaint)
 
                 tempCurrentX += charWidth
-                if (currentMaxY < currentY + (paint?.getFontHeight() ?: 0f).toInt() + spacing) {
-                    currentMaxY = currentY + (paint?.getFontHeight() ?: 0f).toInt() + spacing
-                }
+                letterMaxY = currentY + (paint?.getFontHeight() ?: 0f).toInt() + spacing
             }
 
             letterIndex += word.length - 1
 
+            currentMaxY = max(letterMaxY,
+                (parentScrollView?.height ?: (paddingTop + paddingBottom)
+                - paddingTop - paddingBottom).toFloat() )
             if (height != currentMaxY.toInt()) {
                 val params = layoutParams
                 params.height = currentMaxY.toInt()
                 layoutParams = params
-                requestLayout()
+//                requestLayout()
             }
         }
+
+        shouldRedraw = false
     }
 
     private fun measureText(measuringText: String) {
@@ -305,8 +326,6 @@ class ScrollableEditorSimpleContainer
                     layoutParams.height = h.toInt()
                     layoutParams.width = w.toInt()
                 }
-
-//            var imageLayoutParams =
 
                 imageBlock.x = x
                 imageBlock.y = y
@@ -366,19 +385,23 @@ class ScrollableEditorSimpleContainer
             bottomToTopImageBlock.add(child)
 
             bringChildToFront(child)
-
+            shouldRedraw = true
             invalidate()
 
-            child.callback = {
+            child.touchCallback = {
                 val frame = Frame(child.x.toInt(), child.y.toInt(), child.width, child.height)
-
                 imageBlock[child] =frame
+                shouldRedraw = true
                 invalidate()
             }
 
             child.bringToFrontCallback = {
                 if (bottomToTopImageBlock.last() != child)
                     bottomToTopImageBlock.moveToLast(child)
+            }
+
+            child.touchUpTouchDownCallback = {isTouchUp ->
+
             }
         }
     }
@@ -387,8 +410,13 @@ class ScrollableEditorSimpleContainer
         super.removeView(view)
         if (view is EditorImageBlock) {
             imageBlock.remove(view)
+            shouldRedraw = false
             invalidate()
         }
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        return false
     }
 
     private fun findWordInterceptingView(wordFrame: Frame): View? {
