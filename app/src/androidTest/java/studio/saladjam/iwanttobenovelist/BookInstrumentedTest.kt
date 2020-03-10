@@ -47,7 +47,7 @@ class BookInstrumentedTest {
         )
 
         Thread.sleep(1000)
-        var initialCount =
+        val initialCount =
             getText(withId(R.id.text_item_book_writer_fav_count))?.toInt() ?: 0
 
         Thread.sleep(2000)
