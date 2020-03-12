@@ -15,7 +15,7 @@ data class Book(
     val authorID: String = "",
     val authorName: String = "",
     var cover: String = "",
-    var summary: String = "<尚未提供書籍簡介>",
+    var summary: String = "",
     var latestChapterID: String = "",
     val chapterCount: Int = 0,
     val popularity: Long = 0L,

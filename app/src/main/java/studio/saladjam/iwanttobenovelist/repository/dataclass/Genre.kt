@@ -2,6 +2,8 @@ package studio.saladjam.iwanttobenovelist.repository.dataclass
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import studio.saladjam.iwanttobenovelist.IWBNApplication
+import studio.saladjam.iwanttobenovelist.R
 
 @Parcelize
 data class Categories(
@@ -15,7 +17,7 @@ data class Categories(
 
         val result = genres.filter { it.zh == string }
 
-        return if (result.isEmpty()) "未知"
+        return if (result.isEmpty()) IWBNApplication.instance.getString(R.string.book_default_category)
 
         else result.first().id
     }

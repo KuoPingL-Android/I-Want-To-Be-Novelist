@@ -42,7 +42,7 @@ class BookDetailWriterFragment : Fragment() {
 
         book = requireArguments().get("book") as Book
 
-        viewModel.book = book
+        viewModel.setBook(requireArguments().get("book") as Book)
 
         viewModel.selectedChapterToEdit.observe(this, Observer {
             it?.let {
@@ -51,10 +51,17 @@ class BookDetailWriterFragment : Fragment() {
             }
         })
 
+        viewModel.shouldPromptForDetails.observe(viewLifecycleOwner, Observer {
+            it?.let {
+
+            }
+        })
+
         viewModel.shouldAddChapter.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModel.book?.let { unwrappedBook ->
-                    val chapter = Chapter(bookID = unwrappedBook.bookID,
+                viewModel.book.value?.let { unwrappedBook ->
+                    val chapter = Chapter(
+                        bookID = unwrappedBook.bookID,
                         chapterIndex = unwrappedBook.chapterCount,
                         title = "Chapter ${unwrappedBook.chapterCount + 1}")
                     mainviewModel.selectChapterToEdit(chapter)

@@ -141,4 +141,7 @@
     <string name="tab_following">Following</string>
     <string name="tab_my_work">Works</string>
 
+    <!--====== BOOK DETAIL PAGE ======-->
+    <string name="book_default_category">Unknown</string>
+
 </resources>

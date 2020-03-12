@@ -12,13 +12,12 @@ import studio.saladjam.iwanttobenovelist.bookdetailscene.adapters.BookDetailSeal
 import studio.saladjam.iwanttobenovelist.repository.Repository
 import studio.saladjam.iwanttobenovelist.repository.Result
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Book
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
 import studio.saladjam.iwanttobenovelist.repository.dataclass.Chapter
 import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStatus
 import java.lang.NumberFormatException
 
 class BookDetailViewModel (private val repository: Repository): ViewModel() {
-
-    var book: Book? = null
 
     /** NETWORK */
     private val job = Job()
@@ -37,7 +36,30 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     val error: LiveData<String>
         get() = _error
 
-    /** DIALOG */
+    /** Book */
+    private val _book = MutableLiveData<Book>()
+    val book : LiveData<Book>
+        get() = _book
+    fun setBook(book: Book) {
+        _book.value = book
+        checkIfDetailsAreRequiredFor(book)
+    }
+
+    private val _shouldPromptForDetails = MutableLiveData<Boolean>()
+    val shouldPromptForDetails: LiveData<Boolean>
+        get() = _shouldPromptForDetails
+
+    private fun checkIfDetailsAreRequiredFor(book: Book) {
+        _shouldPromptForDetails.value =
+            (book.category == IWBNApplication.instance.getString(R.string.book_default_category))
+                    || (book.summary.isEmpty())
+    }
+
+    fun donePromptingForDetail() {
+        _shouldPromptForDetails.value = null
+    }
+
+    /** LOADING DIALOG */
     private val _dialogInfo = MutableLiveData<Pair<String, ApiLoadingStatus>>()
     val dialogInfo: LiveData<Pair<String, ApiLoadingStatus>>
         get() = _dialogInfo
@@ -62,7 +84,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
         _status.value = ApiLoadingStatus.LOADING
 
-        if (book == null) {
+        if (book.value == null) {
             _error.value = null
             _chapters.value = null
             _status.value = ApiLoadingStatus.DONE
@@ -71,7 +93,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
         coroutineScope.launch {
 
-            when(val result = repository.getChaptersIn(book!!)) {
+            when(val result = repository.getChaptersIn(book.value!!)) {
                 is Result.Success -> {
                     _status.value = ApiLoadingStatus.DONE
                     _error.value = null
@@ -106,7 +128,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
         _isReadyToAddChapter = false
 
-        if (book == null) {
+        if (book.value == null) {
             _shouldAddChapter.value = null
             _isReadyToAddChapter = true
         } else {
@@ -114,13 +136,13 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
             _dialogInfo.value = Pair("", _status.value!!)
             coroutineScope.launch {
                 _isReadyToAddChapter = true
-                when(val result = repository.getBook(book!!.bookID)) {
+                when(val result = repository.getBook(book.value!!.bookID)) {
                     is Result.Success -> {
-                        book = result.data
+                        _book.value = result.data
                         _shouldAddChapter.value = true
                         _status.value = ApiLoadingStatus.DONE
                         _error.value = null
-                        _dialogInfo.value = Pair(IWBNApplication.context.resources.getString(R.string.editor_done), _status.value!!)
+                        _dialogInfo.value = Pair("", _status.value!!)
                     }
 
                     is Result.Fail -> {
@@ -174,7 +196,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
 
     private fun checkIfBookIsFollowed() {
 
-        book?.let {book ->
+        book.value?.let {book ->
             _status.value = ApiLoadingStatus.LOADING
 
             coroutineScope.launch {
@@ -202,7 +224,7 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     }
 
     fun triggerFollowBook() {
-        book?.let { book ->
+        book.value?.let { book ->
             if (_isFollowing.value == true) {
                 coroutineScope.launch {
                     when(val result = repository.postUnfollowBook(book)) {
@@ -268,11 +290,12 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     }
 
     /** CONVERT FETCHED CHAPTERS to SEALED ITEMS */
-    val sealedItems = MediatorLiveData<List<BookDetailSealedItem>>().apply {
+    val sealedItems =
+        MediatorLiveData<List<BookDetailSealedItem>>().apply {
         addSource(_chapters){
             var sealedItem = mutableListOf<BookDetailSealedItem>()
 
-            book?.let {book ->
+            book.value?.let {book ->
                 sealedItem.add(BookDetailSealedItem.Header(book))
                 it?.let {chapters ->
                     chapters.map {chapter ->
@@ -284,9 +307,6 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
             value = sealedItem
         }
     }
-
-    /** FETCH CHAPTERS LIKEs and BOOK FOLLOWERS */
-    //TODO: IMPLEMENT CHAPTER LIKES
 
     /** DISPLAY DIALOG to EDIT BOOK INFO */
     private val _shouldShowBookDetailEditor = MutableLiveData<Boolean>()
@@ -300,8 +320,6 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
     fun doneShowingEditorForBookDetail() {
         _shouldShowBookDetailEditor.value = null
     }
-
-
 
     /** NAVIGATE to READER PAGE */
     private val _selectedChapterToRead = MutableLiveData<Chapter>()

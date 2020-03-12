@@ -42,7 +42,7 @@ class BookDetailReaderFragment : Fragment() {
         binding.recyclerBookReadDetail.adapter = BookDetailReaderAdapter(viewModel, chapterViewModel)
 
         book?.let {
-            viewModel.book = it
+            viewModel.setBook(it)
             viewModel.checkBookInfo()
         }
 

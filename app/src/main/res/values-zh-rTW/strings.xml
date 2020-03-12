@@ -110,7 +110,8 @@
 
     <!--====== ERROR MESSAGE =====-->
     <string name="error_missing_data">資料有缺</string>
-    <string name="error_unknown">Unknown Error</string>
+    <string name="error_unknown">未知錯誤</string>
+    <string name="error_invalid_token">Token 失效</string>
 
     <!-- TIME -->
     <string name="unit_second">秒</string>
@@ -140,5 +141,8 @@
     <!--======= TAB TITLE ======-->
     <string name="tab_following">追蹤書籍</string>
     <string name="tab_my_work">個人作品</string>
+
+    <!--====== BOOK DETAIL PAGE ======-->
+    <string name="book_default_category">未知</string>
 
 </resources>

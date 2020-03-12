@@ -8,6 +8,9 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.custom.CharLocator
 import studio.saladjam.iwanttobenovelist.extensions.Frame
@@ -31,15 +34,15 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     val paint: Paint?
         get() = mPaint
 
-
-
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
         mPaint = paint
 
         mCharPaints.clear()
         words.clear()
-        calculateTextBlocks()
+        CoroutineScope(Dispatchers.Main).launch {
+            calculateTextBlocks()
+        }
     }
     /** TEXT BLOCKS */
     private var mCharPaints = mutableListOf<Paint>()
@@ -87,12 +90,53 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
                 word = text.substring(letterIndex, letterIndex + indexOfInterest)
             }
 
-            // COLLECT all the LETTERS as an ARRAY
-            words.add(word)
-
+            words.addAll(divideWordIntoWords(word))
             letterIndex += word.chars().count().toInt()
         }
     }
+
+    private fun divideWordIntoWords(word: String): List<String> {
+        measureText(word)
+        return if (wordWidth < width - paddingStart - paddingEnd) {
+            listOf(word)
+        } else {
+            val pattern = "\\w+".toRegex()
+            val results = pattern.findAll(word, 0)
+
+            if (results.count() == 1) {
+                word.toCharArray().map { it.toString() }
+            } else {
+                val words = mutableListOf<String>()
+                var index = 0
+                for (i in 0 until results.count()) {
+                    val result = results.elementAt(i)
+                    val last = result.range.last
+
+                    var subString = word.substring(index)
+
+                    if (i != results.count() - 1) {
+                        subString = word.substring(index, last + 1)
+                    }
+
+                    measureText(subString)
+
+                    if (wordIsTooLong) {
+                        words.addAll(subString.toCharArray().map { it.toString() })
+                    } else {
+                        words.add(subString)
+                    }
+
+                    index = last + 1
+                }
+
+                words
+            }
+
+        }
+    }
+
+    val wordIsTooLong: Boolean
+        get() = wordWidth < width - paddingStart - paddingEnd
 
     /** RECORDERs */
     private var lineRecord: MutableMap<Int, List<CharLocator>> = mutableMapOf()

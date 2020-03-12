@@ -106,7 +106,6 @@ class EditorFragment: Fragment() {
                     chapter?.let {
                         binding.simpleContainer.setContentWithPaint(it, binding.editEditorMix.paint)
                     }
-
                     binding.fabEditorImage.show()
                 }
             }
