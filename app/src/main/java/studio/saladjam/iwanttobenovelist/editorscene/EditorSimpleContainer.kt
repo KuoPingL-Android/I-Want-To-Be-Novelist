@@ -40,9 +40,6 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
         mCharPaints.clear()
         words.clear()
-        CoroutineScope(Dispatchers.Main).launch {
-            calculateTextBlocks()
-        }
     }
     /** TEXT BLOCKS */
     private var mCharPaints = mutableListOf<Paint>()
@@ -153,6 +150,10 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
 
     override fun dispatchDraw(canvas: Canvas?) {
         super.dispatchDraw(canvas)
+
+        if (!chapter?.text.isNullOrEmpty() && words.isEmpty()) {
+            calculateTextBlocks()
+        }
 
         if (words.isEmpty()) return // NOTHING TO DRAW
 
