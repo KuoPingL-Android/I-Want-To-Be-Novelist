@@ -133,7 +133,7 @@ class EditorSimpleContainer @JvmOverloads constructor(context: Context,
     }
 
     val wordIsTooLong: Boolean
-        get() = wordWidth < width - paddingStart - paddingEnd
+        get() = wordWidth > width - paddingStart - paddingEnd
 
     /** RECORDERs */
     private var lineRecord: MutableMap<Int, List<CharLocator>> = mutableMapOf()
