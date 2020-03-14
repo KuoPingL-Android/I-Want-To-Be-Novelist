@@ -77,14 +77,14 @@
 * Espresso
 
 ### Versions
-* [release] 1.1.2 - 2020/03/14
-<br>Update: App Icon</br>
-<br>FIX: Text not shown when reading  </br>
-* [release] 1.1.1 - 2020/03/13
-<br> FIX: Editor unable to display URL strings correctly. </br>
-* [release] 1.1.0 - 2020/03
-<br> First release </br>
-<br>UPDATE : Editor with a more intuitive design Fixed : Allowing words that maxed out the editor width to be displayed correctly.</br>
+* [release] 1.1.2 - 2020/03/14<br>
+Update: App Icon<br><br>
+FIX: Text not shown when reading  <br>
+* [release] 1.1.1 - 2020/03/13<br> 
+FIX: Editor unable to display URL strings correctly. <br>
+* [release] 1.1.0 - 2020/03<br> 
+First release<br>
+UPDATE : Editor with a more intuitive design Fixed : Allowing words that maxed out the editor width to be displayed correctly.
 * [beta] 1.0.0 - 
 <br>Initial Version</br> 
 
