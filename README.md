@@ -7,34 +7,34 @@
 
 ## Feaures
 * Create, Customize and Share you books worldwide 
-* Read, Like and Follow books you enjoy
 * Easy to use editor, allow you to customize your contents by adding draggable and resizable images
+* Read, Like and Follow books you enjoy
 * Search books by popularity, published date, and recommendation
 <br></br>
 
 ## Screenshots
 <p align="justify">
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/login_01.png"/>
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_01.png"/>
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_02.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/login_01.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_01.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_02.png"/>
 </p>
 <br>
 <p align="justify">
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/search_01.png"/>
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_01.png"/>
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_02.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/search_01.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_01.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_02.png"/>
 </p>
 
 <br>
 <p align="justify">
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_03.png"/>
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_01.png"/>
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_02.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_03.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_01.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_02.png"/>
   </p>
 
 <br>
 <p align="justify">
-  <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_03.png"/>
+  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_03.png"/>
 </p>
 
 <br></br>
