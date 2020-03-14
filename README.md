@@ -18,24 +18,22 @@
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_01.png"/>
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_02.png"/>
 </p>
-
+<br>
 <p align="justify">
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/search_01.png"/>
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_01.png"/>
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_02.png"/>
 </p>
 
-You can also create your own books on the profile page 
-
+<br>
 <p align="justify">
-  
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_03.png"/>
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_01.png"/>
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_02.png"/>
   </p>
 
+<br>
 <p align="justify">
-  
   <img width="270" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_03.png"/>
 </p>
 
