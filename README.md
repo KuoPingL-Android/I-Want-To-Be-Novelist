@@ -89,3 +89,12 @@ You can also create your own books on the profile page
 <br>UPDATE : Editor with a more intuitive design Fixed : Allowing words that maxed out the editor width to be displayed correctly.</br>
 * [beta] 1.0.0 - 
 <br>Initial Version</br> 
+
+## Requirements
+* Android 7+
+* Android Studio 3.6.1
+* Gradle Version 5.4.1
+
+## Contact
+Jimmy Liu <br>
+kuopingl@gmail.com
