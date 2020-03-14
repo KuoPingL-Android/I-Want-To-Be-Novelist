@@ -479,13 +479,34 @@ object IWBNRemoteDataSource: Repository {
     override suspend fun getBook(bookID: String): Result<Book> = suspendCoroutine {continuation ->
         IWBNApplication.container.bookCollection.document(bookID)
             .get()
-            .addOnSuccessListener {
-                it.toObject(Book::class.java)?.let {
-                    continuation.resume(Result.Success(it))
-                    return@addOnSuccessListener
-                }
+            .addOnSuccessListener outer@ {
+                val book = it.toObject(Book::class.java)
+                if (book != null) {
+                    if (IWBNApplication.categories == null) {
+                        IWBNApplication.container.categoryCollection.get()
+                            .addOnSuccessListener {categorySnapshot ->
+                                var list = mutableListOf<Genre>()
 
-                continuation.resume(Result.Fail("getBook: Something is Wrong"))
+                                list = categorySnapshot.documents.map {document->
+                                    Genre(document.id,
+                                        zh = document.get("zh") as String,
+                                        en = document.get("en") as String)
+                                }.toMutableList()
+
+                                IWBNApplication.categories = Categories(list)
+
+                                book.displayedCategory = IWBNApplication.categories!!.getDisplayName("zh", book.category)
+                                continuation.resume(Result.Success(book))
+                            }
+                            .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
+                            .addOnFailureListener{ continuation.resume(Result.Error(it)) }
+                    } else {
+                        book.displayedCategory = IWBNApplication.categories!!.getDisplayName("zh", book.category)
+                        continuation.resume(Result.Success(book))
+                    }
+                } else {
+                    continuation.resume(Result.Fail("getBook: Something is Wrong"))
+                }
 
             }
             .addOnCanceledListener { continuation.resume(Result.Fail("CANCELED")) }
@@ -1000,6 +1021,12 @@ object IWBNRemoteDataSource: Repository {
     }
 
     override suspend fun getCategory(): Result<Categories> = suspendCoroutine {continuation ->
+
+        if (IWBNApplication.categories != null) {
+            continuation.resume(Result.Success(IWBNApplication.categories!!))
+            return@suspendCoroutine
+        }
+
         IWBNApplication.container.categoryCollection.get()
             .addOnCompleteListener {task ->
                 if (task.isSuccessful) {
@@ -1013,6 +1040,9 @@ object IWBNRemoteDataSource: Repository {
                                 en = it.get("en") as String)
                         }.toMutableList()
                     }
+
+                    IWBNApplication.categories = Categories(list)
+
                     continuation.resume(Result.Success(Categories(list)))
                 } else {
                     if (task.exception != null) {

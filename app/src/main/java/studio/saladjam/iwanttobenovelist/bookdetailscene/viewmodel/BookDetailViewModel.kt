@@ -42,7 +42,19 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         get() = _book
     fun setBook(book: Book) {
         _book.value = book
+        fetchBookCateogry()
         checkIfDetailsAreRequiredFor(book)
+    }
+
+    private fun fetchBookCateogry() {
+        coroutineScope.launch {
+            when (val result = repository.getCategory()) {
+                is Result.Success -> {
+                    _book.value!!.displayedCategory = result.data.getDisplayName(id = book.value!!.category)
+                }
+            }
+
+        }
     }
 
     private val _shouldPromptForDetails = MutableLiveData<Boolean>()

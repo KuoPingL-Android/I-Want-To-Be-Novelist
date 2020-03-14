@@ -17,6 +17,7 @@ import studio.saladjam.iwanttobenovelist.repository.loadingstatus.ApiLoadingStat
 
 class ReaderMixerViewModel (private val repository: Repository,
                             private val book: Book): ViewModel() {
+
     /** NETWORK */
     private val _status = MutableLiveData<ApiLoadingStatus>()
     val status: LiveData<ApiLoadingStatus>
@@ -86,7 +87,8 @@ class ReaderMixerViewModel (private val repository: Repository,
 
         coroutineScope.launch {
 
-            when(val result = repository.getChapterWithDetails(chapterIndex, book.bookID)) {
+            when(val result
+                    = repository.getChapterWithDetails(chapterIndex, book.bookID)) {
                 is Result.Success -> {
                     val chapter = result.data.first
                     displayChapter(chapter)

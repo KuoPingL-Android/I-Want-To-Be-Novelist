@@ -21,6 +21,14 @@ data class Categories(
 
         else result.first().id
     }
+
+    fun getDisplayName(language: String = "zh", id: String): String {
+        return when(language) {
+            "zh" -> genres.first { it.id == id }.zh
+            "en" -> genres.first { it.id == id }.en
+            else -> id
+        }
+    }
 }
 
 @Parcelize

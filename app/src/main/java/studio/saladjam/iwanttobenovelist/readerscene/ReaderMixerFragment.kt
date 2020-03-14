@@ -44,7 +44,6 @@ class ReaderMixerFragment : Fragment() {
     }
 
     private fun prepareViewModel() {
-//        viewModel.displayChapter(chapter)
 
         viewModel.currentChapter.observe(viewLifecycleOwner, Observer {
             it?.let {

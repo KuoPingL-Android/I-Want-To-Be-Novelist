@@ -12,6 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.FirebaseApp
 import studio.saladjam.iwanttobenovelist.Util.getString
 import studio.saladjam.iwanttobenovelist.repository.AppContainer
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Categories
+import studio.saladjam.iwanttobenovelist.repository.dataclass.Genre
 import studio.saladjam.iwanttobenovelist.repository.dataclass.User
 import kotlin.properties.Delegates
 
@@ -21,6 +23,7 @@ class IWBNApplication : Application() {
         lateinit var context: Context
         lateinit var container: AppContainer
         var user = User()
+        var categories: Categories? = null
 
         val isNetworkConnected: Boolean
             get() {
