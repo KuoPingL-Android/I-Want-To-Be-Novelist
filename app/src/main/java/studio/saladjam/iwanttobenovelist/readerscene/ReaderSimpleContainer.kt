@@ -30,16 +30,21 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
     fun setContentWithPaint(chapter: Chapter, paint: Paint) {
         mChapter = chapter
         mPaint = paint
-        calculateTextBlocks()
+
+        mCharPaints.clear()
+        words.clear()
+        // DISPATCHDRAW was called before setContentWithPaint was called,
+        // This is because the timing of Fetch Chapter by Index was called and returned
+        // therefore,
+        // invalidate the layout whenever new chapter was fetched
+        invalidate()
     }
     /** TEXT BLOCKS */
     private var mCharPaints = mutableListOf<Paint>()
     private var words = mutableListOf<String>()
 
     fun calculateTextBlocks() {
-        mCharPaints.clear()
-        words.clear()
-        val text = (mChapter?.text ?: "").trimEnd()
+        val text = (chapter?.text ?: "").trimEnd()
 
         var letterIndex = 0
 
@@ -58,7 +63,7 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
             }
 
             var word = text.substring(letterIndex, spaceIndex)
-            var chars = word.toCharArray()
+            val chars = word.toCharArray()
             var indexOfInterest = -1
 
             for(i in 0 until chars.count()) {
@@ -80,12 +85,52 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
                 word = text.substring(letterIndex, letterIndex + indexOfInterest)
             }
 
-            // COLLECT all the LETTERS as an ARRAY
-            words.add(word)
-
+            words.addAll(divideWordIntoWords(word))
             letterIndex += word.chars().count().toInt()
         }
     }
+
+    private fun divideWordIntoWords(word: String): List<String> {
+        measureText(word)
+        return if (wordWidth < width - paddingStart - paddingEnd) {
+            listOf(word)
+        } else {
+            val pattern = "\\w+".toRegex()
+            val results = pattern.findAll(word, 0)
+
+            if (results.count() == 1) {
+                word.toCharArray().map { it.toString() }
+            } else {
+                val words = mutableListOf<String>()
+                var index = 0
+                for (i in 0 until results.count()) {
+                    val result = results.elementAt(i)
+                    val last = result.range.last
+
+                    var subString = word.substring(index)
+
+                    if (i != results.count() - 1) {
+                        subString = word.substring(index, last + 1)
+                    }
+
+                    measureText(subString)
+
+                    if (wordIsTooLong) {
+                        words.addAll(subString.toCharArray().map { it.toString() })
+                    } else {
+                        words.add(subString)
+                    }
+
+                    index = last + 1
+                }
+
+                words
+            }
+        }
+    }
+
+    val wordIsTooLong: Boolean
+        get() = wordWidth > width - paddingStart - paddingEnd
 
     /** RECORDERs */
     private var lineRecord: MutableMap<Int, List<CharLocator>> = mutableMapOf()
@@ -102,6 +147,10 @@ class ReaderSimpleContainer @JvmOverloads constructor(context: Context,
 
     override fun dispatchDraw(canvas: Canvas?) {
         super.dispatchDraw(canvas)
+
+        if (!chapter?.text.isNullOrEmpty() && words.isEmpty()) {
+            calculateTextBlocks()
+        }
 
         if (words.isEmpty()) return // NOTHING TO DRAW
 
