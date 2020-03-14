@@ -4,6 +4,7 @@
 <a href="https://play.google.com/store/apps/details?id=studio.saladjam.iwanttobenovelist"><img width = "170" height="70" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/google.svg"/></a>
  </p>
 <br></br>
+
 ## Feaures
 * Create, Customize and Share you books worldwide 
 * Read, Like and Follow books you enjoy
@@ -39,7 +40,52 @@ You can also create your own books on the profile page
 </p>
 
 <br></br>
-Tools and Frameworks
----
-1. Architecture : MVVM
-2. Functions : 
+
+## Implementation
+### Architecture
+* MVVM
+
+### Design Pattern
+* Observer
+* Singleton
+* Factory
+
+### Core Function
+* Editor with words surround image effect
+* Use Firestore to store info on book contents, including image location
+* Handled touch events, allowing images to be resizable and draggable
+* Facebook & Google login
+
+### UI
+* ViewGroup customization (Editor and Add-on Image)
+* Activity & Fragment
+* Jetpack Navigation
+* Fragments & Dialogs
+* RecyclerView
+* CardView
+* Floating Action Button
+
+### Network
+* Retrofit2
+* Firestore & Firebase Storage
+* Facebook SDK
+* Google SDK
+
+### Analysis
+* Crashlytics
+
+### Testing
+* JUnit
+* Espresso
+
+### Versions
+* [release] 1.1.2 - 2020/03/14
+<br>Update: App Icon</br>
+<br>FIX: Text not shown when reading  </br>
+* [release] 1.1.1 - 2020/03/13
+<br> FIX: Editor unable to display URL strings correctly. </br>
+* [release] 1.1.0 - 2020/03
+<br> First release </br>
+<br>UPDATE : Editor with a more intuitive design Fixed : Allowing words that maxed out the editor width to be displayed correctly.</br>
+* [beta] 1.0.0 - 
+<br>Initial Version</br> 
