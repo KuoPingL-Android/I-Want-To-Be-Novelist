@@ -23,11 +23,16 @@ data class Categories(
     }
 
     fun getDisplayName(language: String = "zh", id: String): String {
-        return when(language) {
-            "zh" -> genres.first { it.id == id }.zh
-            "en" -> genres.first { it.id == id }.en
-            else -> id
+        return try {
+            when(language) {
+                "zh" -> genres.first { it.id == id }.zh
+                "en" -> genres.first { it.id == id }.en
+                else -> id
+            }
+        } catch (e: NoSuchElementException) {
+            id
         }
+
     }
 }
 

@@ -50,7 +50,8 @@ class BookDetailViewModel (private val repository: Repository): ViewModel() {
         coroutineScope.launch {
             when (val result = repository.getCategory()) {
                 is Result.Success -> {
-                    _book.value!!.displayedCategory = result.data.getDisplayName(id = book.value!!.category)
+                    _book.value!!.displayedCategory =
+                        result.data.getDisplayName(id = book.value!!.category)
                 }
             }
 
