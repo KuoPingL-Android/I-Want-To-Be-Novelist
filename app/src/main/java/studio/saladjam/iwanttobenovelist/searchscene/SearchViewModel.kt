@@ -34,8 +34,7 @@ class SearchViewModel(private val repository: Repository) : ViewModel() {
         value = listOf(
             SearchFilters.POPULARITY,
             SearchFilters.MOST_RECENTLY,
-            SearchFilters.RECOMMENDED,
-            SearchFilters.COMPLETED
+            SearchFilters.RECOMMENDED
         )
     }
 
