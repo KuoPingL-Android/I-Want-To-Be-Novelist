@@ -77,8 +77,10 @@
 * Espresso
 
 ### Versions
+*[release] 1.1.3 - 2020/03/14<br>
+UPDATE: Display category by full name instead of abbreviation
 * [release] 1.1.2 - 2020/03/14<br>
-Update: App Icon<br>
+UPDATE: App Icon<br>
 FIX: Text not shown when reading  <br><br>
 * [release] 1.1.1 - 2020/03/13<br> 
 FIX: Editor unable to display URL strings correctly. <br><br>
