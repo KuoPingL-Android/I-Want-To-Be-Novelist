@@ -14,11 +14,8 @@
 
 ## Screenshots
 <p align="justify">
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/login_01.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_01.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/home_02.png"/>
- <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/search_01.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_01.png"/>
+  <img width="140" src="/images/login_01.png"/> <img width="140" src="/images/home_01.png"/> <img width="140" src="/images/home_02.png"/> <img width="140" src="/images/search_01.png"/>
+  <img width="140" src="/images/profile_01.png"/>
 </p>
 <br>
 <p align="justify">
