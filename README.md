@@ -14,28 +14,13 @@
 
 ## Screenshots
 <p align="justify">
-  <img width="140" src="/images/login_01.png"/> <img width="140" src="/images/home_01.png"/> <img width="140" src="/images/home_02.png"/> <img width="140" src="/images/search_01.png"/>
-  <img width="140" src="/images/profile_01.png"/>
+  <img width="200" src="/images/login_01.png"/> <img width="200" src="/images/home_01.png"/> <img width="200" src="/images/home_02.png"/> <img width="200" src="/images/search_01.png"/>
+  <img width="200" src="/images/profile_01.png"/>
 </p>
 <br>
 <p align="justify">
   
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_02.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/profile_03.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_01.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_02.png"/>
-  <img width="240" height="480" src="https://github.com/KuoPingL-Android/I-Want-To-Be-Novelist/blob/master/images/editor_03.png"/>
-</p>
-
-<br>
-<p align="justify">
-  
-  
-  </p>
-
-<br>
-<p align="justify">
-  
+  <img width="200" src="/images/profile_02.png"/> <img width="200" src="/images/profile_03.png"/> <img width="200" src="/images/editor_01.png"/> <img width="200" src="/images/editor_02.png"/> <img width="200" src="/images/editor_03.png"/>
 </p>
 
 <br></br>
