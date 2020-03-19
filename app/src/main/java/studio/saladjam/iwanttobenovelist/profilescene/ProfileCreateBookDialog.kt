@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +21,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import studio.saladjam.iwanttobenovelist.IWBNApplication
 import studio.saladjam.iwanttobenovelist.Logger
 import studio.saladjam.iwanttobenovelist.MainViewModel
@@ -54,7 +56,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
         binding = DialogProfileBookCreationBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        mainVieWModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        mainVieWModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
 
         binding.viewModel = viewModel
 
@@ -166,12 +168,12 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
     }
 
     private fun showGalleryToastAndRequestPermission() {
-        Toast.makeText(context!!, "Access to Gallery Denied", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Access to Gallery Denied", Toast.LENGTH_LONG).show()
         requestGalleryPermissions()
     }
 
     private fun showGalleryToastAndDismissDialog() {
-        Toast.makeText(context!!, "Access to Gallery Denied", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Access to Gallery Denied", Toast.LENGTH_LONG).show()
         imageSelection.dismiss()
     }
 
@@ -179,7 +181,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
     private fun showCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(context!!.packageManager)?.also {
+            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
                     createImageFile()
@@ -191,7 +193,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
                 // Continue only if the File was successfully created
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
-                        context!!,
+                        requireContext(),
                         "studio.saladjam.iwanttobenovelist.fileprovider",
                         it
                     )
@@ -226,7 +228,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
     }
 
     private fun showCameraToastAndDismissDialog() {
-        Toast.makeText(context!!, "Access to Camera Denied", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Access to Camera Denied", Toast.LENGTH_LONG).show()
         imageSelection.dismiss()
     }
 
@@ -298,7 +300,7 @@ class ProfileCreateBookDialog(private val workViewModel: ProfileWorkViewModel) :
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
-        val storageDir: File = context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        val storageDir: File = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         return File.createTempFile(
             "JPEG_cover_", /* prefix */
             ".jpg", /* suffix */

@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupOnNavigateListener() {
-        nav.addOnDestinationChangedListener { controller, destination, arguments ->
+        nav.addOnDestinationChangedListener { controller, _, _ ->
             viewModel.currentFragmentType.value =  when(controller.currentDestination?.id) {
                 R.id.loginFragment -> CurrentFragmentType.LOGIN
                 R.id.homeFragment -> CurrentFragmentType.HOME

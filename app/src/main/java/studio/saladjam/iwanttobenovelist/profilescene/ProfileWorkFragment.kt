@@ -17,6 +17,8 @@ import studio.saladjam.iwanttobenovelist.extensions.getVMFactory
 import studio.saladjam.iwanttobenovelist.extensions.toPx
 import studio.saladjam.iwanttobenovelist.profilescene.adapters.ProfileWorkAdapter
 
+
+
 class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragment() {
 
     companion object {
@@ -40,14 +42,12 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
         binding.recyclerProfileWork.adapter = ProfileWorkAdapter(viewModel)
         binding.viewModel = viewModel
 
-        val mainViewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        val mainViewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
 
-        viewModel.shouldCreateNewBook.observe(this, Observer {
+        viewModel.shouldCreateNewBook.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val profileCreateBookDialog = ProfileCreateBookDialog(viewModel)
-                fragmentManager?.let {fm ->
-                    profileCreateBookDialog.show(fm, CREATE_NEW_BOOK_DIALOG_TAG)
-                }
+                profileCreateBookDialog.show(childFragmentManager, CREATE_NEW_BOOK_DIALOG_TAG)
                 viewModel.doneShowingCreateBookDialog()
             }
         })
@@ -72,7 +72,7 @@ class ProfileWorkFragment(private val profileViewModel: ProfileViewModel): Fragm
             }
         })
 
-        viewModel.selectBookForDisplayDetail.observe(this, Observer {
+        viewModel.selectBookForDisplayDetail.observe(viewLifecycleOwner, Observer {
             it?.let {
                 mainViewModel.selectedBookToEdit(it)
                 viewModel.doneShowingBookDetail()

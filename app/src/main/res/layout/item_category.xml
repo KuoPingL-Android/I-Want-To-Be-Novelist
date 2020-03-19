@@ -23,7 +23,7 @@
         android:background="@drawable/bg_role_selector_button"
         android:tag="@{genre.id}"
         android:clickable="true"
-        android:onClick="@{viewModel.categorySelected}">
+        android:onClick="@{viewModel::categorySelected}">
         <TextView
             android:gravity="center"
             android:id="@+id/button_category"

@@ -37,4 +37,8 @@
     <color name="tab_unselected">#ee888888</color>
     <color name="tab_indicator">@android:color/black</color>
 
+    <!-- ==== BG Color ===-->
+    <color name="create_book_dialog_bg">#66FFFFFF</color>
+    <color name="login_dialog_color">#8888</color>
+
 </resources>

@@ -150,12 +150,12 @@ class HomeViewModel(val repository: Repository): ViewModel() {
                 }
 
                 is Result.Error -> {
-                    _myFollowList.value = listOf()
+                    _myWorkList.value = listOf()
                     result.exception
                 }
 
                 is Result.Fail -> {
-                    _myFollowList.value = listOf()
+                    _myWorkList.value = listOf()
                     result.error
                 }
             }

@@ -6,7 +6,7 @@ buildscript {
         version_google_services = '4.3.2'
         version_firebase_analytics = '17.2.2'
         version_firebase_firestore = '21.3.1'
-        version_fragment = "1.1.0"
+        version_fragment = "1.2.3"
         version_material = "1.2.0-alpha04"
         version_nav = "2.1.0"
         version_lifecycle_extensions = "2.1.0"

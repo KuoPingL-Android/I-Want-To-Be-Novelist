@@ -15,6 +15,8 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import studio.saladjam.iwanttobenovelist.*
 import studio.saladjam.iwanttobenovelist.constants.ErrorMessages
 import studio.saladjam.iwanttobenovelist.repository.dataclass.*
@@ -729,56 +731,27 @@ object IWBNRemoteDataSource: Repository {
                         return@addOnSuccessListener
                     }
 
+                    var counter = 0
                     val allbooks = mutableListOf<Book>()
-                    var numberOfPatches = bookIDs.size
-                    var sectionBookIDs = bookIDs
-                    if (numberOfPatches > 10) {
-                        numberOfPatches /=10
 
-                        for (j in 0 until numberOfPatches) {
-
-                            val beginning = j * 10
-                            var ending = (j + 1) * 10 - 1
-
-                            if (ending > bookIDs.size) {
-                                ending = bookIDs.size
-                            }
-
-                            sectionBookIDs = bookIDs.subList(beginning, ending)
-
-                            IWBNApplication.container.bookCollection.whereIn("bookID", sectionBookIDs).get()
-                                .addOnSuccessListener {
-                                    val books = it.toObjects(Book::class.java)
-                                    allbooks.addAll(books)
-
-                                    if (ending == bookIDs.count())
-                                    {
-                                        allbooks.sortBy { it.createdTime }
-                                        allbooks.reverse()
-                                        continuation.resume(Result.Success(allbooks))
-                                    }
-                                }
-                                .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
-                                .addOnFailureListener { continuation.resume(Result.Error(it)) }
-                        }
-
-                    } else {
-
-                        IWBNApplication.container.bookCollection.whereIn("bookID", sectionBookIDs).get()
+                    for (bookID in bookIDs) {
+                        IWBNApplication.container.bookCollection.document(bookID).get()
                             .addOnSuccessListener {
-                                val books = it.toObjects(Book::class.java)
+                                counter += 1
+                                it.toObject(Book::class.java)?.let {book ->
+                                    allbooks.add(book)
+                                }
 
-
-                                books.sortBy { it.createdTime }
-                                books.reverse()
-                                continuation.resume(Result.Success(books))
+                                if (counter == bookIDs.count()) {
+                                    allbooks.sortBy { it.createdTime }
+                                    allbooks.reverse()
+                                    continuation.resume(Result.Success(allbooks))
+                                }
                             }
                             .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
                             .addOnFailureListener { continuation.resume(Result.Error(it)) }
                     }
                 }
-                .addOnCanceledListener { continuation.resume(Result.Fail("getFollowingBooks CANCELED")) }
-                .addOnFailureListener { continuation.resume(Result.Error(it)) }
         } else {
             ref.limit(limit).get()
                 .addOnSuccessListener {

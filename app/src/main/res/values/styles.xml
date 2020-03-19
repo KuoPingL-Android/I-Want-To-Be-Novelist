@@ -81,7 +81,7 @@
     </style>
 
     <style name="CreateBookDialog">
-        <item name="android:windowBackground">#66ffffff</item>
+        <item name="android:windowBackground">@color/create_book_dialog_bg</item>
     </style>
 
     <style name="LoadingIndicator">
@@ -114,7 +114,7 @@
     </style>
 
     <style name="LoginDialog">
-        <item name="android:windowBackground">#8888</item>
+        <item name="android:windowBackground">@color/login_dialog_color</item>
     </style>
 
     <style name="DialogText">
